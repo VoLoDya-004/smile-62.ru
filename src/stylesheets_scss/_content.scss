@@ -1,0 +1,1046 @@
+																	/*ОСНОВНОЙ КОНТЕНТ*/
+																	//АДАПТАЦИЯ 1000px
+@media (min-width: 1000px) {
+#progressBar { /*полоса прогресса*/
+	position: fixed;
+	margin-top: 72px;
+	z-index: 2;
+	left: 0;
+	top: 0;
+	height: 4px;
+	width: 0%;
+	background: #ab7c94;
+}
+
+#content {
+	min-height: 100vh; 
+	margin: 90px 50px 0px;
+	font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+}
+
+.subtitle { /*подзаголовок*/
+    font-weight: 700;
+    font-size: 33px;
+	cursor: default;
+	text-align: center;
+}
+
+.hr-line { /*линия подзаголовка*/
+	margin: 10px;
+	padding: 0;
+	height: 6px;
+	border: none;
+	background: linear-gradient(45deg, #333, #ddd);
+	display: block;
+}
+
+.product { /*надпись "товары"*/
+	position: absolute;
+	font-size: 27px;
+    font-weight: 700;
+	letter-spacing: .3px;
+	margin-top: 6px;
+	margin-left: 80px;
+	cursor: default;
+}
+
+.setka { /*сетка под карточки*/
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+	justify-content: center;
+	justify-items: center;
+	column-gap: 30px;
+	row-gap: 40px; 
+	margin: 0 50px 30px;
+	background-color: rgba(211, 212, 221, .24);
+    padding: 50px 30px 30px;
+    border-radius: 25px;
+}
+
+.card { /*сама карточка*/
+	min-width: 240px;
+	max-width: 250px;
+	min-height: 350px;
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	position: relative;
+	transition: 0.2s;
+	background-color: #ffffff;
+	user-select: none;
+	&:hover { /*смена тени при наведении курсора*/
+		box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+	}
+	&.dark-theme {
+		background-color: #a6a6a6;
+		color: #ffffff;
+	}
+	&__top { /*вверх карточки*/
+		flex: 0 0 220px;
+		position: relative;
+		overflow: hidden;
+		}
+	&__heart { /*сердце*/
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	transition: .3s;
+	fill: rgb(118, 118, 118);
+	pointer-events: auto;
+	z-index: 1;
+	&:hover { /*сердце*/
+		fill: rgb(96, 22, 118);
+	}
+	}
+	&__image { /*картинка*/
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		& > img { /*непосредственно к картинке*/
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			transition: 0.2s;
+			pointer-events: none;
+		}
+		&:hover > img { /*при наведении курсора на картинку*/
+			transform: scale(1.1);
+		}
+	}
+	&__label { /*скидка*/
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		padding: 1px 4px;
+		background-color:  #ff5050;
+		border-radius: 4px;
+		color: white;
+		font-weight: 400;
+		font-size: 16px;
+	}
+	&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+		flex: 1 0 auto;
+	}
+	&__prices { /*обе цены*/
+		display: flex;
+		margin-bottom: 10px;
+		&.dark-theme {
+			color: #ffffff;
+		}
+	}
+	&__price::after { /*для добавления рубля*/
+		content: "\20BD";
+		padding-left: 4px;
+		padding-right: 10px;
+	}
+	&__price_discount { /*цена со скидкой*/
+		font-weight: 700;
+		font-size: 17px;
+		color: #000000;
+		display: flex;
+		flex-wrap: wrap-reverse;
+		padding-left: 10px;
+		&::before { /*со скидкой*/
+			content: "Со скидкой";
+			font-weight: 700;
+			font-size: 13px;
+			color: rgb(0, 0, 0);	
+		}
+	}
+	&__price_count { /*цена без скидки*/
+		font-weight: 400;
+		font-size: 17px;
+		color: #000000;
+		display: flex;
+		flex-wrap: wrap-reverse;
+		justify-content: end;
+		&::before { /*без скидки*/
+			content: "Обычная";
+			font-weight: 400;
+			font-size: 13px;
+			color: rgb(0, 0, 0);
+			padding-right: 20px;	
+		}
+		&-same { /*цена без скидки при одинаковой цене*/
+			font-weight: 700;
+			font-size: 17px;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			justify-content: start;
+			width: 100px;
+			margin-bottom: 10px;
+			padding-left: 10px;
+			&::before { /*цена без скидки при одинаковой цене*/
+				display: flex;
+				justify-content: start;
+				content: "Обычная";
+				font-weight: 700;
+				font-size: 13px;
+				color: rgb(0, 0, 0);
+				padding-right: 20px;
+			}
+		}
+	}
+	&__title { /*наименование*/
+		display: block;
+		margin-bottom: 10px;
+		font-weight: 400;
+		font-size: 17px;
+		line-height: 1.2;
+		color: #000000;
+		text-decoration: none;
+		padding-left: 10px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		&:hover { /*наименование при наведении*/
+			color: rgb(96, 22, 118);
+		}
+	}
+	&__btn { /*кнопка*/
+		display: block;
+		width: 100%;
+		font-weight: 400;
+		font-size: 17px;
+		color: #000000;
+		padding: 10px;
+		text-align: center;
+		border: 1px solid #000000;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: 0.2s;
+		position: absolute;
+		bottom: 0;
+		background-color: rgb(247 214 255);
+		&:hover {
+			border: 1px solid rgb(96, 22, 118);
+			background-color: rgb(96, 22, 118);
+			color: #fff;
+		}
+	}
+}
+
+#scrollToTopBtn { /*стрелка наверх*/
+	background-color: rgba(0, 0, 0, 0.5);
+	border: none;
+	color: white;
+	cursor: pointer;
+	height: 45px;
+	width: 45px;
+	position: fixed;
+	bottom: 20px;
+    left: 20px;
+    border-radius: 50%;
+	transition: 0.5s;
+	display: none;
+	&:hover{
+		background-color: rgba(0, 0, 0);
+	}
+}
+
+.load-more {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+#load-more__btn {
+	width: 200px;
+	height: 40px;
+	border-radius: 10px;
+	background-color: #c8c8c8;
+	font-weight: 400;
+	font-size: 17px;
+	border: none;
+	&:hover {
+		background-color: #bcbcbc;
+	}
+}
+}
+
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 768px) {
+	#progressBar { /*полоса прогресса*/
+		position: fixed;
+		margin-top: 72px;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		height: 4px;
+		width: 0%;
+		background: #ab7c94;
+	}
+	
+	#content {
+		min-height: 100vh; 
+		margin-top: 90px;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	}
+	
+	.subtitle { /*подзаголовок*/
+		font-weight: 700;
+		font-size: 33px;
+		cursor: default;
+		text-align: center;
+	}
+	
+	.hr-line { /*линия подзаголовка*/
+		margin: 10px;
+		padding: 0;
+		height: 6px;
+		border: none;
+		background: linear-gradient(45deg, #333, #ddd);
+		display: block;
+	}
+	
+	.product { /*надпись "товары"*/
+		position: absolute;
+		font-size: 27px;
+		font-weight: 700;
+		letter-spacing: .3px;
+		margin-top: 6px;
+		margin-left: 80px;
+		cursor: default;
+	}
+	
+	.setka { /*сетка под карточки*/
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+		justify-content: center;
+		justify-items: center;
+		column-gap: 30px;
+		row-gap: 20px; 
+		margin: 0 25px 30px;
+		background-color: rgba(211, 212, 221, .24);
+		padding: 40px 20px 30px;
+		border-radius: 25px;
+	}
+	
+	.card { /*сама карточка*/
+		width: 250px;
+		min-height: 350px;
+		box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+		display: flex;
+		flex-direction: column;
+		border-radius: 10px;
+		position: relative;
+		transition: 0.2s;
+		background-color: #ffffff;
+		user-select: none;
+		&:hover { /*смена тени при наведении курсора*/
+			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+		}
+		&.dark-theme {
+			background-color: #a6a6a6;
+			color: #ffffff;
+		}
+		&__top { /*вверх карточки*/
+			flex: 0 0 220px;
+			position: relative;
+			overflow: hidden;
+			}
+		&__heart { /*сердце*/
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		transition: .3s;
+		fill: rgb(118, 118, 118);
+		pointer-events: auto;
+		z-index: 1;
+		&:hover { /*сердце*/
+			fill: rgb(96, 22, 118);
+		}
+		}
+		&__image { /*картинка*/
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			& > img { /*непосредственно к картинке*/
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				transition: 0.2s;
+				pointer-events: none;
+			}
+			&:hover > img { /*при наведении курсора на картинку*/
+				transform: scale(1.1);
+			}
+		}
+		&__label { /*скидка*/
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			padding: 1px 4px;
+			background-color:  #ff5050;
+			border-radius: 4px;
+			color: white;
+			font-weight: 400;
+			font-size: 16px;
+		}
+		&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+			flex: 1 0 auto;
+		}
+		&__prices { /*обе цены*/
+			display: flex;
+			margin-bottom: 10px;
+		}
+		&__price::after { /*для добавления рубля*/
+			content: "\20BD";
+			padding-left: 4px;
+			padding-right: 10px;
+		}
+		&__price_discount { /*цена со скидкой*/
+			font-weight: 700;
+			font-size: 17px;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			padding-left: 10px;
+			&::before { /*со скидкой*/
+				content: "Со скидкой";
+				font-weight: 700;
+				font-size: 13px;
+				color: rgb(0, 0, 0);	
+			}
+		}
+		&__price_count { /*цена без скидки*/
+			font-weight: 400;
+			font-size: 17px;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			justify-content: end;
+			&::before { /*без скидки*/
+				content: "Обычная";
+				font-weight: 400;
+				font-size: 13px;
+				color: rgb(0, 0, 0);
+				padding-right: 20px;	
+			}
+			&-same { /*цена без скидки при одинаковой цене*/
+				font-weight: 700;
+				font-size: 17px;
+				color: #000000;
+				display: flex;
+				flex-wrap: wrap-reverse;
+				justify-content: start;
+				width: 100px;
+				margin-bottom: 10px;
+				padding-left: 10px;
+				&::before { /*цена без скидки при одинаковой цене*/
+					display: flex;
+					justify-content: start;
+					content: "Обычная";
+					font-weight: 700;
+					font-size: 13px;
+					color: rgb(0, 0, 0);
+					padding-right: 20px;
+				}
+			}
+		}
+		&__title { /*наименование*/
+			display: block;
+			margin-bottom: 10px;
+			  font-weight: 400;
+			  font-size: 17px;
+			  line-height: 1.2;
+			  color: #000000;
+			text-decoration: none;
+			padding-left: 10px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			&:hover { /*наименование при наведении*/
+				color: rgb(96, 22, 118);
+			}
+		}
+		&__btn { /*кнопка*/
+			display: block;
+			width: 100%;
+			font-weight: 400;
+			  font-size: 17px;
+			  color: #000000;
+			  padding: 10px;
+			  text-align: center;
+			  border: 1px solid #000000;
+			  border-radius: 4px;
+			  cursor: pointer;
+			  transition: 0.2s;
+			position: absolute;
+			bottom: 0;
+			background-color: rgb(247 214 255);
+			&:hover {
+				border: 1px solid rgb(96, 22, 118);
+				background-color: rgb(96, 22, 118);
+				color: #fff;
+			}
+		}
+	}
+	
+	#scrollToTopBtn { /*стрелка наверх*/
+		background-color: rgba(0, 0, 0, 0.5);
+		border: none;
+		color: white;
+		cursor: pointer;
+		height: 45px;
+		width: 45px;
+		position: fixed;
+		bottom: 20px;
+		left: 20px;
+		border-radius: 50%;
+		transition: 0.5s;
+		display: none;
+		&:hover{
+			background-color: rgba(0, 0, 0);
+		}
+	}
+
+	.load-more {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+	
+	#load-more__btn {
+		width: 200px;
+		height: 40px;
+		border-radius: 10px;
+		background-color: #c8c8c8;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+		&:hover {
+			background-color: #bcbcbc;
+		}
+	}
+}
+
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+	#progressBar { /*полоса прогресса*/
+		position: fixed;
+		margin-top: 72px;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		height: 4px;
+		width: 0%;
+		background: #ab7c94;
+	}
+	
+	#content {
+		min-height: 100vh; 
+		margin: 90px 0px 0px;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	}
+	
+	.subtitle { /*подзаголовок*/
+		font-weight: 700;
+		font-size: 33px;
+		cursor: default;
+		text-align: center;
+	}
+	
+	.hr-line { /*линия подзаголовка*/
+		margin: 10px 5px;
+		padding: 0;
+		height: 6px;
+		border: none;
+		background: linear-gradient(45deg, #333, #ddd);
+		display: block;
+	}
+	
+	.product { /*надпись "товары"*/
+		position: absolute;
+		font-size: 27px;
+		font-weight: 700;
+		letter-spacing: .3px;
+		margin-top: 6px;
+		margin-left: 30px;
+		cursor: default;
+	}
+	
+	.setka { /*сетка под карточки*/
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(204px, 1fr));
+		justify-content: center;
+		justify-items: center;
+		row-gap: 10px; 
+		margin: 0 5px 20px;
+		background-color: rgba(211, 212, 221, .24);
+		padding: 20px 2px 30px;
+		border-radius: 25px;
+	}
+	
+	.card { /*сама карточка*/
+		width: 200px;
+		min-height: 295px;
+		box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+		display: flex;
+		flex-direction: column;
+		border-radius: 10px;
+		position: relative;
+		transition: 0.2s;
+		background-color: #ffffff;
+		user-select: none;
+		&:hover { /*смена тени при наведении курсора*/
+			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+		}
+		&.dark-theme {
+			background-color: #a6a6a6;
+			color: #ffffff;
+		}
+		&__top { /*вверх карточки*/
+			flex: 0 0 180px;
+			position: relative;
+			overflow: hidden;
+			}
+		&__heart { /*сердце*/
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		transition: .3s;
+		fill: rgb(118, 118, 118);
+		pointer-events: auto;
+		z-index: 1;
+		&:hover { /*сердце*/
+			fill: rgb(96, 22, 118);
+		}
+		}
+		&__image { /*картинка*/
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			& > img { /*непосредственно к картинке*/
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				transition: 0.2s;
+				pointer-events: none;
+			}
+			&:hover > img { /*при наведении курсора на картинку*/
+				transform: scale(1.1);
+			}
+		}
+		&__label { /*скидка*/
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			padding: 1px 4px;
+			background-color:  #ff5050;
+			border-radius: 4px;
+			color: white;
+			font-weight: 400;
+			font-size: 16px;
+		}
+		&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+			flex: 1 0 auto;
+		}
+		&__prices { /*обе цены*/
+			display: flex;
+			margin-bottom: 10px;
+		}
+		&__price::after { /*для добавления рубля*/
+			content: "\20BD";
+			padding-left: 4px;
+			padding-right: 10px;
+		}
+		&__price_discount { /*цена со скидкой*/
+			font-weight: 700;
+			font-size: 15px;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			padding-left: 10px;
+			&::before { /*со скидкой*/
+				content: "Со скидкой";
+				font-weight: 700;
+				font-size: 13px;
+				color: rgb(0, 0, 0);	
+			}
+		}
+		&__price_count { /*цена без скидки*/
+			font-weight: 400;
+			font-size: 15px;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			justify-content: end;
+			&::before { /*без скидки*/
+				content: "Обычная";
+				font-weight: 400;
+				font-size: 13px;
+				color: rgb(0, 0, 0);
+				padding-right: 20px;	
+			}
+			&-same { /*цена без скидки при одинаковой цене*/
+				font-weight: 700;
+				font-size: 15px;
+				color: #000000;
+				display: flex;
+				flex-wrap: wrap-reverse;
+				justify-content: start;
+				width: 100px;
+				margin-bottom: 10px;
+				padding-left: 10px;
+				&::before { /*цена без скидки при одинаковой цене*/
+					display: flex;
+					justify-content: start;
+					content: "Обычная";
+					font-weight: 700;
+					font-size: 13px;
+					color: rgb(0, 0, 0);
+					padding-right: 20px;
+				}
+			}
+		}
+		&__title { /*наименование*/
+			display: block;
+			margin-bottom: 10px;
+			  font-weight: 400;
+			  font-size: 15px;
+			  line-height: 1.2;
+			  color: #000000;
+			text-decoration: none;
+			padding-left: 10px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			&:hover { /*наименование при наведении*/
+				color: rgb(96, 22, 118);
+			}
+		}
+		&__btn { /*кнопка*/
+			display: block;
+			width: 100%;
+			font-weight: 400;
+			  font-size: 15px;
+			  color: #000000;
+			  padding: 10px;
+			  text-align: center;
+			  border: 1px solid #000000;
+			  border-radius: 4px;
+			  cursor: pointer;
+			  transition: 0.2s;
+			position: absolute;
+			bottom: 0;
+			background-color: rgb(247 214 255);
+			&:hover {
+				border: 1px solid rgb(96, 22, 118);
+				background-color: rgb(96, 22, 118);
+				color: #fff;
+			}
+		}
+	}
+	
+	#scrollToTopBtn { /*стрелка наверх*/
+		background-color: rgba(0, 0, 0, 0.5);
+		border: none;
+		color: white;
+		cursor: pointer;
+		height: 45px;
+		width: 45px;
+		position: fixed;
+		bottom: 70px;
+		left: 20px;
+		border-radius: 50%;
+		transition: 0.5s;
+		display: none;
+		&:hover{
+			background-color: rgba(0, 0, 0);
+		}
+	}
+
+	.load-more {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+	
+	#load-more__btn {
+		width: 170px;
+		height: 35px;
+		border-radius: 10px;
+		background-color: #c8c8c8;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+	}
+}
+
+
+																	//АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+	#progressBar { /*полоса прогресса*/
+		position: fixed;
+		margin-top: 72px;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		height: 4px;
+		width: 0%;
+		background: #ab7c94;
+	}
+	
+	#content {
+		min-height: 100vh; 
+		margin: 90px 0px 0px;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	}
+	
+	.subtitle { /*подзаголовок*/
+		font-weight: 700;
+		font-size: 33px;
+		cursor: default;
+		text-align: center;
+	}
+	
+	.hr-line { /*линия подзаголовка*/
+		margin: 10px 5px;
+		padding: 0;
+		height: 6px;
+		border: none;
+		background: linear-gradient(45deg, #333, #ddd);
+		display: block;
+	}
+	
+	.product { /*надпись "товары"*/
+		position: absolute;
+		font-size: 27px;
+		font-weight: 700;
+		letter-spacing: .3px;
+		margin-top: 6px;
+		margin-left: 20px;
+		cursor: default;
+	}
+	
+	.setka { /*сетка под карточки*/
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		justify-content: center;
+		justify-items: center;
+		row-gap: 10px; 
+		margin: 0 5px 20px;
+		background-color: rgba(211, 212, 221, .24);
+		padding: 15px 0 30px;
+		border-radius: 25px;
+	}
+	
+	.card { /*сама карточка*/
+		width: 150px;
+		min-height: 250px;
+		box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+		display: flex;
+		flex-direction: column;
+		border-radius: 10px;
+		position: relative;
+		transition: 0.2s;
+		background-color: #ffffff;
+		user-select: none;
+		&:hover { /*смена тени при наведении курсора*/
+			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+		}
+		&.dark-theme {
+			background-color: #a6a6a6;
+			color: #ffffff;
+		}
+		&__top { /*вверх карточки*/
+			flex: 0 0 150px;
+			position: relative;
+			overflow: hidden;
+			}
+		&__heart { /*сердце*/
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		transition: .3s;
+		fill: rgb(118, 118, 118);
+		pointer-events: auto;
+		z-index: 1;
+		&:hover { /*сердце*/
+			fill: rgb(96, 22, 118);
+		}
+		}
+		&__image { /*картинка*/
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			& > img { /*непосредственно к картинке*/
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				transition: 0.2s;
+				pointer-events: none;
+			}
+			&:hover > img { /*при наведении курсора на картинку*/
+				transform: scale(1.1);
+			}
+		}
+		&__label { /*скидка*/
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			padding: 1px 4px;
+			background-color:  #ff5050;
+			border-radius: 4px;
+			color: white;
+			font-weight: 400;
+			font-size: 16px;
+		}
+		&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+			flex: 1 0 auto;
+		}
+		&__prices { /*обе цены*/
+			display: flex;
+			margin-bottom: 10px;
+		}
+		&__price::after { /*для добавления рубля*/
+			content: "\20BD";
+			padding-left: 2px;
+			padding-right: 3px;
+		}
+		&__price_discount { /*цена со скидкой*/
+			font-weight: 700;
+			font-size: 12px;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			padding-left: 3px;
+			&::before { /*со скидкой*/
+				content: "Со скидкой";
+				font-weight: 700;
+				font-size: 12px;
+				color: rgb(0, 0, 0);	
+			}
+		}
+		&__price_count { /*цена без скидки*/
+			font-weight: 400;
+			font-size: small;
+			color: #000000;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			justify-content: end;
+			&::before { /*без скидки*/
+				content: "Обычная";
+				padding-right: 3px;
+				font-weight: 400;
+				font-size: 12px;
+				color: rgb(0, 0, 0);	
+			}
+			&-same { /*цена без скидки при одинаковой цене*/
+				font-weight: 700;
+				font-size: 12px;
+				color: #000000;
+				display: flex;
+				flex-wrap: wrap-reverse;
+				justify-content: start;
+				width: 100px;
+				margin-bottom: 10px;
+				padding-left: 3px;
+				&::before { /*цена без скидки при одинаковой цене*/
+					display: flex;
+					justify-content: start;
+					content: "Обычная";
+					font-weight: 700;
+					font-size: 12px;
+					color: rgb(0, 0, 0);
+					padding-right: 20px;
+				}
+			}
+		}
+		&__title { /*наименование*/
+			display: block;
+			margin-bottom: 10px;
+			font-weight: 400;
+			font-size: small;
+			line-height: 1.2;
+			color: #000000;
+			text-decoration: none;
+			padding-left: 3px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			&:hover { /*наименование при наведении*/
+				color: rgb(96, 22, 118);
+			}
+		}
+		&__btn { /*кнопка*/
+			display: block;
+			width: 100%;
+			font-weight: 400;
+			  font-size: smaller;
+			  color: #000000;
+			  padding: 7px;
+			  text-align: center;
+			  border: 1px solid #000000;
+			  border-radius: 4px;
+			  cursor: pointer;
+			  transition: 0.2s;
+			position: absolute;
+			bottom: 0;
+			background-color: rgb(247 214 255);
+			&:hover {
+				border: 1px solid rgb(96, 22, 118);
+				background-color: rgb(96, 22, 118);
+				color: #fff;
+			}
+		}
+	}
+	
+	#scrollToTopBtn { /*стрелка наверх*/
+		background-color: rgba(0, 0, 0, 0.5);
+		border: none;
+		color: white;
+		cursor: pointer;
+		height: 45px;
+		width: 45px;
+		position: fixed;
+		bottom: 70px;
+		left: 20px;
+		border-radius: 50%;
+		transition: 0.5s;
+		display: none;
+		&:hover{
+			background-color: rgba(0, 0, 0);
+		}
+	}
+
+	.load-more {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+	
+	#load-more__btn {
+		width: 170px;
+		height: 35px;
+		border-radius: 10px;
+		background-color: #c8c8c8;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+	}
+}

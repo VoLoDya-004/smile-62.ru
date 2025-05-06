@@ -1,0 +1,41 @@
+@mixin flex-sb-gr {
+    display: flex;
+   	justify-content: space-between;
+}
+
+@mixin flex-center-gr {
+    display: flex;
+	justify-content: center;
+}
+
+@mixin flex-center {
+    display: flex;
+	justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-end {
+    display: flex;
+	justify-content: end;
+    align-items: end;
+}
+
+@mixin flex-center-vr {
+    display: flex;
+	align-items: center;
+}
+
+@mixin i-flex-center-vr($display, $align-items) {
+    display: $display;
+	align-items: $align-items;
+}
+
+@mixin i-flex-end-gr {
+    display: inline-flex;
+	justify-content: end;
+}
+
+@mixin wh-auto {
+    width: auto;
+  	height: auto;
+}

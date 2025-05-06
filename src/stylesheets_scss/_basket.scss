@@ -1,0 +1,169 @@
+
+																	//АДАПТАЦИЯ 1000px
+@media (min-width: 1000px) {
+    .basket {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        &__empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90vw;
+            height: 200px;
+            border-radius: 19px;
+            background-color: rgba(211, 212, 221, .24);
+            &_str2 {
+                display: flex;
+                text-align: center;
+                margin-top: -20px;
+            }
+        }
+    }
+
+    #main {
+        margin-top: 10px;
+        background-color: #d8c4e0;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        width: 150px;
+        height: 40px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(186, 155, 194);
+            transition: .3s;
+        }
+    }
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+    .basket {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        &__empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90vw;
+            height: 200px;
+            border-radius: 19px;
+            background-color: rgba(211, 212, 221, .24);
+            &_str2 {
+                display: flex;
+                text-align: center;
+                margin-top: -20px;
+            }
+        }
+    }
+
+    #main {
+        margin-top: 10px;
+        background-color: #d8c4e0;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        width: 150px;
+        height: 40px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(186, 155, 194);
+            transition: .3s;
+        }
+    }
+}   
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+    .basket {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        &__empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90vw;
+            height: 200px;
+            border-radius: 19px;
+            background-color: rgba(211, 212, 221, .24);
+            &_str1 {
+                font-size: smaller;
+            }
+            &_str2 {
+                display: flex;
+                text-align: center;
+                margin-top: -20px;
+                padding: 0 10px;
+                font-size: smaller;
+            }
+        }
+    }
+
+    #main {
+        margin-top: 10px;
+        background-color: #d8c4e0;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        width: 150px;
+        height: 40px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(186, 155, 194);
+            transition: .3s;
+        }
+    }
+}
+
+																	//АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+    .basket {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        &__empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90vw;
+            height: 200px;
+            border-radius: 19px;
+            background-color: rgba(211, 212, 221, .24);
+            &_str1 {
+                font-size: smaller;
+            }
+            &_str2 {
+                display: flex;
+                text-align: center;
+                margin-top: -20px;
+                padding: 0 10px;
+                font-size: smaller;
+            }
+        }
+    }
+
+    #main {
+        margin-top: 10px;
+        background-color: #d8c4e0;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        width: 150px;
+        height: 40px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(186, 155, 194);
+            transition: .3s;
+        }
+    }
+}                                                                

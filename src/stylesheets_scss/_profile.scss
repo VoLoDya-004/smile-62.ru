@@ -1,0 +1,314 @@
+
+																	//АДАПТАЦИЯ 1000px
+@media (min-width: 1000px) {
+    
+    .form {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 150px;
+        &__registration { //форма регистрации
+            display: flex;
+            width: 40vw;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            &_item {
+                width:300px;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__entrance { //форма входа
+            display: flex;
+            width: 40vw;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            &_item {
+                width:300px;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__header {
+            position: relative;
+            bottom: 40px;
+            font-size: 25px;
+            user-select: none;
+        }
+    }
+
+    .recommendation {
+        margin: 100px 20px 300px;
+        font-size: 30px;
+    }
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+
+    .form {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 150px;
+        &__registration { //форма регистрации
+            display: flex;
+            width: 43vw;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            &_item {
+                width:280px;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__entrance { //форма входа
+            display: flex;
+            width: 43vw;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            &_item {
+                width:280px;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__header {
+            position: relative;
+            bottom: 40px;
+            font-size: 25px;
+            user-select: none;
+        }
+    }
+
+    .recommendation {
+        margin: 100px 20px 300px;
+        font-size: 30px;
+    }
+}
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+
+    .form {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 110px;
+        flex-wrap: wrap;
+        height: 820px;
+        &__registration { //форма регистрации
+            display: flex;
+            width: 90vw;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            max-height: 461px;
+            &_item {
+                width:60vw;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__entrance { //форма входа
+            display: flex;
+            width: 90vw;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            max-height: 260px;
+            &_item {
+                width:60vw;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__header {
+            position: relative;
+            bottom: 40px;
+            font-size: 25px;
+            user-select: none;
+        }
+    }
+
+    .recommendation {
+        margin: 30px 20px 300px;
+        font-size: 30px;
+    }
+}
+
+																	//АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px){
+    .form {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 110px;
+        flex-wrap: wrap;
+        height: 820px;
+        &__registration { //форма регистрации
+            display: flex;
+            width: 90vw;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            max-height: 461px;
+            &_item {
+                width:60vw;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__entrance { //форма входа
+            display: flex;
+            width: 90vw;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgba(211, 212, 221, .24);
+            border-radius: 10%;
+            max-height: 260px;
+            &_item {
+                width:60vw;
+                height:25px;
+                border-radius:5px;
+                margin-top: 5px;
+            }
+            &_btn {
+                background-color: #d8c4e0;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgb(186, 155, 194);
+                    transition: .3s;
+                }
+            }
+        }
+        &__header {
+            position: relative;
+            bottom: 40px;
+            font-size: 25px;
+            user-select: none;
+        }
+    }
+
+    .recommendation {
+        margin: 30px 20px 300px;
+        font-size: 30px;
+    }
+}

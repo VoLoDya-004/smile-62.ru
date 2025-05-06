@@ -1,0 +1,39 @@
+
+																	//АДАПТАЦИЯ 1000px
+@media (min-width: 1000px) {
+    .favourites {
+		margin-top: 100px;
+		display: flex;
+		justify-content: center;
+	}
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+    .favourites {
+		margin-top: 100px;
+		display: flex;
+		justify-content: center;
+	}
+}   
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+    .favourites {
+		margin-top: 100px;
+		display: flex;
+		justify-content: center;
+	}
+}
+
+																	//АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+    .favourites {
+		margin-top: 100px;
+		display: flex;
+		justify-content: center;
+	}
+}   

@@ -1,0 +1,1327 @@
+																	//АДАПТАЦИЯ 1000px
+@media (min-width: 1000px) {
+html {
+    scroll-behavior: smooth;
+    body {
+        margin: 0;
+        background-color: #ffffff;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+        transition: background-color 0.3s ease;
+    }
+	&::-webkit-scrollbar { /*ширина*/
+		width: 10px;
+		&-thumb { /*сам ползунок*/
+			background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+			border-radius: 8px;/* скругление углов */
+			&:hover { /*сам ползунок при наведении*/
+				background: rgba(23, 0, 86, 0.45);
+			}
+			&:active { /*сам ползунок активный*/
+				background: rgba(23, 0, 86, 0.6);
+			}
+		}
+		&-track { /*трасса*/
+			background-color: #c5c5c5ac;
+		}
+		&-button:start { /*стрелки*/
+			background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+			background-size: contain;
+		}
+		&-button:end {
+			background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+			background-size: contain;
+		}
+	}
+}
+
+::selection { /*стиль при копировании*/
+    background: #350047;
+    color: rgb(255, 255, 255);
+}
+
+																	/*СТИЛЬ ШАПКИ*/
+
+header { /*стиль шапки и её элементов */
+	@include flex-sb-gr;
+    color: rgb(255, 255, 255);
+	background-color: rgb(48 0 80);
+	width: 100%;
+	height: 72px;
+	User-select: none;
+	position: fixed;
+	top: 0;
+	z-index: 2;
+	font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+}
+
+.logo__header { /*стиль надписи "МАГАЗИН" в шапке сайта */
+	width: auto;
+	display: inline-flex;
+	pointer-events: none;
+	fill: #ffffff;
+	height: 72px;
+}
+
+.nav { /*блок навигации*/
+	@include flex-center-vr;
+}
+
+#nav__button { /*кнопка навигации*/
+    @include flex-center-vr;
+	background-color: transparent;
+	width: 35px;
+	height: 35px;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, .4);
+	justify-content: center;
+	transition: border-width .3s;
+	transition: border-color .3s;
+    &:hover {
+        border-width: 2px;
+        border-color: white;
+    }
+}
+
+.navbar { /*блок навигации*/
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: white;
+	color: black;
+	width: 25vw;
+	height: calc(100vh - 88px);
+	z-index: 5;
+	position: absolute;
+	top: 72px;
+	transition: .2s;
+	padding: 8px 0;
+	margin-bottom: 100px;
+	overflow-y: scroll;
+	&.dark-theme {
+        background-color: black;
+		color: white;
+	}
+	&__item {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 5vh;
+		width: 95%;
+		&:hover {
+			background-color: #d8c4e0;
+			border-radius: 10px;
+			color: #9814ad;
+			transition: background-color .1s;
+		}
+	}
+	&::-webkit-scrollbar { /*ширина*/
+		width: 7px;
+		&-thumb { /*сам ползунок*/
+			background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+			&:hover { /*сам ползунок при наведении*/
+				background: rgba(23, 0, 86, 0.45);
+			}
+			&:active { /*сам ползунок активный*/
+				background: rgba(23, 0, 86, 0.6);
+			}
+		}
+		&-track { /*трасса*/
+			background-color: #c5c5c5ac;
+		}
+	}
+}
+
+.blackout {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	top: 72px;
+	background-color: #0000008f;
+	z-index: 4;
+	transition: .3s;
+}
+
+.search { /*строка поиска (блок)*/
+    @include i-flex-center-vr(inline-flex, center);
+	width: 100%;
+	margin-left: 10px;
+    &__line { /*строка поиска */
+        width: 80%;
+        display: inline-flex;
+        background-color: #d8c4e0;
+        border-radius: 10px 10px 10px 10px;
+    }
+}
+
+#search__line_line { /*непосредственно строка поиска*/
+	border-radius: 10px 10px 10px 10px;
+	width: 93%;
+	height: 36px;
+	color: #000000;
+	padding-left: 13px;
+	font-size: 16px;
+	outline: none;
+	border: 3px solid #d8c4e0;
+    &.dark-theme {
+        background-color: #0000005c;
+        color: #ffffff;
+    }
+}
+
+#search__line_button { /*кнопка поиска*/
+	border-radius: 10px 10px 10px 10px;
+	width: 7%;
+	height: 30px;
+	margin-top: 3px;
+	margin-right: 3px;
+	min-width: 69px;
+	background-color: #d8c4e0;
+	padding-left: 13px;
+	font-size: 16px;
+	outline: none;
+	padding-right: 15px;
+	border: none;
+	transition: background-color .3s;
+    &:hover {
+        background-color: #b193bd;
+    }
+}
+
+/*убираем крестик с поля ввода*/
+input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
+input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+/*чтобы подсказка в строке поиска была другого цвета в отличие от вводимого текста*/
+input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+input:-moz-placeholder { /* Firefox 18- */ color: rgba(0, 0, 0, 0.196) !important; }
+input::-moz-placeholder { /* Firefox 19+ */ color: rgba(0, 0, 0, 0.196) !important; }
+input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+
+.menu { /*блоки меню */
+	margin: 0 5px;
+	display: inline-flex;
+	width: 350px;
+    &__item { /*блоки пунктов меню */
+        margin: auto;
+        display: inline-block;
+        &_style { /*стиль разделов шапки */
+            @include flex-center-gr;
+            color: Silver;
+            text-decoration: none;
+            padding: 22px 5px 0;
+            width: auto;
+            transition: color .3s;
+            &:hover { /*при наведении на раздел шапки */
+                color: white;
+            }
+        }
+    }
+}
+
+.pc-none { /*удаление значков svg*/
+	display: none;
+}
+
+.none {
+	display: none;
+}
+
+.line { /*линия в блоке пунктов меню*/
+	text-decoration: underline rgb(186, 155, 194);
+	text-decoration-thickness: 5px;
+	line-height: 10px;
+	text-underline-offset: 13.4px;
+    &-text { /*текст в линии блока пунктов меню при активном положении*/
+        color: white;
+    }
+}
+
+.circle { /*кружок над корзиной*/
+	border-radius: 50%;
+	min-width: 17px;
+    height: 17px;
+	text-align: center;
+	color: #fff;
+	background: #e50000;
+	font: 10px Arial, sans-serif;
+	display: inline-block;
+	position: absolute;
+	top: 30px;
+    right: 2px;
+	letter-spacing: normal;
+	line-height: 18px;
+	font-weight: 500;
+}
+
+body.light-theme { /*светлая тема*/
+    background-color: --back-color;
+    color: var(--text-color);
+}
+
+body.dark-theme { /*темная тема*/
+    background-color: #121212;
+    color: #ffffff;
+}
+
+#themeToggle { /*кнопка смены темы*/
+	width: 20px;
+	height: 20px;
+	position: fixed;
+	right: 10px;
+	top: 5px;
+	z-index: 2;
+	border: none;
+	background-color: #d8c4e0;
+	border-radius: 50%;
+	transition: .4s linear;
+}
+
+.themeToggle { /*кнопка смены темы*/
+	position: fixed;
+	right: 12px;
+	top: 7px;
+}
+
+.tippy-box[data-theme~='lilac'] { /*всплывающая подсказка(тултип) о смене темы*/
+	background-color: rgb(140, 43, 185);
+	color: white;
+}
+
+.tippy-box[data-theme~='lilac'][data-placement^='left'] > .tippy-arrow::before {
+	border-left-color: rgb(140, 43, 185);
+}
+// .tooltip { /*всплывающая подсказка(тултип) о смене темы*/
+// 	@include wh-auto;
+//  position: absolute;
+// 	top: 7px;
+// 	right: 35px;
+//     &__tail { /*хвост для тултипа*/
+//         position: absolute;
+//         top: 3.5px;
+//         right: -2px;
+//         background-color: #9814ad;
+//         width: 10px;
+//         height: 5px;
+//         z-index: 2;
+//         display: none;
+//         transform: rotate(45deg);
+//     }
+//     &__text { /*текст тултипа*/
+//         white-space: nowrap;
+//         font-family: "PT Sans", sans-serif;
+//           background-color: #9814ad;
+//           color: #FFFFFF;
+//           font-size: 10px;
+//           padding: 2px 8px 2px 8px;
+//           border-radius: 10px;
+//           z-index: 3;
+//           display: none;
+//     }
+// }
+
+// /*добавляем появление текстового блока при наведении на кнопку*/
+// #themeToggle:hover + .tooltip__text, .tooltip__tail {
+// 	display: block;
+// }
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+	html {
+		scroll-behavior: smooth;
+		body {
+			margin: 0;
+			background-color: #ffffff;
+			font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+			transition: background-color 0.3s ease;
+		}
+		&::-webkit-scrollbar { /*ширина*/
+			width: 10px;
+			&-thumb { /*сам ползунок*/
+				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				border-radius: 8px;/* скругление углов */
+				&:hover { /*сам ползунок при наведении*/
+					background: rgba(23, 0, 86, 0.45);
+				}
+				&:active { /*сам ползунок активный*/
+					background: rgba(23, 0, 86, 0.6);
+				}
+			}
+			&-track { /*трасса*/
+				background-color: #c5c5c5ac;
+			}
+			&-button:start { /*стрелки*/
+				background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+				background-size: contain;
+			}
+			&-button:end {
+				background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+				background-size: contain;
+			}
+		}
+	}
+	
+	::selection { /*стиль при копировании*/
+		background: #350047;
+		color: rgb(255, 255, 255);
+	}
+	
+																		/*СТИЛЬ ШАПКИ*/
+	
+	header { /*стиль шапки и её элементов */
+		@include flex-sb-gr;
+		color: rgb(255, 255, 255);
+		background-color: rgb(48 0 80);
+		width: 100%;
+		height: 72px;
+		User-select: none;
+		position: fixed;
+		top: 0;
+		z-index: 2;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	}
+	
+	.logo__header { /*стиль надписи "МАГАЗИН" в шапке сайта */
+		width: auto;
+		display: inline-flex;
+		pointer-events: none;
+		fill: #ffffff;
+		height: 72px;
+	}
+	
+	.nav { /*блок навигации*/
+		@include flex-center-vr;
+	}
+	
+	#nav__button { /*кнопка навигации*/
+		@include flex-center-vr;
+		background-color: transparent;
+		width: 35px;
+		height: 35px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, .4);
+		justify-content: center;
+		transition: border-width .3s;
+		transition: border-color .3s;
+		&:hover {
+			border-width: 2px;
+			border-color: white;
+		}
+	}
+
+	.navbar { /*блок навигации*/
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		background-color: white;
+		color: black;
+		width: 35vw;
+		height: calc(100vh - 88px);
+		z-index: 5;
+		position: absolute;
+		top: 72px;
+		transition: .2s;
+		padding: 8px 0;
+		margin-bottom: 100px;
+		overflow-y: scroll;
+		&.dark-theme {
+			background-color: black;
+			color: white;
+		}
+		&__item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 5vh;
+			width: 95%;
+			&:hover {
+				background-color: #d8c4e0;
+				border-radius: 10px;
+				color: #9814ad;
+				transition: background-color .1s;
+			}
+		}
+		&::-webkit-scrollbar { /*ширина*/
+			width: 7px;
+			&-thumb { /*сам ползунок*/
+				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				&:hover { /*сам ползунок при наведении*/
+					background: rgba(23, 0, 86, 0.45);
+				}
+				&:active { /*сам ползунок активный*/
+					background: rgba(23, 0, 86, 0.6);
+				}
+			}
+			&-track { /*трасса*/
+				background-color: #c5c5c5ac;
+			}
+		}
+	}
+	
+	.blackout {
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		top: 72px;
+		background-color: #0000008f;
+		z-index: 4;
+		transition: .3s;
+	}
+	
+	.search { /*строка поиска (блок)*/
+		@include i-flex-center-vr(inline-flex, center);
+		width: 100%;
+		margin-left: 10px;
+		&__line { /*строка поиска */
+			width: 100%;
+			display: inline-flex;
+			background-color: #d8c4e0;
+			border-radius: 10px 10px 10px 10px;
+		}
+	}
+	
+	#search__line_line { /*непосредственно строка поиска*/
+		border-radius: 10px 10px 10px 10px;
+		width: 93%;
+		height: 36px;
+		color: #000000;
+		padding-left: 13px;
+		font-size: 16px;
+		outline: none;
+		border: 3px solid #d8c4e0;
+		&.dark-theme {
+			background-color: #0000005c;
+			color: #ffffff;
+		}
+	}
+	
+	#search__line_button { /*кнопка поиска*/
+		border-radius: 10px 10px 10px 10px;
+		width: 7%;
+		height: 30px;
+		margin-top: 3px;
+		margin-right: 3px;
+		min-width: 69px;
+		background-color: #d8c4e0;
+		padding-left: 13px;
+		font-size: 16px;
+		outline: none;
+		padding-right: 15px;
+		border: none;
+		transition: background-color .3s;
+		&:hover {
+			background-color: #b193bd;
+		}
+	}
+	
+	/*убираем крестик с поля ввода*/
+	input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
+	input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
+	input[type="search"]::-webkit-search-decoration,
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-results-button,
+	input[type="search"]::-webkit-search-results-decoration { display: none; }
+	
+	/*чтобы подсказка в строке поиска была другого цвета в отличие от вводимого текста*/
+	input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+	input:-moz-placeholder { /* Firefox 18- */ color: rgba(0, 0, 0, 0.196) !important; }
+	input::-moz-placeholder { /* Firefox 19+ */ color: rgba(0, 0, 0, 0.196) !important; }
+	input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+	
+	.menu { /*блоки меню */
+		margin: 0 5px;
+		display: inline-flex;
+		//width: 350px;
+		width: 40vw;
+		&__item { /*блоки пунктов меню */
+			margin: auto;
+			display: inline-block;
+			&_style { /*стиль разделов шапки */
+				@include flex-center-gr;
+				color: Silver;
+				text-decoration: none;
+				padding: 22px 5px 0;
+				width: auto;
+				transition: color .3s;
+				&:hover { /*при наведении на раздел шапки */
+					color: white;
+				}
+			}
+		}
+	}
+
+	.pc-none { /*удаление значков svg*/
+		display: none;
+	}
+
+	.none {
+		display: none;
+	}
+	
+	.line { /*линия в блоке пунктов меню*/
+		text-decoration: underline rgb(186, 155, 194);
+		text-decoration-thickness: 5px;
+		line-height: 10px;
+		text-underline-offset: 13.4px;
+		&-text { /*текст в линии блока пунктов меню при активном положении*/
+			color: white;
+		}
+	}
+	
+	.circle { /*кружок над корзиной*/
+		border-radius: 50%;
+		min-width: 17px;
+		height: 17px;
+		text-align: center;
+		color: #fff;
+		background: #e50000;
+		font: 10px Arial, sans-serif;
+		display: inline-block;
+		position: absolute;
+		top: 30px;
+		right: 2px;
+		letter-spacing: normal;
+		line-height: 18px;
+		font-weight: 500;
+	}
+	
+	body.light-theme { /*светлая тема*/
+		background-color: --back-color;
+		color: var(--text-color);
+	}
+	
+	body.dark-theme { /*темная тема*/
+		background-color: #121212;
+		color: #ffffff;
+	}
+	
+	#themeToggle { /*кнопка смены темы*/
+		width: 20px;
+		height: 20px;
+		position: fixed;
+		right: 10px;
+		top: 5px;
+		z-index: 2;
+		border: none;
+		background-color: #d8c4e0;
+		border-radius: 50%;
+		transition: .4s linear;
+	}
+	
+	.themeToggle { /*кнопка смены темы*/
+		position: fixed;
+		right: 12px;
+		top: 7px;
+	}
+
+	.tippy-box[data-theme~='lilac'] { /*всплывающая подсказка(тултип) о смене темы*/
+		background-color: rgb(140, 43, 185);
+		color: white;
+	}
+	
+	.tippy-box[data-theme~='lilac'][data-placement^='left'] > .tippy-arrow::before {
+		border-left-color: rgb(140, 43, 185);
+	}
+}
+
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+	html {
+		scroll-behavior: smooth;
+		body {
+			margin: 0;
+			background-color: #ffffff;
+			font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+			transition: background-color 0.3s ease;
+		}
+		&::-webkit-scrollbar { /*ширина*/
+			width: 10px;
+			&-thumb { /*сам ползунок*/
+				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				border-radius: 8px;/* скругление углов */
+				&:hover { /*сам ползунок при наведении*/
+					background: rgba(23, 0, 86, 0.45);
+				}
+				&:active { /*сам ползунок активный*/
+					background: rgba(23, 0, 86, 0.6);
+				}
+			}
+			&-track { /*трасса*/
+				background-color: #c5c5c5ac;
+			}
+			&-button:start { /*стрелки*/
+				background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+				background-size: contain;
+			}
+			&-button:end {
+				background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+				background-size: contain;
+			}
+		}
+	}
+	
+	::selection { /*стиль при копировании*/
+		background: #350047;
+		color: rgb(255, 255, 255);
+	}
+	
+																		/*СТИЛЬ ШАПКИ*/
+	
+	header { /*стиль шапки и её элементов */
+		@include flex-sb-gr;
+		color: rgb(255, 255, 255);
+		background-color: rgb(48 0 80);
+		width: 100%;
+		height: 72px;
+		User-select: none;
+		position: fixed;
+		top: 0;
+		z-index: 2;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	}
+	
+	.logo__header { /*стиль надписи "МАГАЗИН" в шапке сайта */
+		width: auto;
+		display: inline-flex;
+		margin-top: 18px;
+		pointer-events: none;
+		fill: #ffffff;
+		height: 36px;
+		display: none;
+	}
+	
+	.nav { /*блок навигации*/
+		@include flex-center-vr;
+		margin-left: 10px;
+	}
+	
+	#nav__button { /*кнопка навигации*/
+		@include flex-center-vr;
+		background-color: transparent;
+		width: 35px;
+		height: 35px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, .4);
+		justify-content: center;
+		transition: border-width .3s;
+		transition: border-color .3s;
+		&:hover {
+			border-width: 2px;
+			border-color: white;
+		}
+	}
+
+	.navbar { /*блок навигации*/
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		background-color: white;
+		color: black;
+		width: 60vw;
+		height: calc(100vh - 148px);
+		z-index: 5;
+		position: absolute;
+		top: 72px;
+		transition: .2s;
+		padding: 8px 0;
+		margin-bottom: 100px;
+		overflow-y: scroll;
+		&.dark-theme {
+			background-color: black;
+			color: white;
+		}
+		&__item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 5vh;
+			width: 95%;
+			&:hover {
+				background-color: #d8c4e0;
+				border-radius: 10px;
+				color: #9814ad;
+				transition: background-color .1s;
+			}
+		}
+		&::-webkit-scrollbar { /*ширина*/
+			width: 7px;
+			&-thumb { /*сам ползунок*/
+				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				&:hover { /*сам ползунок при наведении*/
+					background: rgba(23, 0, 86, 0.45);
+				}
+				&:active { /*сам ползунок активный*/
+					background: rgba(23, 0, 86, 0.6);
+				}
+			}
+			&-track { /*трасса*/
+				background-color: #c5c5c5ac;
+			}
+		}
+	}
+	
+	.blackout {
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		top: 72px;
+		background-color: #0000008f;
+		z-index: 4;
+		transition: .3s;
+	}
+
+	.none {
+		display: none;
+	}
+	
+	.search { /*строка поиска (блок)*/
+		@include i-flex-center-vr(inline-flex, center);
+		padding-right: 40px;
+		width: 90vw;
+		margin: 0 10px;
+		&__line { /*строка поиска */
+			width: 100%;
+			display: inline-flex;
+			background-color: #d8c4e0;
+			border-radius: 10px 10px 10px 10px;
+		}
+	}
+	
+	#search__line_line { /*непосредственно строка поиска*/
+		border-radius: 10px 10px 10px 10px;
+		width: 93%;
+		height: 36px;
+		color: #000000;
+		padding-left: 13px;
+		font-size: 16px;
+		outline: none;
+		border: 3px solid #d8c4e0;
+		&.dark-theme {
+			background-color: #0000005c;
+			color: #ffffff;
+		}
+	}
+	
+	#search__line_button { /*кнопка поиска*/
+		border-radius: 10px 10px 10px 10px;
+		width: 7%;
+		height: 30px;
+		margin-top: 3px;
+		margin-right: 3px;
+		min-width: 69px;
+		background-color: #d8c4e0;
+		padding-left: 13px;
+		font-size: 16px;
+		outline: none;
+		padding-right: 15px;
+		border: none;
+		transition: background-color .3s;
+		&:hover {
+			background-color: #b193bd;
+		}
+	}
+	
+	/*убираем крестик с поля ввода*/
+	input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
+	input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
+	input[type="search"]::-webkit-search-decoration,
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-results-button,
+	input[type="search"]::-webkit-search-results-decoration { display: none; }
+	
+	/*чтобы подсказка в строке поиска была другого цвета в отличие от вводимого текста*/
+	input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+	input:-moz-placeholder { /* Firefox 18- */ color: rgba(0, 0, 0, 0.196) !important; }
+	input::-moz-placeholder { /* Firefox 19+ */ color: rgba(0, 0, 0, 0.196) !important; }
+	input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+	
+	.menu { /*блоки меню */
+		margin: 0 5px;
+		display: inline-flex;
+		width: 40vw;
+		display: none;
+		&__item { /*блоки пунктов меню */
+			margin: auto;
+			display: inline-block;
+			&_style { /*стиль разделов шапки */
+				@include flex-center-gr;
+				color: Silver;
+				text-decoration: none;
+				padding: 22px 5px 0;
+				width: auto;
+				transition: color .3s;
+				&:hover { /*при наведении на раздел шапки */
+					color: white;
+				}
+			}
+		}
+	}
+
+	.menu-mobile {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;
+		height: 60px;
+		background-color: #ffffff;
+		bottom: 0;
+		position: fixed;
+		z-index: 2;
+		&__item {
+			@include flex-center;
+			pointer-events: none;
+			width: 40px;
+			height: 40px;
+			&_active {
+				fill: #9814ad;
+				text-decoration: none;
+			}
+			&_passiv {
+				fill: #a8a8a8;
+				text-decoration: none;
+			}
+		}
+		&.dark-theme {
+			background-color: black;
+		}
+	}
+	
+	.line { /*линия в блоке пунктов меню*/
+		text-decoration: underline rgb(186, 155, 194);
+		text-decoration-thickness: 5px;
+		line-height: 10px;
+		text-underline-offset: 13.4px;
+		&-text { /*текст в линии блока пунктов меню при активном положении*/
+			color: white;
+		}
+	}
+	
+	.circle { /*кружок над корзиной*/
+		border-radius: 50%;
+		min-width: 17px;
+		height: 17px;
+		text-align: center;
+		color: #fff;
+		background: #e50000;
+		font: 10px Arial, sans-serif;
+		display: inline-block;
+		position: absolute;
+		top: 30px;
+		right: 2px;
+		letter-spacing: normal;
+		line-height: 18px;
+		font-weight: 500;
+		&__mobile {
+			border-radius: 50%;
+			width: 17px;
+			height: 17px;
+			text-align: center;
+			color: #fff;
+			background: #e50000;
+			font: 10px Arial, sans-serif;
+			display: inline-block;
+			position: relative;
+			bottom: -15px;
+			right: -25px;
+			letter-spacing: normal;
+			line-height: 18px;
+			font-weight: 500;
+			display: none;
+			text-decoration: none;
+		}
+	}
+	
+	body.light-theme { /*светлая тема*/
+		background-color: --back-color;
+		color: var(--text-color);
+	}
+	
+	body.dark-theme { /*темная тема*/
+		background-color: #121212;
+		color: #ffffff;
+	}
+	
+	#themeToggle { /*кнопка смены темы*/
+		width: 20px;
+		height: 20px;
+		position: fixed;
+		right: 10px;
+		top: 5px;
+		z-index: 2;
+		border: none;
+		background-color: #d8c4e0;
+		border-radius: 50%;
+		transition: .4s linear;
+	}
+	
+	.themeToggle { /*кнопка смены темы*/
+		position: fixed;
+		right: 12px;
+		top: 7px;
+	}
+
+	.tippy-box[data-theme~='lilac'] { /*всплывающая подсказка(тултип) о смене темы*/
+		background-color: rgb(140, 43, 185);
+		color: white;
+	}
+	
+	.tippy-box[data-theme~='lilac'][data-placement^='left'] > .tippy-arrow::before {
+		border-left-color: rgb(140, 43, 185);
+	}
+}
+
+
+
+																	//АДАПТАЦИЯ < 425px
+@media (max-width: 425px){
+	html {
+		scroll-behavior: smooth;
+		body {
+			margin: 0;
+			background-color: #ffffff;
+			font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+			transition: background-color 0.3s ease;
+		}
+		&::-webkit-scrollbar { /*ширина*/
+			width: 10px;
+			&-thumb { /*сам ползунок*/
+				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				border-radius: 8px;/* скругление углов */
+				&:hover { /*сам ползунок при наведении*/
+					background: rgba(23, 0, 86, 0.45);
+				}
+				&:active { /*сам ползунок активный*/
+					background: rgba(23, 0, 86, 0.6);
+				}
+			}
+			&-track { /*трасса*/
+				background-color: #c5c5c5ac;
+			}
+			&-button:start { /*стрелки*/
+				background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+				background-size: contain;
+			}
+			&-button:end {
+				background:  rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+				background-size: contain;
+			}
+		}
+	}
+	
+	::selection { /*стиль при копировании*/
+		background: #350047;
+		color: rgb(255, 255, 255);
+	}
+	
+																		/*СТИЛЬ ШАПКИ*/
+	
+	header { /*стиль шапки и её элементов */
+		@include flex-sb-gr;
+		color: rgb(255, 255, 255);
+		background-color: rgb(48 0 80);
+		width: 100%;
+		height: 72px;
+		User-select: none;
+		position: fixed;
+		top: 0;
+		z-index: 2;
+		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	}
+	
+	.logo__header { /*стиль надписи "МАГАЗИН" в шапке сайта */
+		width: auto;
+		display: inline-flex;
+		margin-top: 18px;
+		pointer-events: none;
+		fill: #ffffff;
+		height: 36px;
+		display: none;
+	}
+	
+	.nav { /*блок навигации*/
+		@include flex-center-vr;
+		margin-left: 10px;
+	}
+	
+	#nav__button { /*кнопка навигации*/
+		@include flex-center-vr;
+		background-color: transparent;
+		width: 35px;
+		height: 35px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, .4);
+		justify-content: center;
+		transition: border-width .3s;
+		transition: border-color .3s;
+		&:hover {
+			border-width: 2px;
+			border-color: white;
+		}
+	}
+
+	.navbar { /*блок навигации*/
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		background-color: white;
+		color: black;
+		width: 100vw;
+		height: calc(100vh - 148px);
+		z-index: 5;
+		position: absolute;
+		top: 72px;
+		transition: .2s;
+		padding: 8px 0;
+		margin-bottom: 100px;
+		overflow-y: scroll;
+		&.dark-theme {
+			background-color: black;
+			color: white;
+		}
+		&__item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 5vh;
+			width: 95%;
+			&:hover {
+				background-color: #d8c4e0;
+				border-radius: 10px;
+				color: #9814ad;
+				transition: background-color .1s;
+			}
+		}
+		&::-webkit-scrollbar { /*ширина*/
+			width: 7px;
+			&-thumb { /*сам ползунок*/
+				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				&:hover { /*сам ползунок при наведении*/
+					background: rgba(23, 0, 86, 0.45);
+				}
+				&:active { /*сам ползунок активный*/
+					background: rgba(23, 0, 86, 0.6);
+				}
+			}
+			&-track { /*трасса*/
+				background-color: #c5c5c5ac;
+			}
+		}
+	}
+	
+	.blackout {
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		top: 72px;
+		background-color: #0000008f;
+		z-index: 4;
+		transition: .3s;
+	}
+
+	.none {
+		display: none;
+	}
+	
+	.search { /*строка поиска (блок)*/
+		@include i-flex-center-vr(inline-flex, center);
+		width: 90vw;
+		margin: 0 10px;
+		padding-right: 40px;
+		&__line { /*строка поиска */
+			width: 100%;
+			display: inline-flex;
+			background-color: #d8c4e0;
+			border-radius: 10px 10px 10px 10px;
+		}
+	}
+	
+	#search__line_line { /*непосредственно строка поиска*/
+		border-radius: 10px 10px 10px 10px;
+		width: 93%;
+		height: 36px;
+		color: #000000;
+		padding-left: 13px;
+		font-size: 16px;
+		outline: none;
+		border: 3px solid #d8c4e0;
+		&.dark-theme {
+			background-color: #0000005c;
+			color: #ffffff;
+		}
+	}
+	
+	#search__line_button { /*кнопка поиска*/
+		border-radius: 10px 10px 10px 10px;
+		width: 7%;
+		height: 30px;
+		margin-top: 3px;
+		margin-right: 3px;
+		min-width: 69px;
+		background-color: #d8c4e0;
+		padding-left: 13px;
+		font-size: 16px;
+		outline: none;
+		padding-right: 15px;
+		border: none;
+		transition: background-color .3s;
+		&:hover {
+			background-color: #b193bd;
+		}
+	}
+	
+	/*убираем крестик с поля ввода*/
+	input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
+	input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
+	input[type="search"]::-webkit-search-decoration,
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-results-button,
+	input[type="search"]::-webkit-search-results-decoration { display: none; }
+	
+	/*чтобы подсказка в строке поиска была другого цвета в отличие от вводимого текста*/
+	input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+	input:-moz-placeholder { /* Firefox 18- */ color: rgba(0, 0, 0, 0.196) !important; }
+	input::-moz-placeholder { /* Firefox 19+ */ color: rgba(0, 0, 0, 0.196) !important; }
+	input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
+	
+	.menu { /*блоки меню */
+		margin: 0 5px;
+		display: inline-flex;
+		width: 40vw;
+		display: none;
+		&__item { /*блоки пунктов меню */
+			margin: auto;
+			display: inline-block;
+			&_style { /*стиль разделов шапки */
+				@include flex-center-gr;
+				color: Silver;
+				text-decoration: none;
+				padding: 22px 5px 0;
+				width: auto;
+				transition: color .3s;
+				&:hover { /*при наведении на раздел шапки */
+					color: white;
+				}
+			}
+		}
+	}
+
+	.menu-mobile {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;
+		height: 60px;
+		background-color: #ffffff;
+		bottom: 0;
+		position: fixed;
+		z-index: 2;
+		&__item {
+			@include flex-center;
+			pointer-events: none;
+			width: 40px;
+			height: 40px;
+			&_active {
+				fill: #9814ad;
+				text-decoration: none;
+			}
+			&_passiv{
+				fill: #a8a8a8;
+				text-decoration: none;
+			}
+		}
+		&.dark-theme {
+			background-color: black;
+		}
+	}
+	
+	.line { /*линия в блоке пунктов меню*/
+		text-decoration: underline rgb(186, 155, 194);
+		text-decoration-thickness: 5px;
+		line-height: 10px;
+		text-underline-offset: 13.4px;
+		&-text { /*текст в линии блока пунктов меню при активном положении*/
+			color: white;
+		}
+	}
+	
+	.circle { /*кружок над корзиной*/
+		border-radius: 50%;
+		min-width: 17px;
+		height: 17px;
+		text-align: center;
+		color: #fff;
+		background: #e50000;
+		font: 10px Arial, sans-serif;
+		display: inline-block;
+		position: absolute;
+		top: 30px;
+		right: 2px;
+		letter-spacing: normal;
+		line-height: 18px;
+		font-weight: 500;
+		&__mobile {
+			border-radius: 50%;
+			width: 17px;
+			height: 17px;
+			text-align: center;
+			color: #fff;
+			background: #e50000;
+			font: 10px Arial, sans-serif;
+			display: inline-block;
+			position: relative;
+			bottom: -15px;
+			right: -25px;
+			letter-spacing: normal;
+			line-height: 18px;
+			font-weight: 500;
+			display: block;
+		}
+	}
+	
+	body.light-theme { /*светлая тема*/
+		background-color: --back-color;
+		color: var(--text-color);
+	}
+	
+	body.dark-theme { /*темная тема*/
+		background-color: #121212;
+		color: #ffffff;
+	}
+	
+	#themeToggle { /*кнопка смены темы*/
+		width: 20px;
+		height: 20px;
+		position: fixed;
+		right: 10px;
+		top: 5px;
+		z-index: 2;
+		border: none;
+		background-color: #d8c4e0;
+		border-radius: 50%;
+		transition: .4s linear;
+	}
+	
+	.themeToggle { /*кнопка смены темы*/
+		position: fixed;
+		right: 12px;
+		top: 7px;
+	}
+
+	.tippy-box[data-theme~='lilac'] { /*всплывающая подсказка(тултип) о смене темы*/
+		background-color: rgb(140, 43, 185);
+		color: white;
+	}
+	
+	.tippy-box[data-theme~='lilac'][data-placement^='left'] > .tippy-arrow::before {
+		border-left-color: rgb(140, 43, 185);
+	}
+}
