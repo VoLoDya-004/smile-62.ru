@@ -50,7 +50,7 @@ header { /*стиль шапки и её элементов */
 	User-select: none;
 	position: fixed;
 	top: 0;
-	z-index: 2;
+	z-index: 3;
 	font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
@@ -382,7 +382,7 @@ body.dark-theme { /*темная тема*/
 		User-select: none;
 		position: fixed;
 		top: 0;
-		z-index: 2;
+		z-index: 3;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
@@ -683,7 +683,7 @@ body.dark-theme { /*темная тема*/
 		User-select: none;
 		position: fixed;
 		top: 0;
-		z-index: 2;
+		z-index: 3;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
@@ -874,7 +874,7 @@ body.dark-theme { /*темная тема*/
 		background-color: #ffffff;
 		bottom: 0;
 		position: fixed;
-		z-index: 2;
+		z-index: 5;
 		&__item {
 			@include flex-center;
 			pointer-events: none;
@@ -1032,7 +1032,7 @@ body.dark-theme { /*темная тема*/
 		User-select: none;
 		position: fixed;
 		top: 0;
-		z-index: 2;
+		z-index: 3;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
@@ -1223,7 +1223,7 @@ body.dark-theme { /*темная тема*/
 		background-color: #ffffff;
 		bottom: 0;
 		position: fixed;
-		z-index: 2;
+		z-index: 5;
 		&__item {
 			@include flex-center;
 			pointer-events: none;

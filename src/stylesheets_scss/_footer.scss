@@ -70,7 +70,6 @@ footer {
 }
 
 .link { /*блок ссылок в футере*/
-	//@include flex-center-gr;
 	display: flex;
 	justify-content: end;
 	gap: 8px;

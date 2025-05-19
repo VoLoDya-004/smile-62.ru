@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function ButtonNav() {
     const [toggle, setToggle] = useState("")
@@ -20,7 +20,50 @@ export default function ButtonNav() {
             document.getElementById("blackout").classList.remove("blackout")
         }
     }
-    
+
+    document.addEventListener('mouseup', function(e) {
+            let container = document.querySelector('.navbar')
+            let navigationBtn = document.getElementById("nav__button")
+            if ((!container.contains(e.target)) && (!navigationBtn.contains(e.target))) {
+                setVisible("none")
+                setToggle("")
+                document.getElementById("blackout").classList.remove("blackout")
+                setImage("/src/assets/images/icons/nav.png")
+            } else {
+                setToggle("navbar")
+                setImage("/src/assets/images/icons/cross.png")
+                setVisible()
+                document.getElementById("blackout").classList.add("blackout")
+            }
+    })
+
+    useEffect (() => {
+		let startTouchX = 0
+		let endTouchX = 0
+		let startTouchY = 0
+	    let endTouchY = 0
+		document.addEventListener("touchstart", (event) => {
+			startTouchX = event.changedTouches[0].pageX
+			startTouchY = event.changedTouches[0].pageY
+		})
+		document.addEventListener("touchend", (event) => {
+			endTouchX = event.changedTouches[0].pageX
+			endTouchY = event.changedTouches[0].pageY
+			if (endTouchX > startTouchX && Math.abs(endTouchY-startTouchY) < 7 && startTouchX < 100) {
+				setToggle("navbar")
+                setImage("/src/assets/images/icons/cross.png")
+                setVisible()
+                document.getElementById("blackout").classList.add("blackout")
+			}
+			if (endTouchX < startTouchX && Math.abs(endTouchY-startTouchY) < 7) {
+				setToggle("")
+                setImage("/src/assets/images/icons/nav.png")
+                setVisible("none")
+                document.getElementById("blackout").classList.remove("blackout")
+			}
+		})
+	})
+
     if (theme === "dark-theme") {
     return (
         <>

@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom"
 import { useEffect } from "react"
-import { obnovylle } from "../../../JS/pagination"
 
 export default function TabSection({}) {
 	useEffect(() => {

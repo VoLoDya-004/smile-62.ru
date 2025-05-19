@@ -1,3 +1,5 @@
+import "../JS/basket"
+
 export function obnovylle() {jQuery(function($) {
     let currentPage = 1
   
@@ -13,11 +15,17 @@ export function obnovylle() {jQuery(function($) {
             let sale = Math.round(100*((obj.price-obj.price_sale)/obj.price))
             let price =Intl.NumberFormat('ru-RU').format(obj.price*1)
             let price_sale =Intl.NumberFormat('ru-RU').format(obj.price_sale*1)
+
+            function tr () {
+              console.log("нажата"+obj.id)
+              addBasket(obj.id)
+            }
+            $(document).on("click", "#card_"+obj.id, tr)
             
             if (document.body.classList.contains("dark-theme") === false) {
 
             document.getElementById('catalog').innerHTML += 
-            `<div id= ${obj.id} class="card">
+            `<div id = ${obj.id} class="card">
 				      <div class="card__top">
 				      <div id="card__heart" class="card__heart"><svg width="23" height="21" xmlns="http://www.w3.org/2000/svg">
 			      <path opacity=".6" d="M12.113 19.777a.98.98 0 0 1-1.246 0C5.327 15.102.85 10.749 1.004 6.985c0-2.764 2.093-5.693 5.743-5.973 1.274-.071 3.22.194 4.741 1.542 1.55-1.352 3.65-1.632 4.735-1.537 3.216.187 5.776 2.77 5.776 5.968.082 3.87-4.32 8.125-9.886 12.792Z"/>
@@ -32,7 +40,7 @@ export function obnovylle() {jQuery(function($) {
 				    <div class="card__bottom">
 						    <div class="card__price card__price_count-same">${price}</div>
 					    <a href="" class="card__title">${obj.nazvanie}</a>
-					    <button class="card__btn" id="card__btn_1" onclick="myFunction()">В корзину</button>
+					    <button class="card__btn" id= "card_${obj.id}">В корзину</button>
 				    </div>
 			</div>` : `</div>
 				<div class="card__bottom">
@@ -41,12 +49,12 @@ export function obnovylle() {jQuery(function($) {
 						<div class="card__price card__price_count">${price_sale}</div>
 					</div>
 					<a href="" class="card__title">${obj.nazvanie}</a>
-					<button class="card__btn" id="card__btn_1" onclick="myFunction()">В корзину</button>
+					<button class="card__btn" id= "card_${obj.id}">В корзину</button>
 				</div>
 			</div>`}`
         } else {
           document.getElementById('catalog').innerHTML += 
-            `<div id= ${obj.id} class="card dark-theme">
+            `<div id = ${obj.id} class="card dark-theme">
 				      <div class="card__top">
 				      <div id="card__heart" class="card__heart"><svg width="23" height="21" xmlns="http://www.w3.org/2000/svg">
 			      <path opacity=".6" d="M12.113 19.777a.98.98 0 0 1-1.246 0C5.327 15.102.85 10.749 1.004 6.985c0-2.764 2.093-5.693 5.743-5.973 1.274-.071 3.22.194 4.741 1.542 1.55-1.352 3.65-1.632 4.735-1.537 3.216.187 5.776 2.77 5.776 5.968.082 3.87-4.32 8.125-9.886 12.792Z"/>
@@ -61,7 +69,7 @@ export function obnovylle() {jQuery(function($) {
 				    <div class="card__bottom">
 						    <div class="card__price card__price_count-same">${price}</div>
 					    <a href="" class="card__title dark_theme">${obj.nazvanie}</a>
-					    <button class="card__btn" id="card__btn_1" onclick="myFunction()">В корзину</button>
+					    <button class="card__btn" id= "card_${obj.id}">В корзину</button>
 				    </div>
 			</div>` : `</div>
 				<div class="card__bottom">
@@ -70,12 +78,10 @@ export function obnovylle() {jQuery(function($) {
 						<div class="card__price card__price_count">${price_sale}</div>
 					</div>
 					<a href="" class="card__title">${obj.nazvanie}</a>
-					<button class="card__btn" id="card__btn_1" onclick="myFunction()">В корзину</button>
+					<button class="card__btn" id= "card_${obj.id}">В корзину</button>
 				</div>
-			</div>`}`
+			</div>`}` 
         }
-      
-        
       })
           currentPage++
         },
@@ -99,12 +105,12 @@ export function obnovylle() {jQuery(function($) {
       })
     }
     
+    
     // Загрузка первой страницы постов при загрузке страницы
     loadCards()
   
     // Загрузка следующей страницы постов при клике на кнопку "Загрузить еще"
     $(document).on("click", "#load-more__btn", loadCards)
-
 
 
     //Загрузка дополнительных постов при прокрутке страницы
@@ -113,7 +119,33 @@ export function obnovylle() {jQuery(function($) {
     //     loadCards;
     //   }
     // });
-  })
-}
 
-//obnovylle()
+    function addBasket(idProduct) {
+     $.ajax({
+        url: `http://localhost:3000/src/PHP/basket.php?idProduct=${idProduct}&idUser=222`,//для локального тестирования
+        //url: `/src/PHP/pagination.php?page=${currentPage}`, //при переносе на хостинг использовать такой адрес
+        method: 'GET',
+        success: function(data) {
+          console.log("yes")
+        },
+        error: function (jqXHR, exception) {
+          if (jqXHR.status === 0) {
+            alert('Not connect. Verify Network.')
+          } else if (jqXHR.status == 404) {
+            alert('Requested page not found (404).')
+          } else if (jqXHR.status == 500) {
+            alert('Internal Server Error (500).')
+          } else if (exception === 'parsererror') {
+            alert('Requested JSON parse failed.')
+          } else if (exception === 'timeout') {
+            alert('Time out error.');
+          } else if (exception === 'abort') {
+            alert('Ajax request aborted.')
+          } else {
+            alert('Uncaught Error. ' + jqXHR.responseText)
+          }
+            }
+      })
+    }
+      })
+}

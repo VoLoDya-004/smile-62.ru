@@ -8,22 +8,22 @@ export default function Form() {
         <form action="" method="post" className="form__registration">
                 <FormTitle text={"РЕГИСТРАЦИЯ"} />
 				<p style={{marginTop: "-10px"}}>
-					<label>Введите имя<br/>
+					<label className="form_font">Введите имя<br/>
 					<input type="text" className="form__registration_item" required/>
 					</label>
 				</p>
 				<p>
-    				<label>Введите e-mail<br/>
+    				<label className="form_font">Введите e-mail<br/>
     				<input type="email" className="form__registration_item" required/>
 					</label>
   				</p>
 				<p>
-    				<label>Введите пароль<br/>
+    				<label className="form_font">Введите пароль<br/>
     				<input type="password" className="form__registration_item" required/>
 					</label>
   				</p>
 				<p>
-    				<label>Подтвердите пароль<br/>
+    				<label className="form_font">Подтвердите пароль<br/>
     				<input type="password" className="form__registration_item" required/>
 					</label>
   				</p>
@@ -33,12 +33,12 @@ export default function Form() {
 			<form action="" method="post" className="form__registration">
                 <FormTitle text={"ВХОД"} />
 				<p style={{marginTop: "-10px"}}>
-    				<label>Введите e-mail<br/>
+    				<label className="form_font">Введите e-mail<br/>
     				<input type="email" className="form__registration_item" required/>
 					</label>
   				</p>
 				<p className="form__entrance_item" style={{marginBottom: "auto", marginTop: "16px"}}>
-    				<label>Введите пароль<br/>
+    				<label className="form_font">Введите пароль<br/>
     				<input type="password" className="form__registration_item" required/>
 					</label>
   				</p>
