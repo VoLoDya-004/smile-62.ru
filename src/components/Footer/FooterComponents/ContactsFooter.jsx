@@ -1,6 +1,9 @@
 
 
+
 export default function ContactsFooter() {
+
+	
     return (
         <div className="contact">
 			<ul style={{margin: "0"}}>

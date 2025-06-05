@@ -6,15 +6,15 @@ import SectionsFooter from './FooterComponents/SectionsFooter'
 
 
 export default function Footer() {
+
+
     return (
-        <>
-            <footer>
-                <LogoFooter />
-                <SectionsFooter />
-                <ContactsFooter />
-                <LinkFooter />
-                <SecondRowFooter />
-            </footer>
-        </>
+        <footer>
+            <LogoFooter />
+            <SectionsFooter />
+            <ContactsFooter />
+            <LinkFooter />
+            <SecondRowFooter />
+        </footer>
     )
 }

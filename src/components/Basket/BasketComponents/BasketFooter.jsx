@@ -1,14 +1,13 @@
 
 
-export default function BasketFooter({total}) {
+export default function BasketFooter({totalBasket}) {
     const priceFormatter = new Intl.NumberFormat()
 
-    return (
-        <>                           
+
+    return (                          
         <div className="basketBox__footer">
-            <div className="basketBox__footer_title">{total.count} ед.</div>
-            <div>{priceFormatter.format(total.price)} руб.</div>
+            <div className="basketBox__footer_title">{totalBasket.count} ед.</div>
+            <div>{priceFormatter.format(totalBasket.price_total)}  руб.</div>
         </div>
-        </>
     )
 }

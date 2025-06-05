@@ -2,6 +2,14 @@
 require_once "../../../auth/auth.php";
 
 if (isset($_GET['Operation'])) {
+    if ($_GET['Operation'] == 'addFavourites'){ //добавление в избранное
+        if (isset($_GET['idProduct'])) {
+            $idProduct = $_GET['idProduct'];
+            $idUser = $_GET['idUser'];
+            $query = "INSERT INTO favourites (id_user, id_product) VALUES ($idUser, $idProduct)";
+        }
+    }
+
     if ($_GET['Operation'] == 'addBasket'){ //добавление в корзину
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
@@ -10,31 +18,17 @@ if (isset($_GET['Operation'])) {
         }
     }
 
-    if ($_GET['Operation'] == 'showBasket'){ //просмотр корзины
+    if ($_GET['Operation'] == 'showFavourites'){ //просмотр избранного
         if (isset($_GET['idUser'])) {
             $idUser = $_GET['idUser'];
-            $query = "SELECT * FROM tovar INNER JOIN basket ON tovar.id = basket.id_product WHERE basket.id_user = $idUser";
+            $query = "SELECT * FROM tovar INNER JOIN favourites ON tovar.id = favourites.id_product WHERE favourites.id_user = $idUser";
         }
     }
 
-    if ($_GET['Operation'] == 'deleteBasket'){ //удаление товара из корзины
+    if ($_GET['Operation'] == 'deleteFavourites'){ //удаление товара из избранного
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
-            $query = "DELETE FROM basket WHERE id=$idProduct";
-        }
-    }
-
-    if ($_GET['Operation'] == 'increaseBasket'){ //+1
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $query = "UPDATE basket SET count = count + 1 WHERE id=$idProduct";
-        }
-    }
-
-    if ($_GET['Operation'] == 'decreaseBasket'){ //-1
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $query = "UPDATE basket SET count = count - 1 WHERE id=$idProduct";
+            $query = "DELETE FROM favourites WHERE id=$idProduct";
         }
     }
     

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 
+
 export default function ButtonNav() {
     const [toggle, setToggle] = useState("")
     const [image, setImage] = useState("/src/assets/images/icons/nav.png")
@@ -22,19 +23,19 @@ export default function ButtonNav() {
     }
 
     document.addEventListener('mouseup', function(e) {
-            let container = document.querySelector('.navbar')
-            let navigationBtn = document.getElementById("nav__button")
-            if ((!container.contains(e.target)) && (!navigationBtn.contains(e.target))) {
-                setVisible("none")
-                setToggle("")
-                document.getElementById("blackout").classList.remove("blackout")
-                setImage("/src/assets/images/icons/nav.png")
-            } else {
-                setToggle("navbar")
-                setImage("/src/assets/images/icons/cross.png")
-                setVisible()
-                document.getElementById("blackout").classList.add("blackout")
-            }
+        let container = document.querySelector('.navbar')
+        let navigationBtn = document.getElementById("nav__button")
+        if ((!container.contains(e.target)) && (!navigationBtn.contains(e.target))) {
+            setVisible("none")
+            setToggle("")
+            document.getElementById("blackout").classList.remove("blackout")
+            setImage("/src/assets/images/icons/nav.png")
+        } else {
+            setToggle("navbar")
+            setImage("/src/assets/images/icons/cross.png")
+            setVisible()
+            document.getElementById("blackout").classList.add("blackout")
+        }
     })
 
     useEffect (() => {
@@ -65,10 +66,13 @@ export default function ButtonNav() {
 	})
 
     if (theme === "dark-theme") {
+
     return (
         <>
             <nav className="nav">
-                <button id="nav__button" onClick={nav} ><img src={image} style={{width: "20px"}}/></button>
+                <button id="nav__button" onClick={nav} >
+                    <img src={image} style={{width: "20px"}}/>
+                </button>
             </nav>
             <div className={`${toggle} dark-theme`}>
                 <div className={`navbar__item ${visible}`}>Смартфоны</div>
@@ -100,10 +104,13 @@ export default function ButtonNav() {
             <div id="blackout"></div>
         </>
     )} else {
+
         return (
             <>
                 <nav className="nav">
-                    <button id="nav__button" onClick={nav} ><img src={image} style={{width: "20px"}}/></button>
+                    <button id="nav__button" onClick={nav} >
+                        <img src={image} style={{width: "20px"}}/>
+                    </button>
                 </nav>
                 <div className={toggle}>
                     <div className={`navbar__item ${visible}`}>Смартфоны</div>

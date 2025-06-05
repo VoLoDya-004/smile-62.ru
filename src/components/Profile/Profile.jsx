@@ -1,12 +1,15 @@
 import Form from './Form/Form'
-import Recommendations from './Recommendations/Recommendations'
+import Recommendations from '../sub-components/Recommendations'
+
 
 export default function Profile() {
+
+    
     return (
         <>
-        <section className="form">
-            <Form />
-        </section>
+            <section className="form">
+                <Form />
+            </section>
             <Recommendations />
         </>
     )

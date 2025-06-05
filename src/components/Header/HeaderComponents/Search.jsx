@@ -1,10 +1,11 @@
 
 
+
 export default function Search() {
     const theme = localStorage.getItem("theme")
 
-    
     if (theme === "dark-theme") {
+
     return (
         <div className="search">
 		    <div className="search__line">
@@ -16,6 +17,7 @@ export default function Search() {
 		</div>
     )}
     else {
+        
         return (
             <div className="search">
                 <div className="search__line">

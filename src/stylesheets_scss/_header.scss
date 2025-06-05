@@ -8,16 +8,16 @@ html {
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
         transition: background-color 0.3s ease;
     }
-	&::-webkit-scrollbar { /*ширина*/
+	&::-webkit-scrollbar {
 		width: 10px;
 		&-thumb { /*сам ползунок*/
-			background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+			background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 			border-radius: 8px;/* скругление углов */
 			&:hover { /*сам ползунок при наведении*/
-				background: rgba(23, 0, 86, 0.45);
+				background: rgba(96, 22, 118, 0.5);
 			}
 			&:active { /*сам ползунок активный*/
-				background: rgba(23, 0, 86, 0.6);
+				background: rgb(96, 22, 118);
 			}
 		}
 		&-track { /*трасса*/
@@ -108,7 +108,7 @@ header { /*стиль шапки и её элементов */
 		min-height: 5vh;
 		width: 95%;
 		&:hover {
-			background-color: #d8c4e0;
+			background-color: $btnColor;
 			border-radius: 10px;
 			color: #9814ad;
 			transition: background-color .1s;
@@ -117,12 +117,12 @@ header { /*стиль шапки и её элементов */
 	&::-webkit-scrollbar { /*ширина*/
 		width: 7px;
 		&-thumb { /*сам ползунок*/
-			background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+			background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 			&:hover { /*сам ползунок при наведении*/
-				background: rgba(23, 0, 86, 0.45);
+				background: rgba(96, 22, 118, 0.5);
 			}
 			&:active { /*сам ползунок активный*/
-				background: rgba(23, 0, 86, 0.6);
+				background: rgb(96, 22, 118);
 			}
 		}
 		&-track { /*трасса*/
@@ -249,12 +249,16 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	background: #e50000;
 	font: 10px Arial, sans-serif;
 	display: inline-block;
-	position: absolute;
+	position: fixed;
 	top: 30px;
     right: 2px;
 	letter-spacing: normal;
 	line-height: 18px;
 	font-weight: 500;
+	z-index: 3;
+	&__mobile {
+		display: none;
+	}
 }
 
 body.light-theme { /*светлая тема*/
@@ -275,9 +279,12 @@ body.dark-theme { /*темная тема*/
 	top: 5px;
 	z-index: 2;
 	border: none;
-	background-color: #d8c4e0;
+	background-color: $btnColor;
 	border-radius: 50%;
 	transition: .4s linear;
+	&:hover {
+		background-color: rgb(186 155 194);
+	}
 }
 
 .themeToggle { /*кнопка смены темы*/
@@ -294,39 +301,6 @@ body.dark-theme { /*темная тема*/
 .tippy-box[data-theme~='lilac'][data-placement^='left'] > .tippy-arrow::before {
 	border-left-color: rgb(140, 43, 185);
 }
-// .tooltip { /*всплывающая подсказка(тултип) о смене темы*/
-// 	@include wh-auto;
-//  position: absolute;
-// 	top: 7px;
-// 	right: 35px;
-//     &__tail { /*хвост для тултипа*/
-//         position: absolute;
-//         top: 3.5px;
-//         right: -2px;
-//         background-color: #9814ad;
-//         width: 10px;
-//         height: 5px;
-//         z-index: 2;
-//         display: none;
-//         transform: rotate(45deg);
-//     }
-//     &__text { /*текст тултипа*/
-//         white-space: nowrap;
-//         font-family: "PT Sans", sans-serif;
-//           background-color: #9814ad;
-//           color: #FFFFFF;
-//           font-size: 10px;
-//           padding: 2px 8px 2px 8px;
-//           border-radius: 10px;
-//           z-index: 3;
-//           display: none;
-//     }
-// }
-
-// /*добавляем появление текстового блока при наведении на кнопку*/
-// #themeToggle:hover + .tooltip__text, .tooltip__tail {
-// 	display: block;
-// }
 }
 
 																	//АДАПТАЦИЯ 768px
@@ -343,13 +317,13 @@ body.dark-theme { /*темная тема*/
 		&::-webkit-scrollbar { /*ширина*/
 			width: 10px;
 			&-thumb { /*сам ползунок*/
-				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 				border-radius: 8px;/* скругление углов */
 				&:hover { /*сам ползунок при наведении*/
-					background: rgba(23, 0, 86, 0.45);
+					background: rgba(96, 22, 118, 0.5);
 				}
 				&:active { /*сам ползунок активный*/
-					background: rgba(23, 0, 86, 0.6);
+					background: rgb(96, 22, 118);
 				}
 			}
 			&-track { /*трасса*/
@@ -440,7 +414,7 @@ body.dark-theme { /*темная тема*/
 			min-height: 5vh;
 			width: 95%;
 			&:hover {
-				background-color: #d8c4e0;
+				background-color: $btnColor;
 				border-radius: 10px;
 				color: #9814ad;
 				transition: background-color .1s;
@@ -449,12 +423,12 @@ body.dark-theme { /*темная тема*/
 		&::-webkit-scrollbar { /*ширина*/
 			width: 7px;
 			&-thumb { /*сам ползунок*/
-				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 				&:hover { /*сам ползунок при наведении*/
-					background: rgba(23, 0, 86, 0.45);
+					background: rgba(96, 22, 118, 0.5);
 				}
 				&:active { /*сам ползунок активный*/
-					background: rgba(23, 0, 86, 0.6);
+					background: rgb(96, 22, 118);
 				}
 			}
 			&-track { /*трасса*/
@@ -582,12 +556,16 @@ body.dark-theme { /*темная тема*/
 		background: #e50000;
 		font: 10px Arial, sans-serif;
 		display: inline-block;
-		position: absolute;
+		position: fixed;
 		top: 30px;
 		right: 2px;
 		letter-spacing: normal;
 		line-height: 18px;
 		font-weight: 500;
+        z-index: 3;
+		&__mobile {
+			display: none;
+		}
 	}
 	
 	body.light-theme { /*светлая тема*/
@@ -608,9 +586,12 @@ body.dark-theme { /*темная тема*/
 		top: 5px;
 		z-index: 2;
 		border: none;
-		background-color: #d8c4e0;
+		background-color: $btnColor;
 		border-radius: 50%;
 		transition: .4s linear;
+		&:hover {
+			background-color: rgb(186 155 194);
+		}
 	}
 	
 	.themeToggle { /*кнопка смены темы*/
@@ -644,13 +625,13 @@ body.dark-theme { /*темная тема*/
 		&::-webkit-scrollbar { /*ширина*/
 			width: 10px;
 			&-thumb { /*сам ползунок*/
-				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 				border-radius: 8px;/* скругление углов */
 				&:hover { /*сам ползунок при наведении*/
-					background: rgba(23, 0, 86, 0.45);
+					background: rgba(96, 22, 118, 0.5);
 				}
 				&:active { /*сам ползунок активный*/
-					background: rgba(23, 0, 86, 0.6);
+					background: rgb(96, 22, 118);
 				}
 			}
 			&-track { /*трасса*/
@@ -744,7 +725,7 @@ body.dark-theme { /*темная тема*/
 			min-height: 5vh;
 			width: 95%;
 			&:hover {
-				background-color: #d8c4e0;
+				background-color: $btnColor;
 				border-radius: 10px;
 				color: #9814ad;
 				transition: background-color .1s;
@@ -753,12 +734,12 @@ body.dark-theme { /*темная тема*/
 		&::-webkit-scrollbar { /*ширина*/
 			width: 7px;
 			&-thumb { /*сам ползунок*/
-				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 				&:hover { /*сам ползунок при наведении*/
-					background: rgba(23, 0, 86, 0.45);
+					background: rgba(96, 22, 118, 0.5);
 				}
 				&:active { /*сам ползунок активный*/
-					background: rgba(23, 0, 86, 0.6);
+					background: rgb(96, 22, 118);
 				}
 			}
 			&-track { /*трасса*/
@@ -881,7 +862,7 @@ body.dark-theme { /*темная тема*/
 			width: 40px;
 			height: 40px;
 			&_active {
-				fill: #9814ad;
+				fill: rgb(96, 22, 118);
 				text-decoration: none;
 			}
 			&_passiv {
@@ -919,6 +900,7 @@ body.dark-theme { /*темная тема*/
 		letter-spacing: normal;
 		line-height: 18px;
 		font-weight: 500;
+		display: none;
 		&__mobile {
 			border-radius: 50%;
 			width: 17px;
@@ -934,8 +916,9 @@ body.dark-theme { /*темная тема*/
 			letter-spacing: normal;
 			line-height: 18px;
 			font-weight: 500;
-			display: none;
+			display: block;
 			text-decoration: none;
+			z-index: 5;
 		}
 	}
 	
@@ -957,9 +940,12 @@ body.dark-theme { /*темная тема*/
 		top: 5px;
 		z-index: 2;
 		border: none;
-		background-color: #d8c4e0;
+		background-color: $btnColor;
 		border-radius: 50%;
 		transition: .4s linear;
+		&:hover {
+			background-color: rgb(186 155 194);
+		}
 	}
 	
 	.themeToggle { /*кнопка смены темы*/
@@ -993,13 +979,13 @@ body.dark-theme { /*темная тема*/
 		&::-webkit-scrollbar { /*ширина*/
 			width: 10px;
 			&-thumb { /*сам ползунок*/
-				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 				border-radius: 8px;/* скругление углов */
 				&:hover { /*сам ползунок при наведении*/
-					background: rgba(23, 0, 86, 0.45);
+					background: rgba(96, 22, 118, 0.5);
 				}
 				&:active { /*сам ползунок активный*/
-					background: rgba(23, 0, 86, 0.6);
+					background: rgb(96, 22, 118);
 				}
 			}
 			&-track { /*трасса*/
@@ -1093,7 +1079,7 @@ body.dark-theme { /*темная тема*/
 			min-height: 5vh;
 			width: 95%;
 			&:hover {
-				background-color: #d8c4e0;
+				background-color: $btnColor;
 				border-radius: 10px;
 				color: #9814ad;
 				transition: background-color .1s;
@@ -1102,12 +1088,12 @@ body.dark-theme { /*темная тема*/
 		&::-webkit-scrollbar { /*ширина*/
 			width: 7px;
 			&-thumb { /*сам ползунок*/
-				background: rgba(23, 0, 86, 0.25); /*цвет фона у дорожки*/ 
+				background: rgba(96, 22, 118, 0.25); /*цвет фона у дорожки*/ 
 				&:hover { /*сам ползунок при наведении*/
-					background: rgba(23, 0, 86, 0.45);
+					background: rgba(96, 22, 118, 0.5);
 				}
 				&:active { /*сам ползунок активный*/
-					background: rgba(23, 0, 86, 0.6);
+					background: rgb(96, 22, 118);
 				}
 			}
 			&-track { /*трасса*/
@@ -1230,7 +1216,7 @@ body.dark-theme { /*темная тема*/
 			width: 40px;
 			height: 40px;
 			&_active {
-				fill: #9814ad;
+				fill: rgb(96, 22, 118);
 				text-decoration: none;
 			}
 			&_passiv{
@@ -1268,6 +1254,7 @@ body.dark-theme { /*темная тема*/
 		letter-spacing: normal;
 		line-height: 18px;
 		font-weight: 500;
+		display: none;
 		&__mobile {
 			border-radius: 50%;
 			width: 17px;
@@ -1284,6 +1271,7 @@ body.dark-theme { /*темная тема*/
 			line-height: 18px;
 			font-weight: 500;
 			display: block;
+			z-index: 5;
 		}
 	}
 	
@@ -1305,9 +1293,12 @@ body.dark-theme { /*темная тема*/
 		top: 5px;
 		z-index: 2;
 		border: none;
-		background-color: #d8c4e0;
+		background-color: $btnColor;
 		border-radius: 50%;
 		transition: .4s linear;
+		&:hover {
+			background-color: rgb(186 155 194);
+		}
 	}
 	
 	.themeToggle { /*кнопка смены темы*/

@@ -1,15 +1,26 @@
+import { useState, useEffect } from "react"
 import BlockEmpty from "../sub-components/BlockEmpty"
 import FavouritesBox from "./FavouritesComponents/FavouritesBox"
+import Recommendations from "../sub-components/Recommendations"
 
 
-export default function Favourites() {
+export default function Favourites( {productsFavourites} ) {
+    const [visible, setVisible] = useState(productsFavourites.length > 0)
+
+    useEffect(() => {
+        setVisible(productsFavourites.length > 0)
+    }, [productsFavourites])
+    
     return (
         <>
-        <section className="favourites">
-            <BlockEmpty text1={"В избранных пока пусто"} 
-            text2={"Загляните на главную — собрали там товары, которые могут вам понравиться"} />
-        </section>
-        <FavouritesBox />
+            {!visible &&
+            <section className="favourites">
+                <BlockEmpty text1={"В избранных пока пусто"} 
+                text2={"Загляните на главную — собрали там товары, которые могут вам понравиться"} />
+            </section>
+            }
+            {visible && <FavouritesBox productsFavourites={productsFavourites} />}
+            <Recommendations />
         </>
     )
 }

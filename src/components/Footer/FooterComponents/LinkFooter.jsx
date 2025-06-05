@@ -1,7 +1,9 @@
 
 
+
 export default function LinkFooter() {
     if (document.body.classList.contains("dark-theme") === true) {
+
 	return (
         <div className="link">
 			<div className="link__item dark-theme"><a className="link__item-vk" href="https://vk.com/" target="_blank">
@@ -19,6 +21,7 @@ export default function LinkFooter() {
 		</div>
     )}
 	else {
+		
 		return (
 			<div className="link">
 				<div className="link__item"><a className="link__item-vk" href="https://vk.com/" target="_blank">
