@@ -1,7 +1,6 @@
 																	//АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
 html {
-    scroll-behavior: smooth;
     body {
         margin: 0;
         background-color: #ffffff;
@@ -169,7 +168,7 @@ header { /*стиль шапки и её элементов */
 }
 
 #search__line_button { /*кнопка поиска*/
-	border-radius: 10px 10px 10px 10px;
+	border-radius: 10px;
 	width: 7%;
 	height: 30px;
 	margin-top: 3px;
@@ -185,6 +184,18 @@ header { /*стиль шапки и её элементов */
     &:hover {
         background-color: #b193bd;
     }
+}
+
+#search__line_clear {
+	margin: 3px;
+	border: none;
+	cursor: pointer;
+	background: none;
+	border-radius: 10px;
+	transition: background-color .3s;
+	&:hover {
+		background-color: #b193bd;
+	}
 }
 
 /*убираем крестик с поля ввода*/
@@ -307,7 +318,6 @@ body.dark-theme { /*темная тема*/
 
 @media (max-width: 1000px) and (min-width: 769px) {
 	html {
-		scroll-behavior: smooth;
 		body {
 			margin: 0;
 			background-color: #ffffff;
@@ -492,6 +502,18 @@ body.dark-theme { /*темная тема*/
 			background-color: #b193bd;
 		}
 	}
+
+	#search__line_clear {
+		margin: 3px;
+		border: none;
+		cursor: pointer;
+		background: none;
+		border-radius: 10px;
+		transition: background-color .3s;
+		&:hover {
+			background-color: #b193bd;
+		}
+	}
 	
 	/*убираем крестик с поля ввода*/
 	input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
@@ -615,7 +637,6 @@ body.dark-theme { /*темная тема*/
 
 @media (max-width: 768px) and (min-width: 425px) {
 	html {
-		scroll-behavior: smooth;
 		body {
 			margin: 0;
 			background-color: #ffffff;
@@ -808,6 +829,18 @@ body.dark-theme { /*темная тема*/
 			background-color: #b193bd;
 		}
 	}
+
+	#search__line_clear {
+		margin: 3px;
+		border: none;
+		cursor: pointer;
+		background: none;
+		border-radius: 10px;
+		transition: background-color .3s;
+		&:hover {
+			background-color: #b193bd;
+		}
+	}
 	
 	/*убираем крестик с поля ввода*/
 	input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
@@ -969,7 +1002,6 @@ body.dark-theme { /*темная тема*/
 																	//АДАПТАЦИЯ < 425px
 @media (max-width: 425px){
 	html {
-		scroll-behavior: smooth;
 		body {
 			margin: 0;
 			background-color: #ffffff;
@@ -1157,6 +1189,18 @@ body.dark-theme { /*темная тема*/
 		outline: none;
 		padding-right: 15px;
 		border: none;
+		transition: background-color .3s;
+		&:hover {
+			background-color: #b193bd;
+		}
+	}
+
+	#search__line_clear {
+		margin: 3px;
+		border: none;
+		cursor: pointer;
+		background: none;
+		border-radius: 10px;
 		transition: background-color .3s;
 		&:hover {
 			background-color: #b193bd;

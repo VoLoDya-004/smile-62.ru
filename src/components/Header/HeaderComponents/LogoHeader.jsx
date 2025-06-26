@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom"
-import loadCards from "../../../JS/pagination"
+import React from "react"
 
 
-export default function LogoHeader() {
+export default React.memo(function LogoHeader() {
 
     
     return (
-    <NavLink to="/" onClick={{loadCards}}>
+    <NavLink to="/">
         <div className="logo__header">
             <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 960.000000 540.000000"
@@ -73,4 +73,4 @@ export default function LogoHeader() {
 		</div>
     </NavLink>
     )
-}
+})

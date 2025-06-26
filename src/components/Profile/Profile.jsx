@@ -1,8 +1,9 @@
+import { memo } from "react"
 import Form from './Form/Form'
 import Recommendations from '../sub-components/Recommendations'
 
 
-export default function Profile() {
+export default memo(function Profile() {
 
     
     return (
@@ -13,4 +14,4 @@ export default function Profile() {
             <Recommendations />
         </>
     )
-}
+})

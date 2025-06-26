@@ -21,14 +21,14 @@ if (isset($_GET['Operation'])) {
     if ($_GET['Operation'] == 'showFavourites'){ //просмотр избранного
         if (isset($_GET['idUser'])) {
             $idUser = $_GET['idUser'];
-            $query = "SELECT * FROM tovar INNER JOIN favourites ON tovar.id = favourites.id_product WHERE favourites.id_user = $idUser";
+            $query = "SELECT tovar.* FROM tovar, favourites WHERE tovar.id = favourites.id_product and favourites.id_user = $idUser";
         }
     }
 
     if ($_GET['Operation'] == 'deleteFavourites'){ //удаление товара из избранного
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
-            $query = "DELETE FROM favourites WHERE id=$idProduct";
+            $query = "DELETE FROM favourites WHERE id_product=$idProduct";
         }
     }
     

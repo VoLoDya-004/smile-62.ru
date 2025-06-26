@@ -37,6 +37,14 @@ if (isset($_GET['Operation'])) {
             $query = "UPDATE basket SET count = count - 1 WHERE id=$idProduct";
         }
     }
+
+    if ($_GET['Operation'] == 'updateCount'){
+        if (isset($_GET['idProduct'])) {
+            $idProduct = $_GET['idProduct'];
+            $newCount  = $_GET['count'];
+            $query = "UPDATE basket SET count = $newCount WHERE id=$idProduct";
+        }
+    }
     
     // Выполнение запроса и формирование массива $myArray
     /* Создаем соединение */

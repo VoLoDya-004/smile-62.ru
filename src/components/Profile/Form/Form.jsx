@@ -1,6 +1,5 @@
 import FormTitle from "../FormTitle/FormTitle"
 import ButtonRegistration from "../../Button/ButtonRegistration"
-import ButtonInput from "../../Button/ButtonInput"
 
 
 export default function Form() {
@@ -30,7 +29,7 @@ export default function Form() {
     				<input type="password" className="form__registration_item" required/>
 				</label>
   			</p>
-			<ButtonRegistration text={"Зарегистрироваться"} />
+			<ButtonRegistration id="RegistrationBtn">Зарегистрироваться</ButtonRegistration>
 		</form>
 
 		<form action="" method="post" className="form__registration">
@@ -45,7 +44,7 @@ export default function Form() {
     				<input type="password" className="form__registration_item" required/>
 				</label>
   			</p>
-			<ButtonInput text={"Войти"} />
+			<ButtonRegistration id="InputBtn">Войти</ButtonRegistration>
 		</form>
         </>
     )

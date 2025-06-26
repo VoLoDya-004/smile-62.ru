@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
+import { memo } from "react"
 import BlockEmpty from "../sub-components/BlockEmpty"
 import FavouritesBox from "./FavouritesComponents/FavouritesBox"
 import Recommendations from "../sub-components/Recommendations"
 
 
-export default function Favourites( {productsFavourites} ) {
+export default memo(function Favourites( {productsFavourites} ) {
     const [visible, setVisible] = useState(productsFavourites.length > 0)
 
     useEffect(() => {
@@ -23,4 +24,4 @@ export default function Favourites( {productsFavourites} ) {
             <Recommendations />
         </>
     )
-}
+})

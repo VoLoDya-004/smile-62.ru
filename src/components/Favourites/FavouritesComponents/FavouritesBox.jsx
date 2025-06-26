@@ -1,7 +1,8 @@
 import FavouritesHeader from "./FavouritesHeader"
+import { memo } from "react"
 
 
-export default function FavouritesBox( {productsFavourites} ) {
+export default memo(function FavouritesBox( {productsFavourites} ) {
 
 
     return (
@@ -21,4 +22,4 @@ export default function FavouritesBox( {productsFavourites} ) {
             </div>
         </section>
     )
-}
+})

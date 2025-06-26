@@ -155,6 +155,7 @@ footer {
 @media (max-width: 1000px) and (min-width: 768px) {
 	footer {
 		display: flex;
+		justify-content: space-between;
 		margin-top: auto; 
 		background-color: $backColorElem;
 		width: 100%;
@@ -162,32 +163,29 @@ footer {
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
-	.logo__footer { /*стиль надписи "МАГАЗИН" в футере сайта */
-		width: auto;
-		display: inline-flex;
-		height: 30%;
-		pointer-events: none;
-		user-select: none;
+	.logo__footer {
+		display: none;
 	}
 	
-	.section { /*блоки меню футера (Разделы) */
-		@include i-flex-end-gr;
-		width: 20vw;
+	.section {
+		display: inline-flex;
+		justify-content: start;
+		width: auto;
 		height: auto;
 		padding-top: 30px;
-		&__item { /*блоки пунктов меню футера (Разделы) */
+		&__item {
 			margin: 5px 0;
 			@include flex-center-gr;
 			color: #868695;
 			text-decoration: none;
 			transition: color .3s;
 			user-select: none;
-			&_style { /*стиль разделов футера */
+			&_style { 
 				color: #868695;
 				text-decoration: none;
 				transition: color .3s;
 				width: 80px;
-				&:hover { /*при наведении на раздел шапки */
+				&:hover { 
 					color: rgb(96, 22, 118);
 				}
 				&.dark-theme {
@@ -199,20 +197,19 @@ footer {
 		}
 	}
 	
-	.contact { /*блоки меню футера (Контакты) */
+	.contact { 
 		@include i-flex-end-gr;
-		width: 20vw;
-		margin-left: 10px;
+		width: auto;
 		height: auto;
 		padding-top: 30px;
-		&__item { /*блоки пунктов меню футера (Контакты) */
+		&__item { 
 			margin: 5px 0;
 			display: flex;
 			color: #868695;
 		}
 	}
 	
-	.footer__title { /*подзаголовок в футере */
+	.footer__title { 
 		margin: 0 0 20px;
 		font-weight: 800;
 		display: flex;
@@ -225,7 +222,7 @@ footer {
 		display: flex;
 		justify-content: end;
 		gap: 8px;
-		width: 30vw;
+		width: auto;
 		align-items: end;
 		margin-bottom: 20px;
 		margin-left: 10px;
@@ -298,7 +295,7 @@ footer {
 		@include flex-end;
 		margin: 0 10px 5px 0;
 		color: #868695;
-		width: 320px;;
+		width: auto;;
 	}
 }
 
@@ -308,22 +305,18 @@ footer {
 @media (max-width: 768px) and (min-width: 425px) {
 	footer {
 		display: flex;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		margin-top: auto; 
 		margin-bottom: 60px;
 		background-color: $backColorElem;
 		width: 100%;
-		height: auto;
+		height: 330px;
 		min-height: 240px;;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
 	.logo__footer { /*стиль надписи "МАГАЗИН" в футере сайта */
-		width: 128px;
-		display: inline-flex;
-		height: 72px;
-		pointer-events: none;
-		user-select: none;
 		display: none;
 	}
 	
@@ -386,7 +379,7 @@ footer {
 		gap: 8px;
 		width: auto;
 		align-items: end;
-		margin-bottom: 5px;
+		margin-bottom: 60px;
 		margin-left: 10px;
 		margin-right: 10px;
 		&__item { /*ссылки в футере*/
@@ -459,7 +452,8 @@ footer {
     	align-items: end;
 		margin-left: auto;
 		margin-right: 10px;
-		margin-bottom: 5px;
+		margin-bottom: 60px;
+		margin-top: 17px;
 		color: #868695;
 		width: auto;
 	}
@@ -471,12 +465,13 @@ footer {
 @media (max-width: 425px) {
 	footer {
 		display: flex;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		margin-top: auto; 
 		background-color: $backColorElem;
 		width: 100%;
 		margin-bottom: 60px;
-		height: auto;
+		height: 310px;
 		min-height: 240px;;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
@@ -492,8 +487,6 @@ footer {
 	
 	.section { /*блоки меню футера (Разделы) */
 		@include i-flex-end-gr;
-		margin-left: auto;
-		//margin-right: 10px;
 		width: auto;
 		height: auto;
 		padding-top: 30px;
@@ -552,7 +545,7 @@ footer {
 		gap: 8px;
 		width: auto;
 		align-items: end;
-		margin-bottom: 5px;
+		margin-bottom: 60px;
 		margin-left: 10px;
 		margin-right: 10px;
 		&__item { /*ссылки в футере*/
@@ -625,7 +618,8 @@ footer {
     	align-items: end;
 		margin-left: auto;
 		margin-right: 10px;
-		margin-bottom: 5px;
+		margin-bottom: 60px;
+		margin-top: 15px;
 		color: #868695;
 		width: auto;
 		font-size: small;

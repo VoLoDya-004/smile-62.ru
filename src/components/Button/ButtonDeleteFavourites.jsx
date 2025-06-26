@@ -1,7 +1,7 @@
+import { memo } from "react"
 
 
-
-export default function ButtonDeleteFavourites({deleteProductFavourites, id}) {
+export default memo(function ButtonDeleteFavourites({deleteProductFavourites, id}) {
 
 
     return (
@@ -14,4 +14,4 @@ export default function ButtonDeleteFavourites({deleteProductFavourites, id}) {
             </button>
         </div>
     )
-}
+})

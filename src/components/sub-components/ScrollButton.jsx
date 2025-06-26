@@ -1,7 +1,8 @@
 import { useState } from "react"
+import { memo } from "react"
 
 
-export default function ScrollButton() {
+export default memo(function ScrollButton() {
     const [visible, setVisible] = useState(false)
 
     const toggleVisible = () => {
@@ -30,4 +31,4 @@ export default function ScrollButton() {
             </svg>
         </button>
     )
-}
+})

@@ -1,8 +1,8 @@
+import { memo } from "react"
 
 
-
-export default function ButtonDeleteBasket({deleteProductBasket, id}) {
-
+export default memo(function ButtonDeleteBasket({deleteProductBasket, id}) {
+    
 
     return(
         <div className="basketBox__product_controls">
@@ -14,4 +14,4 @@ export default function ButtonDeleteBasket({deleteProductBasket, id}) {
             </button>
         </div>
     )
-}
+})

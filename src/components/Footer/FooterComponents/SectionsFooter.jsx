@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom"
-import loadCards from "../../../JS/pagination"
 
 
 export default function SectionsFooter() {
@@ -10,7 +9,7 @@ export default function SectionsFooter() {
 		<ul style={{margin: "0"}}>
 			<div className="footer__title">Разделы</div>
 				<li className="section__item">
-					<NavLink to="/" onClick={{loadCards}} className="section__item_style dark-theme">Главная</NavLink>			
+					<NavLink to="/" className="section__item_style dark-theme">Главная</NavLink>			
 				</li>
 				<li className="section__item">
 					<NavLink to="/favourites" className="section__item_style dark-theme">Избранное</NavLink>
@@ -30,7 +29,7 @@ export default function SectionsFooter() {
 			<ul style={{margin: "0"}}>
 				<div className="footer__title">Разделы</div>
 					<li className="section__item">
-						<NavLink to="/" onClick={{loadCards}} className="section__item_style">Главная</NavLink>			
+						<NavLink to="/" className="section__item_style">Главная</NavLink>			
 					</li>
 					<li className="section__item">
 						<NavLink to="/favourites" className="section__item_style">Избранное</NavLink>

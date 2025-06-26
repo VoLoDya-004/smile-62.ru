@@ -1,6 +1,7 @@
+import { memo } from "react"
 
 
-export default function BasketFooter({totalBasket}) {
+export default memo(function BasketFooter({totalBasket}) {
     const priceFormatter = new Intl.NumberFormat()
 
 
@@ -10,4 +11,4 @@ export default function BasketFooter({totalBasket}) {
             <div>{priceFormatter.format(totalBasket.price_total)}  руб.</div>
         </div>
     )
-}
+})

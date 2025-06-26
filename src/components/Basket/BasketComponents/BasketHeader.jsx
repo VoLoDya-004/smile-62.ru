@@ -1,6 +1,7 @@
+import { memo } from "react"
 
 
-export default function BasketHeader() {
+export default memo(function BasketHeader() {
     
 
     return (
@@ -10,4 +11,4 @@ export default function BasketHeader() {
             <div>Стоимость</div>                                              
         </div>                 
     )
-}
+})

@@ -1,12 +1,12 @@
 
 
 
-export default function ButtonRegistration({text}) {
+export default function ButtonRegistration({children, id}) {
 
 
     return (
         <p>
-			<button type="submit" className="form__registration_btn" id="form__registration_btn"><b>{text}</b></button>
+			<button type="submit" className="form__registration_btn" id={id}><b>{children}</b></button>
 		</p>
     )
 }

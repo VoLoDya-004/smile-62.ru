@@ -1,9 +1,9 @@
-import loadCards from "../../../JS/pagination"
 import { NavLink } from "react-router-dom"
 import { useEffect } from "react"
+import React from "react"
 
 
-export default function TabSection() {
+export default React.memo(function TabSection() {
     useEffect(() => {
 	    window.scrollTo(0, 0)
     }, [])
@@ -12,7 +12,7 @@ export default function TabSection() {
     return (
         <ul className="menu">
             <li className="menu__item">
-				<NavLink to="/" onClick={{loadCards}} className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Главная</NavLink>
+				<NavLink to="/" className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Главная</NavLink>
 			</li>    
             <li className="menu__item">
 				<NavLink to="/favourites" className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Избранное</NavLink>
@@ -25,4 +25,4 @@ export default function TabSection() {
 			</li>
         </ul>
     )
-}
+})

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { BasicContext } from './JS/context'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -12,50 +13,54 @@ import ScrollButton from './components/sub-components/ScrollButton'
 import ChatBtn from './components/sub-components/ChatBtn'
 import BasketProducts from './components/Basket/BasketComponents/BasketProducts'
 import FavouritesProducts from './components/Favourites/FavouritesComponents/FavouritesProducts'
-import './stylesheets_css/styles.css'
-
-const srcBasket = "http://localhost:3000/src/PHP/basket.php?idUser=222&Operation=showBasket"
+import Support from './components/sub-components/Support'
+import CookiesNotice from './components/sub-components/CookiesNotice'
+import ConfirmModalBasket from './components/sub-components/ConfirmModalBasket'
 
 
 export default function App() {
 //работа с корзиной
+  const srcBasket = "http://localhost:3000/src/PHP/basket.php?idUser=222&Operation=showBasket"
+
   const [cartBasket, setCartBasket] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [productIdToDelete, setProductIdToDelete] = useState(null)
 
-  const deleteProductBasket = (id) => {
-  axios.get(`http://localhost:3000/src/PHP/basket.php?idProduct=${id}&Operation=deleteBasket`)
-    .then(() => {
-      // После успешного удаления обновляем корзину
-      return axios.get(srcBasket)
-    })
-    .then((res) => {
-      setCartBasket(res.data)
-    })
-    .catch((error) => {
-      console.error("Ошибка при удалении продукта:", error)
-    })
-  }
+  const deleteProductBasket = useCallback((id) => {
+    if (productIdToDelete) {
+      axios.get(`http://localhost:3000/src/PHP/basket.php?idProduct=${productIdToDelete}&Operation=deleteBasket`)
+        .then(() => {
+          // После успешного удаления обновляем корзину
+          return axios.get(srcBasket)
+        })
+        .then((res) => {
+          setCartBasket(res.data)
+          setIsModalOpen(false)
+          setProductIdToDelete(null)
+        })
+        .catch((error) => {
+          console.error("Ошибка при удалении продукта:", error)
+        })
+    }
+  }, [setCartBasket, productIdToDelete, srcBasket])
 
-  useEffect(() => {
-    axios.get(srcBasket).then((res) => {
-      setCartBasket(res.data)
-    })
-    .catch((error) => {
-      console.error("Ошибка при загрузке корзины:", error)
-    })
-  }, [])
+  const showModal = useCallback((id) => {
+    setProductIdToDelete(id)
+    setIsModalOpen(true)
+  }, [setIsModalOpen, setProductIdToDelete])
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false)
+    setProductIdToDelete(null)
+  }, [setIsModalOpen, setProductIdToDelete])
  
-  const [totalBasket, setTotalBasket] = useState({
+  const totalBasket = useMemo(() => ({
     count: cartBasket.reduce((prev, curr) => +prev + +curr.count, 0),
-    price_total: cartBasket.reduce((prev, curr) => (+prev + +curr.price_total * curr.count), 0),                    
-  })
-  useEffect(() => {
-    setTotalBasket({
-      count: cartBasket.reduce((prev, curr) => {return +prev + +curr.count}, 0) ,
-      price_total: cartBasket.reduce((prev, curr) => {return (+prev + +curr.price_total * curr.count)}, 0)                      
-    })
-  }, [cartBasket])
+    price_total: cartBasket.reduce((prev, curr) => +prev + +curr.price_total * curr.count, 0),
+  }), [cartBasket])
 
-  const increaseBasket = (id) => {
+  const increaseBasket = useCallback((id, currentCount) => {
+    if (currentCount >= 100) return
     axios.get(`http://localhost:3000/src/PHP/basket.php?idProduct=${id}&Operation=increaseBasket`)
     .then(() => {
       // После успешного увеличения обновляем корзину
@@ -63,22 +68,14 @@ export default function App() {
     })
     .then((res) => {
       setCartBasket(res.data)
-    })
+      })
     .catch((error) => {
       console.error("Ошибка при увеличении корзины:", error)
     })
-  }
+  }, [setCartBasket, srcBasket])
 
-  useEffect(() => {
-    axios.get(srcBasket).then((res) => {
-      setCartBasket(res.data)
-    })
-    .catch((error) => {
-      console.error("Ошибка при загрузке корзины:", error)
-    })
-  }, [])
-
-  const decreaseBasket = (id) => {
+  const decreaseBasket = useCallback((id, currentCount) => {
+    if (currentCount <= 1) return
     axios.get(`http://localhost:3000/src/PHP/basket.php?idProduct=${id}&Operation=decreaseBasket`)
     .then(() => {
       // После успешного уменьшения обновляем корзину
@@ -90,7 +87,30 @@ export default function App() {
     .catch((error) => {
       console.error("Ошибка при уменьшении корзины:", error)
     })
-  }
+  }, [setCartBasket, srcBasket])
+
+  const handleCountChange = useCallback((e, id) => {
+    let newCount = e.target.value
+
+    if (newCount === "") {
+      newCount = 1
+    } else {
+      newCount = parseInt(newCount, 10)
+      if (isNaN(newCount) || newCount < 1) return
+      if (newCount > 100) newCount = 100
+    }
+    axios.get(`http://localhost:3000/src/PHP/basket.php?idProduct=${id}&Operation=updateCount&count=${newCount}`)
+      .then(() => {
+        // После успешного обновления получаем актуальную корзину
+        return axios.get(srcBasket)
+      })
+      .then((res) => {
+        setCartBasket(res.data)
+      })
+      .catch((error) => {
+        console.error("Ошибка при обновлении количества:", error)
+      })
+  }, [setCartBasket, srcBasket])
 
   useEffect(() => {
     axios.get(srcBasket).then((res) => {
@@ -101,15 +121,17 @@ export default function App() {
     })
   }, [])
 
-  const productsBasket = cartBasket.map((productBasket) => {
+  const productsBasket = useMemo(() => {
+  return cartBasket.map((productBasket) => {
     return (
       <BasketProducts 
         productBasket = {productBasket} key = {productBasket.id} 
-        deleteProductBasket = {deleteProductBasket} increaseBasket = {increaseBasket} 
-        decreaseBasket = {decreaseBasket}
+        deleteProductBasket = {() => showModal(productBasket.id)} increaseBasket = {increaseBasket} 
+        decreaseBasket = {decreaseBasket} onChange={handleCountChange} value={productBasket.count}
       />
     )
   })
+  }, [cartBasket, deleteProductBasket, increaseBasket, decreaseBasket, handleCountChange, showModal])
 
   // обновление кружка корзины без обновления страницы
   useEffect(() => {
@@ -132,8 +154,7 @@ export default function App() {
             })
           })
         })
-
-        observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
+        //observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
       }
     })
 
@@ -171,22 +192,19 @@ export default function App() {
 
   const [cartFavourites, setCartFavourites] = useState([])
 
-  const deleteProductFavourites = (id) => {
+  const deleteProductFavourites = useCallback((id) => {
   axios.get(`http://localhost:3000/src/PHP/favourites.php?idProduct=${id}&Operation=deleteFavourites`)
     .then(() => {
-      // После успешного удаления обновляем избранное
-      return axios.get(srcFavourites)
-    })
-    .then((res) => {
-      setCartFavourites(res.data)
+      // После успешного удаления обновляем состояние
+      setCartFavourites(prevFavourites => prevFavourites.filter(item => item.id !== id))
     })
     .catch((error) => {
       console.error("Ошибка при удалении продукта:", error)
     })
-  }
+  }, [setCartFavourites])
 
-  const addInBasketProductFavourites = (id) => {
-  axios.get(`http://localhost:3000/src/PHP/favourites.php?idUser=222&Operation=addBasket`)
+  const addInBasketProductFavourites = useCallback((id) => {
+  axios.get(`http://localhost:3000/src/PHP/favourites.php?idProduct=${id}&idUser=222&Operation=addBasket`)
     .then(() => {
       // После успешного добавления обновляем избранное
       return axios.get(srcFavourites)
@@ -197,27 +215,31 @@ export default function App() {
     .catch((error) => {
       console.error("Ошибка при удалении продукта:", error)
     })
-  }
-
+  }, [setCartFavourites])
 
   useEffect(() => {
     axios.get(srcFavourites).then((res) => {
       setCartFavourites(res.data)
+      console.log(res.data)
     })
     .catch((error) => {
       console.error("Ошибка при загрузке избранных:", error)
     })
   }, [])
 
-  const productsFavourites = cartFavourites.map((productFavourites) => {
+  const productsFavourites = useMemo(() => {
+  return cartFavourites.map((productFavourites) => {
     return (
       <FavouritesProducts 
         productFavourites = {productFavourites} key = {productFavourites.id} 
         deleteProductFavourites = {deleteProductFavourites}
         addInBasketProductFavourites = {addInBasketProductFavourites}
+        cartBasket={cartBasket} cartFavourites={cartFavourites}
+
       />
     )
   })
+  }, [cartFavourites, deleteProductFavourites, addInBasketProductFavourites, cartBasket])
 //
 
 // обновление избранных товаров без обновления страницы
@@ -241,8 +263,7 @@ export default function App() {
             })
           })
         })
-
-        observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
+        //observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
       }
     })
 
@@ -274,6 +295,58 @@ export default function App() {
   }, [])
 //
 
+// обновление корзины товаров из избранных без обновления страницы
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const buttons = document.querySelectorAll(".basketBox__product_controls") // Перепроверяем наличие кнопок
+
+      if (buttons.length > 0) {
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            axios.get("http://localhost:3000/src/PHP/favourites.php?idUser=222&Operation=showBasket")
+            .then(() => {
+              // После успеха обновляем корзину
+              return axios.get(srcBasket)
+            })
+            .then((res) => {
+              setCartBasket(res.data)
+            })
+            .catch((error) => {
+              console.error("Ошибка при обновлении избранных:", error)
+            })
+          })
+        })
+        //observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
+      }
+    })
+
+    // Начинаем наблюдение за изменениями в DOM
+    observer.observe(document.body, { // Наблюдаем за всем body (или родительским элементом, где находятся кнопки)
+        childList: true, // Отслеживаем добавление/удаление дочерних элементов
+        subtree: true // Отслеживаем изменения во всех поддеревьях
+    })
+    //Функция очистки (отключение observer)
+    return () => {
+      observer.disconnect()
+      const buttons = document.querySelectorAll(".basketBox__product_controls") // Находим кнопки снова
+      buttons.forEach(button => {
+        button.removeEventListener('click', () => { 
+          axios.get("http://localhost:3000/src/PHP/favourites.php?idUser=222&Operation=showBasket")
+            .then(() => {
+              // После успеха обновляем корзину
+              return axios.get(srcBasket)
+            })
+            .then((res) => {
+              setCartBasket(res.data)
+            })
+            .catch((error) => {
+              console.error("Ошибка при обновлении избранных:", error)
+            }) 
+        })
+      })
+    }
+  }, [])
+
   
   return (
     <>
@@ -283,20 +356,43 @@ export default function App() {
       <main id='content'>  
         <ProgressBar />   
           <Routes>
-            <Route path='/' element={<Basic />} />                
-            <Route path='/favourites' element={<Favourites productsFavourites={productsFavourites} />} />                   
-            <Route path='/profile' element={<Profile />} />                   
-            <Route path='/basket' element={<Basket productsBasket={productsBasket} totalBasket={totalBasket} />} />                   
-            </Routes>
+            <Route path='/' 
+              element={
+                <BasicContext.Provider value={{cartFavourites, cartBasket}}>
+                  <Basic />
+                </BasicContext.Provider>
+              } />                
+            <Route path='/favourites' 
+              element={
+                <Favourites productsFavourites={productsFavourites} />
+              } />                   
+            <Route path='/profile' 
+              element={
+                <Profile />
+              } />                   
+            <Route path='/basket' 
+              element={
+                <Basket productsBasket={productsBasket} totalBasket={totalBasket} />
+              } />                   
+          </Routes>
         <ScrollButton />
         <ChatBtn />
+        <Support />
+        <ConfirmModalBasket
+          isOpen={isModalOpen}
+          onConfirm={deleteProductBasket}
+          onCancel={closeModal}
+        />
       </main>
       
       <Footer />
+      
+      <CookiesNotice />
     </Router>
     </>
   )
 }
+
 
 
 

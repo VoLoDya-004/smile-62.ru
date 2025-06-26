@@ -1,7 +1,7 @@
+import { memo } from "react"
 
 
-
-export default function FavouritesHeader() {
+export default memo(function FavouritesHeader() {
 
 
     return (
@@ -10,4 +10,4 @@ export default function FavouritesHeader() {
             <div>Стоимость</div>                                              
         </div>   
     )
-}
+})

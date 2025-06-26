@@ -1,12 +1,12 @@
-import "../../JS/pagination"
+import { memo } from "react"
 
 
-export default function ButtonLoad({text}) {
+export default memo(function ButtonLoad({onClick, children, id, className}) {
 
     
     return (
-        <div className="load-more">
-            <button id="load-more__btn">{text}</button>
-        </div>
+            <button id={id} className={className} onClick={onClick}>
+                {children}
+            </button>
     )
-}
+})

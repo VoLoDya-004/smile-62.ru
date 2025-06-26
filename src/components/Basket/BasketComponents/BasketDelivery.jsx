@@ -10,7 +10,7 @@ export default function BasketDelivery({totalBasket}) {
                 <div className="basketDelivery__left_count"><b>ВСЕГО ТОВАРОВ:</b> {totalBasket.count} шт.</div>
                 <div className="basketDelivery__left_priceTotal"><b>ИТОГО:</b> {priceFormatter.format(totalBasket.price_total)} &#x20bd;</div>
                 <div className="basketDelivery__left_btn">
-                    <ButtonRegistration text={"Заказать"} />
+                    <ButtonRegistration id="deliveryBtn">Заказать</ButtonRegistration>
                 </div>
                 <div className="basketDelivery__left_checkbox">
                     <input type="checkbox" id="checkbox1" />

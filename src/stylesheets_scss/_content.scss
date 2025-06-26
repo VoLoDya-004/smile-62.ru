@@ -1,3 +1,11 @@
+body.modal-open {
+    overflow: hidden;
+}
+
+.fill-clip-rule {
+	@include fill-clip-rule (evenodd, evenodd);
+}
+																	
 																	/*ОСНОВНОЙ КОНТЕНТ*/
 																	//АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
@@ -9,7 +17,7 @@
 	top: 0;
 	height: 4px;
 	width: 0%;
-	background: #ab7c94;
+	background: #9814ad;
 }
 
 #content {
@@ -44,12 +52,27 @@
 		padding: 0 10px 3px;
 		background-color: rgba(0, 0, 0, 0.4);
 		backdrop-filter: blur(2px);
-		pointer-events: none;
 		user-select: none;
 		border-radius: 20px;
 		&::after {
 			content: url(/src/assets/images/icons/description_advertisement.svg);
 			padding-left: 5px;
+		}
+		&_description {
+			display: flex;
+			padding: 5px;
+			font-size: 12px;
+			background-color: black;
+			color: white;
+			border-radius: 10px;
+			position: absolute;
+			top: 325px;
+			right: 35px;
+			opacity: 0;
+			transition: opacity .3s ease;
+			&.show {
+				opacity: 1;
+			}
 		}
 	}
 	&__btn_left {
@@ -266,6 +289,30 @@
 		position: absolute;
 		bottom: 0;
 		background-color: $btnColor;
+		&::after {
+			content: "у";
+		}
+		&_disabled {
+			display: block;
+			width: 100%;
+			font-weight: 400;
+			font-size: 17px;
+			color: #000000;
+			padding: 10px;
+			text-align: center;
+			border: 1px solid #000000;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: 0.2s;
+			position: absolute;
+			bottom: 0;
+			background-color: rgb(96, 22, 118);
+			color: white;
+			border: 1px solid rgb(96, 22, 118);
+			&::after {
+				content: "е";
+			}
+		}
 		&:hover {
 			border: 1px solid rgb(96, 22, 118);
 			background-color: rgb(96, 22, 118);
@@ -321,14 +368,27 @@
 	clip-rule: evenodd;
 }
 
-.load-more {
+.load-moreBox {
 	display: flex;
-	width: 100%;
-	justify-content: center;
 	margin-bottom: 20px;
+	user-select: none;
 }
 
-#load-more__btn {
+.load-moreBack {
+	display: flex;
+	width: 100%;
+	justify-content: end;
+	margin-right: 3%;
+}
+
+.load-moreForward {
+	display: flex;
+	width: 100%;
+	justify-content: start;
+	margin-left: 3%;
+}
+
+.load-more__btnBack {
 	width: 200px;
 	height: 40px;
 	border-radius: 10px;
@@ -336,8 +396,49 @@
 	font-weight: 400;
 	font-size: 17px;
 	border: none;
+	transition: .2s;
+	&_disabled {
+		width: 200px;
+		height: 40px;
+		border-radius: 10px;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+		background-color: #ececec;
+		color: #00000063;
+		&:hover {
+			background-color: #ececec !important;
+		}
+	}
 	&:hover {
-		background-color: #bcbcbc;
+		background-color: #9c9c9c;
+	}
+}
+
+.load-more__btnForward {
+	width: 200px;
+	height: 40px;
+	border-radius: 10px;
+	background-color: #c8c8c8;
+	font-weight: 400;
+	font-size: 17px;
+	border: none;
+	transition: .2s;
+	&_disabled {
+		width: 200px;
+		height: 40px;
+		border-radius: 10px;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+		background-color: #ececec;
+		color: #00000063;
+		&:hover {
+			background-color: #ececec !important;
+		}
+	}
+	&:hover {
+		background-color: #9c9c9c;
 	}
 }
 }
@@ -354,7 +455,7 @@
 		top: 0;
 		height: 4px;
 		width: 0%;
-		background: #ab7c94;
+		background: #9814ad;
 	}
 	
 	#content {
@@ -391,12 +492,18 @@
 		padding: 0 10px 3px;
 		background-color: rgba(0, 0, 0, 0.4);
 		backdrop-filter: blur(2px);
-		pointer-events: none;
 		user-select: none;
+		pointer-events: none;
 		border-radius: 20px;
 		&::after {
 			content: url(/src/assets/images/icons/description_advertisement.svg);
 			padding-left: 5px;
+		}
+		&_description {
+			display: none;
+			&.show {
+				display: none;
+			}
 		}
 	}
 	&__btn_left {
@@ -609,6 +716,30 @@
 			position: absolute;
 			bottom: 0;
 			background-color: $btnColor;
+			&::after {
+				content: "у";
+			}
+			&_disabled {
+				display: block;
+				width: 100%;
+				font-weight: 400;
+				font-size: 17px;
+				color: #000000;
+				padding: 10px;
+				text-align: center;
+				border: 1px solid #000000;
+				border-radius: 4px;
+				cursor: pointer;
+				transition: 0.2s;
+				position: absolute;
+				bottom: 0;
+				background-color: rgb(96, 22, 118);
+				color: white;
+				border: 1px solid rgb(96, 22, 118);
+				&::after {
+					content: "е";
+				}
+			}
 			&:hover {
 				border: 1px solid rgb(96, 22, 118);
 				background-color: rgb(96, 22, 118);
@@ -664,14 +795,27 @@
 		clip-rule: evenodd;
 	}
 
-	.load-more {
+	.load-moreBox {
+		display: flex;
+		margin-bottom: 20px;
+		user-select: none;
+	}
+
+	.load-moreBack {
 		display: flex;
 		width: 100%;
-		justify-content: center;
-		margin-bottom: 20px;
+		justify-content: end;
+		margin-right: 3%;
 	}
-	
-	#load-more__btn {
+
+	.load-moreForward {
+		display: flex;
+		width: 100%;
+		justify-content: start;
+		margin-left: 3%;
+	}
+
+	.load-more__btnBack {
 		width: 200px;
 		height: 40px;
 		border-radius: 10px;
@@ -679,8 +823,49 @@
 		font-weight: 400;
 		font-size: 17px;
 		border: none;
+		transition: .2s;
+		&_disabled {
+			width: 200px;
+			height: 40px;
+			border-radius: 10px;
+			font-weight: 400;
+			font-size: 17px;
+			border: none;
+			background-color: #ececec;
+			color: #00000063;
+			&:hover {
+				background-color: #ececec !important;
+			}
+		}
 		&:hover {
-			background-color: #bcbcbc;
+			background-color: #9c9c9c;
+		}
+	}
+
+	.load-more__btnForward {
+		width: 200px;
+		height: 40px;
+		border-radius: 10px;
+		background-color: #c8c8c8;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+		transition: .2s;
+		&_disabled {
+			width: 200px;
+			height: 40px;
+			border-radius: 10px;
+			font-weight: 400;
+			font-size: 17px;
+			border: none;
+			background-color: #ececec;
+			color: #00000063;
+			&:hover {
+				background-color: #ececec !important;
+			}
+		}
+		&:hover {
+			background-color: #9c9c9c;
 		}
 	}
 }
@@ -697,7 +882,7 @@
 		top: 0;
 		height: 4px;
 		width: 0%;
-		background: #ab7c94;
+		background: #9814ad;
 	}
 	
 	#content {
@@ -740,7 +925,13 @@
 		border-radius: 20px;
 		&::after {
 			content: url(/src/assets/images/icons/description_advertisement.svg);
-			padding-left: 2px;
+			padding-left: 5px;
+		}
+		&_description {
+			display: none;
+			&.show {
+				display: none;
+			}
 		}
 	}
 	&__btn_left {
@@ -952,6 +1143,30 @@
 			position: absolute;
 			bottom: 0;
 			background-color: $btnColor;
+			&::after {
+				content: "у";
+			}
+			&_disabled {
+				display: block;
+				width: 100%;
+				font-weight: 400;
+				font-size: 15px;
+				color: #000000;
+				padding: 10px;
+				text-align: center;
+				border: 1px solid #000000;
+				border-radius: 4px;
+				cursor: pointer;
+				transition: 0.2s;
+				position: absolute;
+				bottom: 0;
+				background-color: rgb(96, 22, 118);
+				color: white;
+				border: 1px solid rgb(96, 22, 118);
+				&::after {
+					content: "е";
+				}
+			}
 			&:hover {
 				border: 1px solid rgb(96, 22, 118);
 				background-color: rgb(96, 22, 118);
@@ -1007,14 +1222,27 @@
 		clip-rule: evenodd;
 	}
 
-	.load-more {
+	.load-moreBox {
+		display: flex;
+		margin-bottom: 20px;
+		user-select: none;
+	}
+
+	.load-moreBack {
 		display: flex;
 		width: 100%;
-		justify-content: center;
-		margin-bottom: 20px;
+		justify-content: end;
+		margin-right: 3%;
 	}
-	
-	#load-more__btn {
+
+	.load-moreForward {
+		display: flex;
+		width: 100%;
+		justify-content: start;
+		margin-left: 3%;
+	}
+
+	.load-more__btnBack {
 		width: 170px;
 		height: 35px;
 		border-radius: 10px;
@@ -1022,6 +1250,50 @@
 		font-weight: 400;
 		font-size: 17px;
 		border: none;
+		transition: .2s;
+		&_disabled {
+			width: 170px;
+			height: 35px;
+			border-radius: 10px;
+			font-weight: 400;
+			font-size: 17px;
+			border: none;
+			background-color: #ececec;
+			color: #00000063;
+			&:hover {
+				background-color: #ececec !important;
+			}
+		}
+		&:hover {
+			background-color: #9c9c9c;
+		}
+	}
+
+	.load-more__btnForward {
+		width: 170px;
+		height: 35px;
+		border-radius: 10px;
+		background-color: #c8c8c8;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+		transition: .2s;
+		&_disabled {
+			width: 170px;
+			height: 35px;
+			border-radius: 10px;
+			font-weight: 400;
+			font-size: 17px;
+			border: none;
+			background-color: #ececec;
+			color: #00000063;
+			&:hover {
+				background-color: #ececec !important;
+			}
+		}
+		&:hover {
+			background-color: #9c9c9c;
+		}
 	}
 }
 
@@ -1037,7 +1309,7 @@
 		top: 0;
 		height: 4px;
 		width: 0%;
-		background: #ab7c94;
+		background: #9814ad;
 	}
 	
 	#content {
@@ -1068,6 +1340,12 @@
 	}
 	&__advertisement {
 		display: none;
+		&_description {
+			display: none;
+			&.show {
+				display: none;
+			}
+		}
 	}
 	&__btn_left {
 		background-color: rgba(0, 0, 0, 0.662);
@@ -1278,6 +1556,30 @@
 			position: absolute;
 			bottom: 0;
 			background-color: $btnColor;
+			&::after {
+				content: "у";
+			}
+			&_disabled {
+				display: block;
+				width: 100%;
+				font-weight: 400;
+				font-size: smaller;
+				color: #000000;
+				padding: 7px;
+				text-align: center;
+				border: 1px solid #000000;
+				border-radius: 4px;
+				cursor: pointer;
+				transition: 0.2s;
+				position: absolute;
+				bottom: 0;
+				background-color: rgb(96, 22, 118);
+				color: white;
+				border: 1px solid rgb(96, 22, 118);
+				&::after {
+					content: "е";
+				}
+			}
 			&:hover {
 				border: 1px solid rgb(96, 22, 118);
 				background-color: rgb(96, 22, 118);
@@ -1333,20 +1635,77 @@
 		clip-rule: evenodd;
 	}
 
-	.load-more {
+	.load-moreBox {
+		display: flex;
+		margin-bottom: 20px;
+		user-select: none;
+	}
+
+	.load-moreBack {
 		display: flex;
 		width: 100%;
-		justify-content: center;
-		margin-bottom: 20px;
+		justify-content: end;
+		margin-right: 3%;
 	}
-	
-	#load-more__btn {
-		width: 170px;
+
+	.load-moreForward {
+		display: flex;
+		width: 100%;
+		justify-content: start;
+		margin-left: 3%;
+	}
+
+	.load-more__btnBack {
+		width: 80%;
 		height: 35px;
 		border-radius: 10px;
 		background-color: #c8c8c8;
 		font-weight: 400;
 		font-size: 17px;
 		border: none;
+		transition: .2s;
+		&_disabled {
+			width: 80%;
+			height: 35px;
+			border-radius: 10px;
+			font-weight: 400;
+			font-size: 17px;
+			border: none;
+			background-color: #ececec;
+			color: #00000063;
+			&:hover {
+				background-color: #ececec !important;
+			}
+		}
+		&:hover {
+			background-color: #9c9c9c;
+		}
+	}
+
+	.load-more__btnForward {
+		width: 80%;
+		height: 35px;
+		border-radius: 10px;
+		background-color: #c8c8c8;
+		font-weight: 400;
+		font-size: 17px;
+		border: none;
+		transition: .2s;
+		&_disabled {
+			width: 80%;
+			height: 35px;
+			border-radius: 10px;
+			font-weight: 400;
+			font-size: 17px;
+			border: none;
+			background-color: #ececec;
+			color: #00000063;
+			&:hover {
+				background-color: #ececec !important;
+			}
+		}
+		&:hover {
+			background-color: #9c9c9c;
+		}
 	}
 }
