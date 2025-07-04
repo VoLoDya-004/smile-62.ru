@@ -31,6 +31,12 @@ if (isset($_GET['Operation'])) {
             $query = "DELETE FROM favourites WHERE id_product=$idProduct";
         }
     }
+
+    if ($_GET['Operation'] == 'clearFavourites'){ //удаление товаров из избранного
+        if (isset($_GET['idUser'])) {
+            $query = "DELETE FROM favourites";
+        }
+    }
     
     // Выполнение запроса и формирование массива $myArray
     /* Создаем соединение */

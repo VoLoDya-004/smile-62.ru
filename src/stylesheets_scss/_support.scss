@@ -95,6 +95,7 @@
 		        min-width: 44px;
     	        border-radius: 50%;
 		        transition: 0.5s;
+                @include flex-center;
 		        z-index: 1;
 		        &:hover{
 			        background-color: #b200ce;
@@ -201,6 +202,7 @@
 		        min-width: 44px;
     	        border-radius: 50%;
 		        transition: 0.5s;
+                @include flex-center;
 		        z-index: 1;
 		        &:hover{
 			        background-color: #b200ce;
@@ -307,6 +309,7 @@
 		        min-width: 44px;
     	        border-radius: 50%;
 		        transition: 0.5s;
+                @include flex-center;
 		        z-index: 1;
 		        &:hover{
 			        background-color: #b200ce;
@@ -413,6 +416,7 @@
 		        min-width: 44px;
     	        border-radius: 50%;
 		        transition: 0.5s;
+                @include flex-center;
 		        z-index: 1;
 		        &:hover{
 			        background-color: #b200ce;

@@ -45,6 +45,12 @@ if (isset($_GET['Operation'])) {
             $query = "UPDATE basket SET count = $newCount WHERE id=$idProduct";
         }
     }
+
+    if ($_GET['Operation'] == 'clearBasket'){ //удаление товаров из корзины
+        if (isset($_GET['idUser'])) {
+            $query = "DELETE FROM basket";
+        }
+    }
     
     // Выполнение запроса и формирование массива $myArray
     /* Создаем соединение */

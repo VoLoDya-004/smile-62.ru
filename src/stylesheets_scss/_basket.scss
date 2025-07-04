@@ -1030,9 +1030,10 @@
         &__container {
             margin: 0 auto;
             &_title1 {
-                font-size: 28px;
+                font-size: 24px;
                 line-height: 1.3;
                 font-weight: 700;
+                padding-right: 10px;
             }
         }
         &__table {

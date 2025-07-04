@@ -1,0 +1,54 @@
+.spinnerBasket {  
+    width: 24px;  
+    height: 24px;  
+    border: 4px solid $backColorElem;  
+    border-top: 4px solid red;  
+    border-radius: 50%;  
+    animation: spinBasket 1s linear infinite;  
+    margin: 50px auto;  
+}  
+@keyframes spinBasket {  
+    0% { transform: rotate(0deg); }  
+    100% { transform: rotate(360deg); }  
+} 
+
+.spinnerCards {  
+    width: 40px;  
+    height: 40px;  
+    border: 4px solid $backColorElem;  
+    border-top: 4px solid blue;  
+    border-radius: 50%;  
+    animation: spinCards 1s linear infinite;  
+    margin: 50px auto;  
+}  
+@keyframes spinCards {  
+    0% { transform: rotate(0deg); }  
+    100% { transform: rotate(360deg); }  
+} 
+
+.spinnerClearBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 75px; 
+    @media (max-width: 425px) {
+        padding-right: 10px;
+    }
+    @media (min-width: 425px) and (max-width: 768px) {
+        padding-right: 30px;
+    }
+}
+
+.spinnerClear {  
+    width: 40px;  
+    height: 40px;  
+    border: 4px solid $backColorElem;  
+    border-top: 4px solid red;  
+    border-radius: 50%;  
+    animation: spinClear 1s linear infinite;  
+}  
+@keyframes spinClear {  
+    0% { transform: rotate(0deg); }  
+    100% { transform: rotate(360deg); }  
+} 

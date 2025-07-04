@@ -1,223 +1,182 @@
-import { useEffect, useState, Children, cloneElement } from "react"
+import { useEffect, useState, Children, cloneElement, useRef } from "react"
 
 
-export default function Carousel({children}) {
-	const [pages, setPages] = useState([])
-	const [offset,setOffset] = useState(0)
+export default function Carousel({ children }) {
+  	const [pages, setPages] = useState([])
+  	const sliderRef = useRef(null)
+  	const [containerWidth, setContainerWidth] = useState(0)
+  	const startX = useRef(0)
+  	const isSwiping = useRef(false)
+  	const [showChildren, setShowChildren] = useState(false)
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [isAnimating, setIsAnimating] = useState(true);
+
+	useEffect(() => {
+		const updateWidth = () => {
+			if (sliderRef.current) {
+				setContainerWidth(sliderRef.current.clientWidth)
+		  	}
+	  	}
+		updateWidth()
+	  	window.addEventListener('resize', updateWidth)
+	  	return () => window.removeEventListener('resize', updateWidth)
+	}, [])	
+
+	useEffect(() => {
+		setPages(
+	    	Children.map(children, (child) =>
+	      		cloneElement(child, {
+	        		style: {
+	          		height: '100%',
+	          		minWidth: '100%',
+	          		maxWidth: '100%',
+	          		flexShrink: 0,
+	        },
+	    		})
+	    	)
+	  	)
+	}, [children])	
 
 	const handleLeftArrow = () => {
-		setOffset((currentOffset) => {
-			const width = document.querySelector(".slider__window").clientWidth
-			const newOffset = currentOffset + width
-			const maxOffset = -(width * (pages.length - 1))
-			if (newOffset > 0) {
-				return setOffset(maxOffset)
-			} else {
-				return Math.min(newOffset, 0)
-			}
-		})
+		setCurrentIndex((prevIndex) => {
+	    	const newIndex = prevIndex - 1
+	    	if (newIndex < 0) {
+	      		setIsAnimating(false)
+	      		return pages.length - 1
+	    	}
+	    	setIsAnimating(true)
+	    	return newIndex
+	  	})
 	}
 
 	const handleRightArrow = () => {
-		setOffset((currentOffset) => {
-			const width = document.querySelector(".slider__window").clientWidth
-			const newOffset = currentOffset - width
-			const maxOffset = -(width * (pages.length - 1))
-			if (newOffset < maxOffset) {
-				return setOffset(0)
-			} else {
-				return Math.max(newOffset, maxOffset)
-			}
-		})
+		setCurrentIndex((prevIndex) => {
+	    	const newIndex = prevIndex + 1;
+	    	if (newIndex >= pages.length) {
+	      		setIsAnimating(false)
+	      		return 0
+	    	}
+	    	setIsAnimating(true)
+	    	return newIndex
+	  	})
 	}
 
-	useEffect(() => {
-		setPages(Children.map(children, child => {
-			return cloneElement(child, {
-				style: {
-					height: '100%',
-					minWidth: '100%',
-					maxWidth: '100%',
-				}
-				
-			})
-		}))
-	}, [])
+	const offsetX = -currentIndex * containerWidth;
 
-	const [showChildren, setShowChildren] = useState(false)
+	const handleTouchStart = (e) => {
+	  	isSwiping.current = true
+	  	startX.current = e.touches ? e.touches[0].clientX : e.clientX
+	}		
 
-	
+	const handleTouchEnd = (e) => {
+	  	if (!isSwiping.current) return
+	  	isSwiping.current = false
+	  	const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX
+	  	const deltaX = endX - startX.current	
+	  	const swipeThreshold = 50	
+	  	if (deltaX > swipeThreshold) {
+	    	handleLeftArrow()
+	  	} else if (deltaX < -swipeThreshold) {
+	    	handleRightArrow()
+	  	}
+	}	
+
+	function handleMouseMove() {
+		if (!isSwiping.current) return
+	}	
+
+	function handleMouseUp(e) {
+	  	if (!isSwiping.current) return
+	  	handleTouchEnd(e)
+	  	document.removeEventListener("mousemove", handleMouseMove)
+	  	document.removeEventListener("mouseup", handleMouseUp)
+	}
+
+
 	return (
 		<>
-		<div className="slider">
-			<div className="slider__btn_left" onClick={handleLeftArrow}>
-				<svg xmlns="http://www.w3.org/2000/svg" style={{fill: "none", width: "24", height: "24", padding: "6px 0 0 6px"}}>
-            	<path style={{fill: "#fff", fillRule:"evenodd", clipRule: "evenodd"}} d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"/>
-            	</svg>
-			</div>
-			<div className="slider__window">
-				<div className="all-pages-container"
-					style={{
-						transform: `translateX(${offset}px)`,
-					}}>
-					{pages}
-				</div>
-			</div>
-			<div className="slider__btn_right" onClick={handleRightArrow}>
-				<svg xmlns="http://www.w3.org/2000/svg" style={{fill: "none", width: "24", height: "24", padding: "6px 0 0 6px"}}>
-            	<path style={{fill: "#fff", fillRule:"evenodd", clipRule: "evenodd"}} d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"/>
-            	</svg>
-			</div>
-		<span className="slider__advertisement" onMouseEnter={() => setShowChildren(true)} 
-			onMouseLeave={() => setShowChildren(false)}>Реклама</span>
-		</div>
-		<div className={`slider__advertisement_description ${showChildren ? 'show' : ''}`}>
-  			OOО "что-там"<br />
-  			ИНН 777777777 <br />
- 	 		здесь еще что-нибудь
-		</div>
-		</>
+			<div className="slider">
+	    	  		<div className="slider__btn_left" onClick={handleLeftArrow}>
+	    	    		<svg
+	    	      			xmlns="http://www.w3.org/2000/svg"
+	    	      			style={{
+	    	        			fill: "none",
+	    	        			width: "24px",
+	    	        			height: "24px",
+	    	        			padding: "6px 0 0 6px",
+	    	      			}}
+	    	    		>
+	    	      			<path
+	    	        			style={{
+	    	          				fill: "#fff",
+	    	          				fillRule: "evenodd",
+	    	          				clipRule: "evenodd",
+	    	        			}}
+	    	        		d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"
+	    	      			/>
+	    	    		</svg>
+	    	  		</div>	
+	    	  	<div
+	    	    	className="slider__window"
+	    	    	ref={sliderRef}
+	    	    	style={{
+	    	    		overflow: "hidden",
+	    	    		width: "100%",
+	    	    		position: "relative",
+	    	    		cursor: "grab",
+	    	    	}}
+	    	    	onTouchStart={handleTouchStart}
+	    	    	onTouchEnd={handleTouchEnd}
+	    	    	onMouseDown={(e) => {
+	    	    		handleTouchStart(e)
+	    	    		document.addEventListener("mousemove", handleMouseMove)
+	    	    		document.addEventListener("mouseup", handleMouseUp)
+	    	    	}}
+	    	  	>
+	    	    	<div
+	    	    		className="all-pages-container"
+	    	    		style={{
+	    	    			display: "flex",
+	    	    			transition: isAnimating ? "transform 0.3s ease" : "none",
+	    	    			transform: `translateX(${offsetX}px)`,
+	    	    		}}
+	    	    	>
+	    	    	  {pages}
+	    	    	</div>
+	    	  	</div>
+	    	  	<div className="slider__btn_right" onClick={handleRightArrow}>
+	    	    	<svg
+	    	    		xmlns="http://www.w3.org/2000/svg"
+	    	    		style={{
+	    	    			fill: "none",
+	    	    			width: "24px",
+	    	    			height: "24px",
+	    	    			padding: "6px 0 0 6px",
+	    	    		}}
+	    	    >
+	    	    		<path
+	    	      			style={{
+	    	    				fill: "#fff",
+	    	    				fillRule: "evenodd",
+	    	    				clipRule: "evenodd",
+	    	    			}}
+	    	    			d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"
+	    	    		/>
+	    	    	</svg>
+	    	    </div>
+	    		<span
+	    			className="slider__advertisement"
+	    			onMouseEnter={() => setShowChildren(true)}
+	    			onMouseLeave={() => setShowChildren(false)}
+	    		>
+	    			Реклама
+	    		</span>	
+	    	</div>	
+	    	<div className={`slider__advertisement_description ${showChildren ? "show" : ""}`}>
+	    		ООО "что-там"<br />
+	    		ИНН 777777777<br />
+	    		здесь еще что-нибудь
+	    	</div>
+	  	</>
 	)
 }
-
-
-
-
-
-
-
-
-// import { useEffect, useState, Children, cloneElement, useRef } from "react"
-// import { useDrag } from "react-use-gesture"
-
-// export default function Carousel({ children }) {
-//     const [pages, setPages] = useState([])
-//     const [offset, setOffset] = useState(0)
-//     const [isDragging, setIsDragging] = useState(false) // Добавлено состояние для отслеживания перетаскивания
-//     const sliderWindowRef = useRef(null) // Добавляем useRef
-
-//     const handleLeftArrow = () => {
-//         setOffset((currentOffset) => {
-//             const width = sliderWindowRef.current.clientWidth // Используем useRef для получения ширины
-//             const newOffset = currentOffset + width
-//             const maxOffset = -(width * (pages.length - 1))
-//             if (newOffset > 0) {
-//                 return setOffset(maxOffset)
-//             } else {
-//                 return Math.min(newOffset, 0)
-//             }
-//         })
-//     }
-
-//     const handleRightArrow = () => {
-//         setOffset((currentOffset) => {
-//             const width = sliderWindowRef.current.clientWidth; // Используем useRef для получения ширины
-//             const newOffset = currentOffset - width;
-//             const maxOffset = -(width * (pages.length - 1));
-//             if (newOffset < maxOffset) {
-//                 return setOffset(0);
-//             } else {
-//                 return Math.max(newOffset, maxOffset);
-//             }
-//         });
-//     };
-
-//     useEffect(() => {
-//         setPages(
-//             Children.map(children, (child) => {
-//                 return cloneElement(child, {
-//                     style: {
-//                         height: "100%",
-//                         minWidth: "100%",
-//                         maxWidth: "100%",
-//                     },
-//                 })
-//             })
-//         )
-//     }, [children]) // Зависимость от children
-
-//     const [showChildren, setShowChildren] = useState(false)
-
-//     const bind = useDrag(({ delta: [dx], down }) => {
-//         setIsDragging(down) // Устанавливаем состояние перетаскивания
-
-//         if (!down) {
-//             // После отпускания мыши/пальца применяем логику перелистывания
-//             const width = sliderWindowRef.current.clientWidth // Используем useRef для получения ширины
-//             const threshold = width / 4 // Определяем порог для перелистывания (например, 25% ширины)
-
-//             if (dx > threshold) {
-//                 handleLeftArrow() // Перелистываем влево
-//             } else if (dx < -threshold) {
-//                 handleRightArrow() // Перелистываем вправо
-//             } else {
-//                 // Если не достигли порога, возвращаем к ближайшему слайду
-//                 const slideIndex = Math.round(offset / width)
-//                 setOffset(slideIndex * width)
-
-//             }
-//         } else {
-//             //Во время перетаскивания применяем смещение (для плавности перетаскивания)
-//             const width = sliderWindowRef.current.clientWidth
-//             const maxOffset = -(width * (pages.length - 1))
-//             let newOffset = offset + dx
-//             newOffset = Math.max(Math.min(newOffset, 0), maxOffset)  //ограничиваем смещение
-//             setOffset(newOffset)
-
-//         }
-//     }, { axis: 'x' })
-
-//     return (
-//         <>
-//             <div className="slider">
-//                 <div className="slider__btn_left" onClick={handleLeftArrow}>
-//                     <svg xmlns="http://www.w3.org/2000/svg" style={{ fill: "none", width: "24", height: "24", padding: "6px 0 0 6px" }}>
-//                         <path
-//                             style={{ fill: "#fff", fillRule: "evenodd", clipRule: "evenodd" }}
-//                             d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"
-//                         />
-//                     </svg>
-//                 </div>
-//                 <div
-//                     className="slider__window"
-//                     ref={sliderWindowRef} // Привязываем useRef к элементу
-//                     {...bind()} // Применяем обработчики жестов
-//                     style={{ cursor: isDragging ? 'grabbing' : 'grab', overflow: 'hidden' }} // Меняем курсор во время перетаскивания
-//                 >
-//                     <div
-//                         className="all-pages-container"
-//                         style={{
-//                             transform: `translateX(${offset}px)`,
-//                             display: 'flex',
-//                             transition: isDragging ? 'none' : 'transform 0.3s ease-out', // Добавляем плавную анимацию после перетаскивания
-//                         }}
-//                     >
-//                         {pages}
-//                     </div>
-//                 </div>
-//                 <div className="slider__btn_right" onClick={handleRightArrow}>
-//                     <svg xmlns="http://www.w3.org/2000/svg" style={{ fill: "none", width: "24", height: "24", padding: "6px 0 0 6px" }}>
-//                         <path
-//                             style={{ fill: "#fff", fillRule: "evenodd", clipRule: "evenodd" }}
-//                             d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"
-//                         />
-//                     </svg>
-//                 </div>
-//                 <span
-//                     className="slider__advertisement"
-//                     onMouseEnter={() => setShowChildren(true)}
-//                     onMouseLeave={() => setShowChildren(false)}
-//                 >
-//                     Реклама
-//                 </span>
-//             </div>
-//             <div className={`slider__advertisement_description ${showChildren ? "show" : ""}`}>
-//                 OOО "что-там"
-//                 <br />
-//                 ИНН 777777777
-//                 <br />
-//                 здесь еще что-нибудь
-//             </div>
-//         </>
-//     )
-// }

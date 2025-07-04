@@ -2,16 +2,28 @@ import { useState } from 'react'
 import React from 'react'
 
 
-export default React.memo(function Search() {
+export default React.memo(function Search({onSearchChange}) {
   const [searchTerm, setSearchTerm] = useState('')
   const theme = localStorage.getItem('theme')
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value)
+    const value = event.target.value
+    setSearchTerm(value)
   }
 
   const handleClearClick = () => {
     setSearchTerm('')
+    onSearchChange('')
+  }
+
+  const handleSearchClick = () => {
+    onSearchChange(searchTerm)
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onSearchChange(searchTerm)
+    }
   }
 
 
@@ -24,6 +36,7 @@ export default React.memo(function Search() {
           placeholder="Искать здесь..."
           value={searchTerm}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           className={theme === 'dark-theme' ? 'dark-theme' : ''}
         />
         {searchTerm && (
@@ -36,7 +49,9 @@ export default React.memo(function Search() {
             </span>
           </button>
         )}
-        <button id="search__line_button">
+        <button 
+          id="search__line_button"
+          onClick={handleSearchClick}>
           <img
             src="/src/assets/images/icons/poisk.png"
             alt="поиск"

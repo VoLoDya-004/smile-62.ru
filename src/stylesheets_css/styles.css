@@ -1747,8 +1747,7 @@ body.modal-open {
     border-radius: 25px;
   }
   .card { /*сама карточка*/
-    min-width: 240px;
-    max-width: 250px;
+    width: 250px;
     min-height: 350px;
     -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
             box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
@@ -1818,12 +1817,23 @@ body.modal-open {
     -webkit-transform: scale(1.1);
             transform: scale(1.1);
   }
-  .card__label { /*скидка*/
+  .card__label {
     position: absolute;
     bottom: 10px;
     left: 10px;
     padding: 1px 4px;
     background-color: #ff5050;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .card__sale {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 1px 4px;
+    background-color: red;
     border-radius: 4px;
     color: white;
     font-weight: 400;
@@ -1857,7 +1867,8 @@ body.modal-open {
     display: flex;
     -ms-flex-wrap: wrap-reverse;
         flex-wrap: wrap-reverse;
-    padding-left: 11px;
+    padding-left: 19px;
+    padding-right: 28px;
   }
   .card__price_discount::before { /*со скидкой*/
     content: "Со скидкой";
@@ -1897,9 +1908,9 @@ body.modal-open {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: start;
-    width: 100px;
+    width: 45%;
     margin-bottom: 10px;
-    padding-left: 10px;
+    padding-left: 19px;
   }
   .card__price_count-same::before { /*цена без скидки при одинаковой цене*/
     display: -webkit-box;
@@ -1922,7 +1933,8 @@ body.modal-open {
     line-height: 1.3;
     color: #000000;
     text-decoration: none;
-    padding-left: 10px;
+    padding-left: 19px;
+    padding-right: 10px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -1947,9 +1959,6 @@ body.modal-open {
     bottom: 0;
     background-color: rgb(216, 196, 224);
   }
-  .card__btn::after {
-    content: "у";
-  }
   .card__btn_disabled {
     display: block;
     width: 100%;
@@ -1968,9 +1977,6 @@ body.modal-open {
     background-color: rgb(96, 22, 118);
     color: white;
     border: 1px solid rgb(96, 22, 118);
-  }
-  .card__btn_disabled::after {
-    content: "е";
   }
   .card__btn:hover {
     border: 1px solid rgb(96, 22, 118);
@@ -2330,6 +2336,17 @@ body.modal-open {
     font-weight: 400;
     font-size: 16px;
   }
+  .card__sale {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 1px 4px;
+    background-color: red;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
   .card__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
     -webkit-box-flex: 1;
         -ms-flex: 1 0 auto;
@@ -2355,7 +2372,8 @@ body.modal-open {
     display: flex;
     -ms-flex-wrap: wrap-reverse;
         flex-wrap: wrap-reverse;
-    padding-left: 11px;
+    padding-left: 19px;
+    padding-right: 28px;
   }
   .card__price_discount::before { /*со скидкой*/
     content: "Со скидкой";
@@ -2395,9 +2413,9 @@ body.modal-open {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: start;
-    width: 100px;
+    width: 45%;
     margin-bottom: 10px;
-    padding-left: 10px;
+    padding-left: 19px;
   }
   .card__price_count-same::before { /*цена без скидки при одинаковой цене*/
     display: -webkit-box;
@@ -2420,7 +2438,8 @@ body.modal-open {
     line-height: 1.3;
     color: #000000;
     text-decoration: none;
-    padding-left: 10px;
+    padding-left: 19px;
+    padding-right: 10px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -2445,9 +2464,6 @@ body.modal-open {
     bottom: 0;
     background-color: rgb(216, 196, 224);
   }
-  .card__btn::after {
-    content: "у";
-  }
   .card__btn_disabled {
     display: block;
     width: 100%;
@@ -2466,9 +2482,6 @@ body.modal-open {
     background-color: rgb(96, 22, 118);
     color: white;
     border: 1px solid rgb(96, 22, 118);
-  }
-  .card__btn_disabled::after {
-    content: "е";
   }
   .card__btn:hover {
     border: 1px solid rgb(96, 22, 118);
@@ -2826,6 +2839,17 @@ body.modal-open {
     font-weight: 400;
     font-size: 16px;
   }
+  .card__sale {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 1px 4px;
+    background-color: red;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
   .card__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
     -webkit-box-flex: 1;
         -ms-flex: 1 0 auto;
@@ -2851,7 +2875,8 @@ body.modal-open {
     display: flex;
     -ms-flex-wrap: wrap-reverse;
         flex-wrap: wrap-reverse;
-    padding-left: 11px;
+    padding-left: 18px;
+    padding-right: 0px;
   }
   .card__price_discount::before { /*со скидкой*/
     content: "Со скидкой";
@@ -2891,9 +2916,9 @@ body.modal-open {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: start;
-    width: 100px;
+    width: 55%;
     margin-bottom: 10px;
-    padding-left: 10px;
+    padding-left: 19px;
   }
   .card__price_count-same::before { /*цена без скидки при одинаковой цене*/
     display: -webkit-box;
@@ -2916,7 +2941,8 @@ body.modal-open {
     line-height: 1.3;
     color: #000000;
     text-decoration: none;
-    padding-left: 10px;
+    padding-left: 19px;
+    padding-right: 8px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -2941,9 +2967,6 @@ body.modal-open {
     bottom: 0;
     background-color: rgb(216, 196, 224);
   }
-  .card__btn::after {
-    content: "у";
-  }
   .card__btn_disabled {
     display: block;
     width: 100%;
@@ -2962,9 +2985,6 @@ body.modal-open {
     background-color: rgb(96, 22, 118);
     color: white;
     border: 1px solid rgb(96, 22, 118);
-  }
-  .card__btn_disabled::after {
-    content: "е";
   }
   .card__btn:hover {
     border: 1px solid rgb(96, 22, 118);
@@ -3304,6 +3324,17 @@ body.modal-open {
     font-weight: 400;
     font-size: 16px;
   }
+  .card__sale {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 1px 4px;
+    background-color: red;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
   .card__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
     -webkit-box-flex: 1;
         -ms-flex: 1 0 auto;
@@ -3369,7 +3400,7 @@ body.modal-open {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: start;
-    width: 100px;
+    width: 50%;
     margin-bottom: 10px;
     padding-left: 3px;
   }
@@ -3395,6 +3426,7 @@ body.modal-open {
     color: #000000;
     text-decoration: none;
     padding-left: 3px;
+    padding-right: 3px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -3419,9 +3451,6 @@ body.modal-open {
     bottom: 0;
     background-color: rgb(216, 196, 224);
   }
-  .card__btn::after {
-    content: "у";
-  }
   .card__btn_disabled {
     display: block;
     width: 100%;
@@ -3440,9 +3469,6 @@ body.modal-open {
     background-color: rgb(96, 22, 118);
     color: white;
     border: 1px solid rgb(96, 22, 118);
-  }
-  .card__btn_disabled::after {
-    content: "е";
   }
   .card__btn:hover {
     border: 1px solid rgb(96, 22, 118);
@@ -4584,10 +4610,6 @@ body.modal-open {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
   }
-  .recommendation {
-    margin: 50px 0 300px;
-    font-size: 30px;
-  }
 }
 @media (max-width: 1000px) and (min-width: 769px) {
   .form {
@@ -4683,16 +4705,6 @@ body.modal-open {
   .form_font {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-  }
-  .recommendation {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 40px 0 300px;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    font-size: 30px;
   }
 }
 @media (max-width: 768px) and (min-width: 425px) {
@@ -4795,16 +4807,6 @@ body.modal-open {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
   }
-  .recommendation {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 30px 0 300px;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    font-size: 30px;
-  }
 }
 @media (max-width: 425px) {
   .form {
@@ -4905,17 +4907,6 @@ body.modal-open {
   .form_font {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-  }
-  .recommendation {
-    font-size: 30px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 30px 0 300px;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    font-size: 30px;
   }
 }
 @media (min-width: 1000px) {
@@ -6204,9 +6195,10 @@ body.modal-open {
     margin: 0 auto;
   }
   .basketBox__container_title1 {
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1.3;
     font-weight: 700;
+    padding-right: 10px;
   }
   .basketBox__table_header {
     height: 1px;
@@ -6853,6 +6845,7 @@ body.modal-open {
     font-size: 28px;
     line-height: 1.3;
     font-weight: 700;
+    padding-right: 10px;
   }
   .favouritesBox__table_header {
     height: 1px;
@@ -6985,9 +6978,10 @@ body.modal-open {
     margin: 0 auto;
   }
   .favouritesBox__container_title1 {
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1.3;
     font-weight: 700;
+    padding-right: 10px;
   }
   .favouritesBox__table_header {
     height: 1px;
@@ -7228,6 +7222,15 @@ body.modal-open {
     border-radius: 50%;
     -webkit-transition: 0.5s;
     transition: 0.5s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     z-index: 1;
   }
   .support__footer_btn:hover {
@@ -7362,6 +7365,15 @@ body.modal-open {
     border-radius: 50%;
     -webkit-transition: 0.5s;
     transition: 0.5s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     z-index: 1;
   }
   .support__footer_btn:hover {
@@ -7496,6 +7508,15 @@ body.modal-open {
     border-radius: 50%;
     -webkit-transition: 0.5s;
     transition: 0.5s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     z-index: 1;
   }
   .support__footer_btn:hover {
@@ -7630,6 +7651,15 @@ body.modal-open {
     border-radius: 50%;
     -webkit-transition: 0.5s;
     transition: 0.5s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     z-index: 1;
   }
   .support__footer_btn:hover {
@@ -7767,5 +7797,1036 @@ body.modal-open {
   }
   .cookiesNotice__btn:hover {
     background-color: rgb(243, 211, 152);
+  }
+}
+.spinnerBasket {
+  width: 24px;
+  height: 24px;
+  border: 4px solid #eaeff2;
+  border-top: 4px solid red;
+  border-radius: 50%;
+  -webkit-animation: spinBasket 1s linear infinite;
+          animation: spinBasket 1s linear infinite;
+  margin: 50px auto;
+}
+
+@-webkit-keyframes spinBasket {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spinBasket {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.spinnerCards {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #eaeff2;
+  border-top: 4px solid blue;
+  border-radius: 50%;
+  -webkit-animation: spinCards 1s linear infinite;
+          animation: spinCards 1s linear infinite;
+  margin: 50px auto;
+}
+
+@-webkit-keyframes spinCards {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spinCards {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.spinnerClearBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  padding-right: 75px;
+}
+@media (max-width: 425px) {
+  .spinnerClearBox {
+    padding-right: 10px;
+  }
+}
+@media (min-width: 425px) and (max-width: 768px) {
+  .spinnerClearBox {
+    padding-right: 30px;
+  }
+}
+
+.spinnerClear {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #eaeff2;
+  border-top: 4px solid red;
+  border-radius: 50%;
+  -webkit-animation: spinClear 1s linear infinite;
+          animation: spinClear 1s linear infinite;
+}
+
+@-webkit-keyframes spinClear {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spinClear {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.clearString {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+@media (min-width: 1000px) {
+  .recommendation {
+    margin: 50px 0 100px;
+    font-size: 30px;
+  }
+  .recommendation__box {
+    padding: 30px 0px;
+    margin-top: 10px;
+    position: relative;
+    background-color: #eaeff2;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 100%;
+    border-radius: 19px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .recommendation__leftBtn {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    cursor: pointer;
+    min-height: 44px;
+    max-height: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    border-radius: 50%;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    z-index: 1;
+    position: absolute;
+    left: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+  }
+  .recommendation__leftBtn:hover {
+    background-color: black;
+  }
+  .recommendation__rightBtn {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    cursor: pointer;
+    min-height: 44px;
+    max-height: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    border-radius: 50%;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    z-index: 1;
+    position: absolute;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    right: 10px;
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+  }
+  .recommendation__rightBtn:hover {
+    background-color: black;
+  }
+  .recommendation__container {
+    padding: 0 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .recommendation__container::-webkit-scrollbar {
+    display: none;
+  }
+  .recommendationCard {
+    min-width: 250px;
+    max-width: 250px;
+    margin: 0 10px;
+    min-height: 350px;
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border-radius: 10px;
+    position: relative;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    background-color: #ffffff;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .recommendationCard:hover { /*смена тени при наведении курсора*/
+    -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+            box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+  }
+  .recommendationCard.dark-theme {
+    background-color: #a6a6a6;
+    color: #ffffff;
+  }
+  .recommendationCard__top { /*вверх карточки*/
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 220px;
+            flex: 0 0 220px;
+    position: relative;
+    overflow: hidden;
+  }
+  .recommendationCard__image { /*картинка*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .recommendationCard__image > img { /*непосредственно к картинке*/
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+  .recommendationCard__image:hover > img { /*при наведении курсора на картинку*/
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  .recommendationCard__label { /*скидка*/
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 1px 4px;
+    background-color: #ff5050;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .recommendationCard__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+  }
+  .recommendationCard__prices { /*обе цены*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 8px;
+  }
+  .recommendationCard__prices.dark-theme {
+    color: #ffffff;
+  }
+  .recommendationCard__price::after { /*для добавления рубля*/
+    content: "₽";
+    padding-left: 4px;
+    padding-right: 10px;
+  }
+  .recommendationCard__price_discount { /*цена со скидкой*/
+    font-weight: 700;
+    font-size: 17px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    padding-left: 19px;
+    padding-right: 28px;
+  }
+  .recommendationCard__price_discount::before { /*со скидкой*/
+    content: "Со скидкой";
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+  }
+  .recommendationCard__price_count { /*цена без скидки*/
+    font-weight: 400;
+    font-size: 17px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end;
+  }
+  .recommendationCard__price_count::before { /*без скидки*/
+    content: "Обычная";
+    font-weight: 400;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__price_count-same { /*цена без скидки при одинаковой цене*/
+    font-weight: 700;
+    font-size: 17px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    width: 45%;
+    margin-bottom: 10px;
+    padding-left: 19px;
+  }
+  .recommendationCard__price_count-same::before { /*цена без скидки при одинаковой цене*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    content: "Обычная";
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__title { /*наименование*/
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.3;
+    color: #000000;
+    text-decoration: none;
+    padding-left: 19px;
+    padding-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .recommendationCard__title:hover { /*наименование при наведении*/
+    color: rgb(96, 22, 118);
+  }
+}
+@media (max-width: 1000px) and (min-width: 769px) {
+  .recommendation {
+    margin: 40px 0 100px;
+    font-size: 30px;
+  }
+  .recommendation__box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 30px 0;
+    background-color: #eaeff2;
+    width: 95vw;
+    margin: 10px auto 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 19px;
+    display: flex;
+  }
+  .recommendation__title {
+    padding-left: 2.5vw;
+  }
+  .recommendation__leftBtn {
+    display: none;
+  }
+  .recommendation__rightBtn {
+    display: none;
+  }
+  .recommendation__container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .recommendation__container::-webkit-scrollbar {
+    display: none;
+  }
+  .recommendationCard {
+    min-width: 250px;
+    max-width: 250px;
+    margin: 0 10px;
+    min-height: 350px;
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border-radius: 10px;
+    position: relative;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    background-color: #ffffff;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .recommendationCard:hover { /*смена тени при наведении курсора*/
+    -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+            box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+  }
+  .recommendationCard.dark-theme {
+    background-color: #a6a6a6;
+    color: #ffffff;
+  }
+  .recommendationCard__top { /*вверх карточки*/
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 220px;
+            flex: 0 0 220px;
+    position: relative;
+    overflow: hidden;
+  }
+  .recommendationCard__image { /*картинка*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .recommendationCard__image > img { /*непосредственно к картинке*/
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+  .recommendationCard__image:hover > img { /*при наведении курсора на картинку*/
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  .recommendationCard__label { /*скидка*/
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 1px 4px;
+    background-color: #ff5050;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .recommendationCard__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+  }
+  .recommendationCard__prices { /*обе цены*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 8px;
+  }
+  .recommendationCard__price::after { /*для добавления рубля*/
+    content: "₽";
+    padding-left: 4px;
+    padding-right: 10px;
+  }
+  .recommendationCard__price_discount { /*цена со скидкой*/
+    font-weight: 700;
+    font-size: 17px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    padding-left: 19px;
+    padding-right: 28px;
+  }
+  .recommendationCard__price_discount::before { /*со скидкой*/
+    content: "Со скидкой";
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+  }
+  .recommendationCard__price_count { /*цена без скидки*/
+    font-weight: 400;
+    font-size: 17px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end;
+  }
+  .recommendationCard__price_count::before { /*без скидки*/
+    content: "Обычная";
+    font-weight: 400;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__price_count-same { /*цена без скидки при одинаковой цене*/
+    font-weight: 700;
+    font-size: 17px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    width: 45%;
+    margin-bottom: 10px;
+    padding-left: 19px;
+  }
+  .recommendationCard__price_count-same::before { /*цена без скидки при одинаковой цене*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    content: "Обычная";
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__title { /*наименование*/
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.3;
+    color: #000000;
+    text-decoration: none;
+    padding-left: 19px;
+    padding-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .recommendationCard__title:hover { /*наименование при наведении*/
+    color: rgb(96, 22, 118);
+  }
+}
+@media (max-width: 768px) and (min-width: 425px) {
+  .recommendation {
+    margin: 30px 0 80px;
+    font-size: 30px;
+  }
+  .recommendation__box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 30px 0;
+    background-color: #eaeff2;
+    width: 95vw;
+    margin: 10px auto 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 19px;
+    display: flex;
+  }
+  .recommendation__title {
+    padding-left: 2.5vw;
+  }
+  .recommendation__leftBtn {
+    display: none;
+  }
+  .recommendation__rightBtn {
+    display: none;
+  }
+  .recommendation__container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .recommendation__container::-webkit-scrollbar {
+    display: none;
+  }
+  .recommendationCard {
+    min-width: 200px;
+    max-width: 200px;
+    margin: 0 10px;
+    min-height: 300px;
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border-radius: 10px;
+    position: relative;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    background-color: #ffffff;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .recommendationCard:hover { /*смена тени при наведении курсора*/
+    -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+            box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+  }
+  .recommendationCard.dark-theme {
+    background-color: #a6a6a6;
+    color: #ffffff;
+  }
+  .recommendationCard__top { /*вверх карточки*/
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 180px;
+            flex: 0 0 180px;
+    position: relative;
+    overflow: hidden;
+  }
+  .recommendationCard__image { /*картинка*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .recommendationCard__image > img { /*непосредственно к картинке*/
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+  .recommendationCard__image:hover > img { /*при наведении курсора на картинку*/
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  .recommendationCard__label { /*скидка*/
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 1px 4px;
+    background-color: #ff5050;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .recommendationCard__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+  }
+  .recommendationCard__prices { /*обе цены*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 8px;
+  }
+  .recommendationCard__price::after { /*для добавления рубля*/
+    content: "₽";
+    padding-left: 4px;
+    padding-right: 10px;
+  }
+  .recommendationCard__price_discount { /*цена со скидкой*/
+    font-weight: 700;
+    font-size: 15px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    padding-left: 18px;
+    padding-right: 0px;
+  }
+  .recommendationCard__price_discount::before { /*со скидкой*/
+    content: "Со скидкой";
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+  }
+  .recommendationCard__price_count { /*цена без скидки*/
+    font-weight: 400;
+    font-size: 15px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end;
+  }
+  .recommendationCard__price_count::before { /*без скидки*/
+    content: "Обычная";
+    font-weight: 400;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__price_count-same { /*цена без скидки при одинаковой цене*/
+    font-weight: 700;
+    font-size: 15px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    width: 55%;
+    margin-bottom: 10px;
+    padding-left: 19px;
+  }
+  .recommendationCard__price_count-same::before { /*цена без скидки при одинаковой цене*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    content: "Обычная";
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__title { /*наименование*/
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.3;
+    color: #000000;
+    text-decoration: none;
+    padding-left: 19px;
+    padding-right: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .recommendationCard__title:hover { /*наименование при наведении*/
+    color: rgb(96, 22, 118);
+  }
+}
+@media (max-width: 425px) {
+  .recommendation {
+    font-size: 30px;
+    margin: 30px 0 60px;
+  }
+  .recommendation__box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 20px 0;
+    background-color: #eaeff2;
+    width: 95vw;
+    margin: 10px auto 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 19px;
+    display: flex;
+  }
+  .recommendation__title {
+    padding-left: 2.5vw;
+  }
+  .recommendation__leftBtn {
+    display: none;
+  }
+  .recommendation__rightBtn {
+    display: none;
+  }
+  .recommendation__container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    overflow-x: auto;
+    padding: 0 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .recommendation__container::-webkit-scrollbar {
+    display: none;
+  }
+  .recommendationCard {
+    min-width: 150px;
+    max-width: 150px;
+    margin: 0 10px;
+    min-height: 255px;
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border-radius: 10px;
+    position: relative;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    background-color: #ffffff;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .recommendationCard:hover { /*смена тени при наведении курсора*/
+    -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+            box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+  }
+  .recommendationCard.dark-theme {
+    background-color: #a6a6a6;
+    color: #ffffff;
+  }
+  .recommendationCard__top { /*вверх карточки*/
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 150px;
+            flex: 0 0 150px;
+    position: relative;
+    overflow: hidden;
+  }
+  .recommendationCard__image { /*картинка*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .recommendationCard__image > img { /*непосредственно к картинке*/
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+  .recommendationCard__image:hover > img { /*при наведении курсора на картинку*/
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  .recommendationCard__label { /*скидка*/
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 1px 4px;
+    background-color: #ff5050;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .recommendationCard__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+  }
+  .recommendationCard__prices { /*обе цены*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 8px;
+  }
+  .recommendationCard__price::after { /*для добавления рубля*/
+    content: "₽";
+    padding-left: 2px;
+    padding-right: 3px;
+  }
+  .recommendationCard__price_discount { /*цена со скидкой*/
+    font-weight: 700;
+    font-size: 12px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    padding-left: 3px;
+  }
+  .recommendationCard__price_discount::before { /*со скидкой*/
+    content: "Со скидкой";
+    font-weight: 700;
+    font-size: 12px;
+    color: rgb(0, 0, 0);
+  }
+  .recommendationCard__price_count { /*цена без скидки*/
+    font-weight: 400;
+    font-size: small;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end;
+  }
+  .recommendationCard__price_count::before { /*без скидки*/
+    content: "Обычная";
+    padding-right: 3px;
+    font-weight: 400;
+    font-size: 12px;
+    color: rgb(0, 0, 0);
+  }
+  .recommendationCard__price_count-same { /*цена без скидки при одинаковой цене*/
+    font-weight: 700;
+    font-size: 12px;
+    color: #000000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    width: 50%;
+    margin-bottom: 10px;
+    padding-left: 3px;
+  }
+  .recommendationCard__price_count-same::before { /*цена без скидки при одинаковой цене*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    content: "Обычная";
+    font-weight: 700;
+    font-size: 12px;
+    color: rgb(0, 0, 0);
+    padding-right: 20px;
+  }
+  .recommendationCard__title { /*наименование*/
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: small;
+    line-height: 1.3;
+    color: #000000;
+    text-decoration: none;
+    padding-left: 3px;
+    padding-right: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .recommendationCard__title:hover { /*наименование при наведении*/
+    color: rgb(96, 22, 118);
   }
 }

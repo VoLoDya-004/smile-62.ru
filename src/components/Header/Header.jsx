@@ -7,14 +7,14 @@ import TabSectionMobile from './HeaderComponents/TabSectionMobile'
 import BasketCircle from '../Basket/BasketComponents/BasketCircle'
 
 
-export default function Header({totalBasket}) {
+export default function Header({totalBasket, onSearchChange}) {
 
     
     return (
         <header>
             <LogoHeader />
             <ButtonNav />
-            <Search />
+            <Search onSearchChange={onSearchChange} />
             <TabSection />
             <TabSectionMobile totalBasket={totalBasket} />
             <BasketCircle totalBasket={totalBasket} />
