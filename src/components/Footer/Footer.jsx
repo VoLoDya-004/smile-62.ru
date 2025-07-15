@@ -10,7 +10,7 @@ export default React.memo(function Footer() {
 
 
     return (
-        <footer>
+        <footer className="footer">
             <LogoFooter />
             <SectionsFooter />
             <ContactsFooter />

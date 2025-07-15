@@ -1,0 +1,133 @@
+.setka {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.form__registration {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.recommendation__box {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.basket__empty {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.footer {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.card {
+    &.dark-theme {
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+.recommendationCard {
+    &.dark-theme {
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+.support__header {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.support__main {
+    &.dark-theme {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
+
+.support__footer {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.support__footer_message {
+    &.dark-theme {
+        background-color: rgb(46, 46, 46);
+        color: white;
+    }
+}
+
+.favouritesBox__table_header {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.basketBox__product_controls {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}
+
+.modal-contentBasket {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.modal-contentBasket__title {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}
+
+.basketBox__table_header {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.basketBox__footer {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.count__up {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}
+
+.count__down {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}
+
+.basketDelivery {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }    
+}
+
+.basketDelivery__left {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }    
+}
+
+.basketDelivery__right {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }    
+}
+

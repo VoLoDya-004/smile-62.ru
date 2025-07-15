@@ -55,6 +55,7 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
                                 type="button"
                                 className="basketBox__product_controls"
                                 disabled={isPending}
+                                style={{paddingTop: "7px"}}
                                 onClick={() => {
                                     isBasket ?
                                         alert("Этот продукт уже в корзине") :

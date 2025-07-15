@@ -16,6 +16,8 @@ import FavouritesProducts from './components/Favourites/FavouritesComponents/Fav
 import Support from './components/sub-components/Support'
 import CookiesNotice from './components/sub-components/CookiesNotice'
 import ConfirmModalBasket from './components/sub-components/ConfirmModalBasket'
+import ConfirmModalAllBasket from './components/sub-components/ConfirmModalAllBasket'
+import ConfirmModalAllFav from './components/sub-components/ConfirmModalAllFav'
 
 
 export default function App() {
@@ -27,6 +29,12 @@ export default function App() {
   const [productIdToDelete, setProductIdToDelete] = useState(null)
   const [isPendingDelete, setIsPendingDelete] = useState({})
 
+  const [isModalOpenAllBasket, setIsModalOpenAllBasket] = useState(false)
+  const [isModalOpenAllFav, setIsModalOpenAllFav] = useState(false)
+  const [loadingDeleteAllBasket, setLoadingDeleteAllBasket] = useState(false)
+  const [loadingDeleteAllFav, setLoadingDeleteAllFav] = useState(false)
+  const [loadingFavourites, setLoadingFavourites] = useState(true)
+  const [loadingBasket, setLoadingBasket] = useState(true)
 
   const deleteProductBasket = useCallback((idToDelete) => {
     if (idToDelete) {
@@ -49,17 +57,35 @@ export default function App() {
   }, [setCartBasket, productIdToDelete, srcBasket])
 
   const handleClearBasket = useCallback(() => {
+    setIsModalOpenAllBasket(false)
+    setLoadingDeleteAllBasket(true)
     axios.get("http://localhost:3000/src/PHP/basket.php?idUser=222&Operation=clearBasket")
     .then(() => {
       return axios.get(srcBasket)
     })
     .then((res) => {
       setCartBasket(res.data)
+      closeModalAllBasket()
+      setLoadingDeleteAllBasket(false)
     })
     .catch((error) => {
       console.error("Ошибка при очистке корзины:", error)
+      closeModalAllBasket()
+      setLoadingDeleteAllBasket(false)
     })
   }, [setCartBasket])
+
+  const showModalAllBasket = useCallback(() => {
+    setIsModalOpenAllBasket(true)
+  }, [setIsModalOpenAllBasket])
+
+  const closeModalAllBasket = useCallback(() => {
+    setIsModalOpenAllBasket(false)
+  }, [setIsModalOpenAllBasket])
+
+  const handleClearBasketBtn = useCallback(() => {
+    showModalAllBasket()
+  }, [showModalAllBasket])
 
   const showModal = useCallback((id) => {
     setProductIdToDelete(id)
@@ -129,11 +155,15 @@ export default function App() {
   }, [setCartBasket, srcBasket])
 
   useEffect(() => {
+    setLoadingBasket(true)
     axios.get(srcBasket).then((res) => {
       setCartBasket(res.data)
     })
     .catch((error) => {
       console.error("Ошибка при загрузке корзины:", error)
+    })
+    .finally(() => {
+      setLoadingBasket(false)
     })
   }, [])
 
@@ -192,18 +222,36 @@ useEffect(() => {
     })
   }, [setCartFavourites])
 
-    const handleClearFav = useCallback(() => {
-        axios.get("http://localhost:3000/src/PHP/favourites.php?idUser=222&Operation=clearFavourites")
-        .then(() => {
-          return axios.get(srcFavourites)
-        })
-        .then((res) => {
-            setCartFavourites(res.data)
-        })
-        .catch((error) => {
-          console.error("Ошибка при очистке избранных:", error)
-        })
-    }, [setCartFavourites])
+  const handleClearFav = useCallback(() => {
+    setIsModalOpenAllFav(false)
+    setLoadingDeleteAllFav(true)
+    axios.get("http://localhost:3000/src/PHP/favourites.php?idUser=222&Operation=clearFavourites")
+    .then(() => {
+      return axios.get(srcFavourites)
+    })
+    .then((res) => {
+        setCartFavourites(res.data)
+        closeModalAllFav()
+        setLoadingDeleteAllFav(false)
+    })
+    .catch((error) => {
+      console.error("Ошибка при очистке избранных:", error)
+      setLoadingDeleteAllFav(false)
+      closeModalAllFav()
+    })
+  }, [setCartFavourites])
+
+  const showModalAllFav = useCallback(() => {
+    setIsModalOpenAllFav(true)
+  }, [setIsModalOpenAllFav])
+
+  const closeModalAllFav = useCallback(() => {
+    setIsModalOpenAllFav(false)
+  }, [setIsModalOpenAllFav])
+
+  const handleClearFavBtn = useCallback(() => {
+    showModalAllFav()
+  }, [showModalAllFav])
 
   const addInBasketProductFavourites = useCallback((id) => {
   axios.get(`http://localhost:3000/src/PHP/favourites.php?idProduct=${id}&idUser=222&Operation=addBasket`)
@@ -220,12 +268,16 @@ useEffect(() => {
   }, [setCartFavourites])
 
   useEffect(() => {
+    setLoadingFavourites(true)
     axios.get(srcFavourites).then((res) => {
       setCartFavourites(res.data)
       console.log(res.data)
     })
     .catch((error) => {
       console.error("Ошибка при загрузке избранных:", error)
+    })
+    .finally(() => {
+      setLoadingFavourites(false)
     })
   }, [])
 
@@ -377,8 +429,8 @@ useEffect(() => {
               } />                
             <Route path='/favourites' 
               element={
-                <Context.Provider value={{handleClearFav}}>
-                  <Favourites productsFavourites={productsFavourites} />
+                <Context.Provider value={{handleClearFavBtn, loadingDeleteAllFav}}>
+                  <Favourites productsFavourites={productsFavourites} loading={loadingFavourites}  />
                 </Context.Provider>
               } />                   
             <Route path='/profile' 
@@ -387,11 +439,13 @@ useEffect(() => {
               } />                   
             <Route path='/basket' 
               element={
-                <Context.Provider value={{handleClearBasket}}>
-                  <Basket productsBasket={productsBasket} totalBasket={totalBasket} />
+                <Context.Provider value={{handleClearBasketBtn, loadingDeleteAllBasket}}>
+                  <Basket productsBasket={productsBasket} totalBasket={totalBasket} 
+                  loading={loadingBasket} />
                 </Context.Provider>
               } />                   
           </Routes>
+
         <ScrollButton />
         <ChatBtn />
         <Support />
@@ -400,6 +454,17 @@ useEffect(() => {
           onConfirm={() => {deleteProductBasket(productIdToDelete)}}
           onCancel={closeModal}
         />
+        <ConfirmModalAllBasket 
+          isOpen={isModalOpenAllBasket}
+          onConfirm={() => {handleClearBasket()}}
+          onCancel={closeModalAllBasket}
+        />
+        <ConfirmModalAllFav
+          isOpen={isModalOpenAllFav}
+          onConfirm={() => {handleClearFav()}}
+          onCancel={closeModalAllFav}
+        />
+
       </main>
       
       <Footer />

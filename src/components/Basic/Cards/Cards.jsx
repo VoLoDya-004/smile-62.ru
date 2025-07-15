@@ -92,7 +92,10 @@ export default memo(function Cards() {
             idCategory: selectedCategory,
           },
         })
-        setCards(response.data)
+      const filteredBySearch = response.data.filter(card =>
+        card.nazvanie?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      setCards(filteredBySearch)
       } else {
         const response = await axios.get(`http://localhost:3000/src/PHP/pagination.php`, {
           params: {
@@ -316,7 +319,9 @@ export default memo(function Cards() {
                     setCurrentPage(currentPage)
                   }
                 }}
-              >Назад</ButtonLoad>
+              >
+                Назад
+              </ButtonLoad>
               </div>
               <div className="load-moreForward">
               <ButtonLoad id="loadBtnForward" 
@@ -328,7 +333,9 @@ export default memo(function Cards() {
                     setCurrentPage(currentPage)
                   }
                 }}
-              >Вперед</ButtonLoad>
+              >
+                Вперед
+              </ButtonLoad>
               </div>
             </div>
           </>

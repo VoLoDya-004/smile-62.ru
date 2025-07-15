@@ -1772,10 +1772,6 @@ body.modal-open {
     -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
             box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
   }
-  .card.dark-theme {
-    background-color: #a6a6a6;
-    color: #ffffff;
-  }
   .card__top { /*вверх карточки*/
     -webkit-box-flex: 0;
         -ms-flex: 0 0 220px;
@@ -2280,10 +2276,6 @@ body.modal-open {
     -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
             box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
   }
-  .card.dark-theme {
-    background-color: #a6a6a6;
-    color: #ffffff;
-  }
   .card__top { /*вверх карточки*/
     -webkit-box-flex: 0;
         -ms-flex: 0 0 220px;
@@ -2783,10 +2775,6 @@ body.modal-open {
     -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
             box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
   }
-  .card.dark-theme {
-    background-color: #a6a6a6;
-    color: #ffffff;
-  }
   .card__top { /*вверх карточки*/
     -webkit-box-flex: 0;
         -ms-flex: 0 0 180px;
@@ -3267,10 +3255,6 @@ body.modal-open {
   .card:hover { /*смена тени при наведении курсора*/
     -webkit-box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
             box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
-  }
-  .card.dark-theme {
-    background-color: #a6a6a6;
-    color: #ffffff;
   }
   .card__top { /*вверх карточки*/
     -webkit-box-flex: 0;
@@ -7117,7 +7101,7 @@ body.modal-open {
     height: 500px;
     width: 60%;
     background-color: white;
-    border-radius: 25px;
+    border-radius: 29px;
     margin: 15px auto auto;
   }
   .support__header {
@@ -7260,7 +7244,7 @@ body.modal-open {
     height: 500px;
     width: 75%;
     background-color: white;
-    border-radius: 25px;
+    border-radius: 29px;
     margin: 15px auto auto;
   }
   .support__header {
@@ -7403,7 +7387,7 @@ body.modal-open {
     height: 500px;
     width: 85%;
     background-color: white;
-    border-radius: 25px;
+    border-radius: 29px;
     margin: 15px auto auto;
   }
   .support__header {
@@ -7546,7 +7530,7 @@ body.modal-open {
     height: 500px;
     width: 85%;
     background-color: white;
-    border-radius: 25px;
+    border-radius: 29px;
     margin: 15px auto auto;
   }
   .support__header {
@@ -8829,4 +8813,92 @@ body.modal-open {
   .recommendationCard__title:hover { /*наименование при наведении*/
     color: rgb(96, 22, 118);
   }
+}
+.setka.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.form__registration.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.recommendation__box.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.basket__empty.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.footer.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.card.dark-theme {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.recommendationCard.dark-theme {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.support__header.dark-theme {
+  background-color: black;
+}
+
+.support__main.dark-theme {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.support__footer.dark-theme {
+  background-color: black;
+}
+
+.support__footer_message.dark-theme {
+  background-color: rgb(46, 46, 46);
+  color: white;
+}
+
+.favouritesBox__table_header.dark-theme {
+  background-color: black;
+}
+
+.basketBox__product_controls.dark-theme {
+  background-color: #121212;
+}
+
+.modal-contentBasket.dark-theme {
+  background-color: black;
+}
+
+.modal-contentBasket__title.dark-theme {
+  background-color: #121212;
+}
+
+.basketBox__table_header.dark-theme {
+  background-color: black;
+}
+
+.basketBox__footer.dark-theme {
+  background-color: black;
+}
+
+.count__up.dark-theme {
+  background-color: #121212;
+}
+
+.count__down.dark-theme {
+  background-color: #121212;
+}
+
+.basketDelivery.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.basketDelivery__left.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
+}
+
+.basketDelivery__right.dark-theme {
+  background-color: rgba(234, 239, 242, 0.28);
 }

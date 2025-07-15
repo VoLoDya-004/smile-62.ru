@@ -1,4 +1,4 @@
-import ButtonRegistration from "../../Button/ButtonRegistration"
+import Button from "../../Button/Button"
 
 
 export default function BasketDelivery({totalBasket}) {
@@ -10,7 +10,9 @@ export default function BasketDelivery({totalBasket}) {
                 <div className="basketDelivery__left_count"><b>ВСЕГО ТОВАРОВ:</b> {totalBasket.count} шт.</div>
                 <div className="basketDelivery__left_priceTotal"><b>ИТОГО:</b> {priceFormatter.format(totalBasket.price_total)} &#x20bd;</div>
                 <div className="basketDelivery__left_btn">
-                    <ButtonRegistration id="deliveryBtn">Заказать</ButtonRegistration>
+                    <Button id="deliveryBtn" className="form__registration_btn">
+                        Заказать
+                    </Button>
                 </div>
                 <div className="basketDelivery__left_checkbox">
                     <input type="checkbox" id="checkbox1" />

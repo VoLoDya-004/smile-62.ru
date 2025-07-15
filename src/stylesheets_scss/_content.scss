@@ -143,10 +143,6 @@ body.modal-open {
 	&:hover { /*смена тени при наведении курсора*/
 		box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 	}
-	&.dark-theme {
-		background-color: #a6a6a6;
-		color: #ffffff;
-	}
 	&__top { /*вверх карточки*/
 		flex: 0 0 220px;
 		position: relative;
@@ -580,10 +576,6 @@ body.modal-open {
 		&:hover { /*смена тени при наведении курсора*/
 			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 		}
-		&.dark-theme {
-			background-color: #a6a6a6;
-			color: #ffffff;
-		}
 		&__top { /*вверх карточки*/
 			flex: 0 0 220px;
 			position: relative;
@@ -1014,10 +1006,6 @@ body.modal-open {
 		&:hover { /*смена тени при наведении курсора*/
 			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 		}
-		&.dark-theme {
-			background-color: #a6a6a6;
-			color: #ffffff;
-		}
 		&__top { /*вверх карточки*/
 			flex: 0 0 180px;
 			position: relative;
@@ -1433,10 +1421,6 @@ body.modal-open {
 		user-select: none;
 		&:hover { /*смена тени при наведении курсора*/
 			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
-		}
-		&.dark-theme {
-			background-color: #a6a6a6;
-			color: #ffffff;
 		}
 		&__top { /*вверх карточки*/
 			flex: 0 0 150px;

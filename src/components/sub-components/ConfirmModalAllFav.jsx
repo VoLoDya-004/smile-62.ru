@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { createPortal } from "react-dom"
 
 
-export default function ConfirmModalBasket({ isOpen, onConfirm, onCancel }) {
+export default function ConfirmModalAllBasket({ isOpen, onConfirm, onCancel }) {
     useEffect(() => {
         const handleClickOutside = (e) => {
             const modal = document.getElementById("confirmModalBasket")
@@ -28,9 +28,9 @@ export default function ConfirmModalBasket({ isOpen, onConfirm, onCancel }) {
     return createPortal(
         <div id="confirmModalBasket" className="modalBasket" style={{ display: 'block' }}>
             <div className="modal-contentBasket">
-                <p className="modal-contentBasket__title"><b>Удаление товара</b></p>
+                <p className="modal-contentBasket__title"><b>Удаление избранного</b></p>
                 <p className="modal-contentBasket__description">
-                    Удалить выбранный товар? Отменить действие будет невозможно.
+                    Удалить все товары из избранного? Отменить действие будет невозможно.
                 </p>
                 <div className="modal-contentBasket__footer">
                     <button id="confirmYesBasket" 
@@ -43,6 +43,6 @@ export default function ConfirmModalBasket({ isOpen, onConfirm, onCancel }) {
                 </div>
             </div>
         </div>,
-        document.getElementById("confirmModalBasketDelete")
+        document.getElementById("confirmModalFavDeleteAll")
     )
 }

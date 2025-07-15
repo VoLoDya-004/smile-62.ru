@@ -6,12 +6,23 @@ import BasketDelivery from "./BasketComponents/BasketDelivery"
 import Recommendations from "../sub-components/Recommendations"
 
 
-export default memo(function Basket({totalBasket, productsBasket}) {
+export default memo(function Basket({totalBasket, productsBasket, loading}) {
     const [visible, setVisible] = useState(productsBasket.length > 0)
 
     useEffect(() => {
-        setVisible(productsBasket.length > 0)
-    }, [productsBasket])
+        if (!loading) {
+            setVisible(productsBasket.length > 0)
+        }
+    }, [productsBasket, loading])
+
+    if (loading) {
+        return (
+            <>
+                <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
+                <div class="spinnerCards"></div>
+            </>
+        )
+    }
 
 
     return (

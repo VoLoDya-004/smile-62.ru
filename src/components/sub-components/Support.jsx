@@ -4,7 +4,7 @@ import { createPortal } from "react-dom"
 export default function Support() {
 
 
-    return createPortal (
+    return createPortal(
         <div className="support">
             <div className="support__header">
                 <span className="support__header_title">Поддержка</span>

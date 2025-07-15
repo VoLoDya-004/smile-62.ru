@@ -1,23 +1,13 @@
-import { memo, useContext, useState } from "react"
+import { memo, useContext } from "react"
 import { Context } from "../../../JS/context"
 import BasketHeader from "./BasketHeader"
 import BasketFooter from "./BasketFooter"
-import ButtonRegistration from "../../Button/ButtonRegistration"
+import Button from "../../Button/Button"
 
 
 export default memo(function BasketBox({totalBasket, productsBasket}) {
     const context = useContext(Context)
-    const {handleClearBasket} = context
-
-    const [loading, setLoading] = useState(false)
-
-    const handleClear = () => {
-        setLoading(true)
-        handleClearBasket()
-         .finnaly(() => {
-            setLoading(false)
-         })
-    }
+    const {handleClearBasketBtn, loadingDeleteAllBasket} = context
 
     
     return (
@@ -25,7 +15,7 @@ export default memo(function BasketBox({totalBasket, productsBasket}) {
             <div className="basketBox__header">
                 <div className="basketBox__container">
                     <div className="clearString">
-                        {loading ? (
+                        {loadingDeleteAllBasket ? (
                         <div className="spinnerClearBox">
                             <h1 style={{paddingRight: "10px"}}>Удаление товаров...</h1>
                             <div class="spinnerClear"></div>
@@ -34,7 +24,10 @@ export default memo(function BasketBox({totalBasket, productsBasket}) {
                         (
                         <>
                             <h1 className="basketBox__container_title1">Корзина товаров</h1>
-                            <ButtonRegistration onClick={handleClear} id="clearBasketBtn">Очистить корзину</ButtonRegistration>                        
+                            <Button onClick={handleClearBasketBtn} 
+                                id="clearBasketBtn" className="form__registration_btn">
+                                    Очистить корзину
+                            </Button>                        
                         </>
                         )}
                     </div>

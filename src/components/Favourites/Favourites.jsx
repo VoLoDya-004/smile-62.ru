@@ -5,12 +5,24 @@ import FavouritesBox from "./FavouritesComponents/FavouritesBox"
 import Recommendations from "../sub-components/Recommendations"
 
 
-export default memo(function Favourites( {productsFavourites} ) {
-    const [visible, setVisible] = useState(productsFavourites.length > 0)
+export default memo(function Favourites( {productsFavourites, loading} ) {
+    const [visible, setVisible] = useState(false)
 
     useEffect(() => {
-        setVisible(productsFavourites.length > 0)
-    }, [productsFavourites])
+        if (!loading) {
+            setVisible(productsFavourites.length > 0)
+        }
+    }, [productsFavourites, loading])
+
+    if (loading) {
+        return (
+            <>
+                <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
+                <div class="spinnerCards"></div>
+            </>
+        )
+    }
+    
     
     return (
         <>
