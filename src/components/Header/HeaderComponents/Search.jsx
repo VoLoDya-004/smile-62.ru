@@ -53,7 +53,7 @@ export default React.memo(function Search({onSearchChange}) {
           id="search__line_button"
           onClick={handleSearchClick}>
           <img
-            src="/src/assets/images/icons/poisk.png"
+            src="/images/icons/poisk.png"
             alt="поиск"
             style={{ width: '20px', pointerEvents: 'none' }}
           />

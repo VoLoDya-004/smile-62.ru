@@ -7,7 +7,7 @@ export default memo(function BasketFooter({totalBasket}) {
 
     return (                          
         <div className="basketBox__footer">
-            <div className="basketBox__footer_title">{totalBasket.count} ед.</div>
+            <div className="basketBox__footer_title">{totalBasket.count} шт.</div>
             <div>{priceFormatter.format(totalBasket.price_total)}  руб.</div>
         </div>
     )

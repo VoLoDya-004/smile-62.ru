@@ -423,7 +423,7 @@ useEffect(() => {
             <Route path='/' 
               element={
                 <Context.Provider value={{cartFavourites, cartBasket, searchQuery, selectedCategory, 
-                cards, setCards, selectedCategory}}>
+                cards, setCards}}>
                   <Basic />
                 </Context.Provider>
               } />                
@@ -474,6 +474,7 @@ useEffect(() => {
     </>
   )
 }
+
 
 
 

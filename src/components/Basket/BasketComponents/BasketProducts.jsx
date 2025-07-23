@@ -98,5 +98,3 @@ export default memo(function BasketProducts({productBasket, deleteProductBasket,
     )
 })
 
-
-

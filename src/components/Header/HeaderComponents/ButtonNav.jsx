@@ -8,7 +8,7 @@ export default memo(function ButtonNav() {
     const {setSelectedCategory} = context
 
     const [toggle, setToggle] = useState("")
-    const [image, setImage] = useState("/src/assets/images/icons/nav.png")
+    const [image, setImage] = useState("/images/icons/nav.png")
     const [visible, setVisible] = useState("none")
 
     const navigate = useNavigate()
@@ -17,13 +17,13 @@ export default memo(function ButtonNav() {
     function nav() {
         if (toggle === "") {
             setToggle("navbar")
-            setImage("/src/assets/images/icons/cross.png")
+            setImage("/images/icons/cross.png")
             setVisible("block")
             document.getElementById("blackout").classList.add("blackout")
             document.body.classList.add('modal-open')
         } else {
             setToggle("")
-            setImage("/src/assets/images/icons/nav.png")
+            setImage("/images/icons/nav.png")
             setVisible("none")
             document.getElementById("blackout").classList.remove("blackout")
             document.body.classList.remove('modal-open')
@@ -38,10 +38,10 @@ export default memo(function ButtonNav() {
             setToggle("")
             document.body.classList.remove('modal-open')
             document.getElementById("blackout").classList.remove("blackout")
-            setImage("/src/assets/images/icons/nav.png")
+            setImage("/images/icons/nav.png")
         } else {
             setToggle("navbar")
-            setImage("/src/assets/images/icons/cross.png")
+            setImage("/images/icons/cross.png")
             setVisible("block")
             document.body.classList.add('modal-open')
             document.getElementById("blackout").classList.add("blackout")
@@ -55,7 +55,7 @@ export default memo(function ButtonNav() {
         setToggle("")
         document.body.classList.remove('modal-open')
         document.getElementById("blackout").classList.remove("blackout")
-        setImage("/src/assets/images/icons/nav.png")
+        setImage("/images/icons/nav.png")
         
     }
 

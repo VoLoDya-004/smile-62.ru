@@ -9,7 +9,7 @@ export default function Support() {
             <div className="support__header">
                 <span className="support__header_title">Поддержка</span>
                 <button className="support__header_titleBtn" id="support__header_titleBtn">
-                    <img className="support__header_titleSvg" src="/src/assets/images/icons/cross.png" style={{width: "20px"}}/>
+                    <img className="support__header_titleSvg" src="/images/icons/cross.png" style={{width: "20px"}}/>
                 </button>
             </div>
             <div className="support__main"></div>

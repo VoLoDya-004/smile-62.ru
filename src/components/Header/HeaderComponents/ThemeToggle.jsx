@@ -1,5 +1,5 @@
 import Tippy from '@tippyjs/react'
-import { useEffect, useLayoutEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import React from 'react'
@@ -95,7 +95,7 @@ export default React.memo(function ThemeToggle() {
   return (
     <Tippy content="Сменить тему" placement={'left'} theme='lilac'>
       <button id="themeToggle" onClick={changeTheme}>
-        <img src="/src/assets/images/icons/tema.png" style={{ width: "16px" }} className="themeToggle" />
+        <img src="/images/icons/tema.png" style={{ width: "16px" }} className="themeToggle" />
       </button>
     </Tippy>
   )

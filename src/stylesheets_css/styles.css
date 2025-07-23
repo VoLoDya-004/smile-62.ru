@@ -25,11 +25,11 @@
     background-color: rgba(197, 197, 197, 0.6745098039);
   }
   html::-webkit-scrollbar-button:start { /*стрелки*/
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_top.png) no-repeat center;
     background-size: contain;
   }
   html::-webkit-scrollbar-button:end {
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_bottom.png) no-repeat center;
     background-size: contain;
   }
   ::-moz-selection { /*стиль при копировании*/
@@ -391,11 +391,11 @@
     background-color: rgba(197, 197, 197, 0.6745098039);
   }
   html::-webkit-scrollbar-button:start { /*стрелки*/
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_top.png) no-repeat center;
     background-size: contain;
   }
   html::-webkit-scrollbar-button:end {
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_bottom.png) no-repeat center;
     background-size: contain;
   }
   ::-moz-selection { /*стиль при копировании*/
@@ -757,11 +757,11 @@
     background-color: rgba(197, 197, 197, 0.6745098039);
   }
   html::-webkit-scrollbar-button:start { /*стрелки*/
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_top.png) no-repeat center;
     background-size: contain;
   }
   html::-webkit-scrollbar-button:end {
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_bottom.png) no-repeat center;
     background-size: contain;
   }
   ::-moz-selection { /*стиль при копировании*/
@@ -1184,11 +1184,11 @@
     background-color: rgba(197, 197, 197, 0.6745098039);
   }
   html::-webkit-scrollbar-button:start { /*стрелки*/
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_top.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_top.png) no-repeat center;
     background-size: contain;
   }
   html::-webkit-scrollbar-button:end {
-    background: rgb(173, 173, 173) url(/src/assets/images/icons/arrow_bottom.png) no-repeat center;
+    background: rgb(173, 173, 173) url(/images/icons/arrow_bottom.png) no-repeat center;
     background-size: contain;
   }
   ::-moz-selection { /*стиль при копировании*/
@@ -1657,7 +1657,7 @@ body.modal-open {
     border-radius: 20px;
   }
   .slider__advertisement::after {
-    content: url(/src/assets/images/icons/description_advertisement.svg);
+    content: url(/images/icons/description_advertisement.svg);
     padding-left: 5px;
   }
   .slider__advertisement_description {
@@ -1675,6 +1675,10 @@ body.modal-open {
     opacity: 0;
     -webkit-transition: opacity 0.3s ease;
     transition: opacity 0.3s ease;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
   }
   .slider__advertisement_description.show {
     opacity: 1;
@@ -2174,7 +2178,7 @@ body.modal-open {
     border-radius: 20px;
   }
   .slider__advertisement::after {
-    content: url(/src/assets/images/icons/description_advertisement.svg);
+    content: url(/images/icons/description_advertisement.svg);
     padding-left: 5px;
   }
   .slider__advertisement_description {
@@ -2676,7 +2680,7 @@ body.modal-open {
     border-radius: 20px;
   }
   .slider__advertisement::after {
-    content: url(/src/assets/images/icons/description_advertisement.svg);
+    content: url(/images/icons/description_advertisement.svg);
     padding-left: 5px;
   }
   .slider__advertisement_description {
@@ -6582,8 +6586,8 @@ body.modal-open {
   .favouritesBox__table_header {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 2fr 30px 3fr 30px 3fr 30px 1fr;
-    grid-template-columns: 2fr repeat(2, 3fr) 1fr;
+    -ms-grid-columns: 2fr 30px 3fr 30px 3fr 30px 0.5fr 30px 0.5fr;
+    grid-template-columns: 2fr repeat(2, 3fr) 0.5fr 0.5fr;
     -webkit-column-gap: 30px;
        -moz-column-gap: 30px;
             column-gap: 30px;
@@ -6644,25 +6648,6 @@ body.modal-open {
     -ms-grid-column-align: center;
         justify-self: center;
   }
-  .favouritesBox__footer {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 5fr 30px 3fr 30px 4fr;
-    grid-template-columns: 5fr 3fr 4fr;
-    -webkit-column-gap: 30px;
-       -moz-column-gap: 30px;
-            column-gap: 30px;
-    background-color: #EAEFF2;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 1.2;
-    padding: 19px 0;
-    border-radius: 0 0 19px 19px;
-  }
-  .favouritesBox__footer_title {
-    -ms-grid-column: 2;
-        grid-column-start: 2;
-  }
   .favouritesBox__product > * {
     -ms-flex-item-align: center;
         -ms-grid-row-align: center;
@@ -6707,8 +6692,8 @@ body.modal-open {
   .favouritesBox__table_header {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 2fr 30px 3fr 30px 3fr 30px 1fr;
-    grid-template-columns: 2fr repeat(2, 3fr) 1fr;
+    -ms-grid-columns: 2fr 30px 3fr 30px 3fr 30px 0.5fr 30px 0.5fr;
+    grid-template-columns: 2fr repeat(2, 3fr) 0.5fr 0.5fr;
     -webkit-column-gap: 30px;
        -moz-column-gap: 30px;
             column-gap: 30px;
@@ -6769,25 +6754,6 @@ body.modal-open {
             user-select: none;
     -ms-grid-column-align: center;
         justify-self: center;
-  }
-  .favouritesBox__footer {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 5fr 30px 3fr 30px 4fr;
-    grid-template-columns: 5fr 3fr 4fr;
-    -webkit-column-gap: 30px;
-       -moz-column-gap: 30px;
-            column-gap: 30px;
-    background-color: #EAEFF2;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 1.2;
-    padding: 19px 0;
-    border-radius: 0 0 19px 19px;
-  }
-  .favouritesBox__footer_title {
-    -ms-grid-column: 2;
-        grid-column-start: 2;
   }
   .favouritesBox__product > * {
     -ms-flex-item-align: center;
@@ -6906,25 +6872,6 @@ body.modal-open {
     -ms-grid-column-align: center;
         justify-self: center;
   }
-  .favouritesBox__footer {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 1fr 30px 1fr;
-    grid-template-columns: 1fr 1fr;
-    -webkit-column-gap: 30px;
-       -moz-column-gap: 30px;
-            column-gap: 30px;
-    background-color: #EAEFF2;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 1.2;
-    padding: 19px 0;
-    border-radius: 0 0 19px 19px;
-  }
-  .favouritesBox__footer_title {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
-  }
   .favouritesBox__product > * {
     -ms-flex-item-align: center;
         -ms-grid-row-align: center;
@@ -7041,27 +6988,6 @@ body.modal-open {
             user-select: none;
     -ms-grid-column-align: center;
         justify-self: center;
-  }
-  .favouritesBox__footer {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    justify-items: end;
-    row-gap: 10px;
-    -webkit-column-gap: 30px;
-       -moz-column-gap: 30px;
-            column-gap: 30px;
-    background-color: #EAEFF2;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 1.2;
-    padding: 19px 30px 19px 0;
-    border-radius: 0 0 19px 19px;
-  }
-  .favouritesBox__footer_title {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
   }
   .favouritesBox__product > * {
     -ms-flex-item-align: center;

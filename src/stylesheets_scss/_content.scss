@@ -55,7 +55,7 @@ body.modal-open {
 		user-select: none;
 		border-radius: 20px;
 		&::after {
-			content: url(/src/assets/images/icons/description_advertisement.svg);
+			content: url(/images/icons/description_advertisement.svg);
 			padding-left: 5px;
 		}
 		&_description {
@@ -70,6 +70,7 @@ body.modal-open {
 			right: 35px;
 			opacity: 0;
 			transition: opacity .3s ease;
+			user-select: none;
 			&.show {
 				opacity: 1;
 			}
@@ -498,7 +499,7 @@ body.modal-open {
 		pointer-events: none;
 		border-radius: 20px;
 		&::after {
-			content: url(/src/assets/images/icons/description_advertisement.svg);
+			content: url(/images/icons/description_advertisement.svg);
 			padding-left: 5px;
 		}
 		&_description {
@@ -929,7 +930,7 @@ body.modal-open {
 		user-select: none;
 		border-radius: 20px;
 		&::after {
-			content: url(/src/assets/images/icons/description_advertisement.svg);
+			content: url(/images/icons/description_advertisement.svg);
 			padding-left: 5px;
 		}
 		&_description {

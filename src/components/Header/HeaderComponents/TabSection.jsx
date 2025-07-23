@@ -12,16 +12,28 @@ export default React.memo(function TabSection() {
     return (
         <ul className="menu">
             <li className="menu__item">
-				<NavLink to="/" className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Главная</NavLink>
+				<NavLink to="/" className={({ isActive }) =>
+				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+					Главная
+				</NavLink>
 			</li>    
             <li className="menu__item">
-				<NavLink to="/favourites" className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Избранное</NavLink>
+				<NavLink to="/favourites" className={({ isActive }) =>
+				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+					Избранное
+				</NavLink>
 			</li>
 			<li className="menu__item">
-				<NavLink to="/profile"className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Профиль</NavLink>
+				<NavLink to="/profile"className={({ isActive }) =>
+				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+					Профиль
+				</NavLink>
 			</li>
   	    	<li className="menu__item">
-				<NavLink to="/basket" className={({ isActive }) =>(isActive ? "line line-text menu__item_style" : "menu__item_style")}>Корзина</NavLink>
+				<NavLink to="/basket" className={({ isActive }) =>
+				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+					Корзина
+				</NavLink>
 			</li>
         </ul>
     )

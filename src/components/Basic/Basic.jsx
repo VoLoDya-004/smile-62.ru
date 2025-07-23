@@ -11,15 +11,15 @@ export default memo(function Basic() {
             <Carousel>
                 <div className="slider__item">
                     <img style={{width: "100%"}} 
-                    src="/src/assets/images/icons/advertisement1.png" alt="image" />
+                    src="/images/icons/advertisement1.png" alt="image" />
                 </div>
                 <div className="slider__item">
                     <img style={{width: "100%"}} 
-                    src="/src/assets/images/icons/advertisement2.jpg" alt="image" />
+                    src="/images/icons/advertisement2.jpg" alt="image" />
                 </div>
                 <div className="slider__item">
                     <img style={{width: "100%"}} 
-                    src="/src/assets/images/icons/advertisement3.jpg" alt="image" />
+                    src="/images/icons/advertisement3.jpg" alt="image" />
                 </div>
             </Carousel>
             <Cards />
