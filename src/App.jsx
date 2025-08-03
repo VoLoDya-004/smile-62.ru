@@ -403,17 +403,48 @@ useEffect(() => {
   //поиск
   const[searchQuery, setSearchQuery] = useState('')
 
+  //пагинация
+  const [currentPage, setCurrentPage] = useState(1);
+
   //меню товаров
   const [selectedCategory, setSelectedCategory] = useState(null)
 
   // карточки на главной
   const [cards, setCards] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  // сортировка товаров
+  const [sortType, setSortType] = useState("default")
+
+  //загрузка карточек со всеми параметрами
+  const fetchCards = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const response = await axios.get(`http://localhost:3000/src/PHP/getCards.php`, {
+        params: {
+          page: currentPage,
+          search: searchQuery,
+          idCategory: selectedCategory,
+          sortType: sortType,
+        },
+      })
+      setCards(response.data)
+    } catch (error) {
+      console.error('Ошибка при загрузке карточек:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [currentPage, searchQuery, selectedCategory, sortType])
+
+  useEffect(() => {
+    fetchCards()
+  }, [fetchCards])
 
   
   return (
     <>
     <Router>
-      <Context.Provider value={{setSelectedCategory}}>
+      <Context.Provider value={{setSelectedCategory, setCurrentPage}}>
         <Header totalBasket={totalBasket} onSearchChange={setSearchQuery} />
       </Context.Provider>
 
@@ -423,7 +454,8 @@ useEffect(() => {
             <Route path='/' 
               element={
                 <Context.Provider value={{cartFavourites, cartBasket, searchQuery, selectedCategory, 
-                cards, setCards}}>
+                cards, setCards, setSortType, sortType,
+                setSelectedCategory, setSearchQuery, setCurrentPage, isLoading, currentPage}}>
                   <Basic />
                 </Context.Provider>
               } />                

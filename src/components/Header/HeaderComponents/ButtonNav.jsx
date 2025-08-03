@@ -5,7 +5,7 @@ import { Context } from "../../../JS/context"
 
 export default memo(function ButtonNav() {
     const context = useContext(Context)
-    const {setSelectedCategory} = context
+    const {setSelectedCategory, setCurrentPage} = context
 
     const [toggle, setToggle] = useState("")
     const [image, setImage] = useState("/images/icons/nav.png")
@@ -49,6 +49,7 @@ export default memo(function ButtonNav() {
     })
 
     const handleCategorySelect = (id) => {
+        setCurrentPage(1)
         navigate("/")
         setSelectedCategory(id)
         setVisible("none")
@@ -170,7 +171,6 @@ export default memo(function ButtonNav() {
                     Техника для дома
                 </div>
             </div>
-            <div id="blackout"></div>
             </>
         )
     })

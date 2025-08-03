@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import Carousel from './Carousel/Carousel'
 import Cards from './Cards/Cards'
+import FiltersBlock from './FiltersBlock/FiltersBlock'
 
 
 export default memo(function Basic() {
@@ -22,6 +23,7 @@ export default memo(function Basic() {
                     src="/images/icons/advertisement3.jpg" alt="image" />
                 </div>
             </Carousel>
+            <FiltersBlock />
             <Cards />
         </>
     )

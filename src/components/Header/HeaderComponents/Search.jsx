@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import React from 'react'
+import { Context } from '../../../JS/context'
 
 
 export default React.memo(function Search({onSearchChange}) {
+  const context = useContext(Context)
+  const {setCurrentPage} = context
   const [searchTerm, setSearchTerm] = useState('')
   const theme = localStorage.getItem('theme')
 
@@ -17,11 +20,16 @@ export default React.memo(function Search({onSearchChange}) {
   }
 
   const handleSearchClick = () => {
+    setCurrentPage(1)
     onSearchChange(searchTerm)
+    if (searchTerm.length === 0) {
+      document.getElementById("search__line_line").focus()
+    }
   }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
+      setCurrentPage(1)
       onSearchChange(searchTerm)
     }
   }

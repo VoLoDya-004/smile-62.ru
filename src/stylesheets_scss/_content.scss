@@ -71,6 +71,7 @@ body.modal-open {
 			opacity: 0;
 			transition: opacity .3s ease;
 			user-select: none;
+			z-index: 1;
 			&.show {
 				opacity: 1;
 			}
@@ -156,6 +157,7 @@ body.modal-open {
 	transition: .3s;
 	fill: rgb(118, 118, 118);
 	pointer-events: auto;
+	cursor: pointer;
 	z-index: 1;
 	&:hover { /*сердце*/
 		fill: rgb(96, 22, 118);
@@ -279,6 +281,7 @@ body.modal-open {
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+		cursor: pointer;
 		&:hover { /*наименование при наведении*/
 			color: rgb(96, 22, 118);
 		}
@@ -337,6 +340,7 @@ body.modal-open {
     border-radius: 50%;
 	transition: 0.5s;
 	display: none;
+	z-index: 3;
 	&:hover{
 		background-color: rgba(0, 0, 0);
 	}
@@ -400,6 +404,7 @@ body.modal-open {
 	font-size: 17px;
 	border: none;
 	transition: .2s;
+	cursor: pointer;
 	&_disabled {
 		width: 200px;
 		height: 40px;
@@ -409,6 +414,7 @@ body.modal-open {
 		border: none;
 		background-color: #ececec;
 		color: #00000063;
+		cursor: default;
 		&:hover {
 			background-color: #ececec !important;
 		}
@@ -427,6 +433,7 @@ body.modal-open {
 	font-size: 17px;
 	border: none;
 	transition: .2s;
+	cursor: pointer;
 	&_disabled {
 		width: 200px;
 		height: 40px;
@@ -436,6 +443,7 @@ body.modal-open {
 		border: none;
 		background-color: #ececec;
 		color: #00000063;
+		cursor: default;
 		&:hover {
 			background-color: #ececec !important;
 		}
@@ -589,6 +597,7 @@ body.modal-open {
 		transition: .3s;
 		fill: rgb(118, 118, 118);
 		pointer-events: auto;
+		cursor: pointer;
 		z-index: 1;
 		&:hover { /*сердце*/
 			fill: rgb(96, 22, 118);
@@ -709,6 +718,7 @@ body.modal-open {
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			cursor: pointer;
 			&:hover { /*наименование при наведении*/
 				color: rgb(96, 22, 118);
 			}
@@ -767,6 +777,7 @@ body.modal-open {
 		border-radius: 50%;
 		transition: 0.5s;
 		display: none;
+		z-index: 3;
 		&:hover{
 			background-color: rgba(0, 0, 0);
 		}
@@ -830,6 +841,7 @@ body.modal-open {
 		font-size: 17px;
 		border: none;
 		transition: .2s;
+		cursor: pointer;
 		&_disabled {
 			width: 200px;
 			height: 40px;
@@ -839,6 +851,7 @@ body.modal-open {
 			border: none;
 			background-color: #ececec;
 			color: #00000063;
+			cursor: default;
 			&:hover {
 				background-color: #ececec !important;
 			}
@@ -857,6 +870,7 @@ body.modal-open {
 		font-size: 17px;
 		border: none;
 		transition: .2s;
+		cursor: pointer;
 		&_disabled {
 			width: 200px;
 			height: 40px;
@@ -866,6 +880,7 @@ body.modal-open {
 			border: none;
 			background-color: #ececec;
 			color: #00000063;
+			cursor: default;
 			&:hover {
 				background-color: #ececec !important;
 			}
@@ -1019,6 +1034,7 @@ body.modal-open {
 		transition: .3s;
 		fill: rgb(118, 118, 118);
 		pointer-events: auto;
+		cursor: pointer;
 		z-index: 1;
 		&:hover { /*сердце*/
 			fill: rgb(96, 22, 118);
@@ -1139,6 +1155,7 @@ body.modal-open {
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			cursor: pointer;
 			&:hover { /*наименование при наведении*/
 				color: rgb(96, 22, 118);
 			}
@@ -1197,6 +1214,7 @@ body.modal-open {
 		border-radius: 50%;
 		transition: 0.5s;
 		display: none;
+		z-index: 3;
 		&:hover{
 			background-color: rgba(0, 0, 0);
 		}
@@ -1260,6 +1278,7 @@ body.modal-open {
 		font-size: 17px;
 		border: none;
 		transition: .2s;
+		cursor: pointer;
 		&_disabled {
 			width: 170px;
 			height: 35px;
@@ -1269,6 +1288,7 @@ body.modal-open {
 			border: none;
 			background-color: #ececec;
 			color: #00000063;
+			cursor: default;
 			&:hover {
 				background-color: #ececec !important;
 			}
@@ -1287,6 +1307,7 @@ body.modal-open {
 		font-size: 17px;
 		border: none;
 		transition: .2s;
+		cursor: pointer;
 		&_disabled {
 			width: 170px;
 			height: 35px;
@@ -1296,6 +1317,7 @@ body.modal-open {
 			border: none;
 			background-color: #ececec;
 			color: #00000063;
+			cursor: default;
 			&:hover {
 				background-color: #ececec !important;
 			}
@@ -1435,6 +1457,7 @@ body.modal-open {
 		transition: .3s;
 		fill: rgb(118, 118, 118);
 		pointer-events: auto;
+		cursor: pointer;
 		z-index: 1;
 		&:hover { /*сердце*/
 			fill: rgb(96, 22, 118);
@@ -1554,6 +1577,7 @@ body.modal-open {
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			cursor: pointer;
 			&:hover { /*наименование при наведении*/
 				color: rgb(96, 22, 118);
 			}
@@ -1612,6 +1636,7 @@ body.modal-open {
 		border-radius: 50%;
 		transition: 0.5s;
 		display: none;
+		z-index: 3;
 		&:hover{
 			background-color: rgba(0, 0, 0);
 		}
@@ -1675,6 +1700,7 @@ body.modal-open {
 		font-size: 17px;
 		border: none;
 		transition: .2s;
+		cursor: pointer;
 		&_disabled {
 			width: 80%;
 			height: 35px;
@@ -1684,6 +1710,7 @@ body.modal-open {
 			border: none;
 			background-color: #ececec;
 			color: #00000063;
+			cursor: default;
 			&:hover {
 				background-color: #ececec !important;
 			}
@@ -1702,6 +1729,7 @@ body.modal-open {
 		font-size: 17px;
 		border: none;
 		transition: .2s;
+		cursor: pointer;
 		&_disabled {
 			width: 80%;
 			height: 35px;
@@ -1711,6 +1739,7 @@ body.modal-open {
 			border: none;
 			background-color: #ececec;
 			color: #00000063;
+			cursor: default;
 			&:hover {
 				background-color: #ececec !important;
 			}

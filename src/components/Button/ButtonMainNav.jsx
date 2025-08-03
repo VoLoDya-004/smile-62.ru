@@ -5,6 +5,6 @@ export default function ButtonMainNav() {
     
     
     return (
-        <NavLink to="/"><button id="main"><b>Перейти на главную</b></button></NavLink>
+        <NavLink to="/"><button id="main"><b style={{userSelect: "none"}}>Перейти на главную</b></button></NavLink>
     )
 }

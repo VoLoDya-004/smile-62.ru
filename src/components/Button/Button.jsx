@@ -1,7 +1,7 @@
 
 
 
-export default function Button({children, id, className, onClick}) {
+export default function Button({children, id, className, onClick, style}) {
 
 
     return (
@@ -9,8 +9,9 @@ export default function Button({children, id, className, onClick}) {
 			<button 
                 className={className} 
                 id={id} 
-                onClick={onClick}>
-                    
+                onClick={onClick}
+                style={style}
+            >   
                 <b>{children}</b>
             </button>
 		</p>

@@ -15,17 +15,20 @@ export default function BasketDelivery({totalBasket}) {
                     </Button>
                 </div>
                 <div className="basketDelivery__left_checkbox">
-                    <input type="checkbox" id="checkbox1" />
-                    <label htmlFor="checkbox1">
-                        Соглашаюсь с правилами пользования <br /> 
+                    <input type="checkbox" id="checkbox1" style={{cursor: "pointer"}} />
+                    <label htmlFor="checkbox1" >
+                        Соглашаюсь с <a href="" className="basketDelivery__left_rules">
+                        правилами</a> пользования <br /> 
                         <span style={{paddingLeft: "20px"}}>торговой площадкой и возврата</span>
                     </label>
                 </div>
             </div>
             <div className="basketDelivery__right">
-                <label className="basketDelivery__right_text" for="citySelect"><b>ВАШ ГОРОД </b></label><br />
+                <label className="basketDelivery__right_text" for="citySelect">
+                    <b>ВАШ ГОРОД</b>
+                </label><br />
                 <select className="basketDelivery__right_select" 
-                name="city" id="citySelect">
+                name="city" id="citySelect" style={{cursor: "pointer"}}>
                         <option value="">Выберите город</option>
                         <option value="astrahan">Астрахань</option>
                         <option value="barnaul">Барнаул</option>

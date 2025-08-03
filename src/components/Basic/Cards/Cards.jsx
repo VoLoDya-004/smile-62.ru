@@ -6,11 +6,11 @@ import { Context } from '../../../JS/context'
 
 
 export default memo(function Cards() {
-  const [currentPage, setCurrentPage] = useState(1)
   const [isDarkTheme, setIsDarkTheme] = useState(document.body.classList.contains("dark-theme"))
   const userId = 222
   const context = useContext(Context)
-  const { cartFavourites, cartBasket, searchQuery, selectedCategory, setCards, cards} = context
+  const { cartFavourites, cartBasket, searchQuery,
+    isLoading, cards, setCurrentPage, currentPage} = context
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
   const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
 
@@ -19,7 +19,6 @@ export default memo(function Cards() {
   const [pendingIdFav, setPendingIdFav] = useState(null)
   const [localFavourites, setLocalFavourites] = useState([])
   const [localBasket, setLocalBasket] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
   const [addingStatus, setAddingStatus] = useState({})
 
   useEffect(() => {
@@ -76,40 +75,6 @@ export default memo(function Cards() {
     }).catch(() => {
       setPendingIdBasket(null)
     })
-  }
-
-  useEffect(() => {
-    loadCards()
-  }, [currentPage, isDarkTheme, searchQuery, selectedCategory])
-
-  async function loadCards() {
-    setIsLoading(true)
-    try {
-      if (selectedCategory && selectedCategory !== 0) {
-        const response = await axios.get(`http://localhost:3000/src/PHP/sort.php`, {
-          params: {
-            Operation: 'getCategoryProducts',
-            idCategory: selectedCategory,
-          },
-        })
-      const filteredBySearch = response.data.filter(card =>
-        card.nazvanie?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-      setCards(filteredBySearch)
-      } else {
-        const response = await axios.get(`http://localhost:3000/src/PHP/pagination.php`, {
-          params: {
-            page: currentPage,
-            search: searchQuery,
-          },
-        })
-        setCards(response.data)
-      }
-    } catch (error) {
-      console.error("Ошибка при загрузке карточек:", error)
-    } finally {
-      setIsLoading(false)
-    }
   }
   
   const addBasket = useCallback(async (idProduct, cardNazvanie) => {
@@ -288,7 +253,7 @@ export default memo(function Cards() {
       {isLoading ? (
         <>
           <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
-          <div class="spinnerCards"></div>
+          <div className="spinnerCards"></div>
         </>
       ) : (
         <>
@@ -345,4 +310,3 @@ export default memo(function Cards() {
     </>
   )
 })
-

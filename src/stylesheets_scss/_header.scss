@@ -49,7 +49,7 @@ header { /*стиль шапки и её элементов */
 	User-select: none;
 	position: fixed;
 	top: 0;
-	z-index: 3;
+	z-index: 7;
 	font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
@@ -75,6 +75,7 @@ header { /*стиль шапки и её элементов */
 	justify-content: center;
 	transition: border-width .3s;
 	transition: border-color .3s;
+	cursor: pointer;
     &:hover {
         border-width: 2px;
         border-color: white;
@@ -106,6 +107,7 @@ header { /*стиль шапки и её элементов */
 		align-items: center;
 		min-height: 5vh;
 		width: 95%;
+		cursor: pointer;
 		&:hover {
 			background-color: $btnColor;
 			border-radius: 10px;
@@ -131,9 +133,9 @@ header { /*стиль шапки и её элементов */
 }
 
 .blackout {
-	position: absolute;
+	position: fixed;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	top: 72px;
 	background-color: #0000008f;
 	z-index: 4;
@@ -180,6 +182,7 @@ header { /*стиль шапки и её элементов */
 	outline: none;
 	padding-right: 15px;
 	border: none;
+	cursor: pointer;
 	transition: background-color .3s;
     &:hover {
         background-color: #b193bd;
@@ -292,6 +295,7 @@ body.dark-theme { /*темная тема*/
 	border: none;
 	background-color: $btnColor;
 	border-radius: 50%;
+	cursor: pointer;
 	transition: .4s linear;
 	&:hover {
 		background-color: rgb(186 155 194);
@@ -366,7 +370,7 @@ body.dark-theme { /*темная тема*/
 		User-select: none;
 		position: fixed;
 		top: 0;
-		z-index: 3;
+		z-index: 7;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
@@ -392,6 +396,7 @@ body.dark-theme { /*темная тема*/
 		justify-content: center;
 		transition: border-width .3s;
 		transition: border-color .3s;
+		cursor: pointer;
 		&:hover {
 			border-width: 2px;
 			border-color: white;
@@ -423,6 +428,7 @@ body.dark-theme { /*темная тема*/
 			align-items: center;
 			min-height: 5vh;
 			width: 95%;
+			cursor: pointer;
 			&:hover {
 				background-color: $btnColor;
 				border-radius: 10px;
@@ -448,9 +454,9 @@ body.dark-theme { /*темная тема*/
 	}
 	
 	.blackout {
-		position: absolute;
+		position: fixed;
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 		top: 72px;
 		background-color: #0000008f;
 		z-index: 4;
@@ -497,6 +503,7 @@ body.dark-theme { /*темная тема*/
 		outline: none;
 		padding-right: 15px;
 		border: none;
+		cursor: pointer;
 		transition: background-color .3s;
 		&:hover {
 			background-color: #b193bd;
@@ -610,6 +617,7 @@ body.dark-theme { /*темная тема*/
 		border: none;
 		background-color: $btnColor;
 		border-radius: 50%;
+		cursor: pointer;
 		transition: .4s linear;
 		&:hover {
 			background-color: rgb(186 155 194);
@@ -685,7 +693,7 @@ body.dark-theme { /*темная тема*/
 		User-select: none;
 		position: fixed;
 		top: 0;
-		z-index: 3;
+		z-index: 7;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
@@ -712,6 +720,7 @@ body.dark-theme { /*темная тема*/
 		border-radius: 10px;
 		border: 1px solid rgba(255, 255, 255, .4);
 		justify-content: center;
+		cursor: pointer;
 		transition: border-width .3s;
 		transition: border-color .3s;
 		&:hover {
@@ -745,6 +754,7 @@ body.dark-theme { /*темная тема*/
 			align-items: center;
 			min-height: 5vh;
 			width: 95%;
+			cursor: pointer;
 			&:hover {
 				background-color: $btnColor;
 				border-radius: 10px;
@@ -770,9 +780,9 @@ body.dark-theme { /*темная тема*/
 	}
 	
 	.blackout {
-		position: absolute;
+		position: fixed;
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 		top: 72px;
 		background-color: #0000008f;
 		z-index: 4;
@@ -824,6 +834,7 @@ body.dark-theme { /*темная тема*/
 		outline: none;
 		padding-right: 15px;
 		border: none;
+		cursor: pointer;
 		transition: background-color .3s;
 		&:hover {
 			background-color: #b193bd;
@@ -888,7 +899,7 @@ body.dark-theme { /*темная тема*/
 		background-color: #ffffff;
 		bottom: 0;
 		position: fixed;
-		z-index: 5;
+		z-index: 7;
 		&__item {
 			@include flex-center;
 			pointer-events: none;
@@ -975,6 +986,7 @@ body.dark-theme { /*темная тема*/
 		border: none;
 		background-color: $btnColor;
 		border-radius: 50%;
+		cursor: pointer;
 		transition: .4s linear;
 		&:hover {
 			background-color: rgb(186 155 194);
@@ -1050,7 +1062,7 @@ body.dark-theme { /*темная тема*/
 		User-select: none;
 		position: fixed;
 		top: 0;
-		z-index: 3;
+		z-index: 7;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
@@ -1077,6 +1089,7 @@ body.dark-theme { /*темная тема*/
 		border-radius: 10px;
 		border: 1px solid rgba(255, 255, 255, .4);
 		justify-content: center;
+		cursor: pointer;
 		transition: border-width .3s;
 		transition: border-color .3s;
 		&:hover {
@@ -1110,6 +1123,7 @@ body.dark-theme { /*темная тема*/
 			align-items: center;
 			min-height: 5vh;
 			width: 95%;
+			cursor: pointer;
 			&:hover {
 				background-color: $btnColor;
 				border-radius: 10px;
@@ -1135,9 +1149,9 @@ body.dark-theme { /*темная тема*/
 	}
 	
 	.blackout {
-		position: absolute;
+		position: fixed;
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 		top: 72px;
 		background-color: #0000008f;
 		z-index: 4;
@@ -1189,6 +1203,7 @@ body.dark-theme { /*темная тема*/
 		outline: none;
 		padding-right: 15px;
 		border: none;
+		cursor: pointer;
 		transition: background-color .3s;
 		&:hover {
 			background-color: #b193bd;
@@ -1339,6 +1354,7 @@ body.dark-theme { /*темная тема*/
 		border: none;
 		background-color: $btnColor;
 		border-radius: 50%;
+		cursor: pointer;
 		transition: .4s linear;
 		&:hover {
 			background-color: rgb(186 155 194);

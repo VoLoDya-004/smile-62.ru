@@ -49,8 +49,6 @@ if (isset($_GET['Operation'])) {
     mysqli_select_db($connect, $dbName) or die ("<p>Не могу создать соединение:".mysqli_error().". Ошибка в строке ".__LINE__."</p>");
     $result = mysqli_query($connect, $query) or die(mysqli_error());
 
-    //$basket = "SELECT * FROM basket"; 
-    //$result2 = mysqli_query($connect, $basket);
     $myArray = array();
     while($row = mysqli_fetch_assoc($result)) {
         array_push($myArray, $row);
