@@ -2,11 +2,15 @@ import Accordion from "./Accordion"
 import Button from "../../Button/Button"
 import ButtonLoad from "../../Button/ButtonLoad"
 import ButtonCross from "../../Button/ButtonCross"
-import { forwardRef, useState } from "react"
+import { forwardRef, useContext, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import { Context } from "../../../JS/context"
 
 
 const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
+    const context = useContext(Context)
+    const {handleFiltersChange, filters, setCurrentPage} = context
+
     const [actions, setActions] = useState({
         action1: false,
         action2: false,
@@ -18,8 +22,69 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
         action8: false,
     })
 
+    const [minPrice, setMinPrice] = useState('')
+    const [maxPrice, setMaxPrice] = useState('')
+
+    useEffect(() => {
+        if (filters) {
+            setActions({
+                action1: filters.actions?.action1 ? true : false,
+                action2: filters.actions?.action2 ? true : false,
+                action3: filters.actions?.action3 ? true : false,
+                action4: filters.actions?.action4 ? true : false,
+                action5: filters.actions?.action5 ? true : false,
+                action6: filters.actions?.action6 ? true : false,
+                action7: filters.actions?.action7 ? true : false,
+                action8: filters.actions?.action8 ? true : false,
+            })
+            setMinPrice(filters.minPrice !== null ? String(filters.minPrice) : '')
+            setMaxPrice(filters.maxPrice !== null ? String(filters.maxPrice) : '')
+        }
+    }, [filters])
+
+    const handleMinPriceChange = (e) => {
+        setMinPrice(e.target.value)
+    }
+
+    const handleMaxPriceChange = (e) => {
+        setMaxPrice(e.target.value)
+    }
+
     const handleCheckboxChange = (e) => {
         setActions({...actions, [e.target.name]: e.target.checked})
+    }
+
+    const handleApplyFilters = () => {
+        setCurrentPage(1)
+        const actionsForSend = {}
+        for (const key in actions) {
+            actionsForSend[key] = actions[key] ? true : false
+        }
+        handleFiltersChange({
+            minPrice: minPrice !== '' ? parseFloat(minPrice) : null,
+            maxPrice: maxPrice !== '' ? parseFloat(maxPrice) : null,
+            actions: actionsForSend
+        })
+        handleToggleFilters()
+    }
+
+    const handleResetFilters = () => {
+        setCurrentPage(1)
+        handleFiltersChange({
+            minPrice: null,
+            maxPrice: null,
+            actions: {
+                action1: false,
+                action2: false,
+                action3: false,
+                action4: false,
+                action5: false,
+                action6: false,
+                action7: false,
+                action8: false,
+            }
+        })
+        handleToggleFilters()
     }
 
 
@@ -87,7 +152,9 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                             type="number" 
                             min="1" 
                             max="1000000" 
+                            value={minPrice}
                             placeholder="от..." 
+                            onChange={handleMinPriceChange}
                         />
                     </div>
                     <div className="accordion__inputBlock">
@@ -97,7 +164,9 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                             type="number" 
                             min="1" 
                             max="1000000" 
+                            value={maxPrice}
                             placeholder="до..." 
+                            onChange={handleMaxPriceChange}
                         />
                     </div>
                 </div>
@@ -158,7 +227,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                 <Button
                     className="form__registration_btn"
                     id="AccordionBtnApply"
-                    //onClick={}
+                    onClick={handleApplyFilters}
                 >
                     Применить
                 </Button>
@@ -166,7 +235,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     className="load-more__btnForward"
                     id="AccordionBtnOff"
                     style={{width: "150px", borderRadius: "5px", fontSize: "13px"}}
-                    //onClick={}
+                    onClick={handleResetFilters}
                 >
                     <b>Сбросить</b>
                 </ButtonLoad>

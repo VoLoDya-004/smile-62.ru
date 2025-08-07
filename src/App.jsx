@@ -416,6 +416,26 @@ useEffect(() => {
   // сортировка товаров
   const [sortType, setSortType] = useState("default")
 
+  // фильтры
+  const [filters, setFilters] = useState({
+    minPrice: null,
+    maxPrice: null,
+    actions: {
+      action1: false,
+      action2: false,
+      action3: false,
+      action4: false,
+      action5: false,
+      action6: false,
+      action7: false,
+      action8: false,
+    }
+  })
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters)
+  }
+
   //загрузка карточек со всеми параметрами
   const fetchCards = useCallback(async () => {
     setIsLoading(true)
@@ -426,6 +446,16 @@ useEffect(() => {
           search: searchQuery,
           idCategory: selectedCategory,
           sortType: sortType,
+          minPrice: filters.minPrice,
+          maxPrice: filters.maxPrice,
+          action1: filters.actions.action1 ? '1' : '0',
+          action2: filters.actions.action2 ? '1' : '0',
+          action3: filters.actions.action3 ? '1' : '0',
+          action4: filters.actions.action4 ? '1' : '0',
+          action5: filters.actions.action5 ? '1' : '0',
+          action6: filters.actions.action6 ? '1' : '0',
+          action7: filters.actions.action7 ? '1' : '0',
+          action8: filters.actions.action8 ? '1' : '0',
         },
       })
       setCards(response.data)
@@ -434,12 +464,11 @@ useEffect(() => {
     } finally {
       setIsLoading(false)
     }
-  }, [currentPage, searchQuery, selectedCategory, sortType])
+  }, [currentPage, searchQuery, selectedCategory, sortType, filters])
 
   useEffect(() => {
     fetchCards()
   }, [fetchCards])
-
   
   return (
     <>
@@ -454,7 +483,7 @@ useEffect(() => {
             <Route path='/' 
               element={
                 <Context.Provider value={{cartFavourites, cartBasket, searchQuery, selectedCategory, 
-                cards, setCards, setSortType, sortType,
+                cards, setCards, setSortType, sortType, handleFiltersChange, filters,
                 setSelectedCategory, setSearchQuery, setCurrentPage, isLoading, currentPage}}>
                   <Basic />
                 </Context.Provider>

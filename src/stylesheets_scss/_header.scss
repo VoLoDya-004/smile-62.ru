@@ -167,6 +167,10 @@ header { /*стиль шапки и её элементов */
         background-color: #0000005c;
         color: #ffffff;
     }
+	&:-webkit-autofill {
+		box-shadow: 0 0 0 1000px white inset !important;
+  		-webkit-text-fill-color: #000;
+	}
 }
 
 #search__line_button { /*кнопка поиска*/
@@ -487,6 +491,10 @@ body.dark-theme { /*темная тема*/
 		&.dark-theme {
 			background-color: #0000005c;
 			color: #ffffff;
+		}
+		&:-webkit-autofill {
+			box-shadow: 0 0 0 1000px white inset !important;
+  			-webkit-text-fill-color: #000;
 		}
 	}
 	
@@ -818,6 +826,10 @@ body.dark-theme { /*темная тема*/
 		&.dark-theme {
 			background-color: #0000005c;
 			color: #ffffff;
+		}
+		&:-webkit-autofill {
+			box-shadow: 0 0 0 1000px white inset !important;
+  			-webkit-text-fill-color: #000;
 		}
 	}
 	
@@ -1187,6 +1199,10 @@ body.dark-theme { /*темная тема*/
 		&.dark-theme {
 			background-color: #0000005c;
 			color: #ffffff;
+		}
+		&:-webkit-autofill {
+			box-shadow: 0 0 0 1000px white inset !important;
+  			-webkit-text-fill-color: #000;
 		}
 	}
 	

@@ -7,7 +7,7 @@ import { Context } from "../../../JS/context"
 
 export default function FiltersBlock() {
     const context = useContext(Context)
-    const {setSortType, setCurrentPage} = context
+    const {setSortType, setCurrentPage, handleFiltersChange} = context
     const [visibleSort, setVisibleSort] = useState(false)
     const [visibleFilters, setVisibleFilters] = useState(false)
     const [currentSort, setCurrentSort] = useState("по умолчанию")
@@ -40,6 +40,24 @@ export default function FiltersBlock() {
         setTimeout(() => {
             setVisibleSort(false)
         }, 500)     
+    }
+
+    const handleResetFilters = () => {
+        setCurrentPage(1)
+        handleFiltersChange({
+            minPrice: null,
+            maxPrice: null,
+            actions: {
+                action1: false,
+                action2: false,
+                action3: false,
+                action4: false,
+                action5: false,
+                action6: false,
+                action7: false,
+                action8: false,
+            }
+        })
     }
 
     useEffect(() => {
@@ -99,7 +117,7 @@ export default function FiltersBlock() {
                 <Button
                     className="form__registration_btn"
                     id="filtersDeleteProduct"
-                    onClick=""
+                    onClick={handleResetFilters}
                 >
                     Сбросить фильтры
                 </Button>
