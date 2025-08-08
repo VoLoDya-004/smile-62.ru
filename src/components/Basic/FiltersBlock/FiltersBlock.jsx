@@ -7,12 +7,31 @@ import { Context } from "../../../JS/context"
 
 export default function FiltersBlock() {
     const context = useContext(Context)
-    const {setSortType, setCurrentPage, handleFiltersChange} = context
+    const {setSortType, setCurrentPage, handleFiltersChange, 
+    currentSort, setCurrentSort, activeCategoryId, categories,
+    fetchCards, setSelectedCategory, setActiveCategoryId,
+    totalItems} = context
+
     const [visibleSort, setVisibleSort] = useState(false)
     const [visibleFilters, setVisibleFilters] = useState(false)
-    const [currentSort, setCurrentSort] = useState("по умолчанию")
+    const [categoriesName, setCategoriesName] = useState("Все категории")
+    const [visible, setVisible] = useState(false)
+
     const menuSortRef = useRef(null)
     const menuFiltersRef = useRef(null)
+
+    useEffect(() => {
+        categories.filter(cat => {
+            if (cat.id === activeCategoryId) {
+                setCategoriesName(cat.label)
+            }
+        })
+        if (activeCategoryId === 0) {
+            setVisible(false)
+        } else {
+            setVisible(true)
+        }
+    }, [activeCategoryId])
 
     const handleToggleSort = () => {
         setVisibleSort(prev => !prev)
@@ -96,34 +115,70 @@ export default function FiltersBlock() {
         }
     }, [visibleFilters])
 
+    const allCategoriesBtn = () => {
+        if (activeCategoryId !== 0) {
+            setVisible(false)
+            setActiveCategoryId(0)
+            setSelectedCategory(0)
+            setCurrentPage(1)
+            fetchCards()         
+        }
+    }
+
+    function pluralize(number, words) {
+        const cases = [2, 0, 1, 1, 1, 2]
+        return words[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
+    }
+
+    const itemText = pluralize(totalItems, ['товар', 'товара', 'товаров'])
+
 
     return (
-        <section className="filtersBlock">
-            <div className="filtersBlock__sort">Сортировка:
-                <div className="filtersBlock__sort_title" onClick={handleToggleSort}>
-                    <span>{currentSort}</span>
-                    {visibleSort ? <span className="sortProduct">▴</span> : 
-                        <span className="sortProduct">▾</span>}
+        <>
+            <div 
+                onClick={allCategoriesBtn}
+                className={`categoriesNameMain ${activeCategoryId === 0 ? 'passive' : '' }`}
+            >
+                Все категории{activeCategoryId === 0 ? ' /' : '' }
+            </div>
+            {visible && 
+                <div className="categoriesName" id="categoriesName" style={{marginLeft: "0", color: "grey"}}>
+                    <div 
+                        style={{display: "inline-block", margin: "0 8px", userSelect: "none"}}
+                    >
+                        /
+                    </div>
+                    {categoriesName} /
                 </div>
-            </div>
-            <div className="filtersBlock__filter">
-                <Button
-                    className="form__registration_btn"
-                    id="filtersProduct"
-                    onClick={handleToggleFilters}
-                >
-                    Фильтры
-                </Button>
-                <Button
-                    className="form__registration_btn"
-                    id="filtersDeleteProduct"
-                    onClick={handleResetFilters}
-                >
-                    Сбросить фильтры
-                </Button>
-            </div>
-        {visibleSort && <SortMenu ref={menuSortRef} onSelect={handleSortSelect} />}
-        {visibleFilters && <FiltersMenu handleToggleFilters={handleToggleFilters} ref={menuFiltersRef} />}
-        </section>
+            }
+            <div className="countProducts"> {totalItems} {itemText} </div>
+            <section className="filtersBlock">
+                <div className="filtersBlock__sort">Сортировка:
+                    <div className="filtersBlock__sort_title" onClick={handleToggleSort}>
+                        <span>{currentSort}</span>
+                        {visibleSort ? <span className="sortProduct">▴</span> : 
+                            <span className="sortProduct">▾</span>}
+                    </div>
+                </div>
+                <div className="filtersBlock__filter">
+                    <Button
+                        className="form__registration_btn"
+                        id="filtersProduct"
+                        onClick={handleToggleFilters}
+                    >
+                        Фильтры
+                    </Button>
+                    <Button
+                        className="form__registration_btn"
+                        id="filtersDeleteProduct"
+                        onClick={handleResetFilters}
+                    >
+                        Сбросить фильтры
+                    </Button>
+                </div>
+            {visibleSort && <SortMenu ref={menuSortRef} onSelect={handleSortSelect} />}
+            {visibleFilters && <FiltersMenu handleToggleFilters={handleToggleFilters} ref={menuFiltersRef} />}
+            </section>
+        </>
     )
 }

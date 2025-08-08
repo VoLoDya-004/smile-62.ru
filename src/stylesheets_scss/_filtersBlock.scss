@@ -1,5 +1,44 @@
-																	//АДАПТАЦИЯ 1000px
+.categoriesNameMain.passive {
+	box-sizing: border-box;
+	color: gray;
+	cursor: default;
+	&:hover {
+		color: gray;
+		border-bottom: 2px solid transparent;
+	}
+}																	
+
+                                                                    //АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
+.categoriesNameMain {
+	box-sizing: border-box;
+	display: inline-block;
+	font-size: 25px;
+	font-weight: 600;
+	margin-bottom: 8px;
+	cursor: pointer;
+	color: gray;
+	border-bottom: 2px solid transparent;
+	&:hover {
+		color: black;
+		border-bottom: 2px solid black;
+	}
+}
+
+.categoriesName {
+	display: inline-block;
+	font-size: 25px;
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+
+.countProducts {
+    color: gray;
+    font-size: 20px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
 .filtersBlock {
     display: flex;
     justify-content: left;
@@ -187,6 +226,34 @@
 
 
 @media (max-width: 1000px) and (min-width: 768px) {
+.categoriesNameMain {
+	display: inline-block;
+	font-size: 25px;
+	font-weight: 600;
+	margin: 0 0 8px 15px;
+	cursor: pointer;
+	color: gray;
+	border-bottom: 2px solid transparent;
+	&:hover {
+		color: black;
+		border-bottom: 2px solid black;
+	}
+}
+
+.categoriesName {
+	display: inline-block;
+	font-size: 25px;
+	font-weight: 600;
+	margin: 0 0 10px 15px;
+}
+
+.countProducts {
+    color: gray;
+    font-size: 20px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
 .filtersBlock {
     display: flex;
     justify-content: left;
@@ -374,6 +441,34 @@
 
 
 @media (max-width: 768px) and (min-width: 425px) {
+.categoriesNameMain {
+	display: inline-block;
+	font-size: 15px;
+	font-weight: 600;
+	margin: 0 0 8px 5px;
+	cursor: pointer;
+	color: gray;
+	border-bottom: 2px solid transparent;
+	&:hover {
+		color: black;
+		border-bottom: 2px solid black;
+	}
+}
+
+.categoriesName {
+	display: inline-block;
+	font-size: 15px;
+	font-weight: 600;
+	margin: 0 0 10px 5px;
+}
+
+.countProducts {
+    color: gray;
+    font-size: 13px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
 .filtersBlock {
     display: flex;
     justify-content: left;
@@ -563,6 +658,34 @@
 
 
 @media (max-width: 425px) {
+.categoriesNameMain {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 600;
+	margin: 0 0 8px 5px;
+	cursor: pointer;
+	color: gray;
+	border-bottom: 2px solid transparent;
+	&:hover {
+		color: black;
+		border-bottom: 2px solid black;
+	}
+}
+
+.categoriesName {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 600;
+	margin: 0 0 10px 5px;
+}
+
+.countProducts {
+    color: gray;
+    font-size: 11px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
 .filtersBlock {
     display: flex;
     justify-content: left;

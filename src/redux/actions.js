@@ -1,27 +1,3 @@
-// import { INCREMENT, DECREMENT, SET_COUNT } from "./types"
-
-// export function incrementCount () {
-//     return {
-//         type: INCREMENT
-//     }
-// }
-
-// export function decrementCount () {
-//     return {
-//         type: DECREMENT
-//     }
-// }
-
-// export function setCount (count) {
-//     return {
-//         type: SET_COUNT,
-//         payload: count
-//     }
-// }
-
-
-
-
 import { INCREASE_COUNT, DECREASE_COUNT, SET_COUNT } from "../redux/types"
 import axios from 'axios'
 

@@ -8,7 +8,6 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $categoryId = isset($_GET['idCategory']) ? intval($_GET['idCategory']) : 0;
 $sortType = isset($_GET['sortType']) ? $_GET['sortType'] : 'default';
 
-// новое
 $minPrice = isset($_GET['minPrice']) ? floatval($_GET['minPrice']) : null;
 $maxPrice = isset($_GET['maxPrice']) ? floatval($_GET['maxPrice']) : null;
 $actionsFilters = [
@@ -21,7 +20,6 @@ $actionsFilters = [
     'action7' => isset($_GET['action7']) && $_GET['action7'] === '1', // Цена 50000-100000
     'action8' => isset($_GET['action8']) && $_GET['action8'] === '1', // Цена > 100000
 ];
-//
 
 // Создаем соединение
 $connect = mysqli_connect($hostname, $username, $password, $dbName);
@@ -30,86 +28,83 @@ if (!$connect) {
 }
 mysqli_set_charset($connect, "utf8");
 
-// Строим базовый запрос
-$query = "SELECT * FROM tovar WHERE 1=1";
+// Функция для построения условий фильтрации
+function buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $actionsFilters) {
+    $conditions = [];
 
-// Условие поиска
-if ($search !== '') {
-    $searchEscaped = mysqli_real_escape_string($connect, $search);
-    $query .= " AND LOWER(nazvanie) LIKE LOWER('%$searchEscaped%')";
-}
-
-// Условие по категории
-if ($categoryId !== 0) {
-    $query .= " AND id_category = $categoryId";
-}
-
-// фильтр по цене (если заданы min/max через GET, они переопределяют action5-8)
-if ($minPrice !== null && $maxPrice !== null) { // Если задан диапазон min-max
-    $query .= " AND price_total >= $minPrice AND price_total <= $maxPrice";
-} elseif ($minPrice !== null) { // Если задан только min
-    $query .= " AND price_total >= $minPrice";
-} elseif ($maxPrice !== null) { // Если задан только max
-    $query .= " AND price_total <= $maxPrice";
-}
-
-
-// *** Корректировка логики фильтров actions ***
-$discountConditions = [];
-$priceConditions = [];
-
-// Фильтры по скидке
-if ($actionsFilters['action1']) {
-    // Учитываем, что NULL скидка тоже считается отсутствием скидки
-    $discountConditions[] = "(discount IS NULL OR discount = 0)";
-}
-if ($actionsFilters['action2']) {
-    $discountConditions[] = "(discount >= 1 AND discount <= 10)";
-}
-if ($actionsFilters['action3']) {
-    $discountConditions[] = "(discount > 10 AND discount <= 20)";
-}
-if ($actionsFilters['action4']) {
-    $discountConditions[] = "(discount > 20)";
-}
-
-// Фильтры по цене (если они не перекрыты minPrice/maxPrice из GET)
-// Иначе говоря, если minPrice/maxPrice не были переданы, используем action5-8
-if ($minPrice === null && $maxPrice === null) {
-    if ($actionsFilters['action5']) {
-        $priceConditions[] = "(price_total < 15000)";
+    // Поиск по названию
+    if ($search !== '') {
+        $searchEscaped = mysqli_real_escape_string($connect, $search);
+        $conditions[] = "LOWER(nazvanie) LIKE LOWER('%$searchEscaped%')";
     }
-    if ($actionsFilters['action6']) {
-        $priceConditions[] = "(price_total >= 15000 AND price_total <= 50000)";
+
+    // По категории
+    if ($categoryId !== 0) {
+        $conditions[] = "id_category = $categoryId";
     }
-    if ($actionsFilters['action7']) {
-        $priceConditions[] = "(price_total > 50000 AND price_total <= 100000)";
+
+    // По цене (если minPrice и maxPrice заданы)
+    if ($minPrice !== null && $maxPrice !== null) {
+        $conditions[] = "price_total >= $minPrice AND price_total <= $maxPrice";
+    } elseif ($minPrice !== null) {
+        $conditions[] = "price_total >= $minPrice";
+    } elseif ($maxPrice !== null) {
+        $conditions[] = "price_total <= $maxPrice";
     }
-    if ($actionsFilters['action8']) {
-        $priceConditions[] = "(price_total > 100000)";
+
+    // Фильтры по скидкам
+    $discountConditions = [];
+    if ($actionsFilters['action1']) {
+        $discountConditions[] = "(discount IS NULL OR discount = 0)";
     }
+    if ($actionsFilters['action2']) {
+        $discountConditions[] = "(discount >= 1 AND discount <= 10)";
+    }
+    if ($actionsFilters['action3']) {
+        $discountConditions[] = "(discount > 10 AND discount <= 20)";
+    }
+    if ($actionsFilters['action4']) {
+        $discountConditions[] = "(discount > 20)";
+    }
+
+    if (!empty($discountConditions)) {
+        $conditions[] = "(" . implode(" OR ", $discountConditions) . ")";
+    }
+
+    // Фильтры по цене (если minPrice и maxPrice не заданы)
+    if ($minPrice === null && $maxPrice === null) {
+        $priceConditions = [];
+        if ($actionsFilters['action5']) {
+            $priceConditions[] = "(price_total < 15000)";
+        }
+        if ($actionsFilters['action6']) {
+            $priceConditions[] = "(price_total >= 15000 AND price_total <= 50000)";
+        }
+        if ($actionsFilters['action7']) {
+            $priceConditions[] = "(price_total > 50000 AND price_total <= 100000)";
+        }
+        if ($actionsFilters['action8']) {
+            $priceConditions[] = "(price_total > 100000)";
+        }
+        if (!empty($priceConditions)) {
+            $conditions[] = "(" . implode(" OR ", $priceConditions) . ")";
+        }
+    }
+
+    return $conditions;
 }
 
-// Комбинирование условий
-$finalActionConditions = [];
-
-if (!empty($discountConditions)) {
-    $finalActionConditions[] = "(" . implode(" OR ", $discountConditions) . ")";
-}
-if (!empty($priceConditions)) {
-    $finalActionConditions[] = "(" . implode(" OR ", $priceConditions) . ")";
+// Построение условий для фильтров
+$filterConditions = buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $actionsFilters);
+$filterSQL = '';
+if (!empty($filterConditions)) {
+    $filterSQL = ' AND ' . implode(' AND ', $filterConditions);
 }
 
-// Если были выбраны какие-либо из actions фильтров, добавляем их
-if (!empty($finalActionConditions)) {
-    // Если выбраны и фильтры по скидке, И фильтры по цене, то нужно OR между ними.
-    // Но если выбраны только фильтры по скидке, или только по цене, то нужны OR внутри.
-    $query .= " AND (" . implode(" OR ", $finalActionConditions) . ")";
-}
-// *** Конец корректировки ***
+// --- Основной запрос для получения товаров с учетом фильтров ---
+$query = "SELECT * FROM tovar WHERE 1=1" . $filterSQL;
 
-
-// Определение сортировки
+// Сортировка
 switch ($sortType) {
     case 'cheap':
         $query .= " ORDER BY price_sale ASC";
@@ -125,28 +120,33 @@ switch ($sortType) {
         break;
 }
 
-
 // Пагинация
 $offset = ($page - 1) * $perPage;
 $query .= " LIMIT $offset, $perPage";
 
+// Выполняем запрос для получения товаров
+$resultItems = mysqli_query($connect, $query) or die(mysqli_error($connect));
 
-// Выводим SQL запрос для отладки (можно удалить в продакшене)
-// echo $query;
-
-
-// Выполняем запрос
-$result = mysqli_query($connect, $query) or die(mysqli_error($connect));
-
-// Собираем результат
-$myArray = array();
-while ($row = mysqli_fetch_assoc($result)) {
-    $myArray[] = $row;
+$items = [];
+while ($row = mysqli_fetch_assoc($resultItems)) {
+    $items[] = $row;
 }
 
-// Отправляем JSON
-header('Content-Type: application/json');
-echo json_encode($myArray);
+// --- Второй запрос для подсчета общего количества товаров по текущим фильтрам ---
+$countQuery = "SELECT COUNT(*) as total FROM tovar WHERE 1=1" . $filterSQL;
 
+// Выполняем подсчет
+$resCount = mysqli_query($connect, $countQuery);
+$countRow = mysqli_fetch_assoc($resCount);
+$totalCount = intval($countRow['total']);
+
+// Возвращаем оба результата
+header('Content-Type: application/json');
+echo json_encode([
+    'total' => $totalCount,
+    'items' => $items
+]);
+
+// Закрываем соединение
 mysqli_close($connect);
 ?>

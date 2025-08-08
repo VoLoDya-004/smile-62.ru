@@ -1,3 +1,10 @@
+.navbar__item.active {
+	background-color: $btnColor;
+	border-radius: 10px;
+	color: #9814ad;
+	transition: background-color .1s;
+}														
+																	
 																	//АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
 html {

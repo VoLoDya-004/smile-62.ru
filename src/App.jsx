@@ -409,14 +409,44 @@ useEffect(() => {
   //меню товаров
   const [selectedCategory, setSelectedCategory] = useState(null)
 
+  const categories = [
+      { id: 0, label: "Все категории" },
+      { id: 2, label: "Смартфоны" },
+      { id: 4, label: "Телевизоры" },
+      { id: 5, label: "Компьютеры" },
+      { id: 6, label: "Красота и здоровье" },
+      { id: 7, label: "Техника для кухни" },
+      { id: 8, label: "Аудиотехника" },
+      { id: 9, label: "Фото и видео" },
+      { id: 10, label: "Аксессуары" },
+      { id: 11, label: "Сад и огород" },
+      { id: 12, label: "Офис" },
+      { id: 13, label: "Умные устройства" },
+      { id: 14, label: "Автотовары" },
+      { id: 15, label: "Сетевое оборудование" },
+      { id: 3, label: "Планшеты" },
+      { id: 1, label: "Ноутбуки" },
+      { id: 16, label: "Кабели и адаптеры" },
+      { id: 17, label: "Электронные книги" },
+      { id: 18, label: "Климатическая техника" },
+      { id: 19, label: "Техника для творчества" },
+      { id: 20, label: "Отдых и развлечения" },
+      { id: 21, label: "VR-гарнитуры" },
+      { id: 22, label: "Устройства для безопасности" },
+      { id: 23, label: "Техника для ремонта" },
+      { id: 24, label: "Техника для дома" },
+  ]
+
   // карточки на главной
   const [cards, setCards] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
   // сортировка товаров
   const [sortType, setSortType] = useState("default")
+  const [activeCategoryId, setActiveCategoryId] = useState(0)
 
   // фильтры
+  const [currentSort, setCurrentSort] = useState("по умолчанию")
   const [filters, setFilters] = useState({
     minPrice: null,
     maxPrice: null,
@@ -437,8 +467,10 @@ useEffect(() => {
   }
 
   //загрузка карточек со всеми параметрами
+  const [totalItems, setTotalItems] = useState(0)
+
   const fetchCards = useCallback(async () => {
-    setIsLoading(true)
+  setIsLoading(true)
     try {
       const response = await axios.get(`http://localhost:3000/src/PHP/getCards.php`, {
         params: {
@@ -458,7 +490,8 @@ useEffect(() => {
           action8: filters.actions.action8 ? '1' : '0',
         },
       })
-      setCards(response.data)
+      setCards(response.data.items)
+      setTotalItems(response.data.total)
     } catch (error) {
       console.error('Ошибка при загрузке карточек:', error)
     } finally {
@@ -469,11 +502,14 @@ useEffect(() => {
   useEffect(() => {
     fetchCards()
   }, [fetchCards])
+
   
   return (
     <>
     <Router>
-      <Context.Provider value={{setSelectedCategory, setCurrentPage}}>
+      <Context.Provider value={{setSelectedCategory, setCurrentPage, categories,
+        activeCategoryId, setActiveCategoryId
+      }}>
         <Header totalBasket={totalBasket} onSearchChange={setSearchQuery} />
       </Context.Provider>
 
@@ -484,7 +520,9 @@ useEffect(() => {
               element={
                 <Context.Provider value={{cartFavourites, cartBasket, searchQuery, selectedCategory, 
                 cards, setCards, setSortType, sortType, handleFiltersChange, filters,
-                setSelectedCategory, setSearchQuery, setCurrentPage, isLoading, currentPage}}>
+                setSelectedCategory, setSearchQuery, setCurrentPage, isLoading, currentPage,
+                currentSort, setCurrentSort, activeCategoryId, categories, fetchCards,
+                setActiveCategoryId, totalItems}}>
                   <Basic />
                 </Context.Provider>
               } />                

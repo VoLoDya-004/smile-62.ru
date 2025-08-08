@@ -33,6 +33,9 @@ body.modal-open {
 	width: 100%;
 	margin-bottom: 10px;
 	position: relative;
+	&:hover .slider__btn_left, &:hover .slider__btn_right {
+		opacity: 1;
+	}
 	&__window {
 		height: 100%;
 		width: 100%;
@@ -79,6 +82,8 @@ body.modal-open {
 		}
 	}
 	&__btn_left {
+		opacity: 0;
+		transition: .3s;
 		background-color: rgba(0, 0, 0, 0.662);
 		min-width: 36px;
 		min-height: 36px;
@@ -94,6 +99,8 @@ body.modal-open {
 		}
 	}
 	&__btn_right {
+		opacity: 0;
+		transition: .3s;
 		background-color: rgba(0, 0, 0, 0.662);
 		min-width: 36px;
 		min-height: 36px;
@@ -476,88 +483,88 @@ body.modal-open {
 	}
 
 	.slider {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 230px;
-	width: 100%;
-	margin-bottom: 10px;
-	position: relative;
-	&__window {
-		height: 100%;
-		width: 100%;
-		border-radius: 50px;
-		overflow: hidden;
-		margin-left: 15px;
-		margin-right: 15px;
-	}
-	&__item {
 		display: flex;
-		user-select: none;
-		pointer-events: none;
-	}
-	&__advertisement {
-		position: absolute;
-		right: 35px;
-		bottom: 20px;
-		color: white;
-		padding: 0 10px 3px;
-		background-color: rgba(0, 0, 0, 0.4);
-		backdrop-filter: blur(2px);
-		user-select: none;
-		pointer-events: none;
-		border-radius: 20px;
-		&::after {
-			content: url(/images/icons/description_advertisement.svg);
-			padding-left: 5px;
+		align-items: center;
+		justify-content: center;
+		height: 230px;
+		width: 100%;
+		margin-bottom: 10px;
+		position: relative;
+		&__window {
+			height: 100%;
+			width: 100%;
+			border-radius: 50px;
+			overflow: hidden;
+			margin-left: 15px;
+			margin-right: 15px;
 		}
-		&_description {
-			display: none;
-			&.show {
+		&__item {
+			display: flex;
+			user-select: none;
+			pointer-events: none;
+		}
+		&__advertisement {
+			position: absolute;
+			right: 35px;
+			bottom: 20px;
+			color: white;
+			padding: 0 10px 3px;
+			background-color: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(2px);
+			user-select: none;
+			pointer-events: none;
+			border-radius: 20px;
+			&::after {
+				content: url(/images/icons/description_advertisement.svg);
+				padding-left: 5px;
+			}
+			&_description {
 				display: none;
+				&.show {
+					display: none;
+				}
+			}
+		}
+		&__btn_left {
+			background-color: rgba(0, 0, 0, 0.662);
+			min-width: 36px;
+			min-height: 36px;
+			border-radius: 50%;
+			transform: rotate(-90deg);
+			transition: .3s;
+			cursor: pointer;
+			position: absolute;
+			left: 25px;
+			z-index: 1;
+			&:hover {
+				background-color: black;
+			}
+		}
+		&__btn_right {
+			background-color: rgba(0, 0, 0, 0.662);
+			min-width: 36px;
+			min-height: 36px;
+			cursor: pointer;
+			border-radius: 50%;
+			transform: rotate(90deg);
+			transition: .3s;
+			position: absolute;
+			right: 25px;
+			z-index: 1;
+			&:hover {
+				background-color: black;
 			}
 		}
 	}
-	&__btn_left {
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		border-radius: 50%;
-		transform: rotate(-90deg);
-		transition: .3s;
-		cursor: pointer;
-		position: absolute;
-		left: 25px;
-		z-index: 1;
-		&:hover {
-			background-color: black;
-		}
-	}
-	&__btn_right {
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		cursor: pointer;
-		border-radius: 50%;
-		transform: rotate(90deg);
-		transition: .3s;
-		position: absolute;
-		right: 25px;
-		z-index: 1;
-		&:hover {
-			background-color: black;
-		}
-	}
-}
 
-.all-pages-container {
-	display: flex;
-	height: 100%;
-	transition: translate;
-	transition-property: transform;
-	transition-duration: 300ms;
-	transition-timing-function: ease-in-out;
-}
+	.all-pages-container {
+		display: flex;
+		height: 100%;
+		transition: translate;
+		transition-property: transform;
+		transition-duration: 300ms;
+		transition-timing-function: ease-in-out;
+	}
 	
 	.setka { /*сетка под карточки*/
 		display: grid;
@@ -913,89 +920,89 @@ body.modal-open {
 	}
 
 	.slider {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 170px;
-	width: 100%;
-	margin-bottom: 10px;
-	position: relative;
-	&__window {
-		height: 100%;
-		width: 100%;
-		border-radius: 50px;
-		overflow: hidden;
-		margin-left: 5px;
-		margin-right: 5px;
-	}
-	&__item {
 		display: flex;
-		user-select: none;
-		pointer-events: none;
-	}
-	&__advertisement {
-		position: absolute;
-		right: 35px;
-		bottom: 5px;
-		font-size: 15px;
-		color: white;
-		padding: 0 10px 3px;
-		background-color: rgba(0, 0, 0, 0.4);
-		backdrop-filter: blur(2px);
-		pointer-events: none;
-		user-select: none;
-		border-radius: 20px;
-		&::after {
-			content: url(/images/icons/description_advertisement.svg);
-			padding-left: 5px;
+		align-items: center;
+		justify-content: center;
+		height: 170px;
+		width: 100%;
+		margin-bottom: 10px;
+		position: relative;
+		&__window {
+			height: 100%;
+			width: 100%;
+			border-radius: 50px;
+			overflow: hidden;
+			margin-left: 5px;
+			margin-right: 5px;
 		}
-		&_description {
-			display: none;
-			&.show {
+		&__item {
+			display: flex;
+			user-select: none;
+			pointer-events: none;
+		}
+		&__advertisement {
+			position: absolute;
+			right: 35px;
+			bottom: 5px;
+			font-size: 15px;
+			color: white;
+			padding: 0 10px 3px;
+			background-color: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(2px);
+			pointer-events: none;
+			user-select: none;
+			border-radius: 20px;
+			&::after {
+				content: url(/images/icons/description_advertisement.svg);
+				padding-left: 5px;
+			}
+			&_description {
 				display: none;
+				&.show {
+					display: none;
+				}
+			}
+		}
+		&__btn_left {
+			background-color: rgba(0, 0, 0, 0.662);
+			min-width: 36px;
+			min-height: 36px;
+			border-radius: 50%;
+			transform: rotate(-90deg);
+			transition: .3s;
+			cursor: pointer;
+			position: absolute;
+			left: 15px;
+			z-index: 1;
+			&:hover {
+				background-color: black;
+			}
+		}
+		&__btn_right {
+			background-color: rgba(0, 0, 0, 0.662);
+			min-width: 36px;
+			min-height: 36px;
+			cursor: pointer;
+			border-radius: 50%;
+			transform: rotate(90deg);
+			transition: .3s;
+			position: absolute;
+			right: 15px;
+			z-index: 1;
+			&:hover {
+				background-color: black;
 			}
 		}
 	}
-	&__btn_left {
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		border-radius: 50%;
-		transform: rotate(-90deg);
-		transition: .3s;
-		cursor: pointer;
-		position: absolute;
-		left: 15px;
-		z-index: 1;
-		&:hover {
-			background-color: black;
-		}
-	}
-	&__btn_right {
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		cursor: pointer;
-		border-radius: 50%;
-		transform: rotate(90deg);
-		transition: .3s;
-		position: absolute;
-		right: 15px;
-		z-index: 1;
-		&:hover {
-			background-color: black;
-		}
-	}
-}
 
-.all-pages-container {
-	display: flex;
-	height: 100%;
-	transition: translate;
-	transition-property: transform;
-	transition-duration: 300ms;
-	transition-timing-function: ease-in-out;
-}
+	.all-pages-container {
+		display: flex;
+		height: 100%;
+		transition: translate;
+		transition-property: transform;
+		transition-duration: 300ms;
+		transition-timing-function: ease-in-out;
+	}
 	
 	.setka { /*сетка под карточки*/
 		display: grid;
@@ -1350,75 +1357,75 @@ body.modal-open {
 	}
 
 	.slider {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 130px;
-	width: 100%;
-	margin-bottom: 10px;
-	position: relative;
-	&__window {
-		height: 100%;
-		width: 100%;
-		border-radius: 50px;
-		overflow: hidden;
-		margin-left: 5px;
-		margin-right: 5px;
-	}
-	&__item {
 		display: flex;
-		user-select: none;
-		pointer-events: none;
-	}
-	&__advertisement {
-		display: none;
-		&_description {
+		align-items: center;
+		justify-content: center;
+		height: 130px;
+		width: 100%;
+		margin-bottom: 10px;
+		position: relative;
+		&__window {
+			height: 100%;
+			width: 100%;
+			border-radius: 50px;
+			overflow: hidden;
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+		&__item {
+			display: flex;
+			user-select: none;
+			pointer-events: none;
+		}
+		&__advertisement {
 			display: none;
-			&.show {
+			&_description {
 				display: none;
+				&.show {
+					display: none;
+				}
+			}
+		}
+		&__btn_left {
+			background-color: rgba(0, 0, 0, 0.662);
+			min-width: 36px;
+			min-height: 36px;
+			border-radius: 50%;
+			transform: rotate(-90deg);
+			transition: .3s;
+			cursor: pointer;
+			position: absolute;
+			left: 15px;
+			z-index: 1;
+			&:hover {
+				background-color: black;
+			}
+		}
+		&__btn_right {
+			background-color: rgba(0, 0, 0, 0.662);
+			min-width: 36px;
+			min-height: 36px;
+			cursor: pointer;
+			border-radius: 50%;
+			transform: rotate(90deg);
+			transition: .3s;
+			position: absolute;
+			right: 15px;
+			z-index: 1;
+			&:hover {
+				background-color: black;
 			}
 		}
 	}
-	&__btn_left {
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		border-radius: 50%;
-		transform: rotate(-90deg);
-		transition: .3s;
-		cursor: pointer;
-		position: absolute;
-		left: 15px;
-		z-index: 1;
-		&:hover {
-			background-color: black;
-		}
-	}
-	&__btn_right {
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		cursor: pointer;
-		border-radius: 50%;
-		transform: rotate(90deg);
-		transition: .3s;
-		position: absolute;
-		right: 15px;
-		z-index: 1;
-		&:hover {
-			background-color: black;
-		}
-	}
-}
 
-.all-pages-container {
-	display: flex;
-	height: 100%;
-	transition: translate;
-	transition-property: transform;
-	transition-duration: 300ms;
-	transition-timing-function: ease-in-out;
-}
+	.all-pages-container {
+		display: flex;
+		height: 100%;
+		transition: translate;
+		transition-property: transform;
+		transition-duration: 300ms;
+		transition-timing-function: ease-in-out;
+	}
 	
 	.setka { /*сетка под карточки*/
 		display: grid;
