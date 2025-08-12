@@ -29,7 +29,7 @@ export default memo(function Cards() {
     setLocalBasket(cartBasket)
   }, [cartBasket])
 
-  const handleAddFav = (id, nazvanie) => {
+  const handleAddFav = useCallback((id, nazvanie) => {
     if (
       localFavourites.some(item => item.nazvanie === nazvanie) ||
       pendingIdFav === id
@@ -49,9 +49,9 @@ export default memo(function Cards() {
     }).catch(() => {
       setPendingIdFav(null)
     })
-  }
+  }, [localFavourites, pendingIdFav, startTransition])
 
-  const handleAddBasket = (id, nazvanie) => {
+  const handleAddBasket = useCallback((id, nazvanie) => {
     setAddingStatus(prev => ({ ...prev, [id]: true }))
     setTimeout(() => {
       setAddingStatus(prev => ({ ...prev, [id]: false }))
@@ -75,7 +75,7 @@ export default memo(function Cards() {
     }).catch(() => {
       setPendingIdBasket(null)
     })
-  }
+  }, [localBasket, pendingIdBasket, startTransition])
   
   const addBasket = useCallback(async (idProduct, cardNazvanie) => {
     const exists = memoizedBasket.some(item => item.nazvanie === cardNazvanie)

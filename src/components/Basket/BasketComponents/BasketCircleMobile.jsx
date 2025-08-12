@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
 
-export default function BasketCircleMobile({ totalBasket }) {
+export default function BasketCircleMobile() {
+  const totalBasket = useSelector((state) => state.basket.total)
+
   const [isVisibleCircle, setIsVisibleCircle] = useState()
 
   useEffect(() => {

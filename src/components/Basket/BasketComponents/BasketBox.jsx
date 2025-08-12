@@ -5,7 +5,7 @@ import BasketFooter from "./BasketFooter"
 import Button from "../../Button/Button"
 
 
-export default memo(function BasketBox({totalBasket, productsBasket}) {
+export default memo(function BasketBox({productsBasket}) {
     const context = useContext(Context)
     const {handleClearBasketBtn, loadingDeleteAllBasket} = context
 
@@ -36,7 +36,7 @@ export default memo(function BasketBox({totalBasket, productsBasket}) {
                     <section className="basketBox__table">
                         <BasketHeader />
                         {productsBasket}
-                        <BasketFooter totalBasket={totalBasket} />
+                        <BasketFooter />
                     </section>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import BasketCircleMobile from "../../Basket/BasketComponents/BasketCircleMobile
 import React from "react"
 
 
-export default React.memo(function TabSectionMobile( {totalBasket} ) {  
+export default React.memo(function TabSectionMobile() {  
     const location = useLocation()    
 
     useEffect(() => {
@@ -48,7 +48,7 @@ export default React.memo(function TabSectionMobile( {totalBasket} ) {
             <NavLink to="/basket"  className={({ isActive }) =>(isActive ? 
             "menu-mobile__item_active pc-none" : 
             "menu-mobile__item_passiv pc-none")}> 
-                <BasketCircleMobile totalBasket={totalBasket} />
+                <BasketCircleMobile />
                 <div className="menu-mobile__item">
 				    <svg 
                     width="17" 
@@ -98,7 +98,7 @@ export default React.memo(function TabSectionMobile( {totalBasket} ) {
                 <NavLink to="/basket" className={({ isActive }) =>(isActive ? 
                 "menu-mobile__item_active pc-none" : 
                 "menu-mobile__item_passiv pc-none")}> 
-                    <BasketCircleMobile totalBasket={totalBasket} />
+                    <BasketCircleMobile />
                     <div className="menu-mobile__item">
                         <svg 
                         width="17" 

@@ -6,7 +6,7 @@ import BasketDelivery from "./BasketComponents/BasketDelivery"
 import Recommendations from "../sub-components/Recommendations"
 
 
-export default memo(function Basket({totalBasket, productsBasket, loading}) {
+export default memo(function Basket({productsBasket, loading}) {
     const [visible, setVisible] = useState(productsBasket.length > 0)
 
     useEffect(() => {
@@ -35,9 +35,9 @@ export default memo(function Basket({totalBasket, productsBasket, loading}) {
             }
             {visible &&
             <>
-                <BasketBox productsBasket={productsBasket} totalBasket={totalBasket} />
+                <BasketBox productsBasket={productsBasket} />
                 <div className="delivery-label"><b>Доставка</b></div>
-                <BasketDelivery totalBasket={totalBasket} />
+                <BasketDelivery />
             </>
             }
             <Recommendations />

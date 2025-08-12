@@ -1,7 +1,9 @@
+import { useSelector } from "react-redux"
 import Button from "../../Button/Button"
 
 
-export default function BasketDelivery({totalBasket}) {
+export default function BasketDelivery() {
+    const totalBasket = useSelector((state) => state.basket.total)
     const priceFormatter = new Intl.NumberFormat()
 
     return (

@@ -1,8 +1,11 @@
 import { memo } from "react"
+import { useSelector } from "react-redux"
 
 
-export default memo(function BasketFooter({totalBasket}) {
+export default memo(function BasketFooter() {
     const priceFormatter = new Intl.NumberFormat()
+
+    const totalBasket = useSelector((state) => state.basket.total)
 
 
     return (                          
