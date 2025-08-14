@@ -18,8 +18,17 @@ export default memo(function FavouritesProducts( {productFavourites,
             </div>
             <div className="favouritesBox__product_title">{nazvanie}</div>
             <div className="favouritesBox__product_price">{priceFormatter.format(price_total)} руб.</div>           
-            <ButtonBasket cartFavourites={cartFavourites} productFavourites={productFavourites} addInBasketProductFavourites={addInBasketProductFavourites} id={id} cartBasket={cartBasket} />
-            <ButtonDeleteFavourites deleteProductFavourites={deleteProductFavourites} id={id} />
+            <ButtonBasket 
+                cartFavourites={cartFavourites} 
+                productFavourites={productFavourites} 
+                addInBasketProductFavourites={addInBasketProductFavourites} 
+                id={id} 
+                cartBasket={cartBasket} 
+            />
+            <ButtonDeleteFavourites 
+                deleteProductFavourites={deleteProductFavourites} 
+                id={id} 
+            />
         </div> 
     )
 })

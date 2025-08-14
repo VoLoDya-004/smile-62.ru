@@ -1,22 +1,25 @@
+import { useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 import ButtonCross from "../Button/ButtonCross"
 
 
 export default function Support() {
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
 
     return createPortal(
         <div className="support">
-            <div className="support__header">
+            <div className={`support__header ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <span className="support__header_title">Поддержка</span>
                 <ButtonCross
                     className="support__header_titleBtn"
                     id="support__header_titleBtn"
                 />
             </div>
-            <div className="support__main"></div>
-            <form className="support__footer" method="post">
-                <textarea className="support__footer_message" name="support" id="support" 
+            <div className={`support__main ${isDarkTheme ? 'dark-theme' : ''}`}></div>
+            <form className={`support__footer ${isDarkTheme ? 'dark-theme' : ''}`} method="post">
+                <textarea className={`support__footer_message ${isDarkTheme ? 'dark-theme' : ''}`} 
+                name="support" id="support" 
                 placeholder="Ваше сообщение..." required>
                 </textarea>
                 <button className="support__footer_btn" id="support__footer_btn" type="submit">

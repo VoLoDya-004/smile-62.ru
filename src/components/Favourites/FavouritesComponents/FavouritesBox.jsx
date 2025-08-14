@@ -17,7 +17,7 @@ export default memo(function FavouritesBox( {productsFavourites} ) {
                         {loadingDeleteAllFav ? (
                         <div className="spinnerClearBox">
                             <h1 style={{paddingRight: "10px"}}>Удаление товаров...</h1>
-                            <div class="spinnerClear"></div>
+                            <div className="spinnerClear"></div>
                         </div>
                         ) : 
                         (

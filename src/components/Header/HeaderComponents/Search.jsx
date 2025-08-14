@@ -2,18 +2,19 @@ import { useContext, useState, useEffect } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import React from 'react'
 import { Context } from '../../../JS/context'
+import { useSelector } from 'react-redux'
 
 
 export default React.memo(function Search({onSearchChange}) {
   const context = useContext(Context)
   const {setCurrentPage} = context
 
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
   const navigate = useNavigate()
   const location = useLocation()
 
   const [searchTerm, setSearchTerm] = useState('')
-
-  const theme = localStorage.getItem('theme')
 
   const handleInputChange = (event) => {
     const value = event.target.value
@@ -89,7 +90,7 @@ export default React.memo(function Search({onSearchChange}) {
           value={searchTerm}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          className={theme === 'dark-theme' ? 'dark-theme' : ''}
+          className={isDarkTheme ? 'dark-theme' : ''}
         />
         {searchTerm && (
           <button

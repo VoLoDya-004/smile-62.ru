@@ -1,8 +1,11 @@
 import { useEffect } from "react"
+import { useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 
 
 export default function ConfirmModalAllBasket({ isOpen, onConfirm, onCancel }) {
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
     useEffect(() => {
         const handleClickOutside = (e) => {
             const modal = document.getElementById("confirmModalBasket")
@@ -26,9 +29,15 @@ export default function ConfirmModalAllBasket({ isOpen, onConfirm, onCancel }) {
 
     
     return createPortal(
-        <div id="confirmModalBasket" className="modalBasket" style={{ display: 'block' }}>
-            <div className="modal-contentBasket">
-                <p className="modal-contentBasket__title"><b>Удаление корзины</b></p>
+        <div 
+            id="confirmModalBasket" 
+            className="modalBasket" 
+            style={{ display: 'block' }}
+        >
+            <div className={`modal-contentBasket ${isDarkTheme ? 'dark-theme' : ''}`}>
+                <p className={`modal-contentBasket__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                    <b>Удаление корзины</b>
+                </p>
                 <p className="modal-contentBasket__description">
                     Удалить все товары из корзины? Отменить действие будет невозможно.
                 </p>

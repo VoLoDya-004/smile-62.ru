@@ -1,4 +1,5 @@
 import { useState, memo, useContext } from "react"
+import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom"
 import { Context } from "../../../JS/context"
 
@@ -7,12 +8,13 @@ export default memo(function ButtonNav() {
     const { setSelectedCategory, setCurrentPage, categories, 
     activeCategoryId, setActiveCategoryId } = context
 
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
     const [toggle, setToggle] = useState("")
     const [image, setImage] = useState("/images/icons/nav.png")
     const [visible, setVisible] = useState("none")
 
     const navigate = useNavigate()
-    const theme = localStorage.getItem("theme")
 
     function nav() {
         if (toggle === "") {
@@ -33,18 +35,21 @@ export default memo(function ButtonNav() {
     document.addEventListener('mouseup', function(e) {
         let container = document.querySelector('.navbar')
         let navigationBtn = document.getElementById("nav__button")
-        if ((!container.contains(e.target)) && (!navigationBtn.contains(e.target))) {
-            setVisible("none")
-            setToggle("")
-            document.body.classList.remove('modal-open')
-            document.getElementById("blackout").classList.remove("blackout")
-            setImage("/images/icons/nav.png")
-        } else {
-            setToggle("navbar")
-            setImage("/images/icons/cross.png")
-            setVisible("block")
-            document.body.classList.add('modal-open')
-            document.getElementById("blackout").classList.add("blackout")
+
+        if (container && navigationBtn) {
+            if ((!container.contains(e.target)) && (!navigationBtn.contains(e.target))) {
+                setVisible("none")
+                setToggle("")
+                document.body.classList.remove('modal-open')
+                document.getElementById("blackout").classList.remove("blackout")
+                setImage("/images/icons/nav.png")
+            } else {
+                setToggle("navbar")
+                setImage("/images/icons/cross.png")
+                setVisible("block")
+                document.body.classList.add('modal-open')
+                document.getElementById("blackout").classList.add("blackout")
+            }
         }
     })
 
@@ -69,7 +74,7 @@ export default memo(function ButtonNav() {
             </button>
         </nav>
         
-        <div className={theme === "dark-theme" ? `${toggle} dark-theme` : toggle}>
+        <div className={isDarkTheme ? `${toggle} dark-theme` : toggle}>
             {categories.map(cat => (
                 <div
                     key={cat.id}

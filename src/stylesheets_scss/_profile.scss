@@ -1,4 +1,8 @@
-
+.form__registration_item {
+    box-sizing: border-box;
+    border: 1px solid black;
+    outline: none;
+}
 																	//АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
     
@@ -14,9 +18,10 @@
             background-color: $backColorElem;
             border-radius: 10%;
             &_item {
-                width:300px;
-                height:25px;
-                border-radius:5px;
+                width: 300px;
+                height: 30px;
+                font-size: 16px;
+                border-radius: 5px;
                 margin-top: 5px;
             }
             &_btn {
@@ -91,7 +96,8 @@
             border-radius: 10%;
             &_item {
                 width:280px;
-                height:25px;
+                height: 30px;
+                font-size: 16px;
                 border-radius:5px;
                 margin-top: 5px;
             }
@@ -170,7 +176,8 @@
             max-height: 461px;
             &_item {
                 width:60vw;
-                height:25px;
+                height: 30px;
+                font-size: 16px;
                 border-radius:5px;
                 margin-top: 5px;
             }
@@ -249,7 +256,8 @@
             max-height: 461px;
             &_item {
                 width:60vw;
-                height:25px;
+                height: 30px;
+                font-size: 16px;
                 border-radius:5px;
                 margin-top: 5px;
             }

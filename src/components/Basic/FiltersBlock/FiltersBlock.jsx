@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useContext } from "react"
+import { useSelector } from "react-redux"
 import Button from "../../Button/Button"
 import SortMenu from "../SortMenu/SortMenu"
 import FiltersMenu from "../FiltersMenu/FiltersMenu"
@@ -11,6 +12,8 @@ export default function FiltersBlock() {
     currentSort, setCurrentSort, activeCategoryId, categories,
     fetchCards, setSelectedCategory, setActiveCategoryId,
     totalItems} = context
+
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
     const [visibleSort, setVisibleSort] = useState(false)
     const [visibleFilters, setVisibleFilters] = useState(false)
@@ -137,7 +140,7 @@ export default function FiltersBlock() {
         <>
             <div 
                 onClick={allCategoriesBtn}
-                className={`categoriesNameMain ${activeCategoryId === 0 ? 'passive' : '' }`}
+                className={`categoriesNameMain ${isDarkTheme ? "dark-theme" : ""} ${activeCategoryId === 0 ? 'passive' : '' }`}
             >
                 Все категории{activeCategoryId === 0 ? ' /' : '' }
             </div>
@@ -152,9 +155,12 @@ export default function FiltersBlock() {
                 </div>
             }
             <div className="countProducts"> {totalItems} {itemText} </div>
-            <section className="filtersBlock">
+            <section className={`filtersBlock ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <div className="filtersBlock__sort">Сортировка:
-                    <div className="filtersBlock__sort_title" onClick={handleToggleSort}>
+                    <div 
+                        className={`filtersBlock__sort_title ${isDarkTheme ? 'dark-theme' : ''}`} 
+                        onClick={handleToggleSort}
+                    >
                         <span>{currentSort}</span>
                         {visibleSort ? <span className="sortProduct">▴</span> : 
                             <span className="sortProduct">▾</span>}

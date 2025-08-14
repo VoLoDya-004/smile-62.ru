@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, memo } from "react"
+import { useSelector } from "react-redux"
 import axios from "axios"
 
 
@@ -7,8 +8,11 @@ const RecommendationsProduct = memo(({ card }) => {
     const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
     const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
+
     return (
-        <div key={card.id} id={card.id} className="recommendationCard">
+        <div key={card.id} id={card.id} className={`recommendationCard ${isDarkTheme ? 'dark-theme' : ''}`}>
             <div className="recommendationCard__top">
                 <a className="recommendationCard__image">
                     <img src={card.image} alt="image" />
@@ -21,7 +25,9 @@ const RecommendationsProduct = memo(({ card }) => {
                         <div className="recommendationCard__price recommendationCard__price_count-same">
                             {price}
                         </div>
-                        <a className="recommendationCard__title">{card.nazvanie}</a>
+                        <a className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                            {card.nazvanie}
+                        </a>
                     </>
                 ) : (
                         <>
@@ -33,7 +39,9 @@ const RecommendationsProduct = memo(({ card }) => {
                                     {price}
                                 </div>
                             </div>
-                            <a className="recommendationCard__title">{card.nazvanie}</a>
+                            <a className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                                {card.nazvanie}
+                            </a>
                         </>
                     )}
             </div>
@@ -54,6 +62,8 @@ export default function Recommendations() {
     const [isSmoothScroll, setIsSmoothScroll] = useState(true)
     const [showLeftButton, setShowLeftButton] = useState(false)
     const [showRightButton, setShowRightButton] = useState(false)
+
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -161,7 +171,7 @@ export default function Recommendations() {
                     Пока что рекомендации пусты
                 </div>
                 ) : (
-                <div className="recommendation__box">
+                <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
                     {showLeftButton && (
                     <button className="recommendation__leftBtn" onClick={scrollLeftBtn} disabled={scrollPosition === 0}>
                         <svg xmlns="http://www.w3.org/2000/svg" 

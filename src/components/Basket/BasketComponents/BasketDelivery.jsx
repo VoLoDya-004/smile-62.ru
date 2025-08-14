@@ -4,11 +4,13 @@ import Button from "../../Button/Button"
 
 export default function BasketDelivery() {
     const totalBasket = useSelector((state) => state.basket.total)
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
     const priceFormatter = new Intl.NumberFormat()
 
     return (
-        <section className="basketDelivery">
-            <div className="basketDelivery__left">
+        <section className={`basketDelivery ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <div className={`basketDelivery__left ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <div className="basketDelivery__left_count"><b>ВСЕГО ТОВАРОВ:</b> {totalBasket.count} шт.</div>
                 <div className="basketDelivery__left_priceTotal"><b>ИТОГО:</b> {priceFormatter.format(totalBasket.price_total)} &#x20bd;</div>
                 <div className="basketDelivery__left_btn">
@@ -19,14 +21,16 @@ export default function BasketDelivery() {
                 <div className="basketDelivery__left_checkbox">
                     <input type="checkbox" id="checkbox1" style={{cursor: "pointer"}} />
                     <label htmlFor="checkbox1" >
-                        Соглашаюсь с <a href="" className="basketDelivery__left_rules">
-                        правилами</a> пользования <br /> 
+                        Соглашаюсь с <a href="" 
+                            className={`basketDelivery__left_rules ${isDarkTheme ? 'dark-theme' : ''}`}
+                        > правилами </a> 
+                        пользования <br /> 
                         <span style={{paddingLeft: "20px"}}>торговой площадкой и возврата</span>
                     </label>
                 </div>
             </div>
-            <div className="basketDelivery__right">
-                <label className="basketDelivery__right_text" for="citySelect">
+            <div className={`basketDelivery__right ${isDarkTheme ? 'dark-theme' : ''}`}>
+                <label className="basketDelivery__right_text" htmlFor="citySelect">
                     <b>ВАШ ГОРОД</b>
                 </label><br />
                 <select className="basketDelivery__right_select" 

@@ -3,11 +3,14 @@ import Button from "../../Button/Button"
 import ButtonLoad from "../../Button/ButtonLoad"
 import ButtonCross from "../../Button/ButtonCross"
 import { forwardRef, useContext, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 import { Context } from "../../../JS/context"
 
 
 const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
     const context = useContext(Context)
     const {handleFiltersChange, filters, setCurrentPage} = context
 
@@ -89,8 +92,8 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
 
 
     return createPortal(
-        <section ref={ref} className="filterMenu">
-            <div className="filterMenu__title">
+        <section ref={ref} className={`filterMenu ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <div className={`filterMenu__title ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <b>Фильтры</b>
                 <ButtonCross
                     className="support__header_titleBtn"
@@ -99,7 +102,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
             </div>
             <Accordion title="Акции">
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action1"
@@ -110,7 +113,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </label>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action2"
@@ -121,7 +124,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </label>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action3"
@@ -132,7 +135,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </label>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action4"
@@ -144,7 +147,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                 </label>
             </Accordion>
             <Accordion title="Цена">
-                <div className="accordion__price">
+                <div className={`accordion__price ${isDarkTheme ? 'dark-theme' : ''}`}>
                     <div className="accordion__inputBlock">
                         <input 
                             id="accordion__input"
@@ -171,7 +174,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </div>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action5"
@@ -184,7 +187,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </label>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action6"
@@ -197,7 +200,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </label>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action7"
@@ -210,7 +213,7 @@ const FiltersMenu = forwardRef(({handleToggleFilters}, ref) => {
                     </div>
                 </label>
                 <label>
-                    <div className="accordion__item">
+                    <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type="checkbox" 
                             name="action8"

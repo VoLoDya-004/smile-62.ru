@@ -1,26 +1,30 @@
-.setka {
+body.dark-theme {
+    background-color: #121212;
+    color: #ffffff;
+}                                                    
+                                                    //ШАПКА
+
+.navbar {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: black;
+		color: white;
     }
 }
 
-.form__registration {
+#search__line_line {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: #0000005c;
+        color: #ffffff;
     }
 }
 
-.recommendation__box {
+.menu-mobile {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: black;
     }
 }
 
-.basket__empty {
-    &.dark-theme {
-        background-color: $backColorElemDark;
-    }
-}
+                                                    //ФУТЕР
 
 .footer {
     &.dark-theme {
@@ -28,42 +32,93 @@
     }
 }
 
-.card {
+                                                    //ГЛАВНАЯ
+
+.filtersBlock {
     &.dark-theme {
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: $backColorElemDark;;
     }
 }
 
-.recommendationCard {
+.filtersBlock__sort_title {
     &.dark-theme {
-        background-color: rgba(255, 255, 255, 0.6);
+        color: white;
+    }
+    &.dark-theme:hover {
+        color: rgba(255, 255, 255, 0.5);
     }
 }
 
-.support__header {
+.sortMenu {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.support__main {
+.sortOption:hover {
     &.dark-theme {
-        background-color: rgba(0, 0, 0, 0.7);
+        color: black;
     }
 }
 
-.support__footer {
+.filterMenu {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.support__footer_message {
+.filterMenu__title {
     &.dark-theme {
-        background-color: rgb(46, 46, 46);
+        background-color: $backColorElemDark;
         color: white;
     }
 }
+
+.accordion__header {
+    &.dark-theme {
+        background-color: black;
+        color: white;
+    }
+}
+
+.accordion__item {
+    &.dark-theme {
+        background-color: black;
+        color: white;
+    }
+}
+.accordion__price {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.categoriesNameMain:hover {
+    &.dark-theme {
+        color: white;
+        border-bottom: 2px solid white;
+    }
+}
+
+.setka {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.card {
+    &.dark-theme {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+}
+
+.card__title:hover {
+    &.dark-theme {
+        color: white;
+    }
+}
+
+                                                    //ИЗБРАННОЕ
 
 .favouritesBox__table_header {
     &.dark-theme {
@@ -71,19 +126,17 @@
     }
 }
 
+                                                    //ПРОФИЛЬ
+
+.form__registration {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+                                                    //КОРЗИНА
+
 .basketBox__product_controls {
-    &.dark-theme {
-        background-color: #121212;
-    }
-}
-
-.modal-contentBasket {
-    &.dark-theme {
-        background-color: black;
-    }
-}
-
-.modal-contentBasket__title {
     &.dark-theme {
         background-color: #121212;
     }
@@ -116,18 +169,90 @@
 .basketDelivery {
     &.dark-theme {
         background-color: $backColorElemDark;
+        color: white;
     }    
 }
 
 .basketDelivery__left {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: black;
     }    
+}
+
+.basketDelivery__left_rules {
+    &.dark-theme {
+        color: white;
+    }    
+    &.dark-theme:hover {
+        color: blue;
+    }   
 }
 
 .basketDelivery__right {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: black;
     }    
 }
 
+                                                    //ВСПОМОГАТЕЛЬНОЕ
+
+.recommendation__box {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.basket__empty {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+    }
+}
+
+.recommendationCard {
+    &.dark-theme {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+}
+
+.recommendationCard__title:hover {
+    &.dark-theme {
+        color: white;
+    }
+}
+
+.support__header {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.support__main {
+    &.dark-theme {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
+
+.support__footer {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.support__footer_message {
+    &.dark-theme {
+        background-color: rgb(46, 46, 46);
+        color: white;
+    }
+}
+
+.modal-contentBasket {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.modal-contentBasket__title {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}

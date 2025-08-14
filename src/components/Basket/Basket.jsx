@@ -19,7 +19,7 @@ export default memo(function Basket({productsBasket, loading}) {
         return (
             <>
                 <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
-                <div class="spinnerCards"></div>
+                <div className="spinnerCards"></div>
             </>
         )
     }

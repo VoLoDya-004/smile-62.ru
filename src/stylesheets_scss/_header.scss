@@ -104,10 +104,6 @@ header { /*стиль шапки и её элементов */
 	padding: 8px 0;
 	margin-bottom: 100px;
 	overflow-y: scroll;
-	&.dark-theme {
-        background-color: black;
-		color: white;
-	}
 	&__item {
 		display: flex;
 		justify-content: center;
@@ -170,10 +166,6 @@ header { /*стиль шапки и её элементов */
 	font-size: 16px;
 	outline: none;
 	border: 3px solid #d8c4e0;
-    &.dark-theme {
-        background-color: #0000005c;
-        color: #ffffff;
-    }
 	&:-webkit-autofill {
 		box-shadow: 0 0 0 1000px white inset !important;
   		-webkit-text-fill-color: #000;
@@ -284,16 +276,6 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	&__mobile {
 		display: none;
 	}
-}
-
-body.light-theme { /*светлая тема*/
-    background-color: --back-color;
-    color: var(--text-color);
-}
-
-body.dark-theme { /*темная тема*/
-    background-color: #121212;
-    color: #ffffff;
 }
 
 #themeToggle { /*кнопка смены темы*/
@@ -429,10 +411,6 @@ body.dark-theme { /*темная тема*/
 		padding: 8px 0;
 		margin-bottom: 100px;
 		overflow-y: scroll;
-		&.dark-theme {
-			background-color: black;
-			color: white;
-		}
 		&__item {
 			display: flex;
 			justify-content: center;
@@ -495,10 +473,6 @@ body.dark-theme { /*темная тема*/
 		font-size: 16px;
 		outline: none;
 		border: 3px solid #d8c4e0;
-		&.dark-theme {
-			background-color: #0000005c;
-			color: #ffffff;
-		}
 		&:-webkit-autofill {
 			box-shadow: 0 0 0 1000px white inset !important;
   			-webkit-text-fill-color: #000;
@@ -610,16 +584,6 @@ body.dark-theme { /*темная тема*/
 		&__mobile {
 			display: none;
 		}
-	}
-	
-	body.light-theme { /*светлая тема*/
-		background-color: --back-color;
-		color: var(--text-color);
-	}
-	
-	body.dark-theme { /*темная тема*/
-		background-color: #121212;
-		color: #ffffff;
 	}
 	
 	#themeToggle { /*кнопка смены темы*/
@@ -759,10 +723,6 @@ body.dark-theme { /*темная тема*/
 		padding: 8px 0;
 		margin-bottom: 100px;
 		overflow-y: scroll;
-		&.dark-theme {
-			background-color: black;
-			color: white;
-		}
 		&__item {
 			display: flex;
 			justify-content: center;
@@ -830,10 +790,6 @@ body.dark-theme { /*темная тема*/
 		font-size: 16px;
 		outline: none;
 		border: 3px solid #d8c4e0;
-		&.dark-theme {
-			background-color: #0000005c;
-			color: #ffffff;
-		}
 		&:-webkit-autofill {
 			box-shadow: 0 0 0 1000px white inset !important;
   			-webkit-text-fill-color: #000;
@@ -933,9 +889,6 @@ body.dark-theme { /*темная тема*/
 				text-decoration: none;
 			}
 		}
-		&.dark-theme {
-			background-color: black;
-		}
 	}
 	
 	.line { /*линия в блоке пунктов меню*/
@@ -983,16 +936,6 @@ body.dark-theme { /*темная тема*/
 			text-decoration: none;
 			z-index: 5;
 		}
-	}
-	
-	body.light-theme { /*светлая тема*/
-		background-color: --back-color;
-		color: var(--text-color);
-	}
-	
-	body.dark-theme { /*темная тема*/
-		background-color: #121212;
-		color: #ffffff;
 	}
 	
 	#themeToggle { /*кнопка смены темы*/
@@ -1132,10 +1075,6 @@ body.dark-theme { /*темная тема*/
 		padding: 8px 0;
 		margin-bottom: 100px;
 		overflow-y: scroll;
-		&.dark-theme {
-			background-color: black;
-			color: white;
-		}
 		&__item {
 			display: flex;
 			justify-content: center;
@@ -1203,10 +1142,6 @@ body.dark-theme { /*темная тема*/
 		font-size: 16px;
 		outline: none;
 		border: 3px solid #d8c4e0;
-		&.dark-theme {
-			background-color: #0000005c;
-			color: #ffffff;
-		}
 		&:-webkit-autofill {
 			box-shadow: 0 0 0 1000px white inset !important;
   			-webkit-text-fill-color: #000;
@@ -1306,9 +1241,6 @@ body.dark-theme { /*темная тема*/
 				text-decoration: none;
 			}
 		}
-		&.dark-theme {
-			background-color: black;
-		}
 	}
 	
 	.line { /*линия в блоке пунктов меню*/
@@ -1355,16 +1287,6 @@ body.dark-theme { /*темная тема*/
 			display: block;
 			z-index: 5;
 		}
-	}
-	
-	body.light-theme { /*светлая тема*/
-		background-color: --back-color;
-		color: var(--text-color);
-	}
-	
-	body.dark-theme { /*темная тема*/
-		background-color: #121212;
-		color: #ffffff;
 	}
 	
 	#themeToggle { /*кнопка смены темы*/

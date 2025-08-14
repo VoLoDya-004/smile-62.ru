@@ -3,6 +3,7 @@ import { Context } from './JS/context'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import  {setCartBasket} from './redux/BasketSlice'
+import { setIsDarkTheme } from './redux/ThemeSlice'
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -270,7 +271,6 @@ useEffect(() => {
     setLoadingFavourites(true)
     axios.get(srcFavourites).then((res) => {
       setCartFavourites(res.data)
-      console.log(res.data)
     })
     .catch((error) => {
       console.error("Ошибка при загрузке избранных:", error)
@@ -501,6 +501,12 @@ useEffect(() => {
   useEffect(() => {
     fetchCards()
   }, [fetchCards])
+
+  //Инициализация темы при запуске приложения
+  useEffect(() => {
+    const theme = localStorage.getItem('theme')
+    dispatch(setIsDarkTheme(theme === 'dark-theme'))
+  }, [dispatch])
 
   
   return (

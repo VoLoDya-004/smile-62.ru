@@ -1,6 +1,10 @@
 .cookiesNoticeBox {
     user-select: none;
-}																	
+}					
+
+.cookiesNotice__btn {
+    cursor: pointer;
+}
                                                                     
                                                                     //АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {

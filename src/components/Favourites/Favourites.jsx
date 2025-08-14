@@ -18,7 +18,7 @@ export default memo(function Favourites( {productsFavourites, loading} ) {
         return (
             <>
                 <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
-                <div class="spinnerCards"></div>
+                <div className="spinnerCards"></div>
             </>
         )
     }

@@ -1,4 +1,5 @@
 import { useState, useTransition } from "react"
+import { useSelector } from "react-redux"
 import { memo } from "react"
 import ButtonDeleteBasket from "../../Button/ButtonDeleteBasket"
 
@@ -10,6 +11,8 @@ export default memo(function BasketProducts({productBasket, deleteProductBasket,
     const { id, nazvanie, image, count, price_total } = productBasket
     const [isPending, startTransition] = useTransition()
     const [localCount, setLocalCount] = useState(count)
+
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
     const handleIncrease = () => {
         startTransition(() => {
@@ -71,7 +74,7 @@ export default memo(function BasketProducts({productBasket, deleteProductBasket,
                         onClick={handleIncrease}
                         disabled={isPending}
                         type="button"
-                        className="count__up count-svg-hover"
+                        className={`count__up count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path className="count-svg" d="M13 7L7 1L1 7" />
@@ -81,7 +84,7 @@ export default memo(function BasketProducts({productBasket, deleteProductBasket,
                         onClick={handleDecrease}
                         disabled={isPending}
                         type="button"
-                        className="count__down count-svg-hover"
+                        className={`count__down count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path className="count-svg" d="M1 1L7 7L13 1" />

@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useCallback, useMemo, useTransition } from 'react'
+import { useSelector } from 'react-redux'
 import { memo } from 'react'
 import axios from 'axios'
 import ButtonLoad from '../../Button/ButtonLoad'
@@ -6,7 +7,8 @@ import { Context } from '../../../JS/context'
 
 
 export default memo(function Cards() {
-  const [isDarkTheme, setIsDarkTheme] = useState(document.body.classList.contains("dark-theme"))
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
   const userId = 222
   const context = useContext(Context)
   const { cartFavourites, cartBasket, searchQuery,
@@ -84,14 +86,13 @@ export default memo(function Cards() {
       return
     } else {
     try {
-      const response = await axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+      await axios.get(`http://localhost:3000/src/PHP/basket.php`, {
         params: {
           Operation: 'addBasket',
           idProduct: idProduct,
           idUser: userId,
         },
       })
-      console.log("Успешно добавлено в корзину:", response.data)
     } catch (error) {
       console.error("Ошибка при добавлении в корзину:", error)
       handleAxiosError(error) // Функция для обработки ошибок
@@ -106,14 +107,13 @@ export default memo(function Cards() {
       return
     } else {
     try {
-      const response = await axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+      await axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
         params: {
           Operation: 'addFavourites',
           idProduct: idProduct,
           idUser: userId,
         },
       })
-      console.log("Успешно добавлено в избранное:", response.data)
     } catch (error) {
       console.error("Ошибка при добавлении в избранное:", error)
       handleAxiosError(error) // Функция для обработки ошибок
@@ -215,7 +215,7 @@ export default memo(function Cards() {
           {price === price_sale ? (
             <>
               <div className="card__price card__price_count-same">{price}</div>
-              <a className={`card__title ${isDarkTheme ? 'dark_theme' : ''}`}>{card.nazvanie}</a>
+              <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a>
               <button
                 className={isInBasket ? "card__btn_disabled" : "card__btn"}
                 id={`card_${card.id}`}
@@ -231,7 +231,7 @@ export default memo(function Cards() {
                 <div className="card__price card__price_discount">{price_sale}</div>
                 <div className="card__price card__price_count">{price}</div>
                 </div>
-              <a className="card__title">{card.nazvanie}</a> 
+              <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a> 
               <button
                 className={isInBasket ? "card__btn_disabled" : "card__btn"}
                 id={`card_${card.id}`}
@@ -262,7 +262,7 @@ export default memo(function Cards() {
           <h1 style={{textAlign: 'center'}}>Товары отсутствуют</h1>
         ) : (
           <>
-            <div className="setka">
+            <div className={`setka ${isDarkTheme ? "dark-theme" : ""}`}>
               {cards.map((card) => (
                 <Card 
                   key={card.id}

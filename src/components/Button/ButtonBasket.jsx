@@ -1,5 +1,7 @@
 import {useTransition, useState, useEffect} from 'react'
+import { useSelector } from 'react-redux'
 import { memo } from "react"
+import React from 'react'
 
 
 export default memo(function ButtonBasket({addInBasketProductFavourites, productFavourites, 
@@ -8,6 +10,8 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
     const [localBasket, setLocalBasket] = useState(cartBasket)
     const [basketStatus, setBasketStatus] = useState({})
     const [localBasketStatus, setLocalBasketStatus] = useState({})
+
+    const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
     const handleAddInBasketProductFavourites = (id) => {
         startTransition(() => {
@@ -48,12 +52,15 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
 
 
                 return (
-                    <>
+                    <React.Fragment key={card.id}>
                     {productFavourites.id === card.id && (
-                    <div key={card.id} id={card.id} className="basketBox__product_controls">
+                    <div  
+                        id={card.id} 
+                        className="basketBox__product_controls"
+                    >
                             <button
                                 type="button"
-                                className="basketBox__product_controls"
+                                className={`basketBox__product_controls ${isDarkTheme ? 'dark-theme' : ''}`}
                                 disabled={isPending}
                                 style={{paddingTop: "7px"}}
                                 onClick={() => {
@@ -72,7 +79,7 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
                             </button>
                     </div>
                     )}
-                    </>
+                    </React.Fragment>
                 )
             })}
         </>

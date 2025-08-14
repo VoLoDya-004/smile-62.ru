@@ -1,13 +1,15 @@
+import { useSelector } from "react-redux"
 import FormTitle from "../FormTitle/FormTitle"
 import ButtonSubmit from "../../Button/ButtonSubmit"
 
 
 export default function Form() {
+	const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
 
     return (
         <>
-        <form action="" method="post" className="form__registration">
+        <form action="" method="post" className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}>
             <FormTitle text={"РЕГИСТРАЦИЯ"} />
 			<p style={{marginTop: "-10px"}}>
 				<label className="form_font">Введите имя<br/>
@@ -34,7 +36,7 @@ export default function Form() {
 			</ButtonSubmit>
 		</form>
 
-		<form action="" method="post" className="form__registration">
+		<form action="" method="post" className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}>
             <FormTitle text={"ВХОД"} />
 			<p style={{marginTop: "-10px"}}>
     			<label className="form_font">Введите e-mail<br/>
