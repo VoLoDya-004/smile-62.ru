@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { memo } from 'react'
 import axios from 'axios'
 import ButtonLoad from '../../Button/ButtonLoad'
+import Notification from '../../sub-components/Notification'
 import { Context } from '../../../JS/context'
 
 
@@ -17,11 +18,17 @@ export default memo(function Cards() {
   const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
 
   const [isPending, startTransition] = useTransition()
+
   const [pendingIdBasket, setPendingIdBasket] = useState(null)
   const [pendingIdFav, setPendingIdFav] = useState(null)
   const [localFavourites, setLocalFavourites] = useState([])
   const [localBasket, setLocalBasket] = useState([])
   const [addingStatus, setAddingStatus] = useState({})
+  const [notification, setNotification] = useState(null)
+
+  const showNotification = (message, type = "success") => {
+    setNotification({message, type})
+  }
 
   useEffect(() => {
     setLocalFavourites(cartFavourites)
@@ -36,7 +43,8 @@ export default memo(function Cards() {
       localFavourites.some(item => item.nazvanie === nazvanie) ||
       pendingIdFav === id
     ) {
-      alert("Этот продукт уже в избранных или добавляется")
+      showNotification("товар уже в избранных", "success")
+      //alert("Этот продукт уже в избранных или добавляется")
       return
     }
     setPendingIdFav(id)
@@ -62,7 +70,8 @@ export default memo(function Cards() {
       localBasket.some(item => item.nazvanie === nazvanie) ||
       pendingIdBasket === id
     ) {
-        alert("Этот продукт уже в корзине или добавляется");
+        showNotification("товар уже в корзине", "success")
+        //alert("Этот продукт уже в корзине или добавляется")
         return
     }
     setPendingIdBasket(id)
@@ -82,7 +91,8 @@ export default memo(function Cards() {
   const addBasket = useCallback(async (idProduct, cardNazvanie) => {
     const exists = memoizedBasket.some(item => item.nazvanie === cardNazvanie)
     if (exists) {
-      alert("Этот продукт уже в корзине")
+      showNotification("товар уже в корзине", "success")
+      //alert("Этот продукт уже в корзине")
       return
     } else {
     try {
@@ -103,7 +113,8 @@ export default memo(function Cards() {
   const addFav = useCallback(async (idProduct, cardNazvanie) => {
     const exists = memoizedFavourites.some(item => item.nazvanie === cardNazvanie)
     if (exists) {
-      alert("Этот продукт уже в избранных")
+      showNotification("товар уже в избранных", "success")
+      //alert("Этот продукт уже в избранных")
       return
     } else {
     try {
@@ -262,6 +273,13 @@ export default memo(function Cards() {
           <h1 style={{textAlign: 'center'}}>Товары отсутствуют</h1>
         ) : (
           <>
+          {notification && (
+            <Notification
+              message={notification.message}
+              type={notification.type}
+              onClose={() => setNotification(null)}
+            />
+          )}
             <div className={`setka ${isDarkTheme ? "dark-theme" : ""}`}>
               {cards.map((card) => (
                 <Card 

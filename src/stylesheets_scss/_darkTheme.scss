@@ -134,6 +134,51 @@ body.dark-theme {
     }
 }
 
+.profile-aside {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+        color: white;
+    }
+}
+
+.profile-fav {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+        color: white;
+    }
+}
+
+.profile-fav__block-title {
+    &.dark-theme {
+        color: white;
+    }
+}
+
+.profile-fav__block-title:hover {
+    &.dark-theme { 
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+.profile-basket {
+    &.dark-theme {
+        background-color: $backColorElemDark;
+        color: white;
+    }
+}
+
+.profile-basket__block-title {
+    &.dark-theme {
+        color: white;
+    }
+}
+
+.profile-basket__block-title:hover {
+    &.dark-theme { 
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
+
                                                     //КОРЗИНА
 
 .basketBox__product_controls {

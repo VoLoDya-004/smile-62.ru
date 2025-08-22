@@ -539,7 +539,9 @@ useEffect(() => {
               } />                   
             <Route path='/profile' 
               element={
+                <Context.Provider value={{productsFavourites}}>
                   <Profile />
+                </Context.Provider>
               } />                   
             <Route path='/basket' 
               element={

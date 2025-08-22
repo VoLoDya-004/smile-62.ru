@@ -2,6 +2,7 @@ import {useTransition, useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import { memo } from "react"
 import React from 'react'
+import Notification from '../sub-components/Notification'
 
 
 export default memo(function ButtonBasket({addInBasketProductFavourites, productFavourites, 
@@ -10,6 +11,11 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
     const [localBasket, setLocalBasket] = useState(cartBasket)
     const [basketStatus, setBasketStatus] = useState({})
     const [localBasketStatus, setLocalBasketStatus] = useState({})
+    const [notification, setNotification] = useState(null)
+
+	const showNotification = (message, type = "success") => {
+		setNotification({message, type})
+	}
 
     const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
@@ -47,6 +53,13 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
 
     return (
         <>
+        	{notification && (
+        		<Notification
+          			message={notification.message}
+          			type={notification.type}
+          			onClose={() => setNotification(null)}
+        		/>
+      		)}
             {cartFavourites.map((card) => {
                 const isBasket = localBasketStatus[card.nazvanie] || false
 
@@ -65,7 +78,7 @@ export default memo(function ButtonBasket({addInBasketProductFavourites, product
                                 style={{paddingTop: "7px"}}
                                 onClick={() => {
                                     isBasket ?
-                                        alert("Этот продукт уже в корзине") :
+                                        showNotification("товар уже в корзине", "success") :
                                         handleAddInBasketProductFavourites(card.id)
                                 }}
                             >

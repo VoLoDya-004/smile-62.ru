@@ -24,9 +24,12 @@ export default memo(function BasketBox({productsBasket}) {
                         (
                         <>
                             <h1 className="basketBox__container_title1">Корзина товаров</h1>
-                            <Button onClick={handleClearBasketBtn} 
-                                id="clearBasketBtn" className="form__registration_btn">
-                                    Очистить корзину
+                            <Button 
+                                onClick={handleClearBasketBtn} 
+                                id="clearBasketBtn" 
+                                className="form__registration_btn"
+                            >
+                                Очистить корзину
                             </Button>                        
                         </>
                         )}
