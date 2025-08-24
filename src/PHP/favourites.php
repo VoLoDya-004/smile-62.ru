@@ -28,13 +28,15 @@ if (isset($_GET['Operation'])) {
     if ($_GET['Operation'] == 'deleteFavourites'){ //удаление товара из избранного
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
-            $query = "DELETE FROM favourites WHERE id_product=$idProduct";
+            $idUser = $_GET['idUser'];
+            $query = "DELETE FROM favourites WHERE id_product=$idProduct and id_user = $idUser";
         }
     }
 
     if ($_GET['Operation'] == 'clearFavourites'){ //удаление товаров из избранного
         if (isset($_GET['idUser'])) {
-            $query = "DELETE FROM favourites";
+            $idUser = $_GET['idUser'];
+            $query = "DELETE FROM favourites WHERE id_user = $idUser";
         }
     }
     

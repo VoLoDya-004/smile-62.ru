@@ -9,8 +9,9 @@ import { Context } from '../../../JS/context'
 
 export default memo(function Cards() {
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+  const userId = useSelector((state) => state.user.userId)
+	const isAuth = useSelector((state) => state.user.isAuth)
 
-  const userId = 222
   const context = useContext(Context)
   const { cartFavourites, cartBasket, searchQuery,
     isLoading, cards, setCurrentPage, currentPage} = context
@@ -39,12 +40,15 @@ export default memo(function Cards() {
   }, [cartBasket])
 
   const handleAddFav = useCallback((id, nazvanie) => {
+    if (!isAuth) {
+      showNotification("войдите в аккаунт", "error")
+      return
+    }
     if (
       localFavourites.some(item => item.nazvanie === nazvanie) ||
       pendingIdFav === id
     ) {
       showNotification("товар уже в избранных", "success")
-      //alert("Этот продукт уже в избранных или добавляется")
       return
     }
     setPendingIdFav(id)
@@ -59,9 +63,13 @@ export default memo(function Cards() {
     }).catch(() => {
       setPendingIdFav(null)
     })
-  }, [localFavourites, pendingIdFav, startTransition])
+  }, [localFavourites, pendingIdFav, startTransition, isAuth])
 
   const handleAddBasket = useCallback((id, nazvanie) => {
+    if (!isAuth) {
+      showNotification("войдите в аккаунт", "error")
+      return
+    }
     setAddingStatus(prev => ({ ...prev, [id]: true }))
     setTimeout(() => {
       setAddingStatus(prev => ({ ...prev, [id]: false }))
@@ -71,7 +79,6 @@ export default memo(function Cards() {
       pendingIdBasket === id
     ) {
         showNotification("товар уже в корзине", "success")
-        //alert("Этот продукт уже в корзине или добавляется")
         return
     }
     setPendingIdBasket(id)
@@ -86,13 +93,11 @@ export default memo(function Cards() {
     }).catch(() => {
       setPendingIdBasket(null)
     })
-  }, [localBasket, pendingIdBasket, startTransition])
+  }, [localBasket, pendingIdBasket, startTransition, isAuth])
   
   const addBasket = useCallback(async (idProduct, cardNazvanie) => {
     const exists = memoizedBasket.some(item => item.nazvanie === cardNazvanie)
     if (exists) {
-      showNotification("товар уже в корзине", "success")
-      //alert("Этот продукт уже в корзине")
       return
     } else {
     try {
@@ -113,8 +118,6 @@ export default memo(function Cards() {
   const addFav = useCallback(async (idProduct, cardNazvanie) => {
     const exists = memoizedFavourites.some(item => item.nazvanie === cardNazvanie)
     if (exists) {
-      showNotification("товар уже в избранных", "success")
-      //alert("Этот продукт уже в избранных")
       return
     } else {
     try {

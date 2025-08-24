@@ -20,35 +20,40 @@ if (isset($_GET['Operation'])) {
     if ($_GET['Operation'] == 'deleteBasket'){ //удаление товара из корзины
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
-            $query = "DELETE FROM basket WHERE id=$idProduct";
+            $userId = $_GET['idUser'];
+            $query = "DELETE FROM basket WHERE id=$idProduct and id_user = $userId";
         }
     }
 
     if ($_GET['Operation'] == 'increaseBasket'){ //+1
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
-            $query = "UPDATE basket SET count = count + 1 WHERE id=$idProduct";
+            $userId = $_GET['idUser'];
+            $query = "UPDATE basket SET count = count + 1 WHERE id=$idProduct and id_user = $userId";
         }
     }
 
     if ($_GET['Operation'] == 'decreaseBasket'){ //-1
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
-            $query = "UPDATE basket SET count = count - 1 WHERE id=$idProduct";
+            $userId = $_GET['idUser'];
+            $query = "UPDATE basket SET count = count - 1 WHERE id=$idProduct and id_user = $userId";
         }
     }
 
     if ($_GET['Operation'] == 'updateCount'){
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
+            $userId = $_GET['idUser'];
             $newCount  = $_GET['count'];
-            $query = "UPDATE basket SET count = $newCount WHERE id=$idProduct";
+            $query = "UPDATE basket SET count = $newCount WHERE id=$idProduct and id_user = $userId";
         }
     }
 
     if ($_GET['Operation'] == 'clearBasket'){ //удаление товаров из корзины
         if (isset($_GET['idUser'])) {
-            $query = "DELETE FROM basket";
+            $userId = $_GET['idUser'];
+            $query = "DELETE FROM basket WHERE id_user = $userId";
         }
     }
     

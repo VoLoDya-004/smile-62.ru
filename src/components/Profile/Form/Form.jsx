@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
 import { Context } from "../../../JS/context"
+import {setUser, logoutUser} from "../../../redux/UserSlice"
 import FormTitle from "../FormTitle/FormTitle"
 import ButtonSubmit from "../../Button/ButtonSubmit"
 import Button from "../../Button/Button"
@@ -9,10 +10,12 @@ import Notification from "../../sub-components/Notification"
 import axios from "axios"
 
 
-export default function Form({isAuth, setIsAuth}) {
+export default function Form() {
 	const context = useContext(Context)
 	const {productsFavourites} = context
 
+	const dispatch = useDispatch()
+	const isAuth = useSelector((state) => state.user.isAuth)
 	const totalBasket = useSelector((state) => state.basket.total)
 	const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
 
@@ -66,8 +69,8 @@ export default function Form({isAuth, setIsAuth}) {
 	}
 
 	const handleLogout = () => {
+		dispatch(logoutUser())
 		showNotification('Вы вышли из аккаунта', 'success')
-		setIsAuth(false)
 		setUserName('')
 		localStorage.removeItem('auth')
 	}
@@ -81,13 +84,14 @@ export default function Form({isAuth, setIsAuth}) {
 					}
 				})
 				if (response.data.success) {
+					const userIdFromDB = response.data.id_user
+					dispatch(setUser({userId: userIdFromDB, userName: response.data.name}))
 					showNotification('Вы успешно вошли', 'success')
-					setIsAuth(true)
 					setUserName(response.data.name)
 					localStorage.setItem('auth', JSON.stringify({
 						isAuth: true,
-						userName: response.data.name
-
+						userName: response.data.name,
+						userId: userIdFromDB,
 					}))
 				} else {
 					showNotification(response.data.message, 'error')
@@ -107,9 +111,9 @@ export default function Form({isAuth, setIsAuth}) {
 	useEffect(() => {
 		const storedAuth = localStorage.getItem('auth')
 		if (storedAuth) {
-			const {isAuth, userName} = JSON.parse(storedAuth)
+			const {isAuth, userName, userId} = JSON.parse(storedAuth)
 			if (isAuth) {
-				setIsAuth(true)
+				dispatch(setUser({userId, userName, isAuth}))
 				setUserName(userName)
 			}
 		}
@@ -314,5 +318,4 @@ export default function Form({isAuth, setIsAuth}) {
         </>
     )
 }
-
 

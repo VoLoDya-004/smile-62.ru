@@ -61,7 +61,8 @@ if (isset($_GET['Operation']) && $_GET['Operation'] == 'login') {
             echo json_encode([
                 'success' => true,
                 'message' => 'Вы успешно вошли',
-                'name' => $user['name']
+                'name' => $user['name'],
+                'id_user' => $user['id_user']
             ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Неверный пароль']);
