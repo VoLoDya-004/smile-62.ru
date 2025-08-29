@@ -1,19 +1,24 @@
-import { useState, useEffect, useContext, useCallback, useMemo, useTransition } from 'react'
-import { useSelector } from 'react-redux'
+import { useState, useEffect, useContext, useCallback, useMemo, useTransition, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { memo } from 'react'
 import axios from 'axios'
 import ButtonLoad from '../../Button/ButtonLoad'
 import Notification from '../../sub-components/Notification'
 import { Context } from '../../../JS/context'
+import { setCartBasket } from '../../../redux/BasketSlice'
 
 
 export default memo(function Cards() {
+  const dispatch = useDispatch()
+  const cartBasket = useSelector((state) => state.basket.cartBasket)
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
   const userId = useSelector((state) => state.user.userId)
 	const isAuth = useSelector((state) => state.user.isAuth)
 
+  const srcBasket = `http://localhost:3000/src/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+
   const context = useContext(Context)
-  const { cartFavourites, cartBasket, searchQuery,
+  const { cartFavourites, searchQuery,
     isLoading, cards, setCurrentPage, currentPage} = context
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
   const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
@@ -32,6 +37,16 @@ export default memo(function Cards() {
   }
 
   useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null)
+      }, 1000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [notification])
+
+  useEffect(() => {
     setLocalFavourites(cartFavourites)
   }, [cartFavourites])
 
@@ -39,13 +54,14 @@ export default memo(function Cards() {
     setLocalBasket(cartBasket)
   }, [cartBasket])
 
-  const handleAddFav = useCallback((id, nazvanie) => {
+  const handleAddFav = useCallback((id) => {
+    saveScrollPosition()
     if (!isAuth) {
       showNotification("войдите в аккаунт", "error")
       return
     }
     if (
-      localFavourites.some(item => item.nazvanie === nazvanie) ||
+      localFavourites.some(item => item.id === id) ||
       pendingIdFav === id
     ) {
       showNotification("товар уже в избранных", "success")
@@ -54,69 +70,94 @@ export default memo(function Cards() {
     setPendingIdFav(id)
     startTransition(() => {
       setLocalFavourites(prev => {
-        if (prev.some(item => item.nazvanie === nazvanie)) return prev
-        return [...prev, { nazvanie }]
+        if (prev.some(item => item.id === id)) return prev
+        return [...prev, { id }]
       })
     })
-    addFav(id, nazvanie).then(()=> {
+    addFav(id).then(()=> {
       setPendingIdFav(null)
     }).catch(() => {
       setPendingIdFav(null)
     })
   }, [localFavourites, pendingIdFav, startTransition, isAuth])
 
-  const handleAddBasket = useCallback((id, nazvanie) => {
+  const handleAddBasket = useCallback((id) => {
+    saveScrollPosition()
     if (!isAuth) {
       showNotification("войдите в аккаунт", "error")
       return
     }
     setAddingStatus(prev => ({ ...prev, [id]: true }))
-    setTimeout(() => {
-      setAddingStatus(prev => ({ ...prev, [id]: false }))
-    }, 1000)
     if (
-      localBasket.some(item => item.nazvanie === nazvanie) ||
+      localBasket.some(item => item.id_product === id) ||
       pendingIdBasket === id
     ) {
-        showNotification("товар уже в корзине", "success")
-        return
+      showNotification("товар уже в корзине", "success")
+      return
     }
     setPendingIdBasket(id)
     startTransition(() => {
       setLocalBasket(prev => {
-        if (prev.some(item => item.nazvanie === nazvanie)) return prev
-        return [...prev, {nazvanie}]
+        if (prev.some(item => item.id_product === id)) return prev
+        return [...prev, { id_product: id }]
       })
     })
-    addBasket(id, nazvanie).then(() => {
+    addBasket(id)
+    .then(() => {
       setPendingIdBasket(null)
-    }).catch(() => {
+    })
+    .then(() => {
+    })
+    .catch(() => {
       setPendingIdBasket(null)
     })
   }, [localBasket, pendingIdBasket, startTransition, isAuth])
+
+  //сбрасываем скролл если пользователь сам скроллит
+  const autoScrollRef = useRef(false)
+
+  useEffect(() => {
+    const handleUserScroll = () => {
+      if (autoScrollRef.current) {
+        autoScrollRef.current = false
+      }
+    }
+
+    window.addEventListener('scroll', handleUserScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleUserScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    restoreScrollPosition()
+  }, [pendingIdBasket, pendingIdFav, notification])
   
-  const addBasket = useCallback(async (idProduct, cardNazvanie) => {
-    const exists = memoizedBasket.some(item => item.nazvanie === cardNazvanie)
+  const addBasket = useCallback(async (idProduct) => {
+    const exists = memoizedBasket.some(item => item.id === idProduct)
     if (exists) {
       return
     } else {
-    try {
-      await axios.get(`http://localhost:3000/src/PHP/basket.php`, {
-        params: {
-          Operation: 'addBasket',
-          idProduct: idProduct,
-          idUser: userId,
-        },
-      })
-    } catch (error) {
-      console.error("Ошибка при добавлении в корзину:", error)
-      handleAxiosError(error) // Функция для обработки ошибок
+      try {
+        await axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+          params: {
+            Operation: 'addBasket',
+            idProduct: idProduct,
+            idUser: userId,
+          },
+        })
+        const res = await axios.get(srcBasket)
+        dispatch(setCartBasket(res.data))
+      } catch (error) {
+        console.error("Ошибка при добавлении в корзину:", error)
+        handleAxiosError(error)
       }
     }
-  }, [cartBasket])
+  }, [cartBasket, userId])
 
-  const addFav = useCallback(async (idProduct, cardNazvanie) => {
-    const exists = memoizedFavourites.some(item => item.nazvanie === cardNazvanie)
+  const addFav = useCallback(async (idProduct) => {
+    const exists = memoizedFavourites.some(item => item.id === idProduct)
     if (exists) {
       return
     } else {
@@ -186,19 +227,40 @@ export default memo(function Cards() {
     }
   }, [cards])
 
-// поиск
+  // поиск
   const filteredCards = cards.filter(card => 
     card.nazvanie?.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  // Создаем ref для хранения позиции прокрутки
+  const scrollPositionRef = useRef(0)
+
+  // Функция для сохранения текущей позиции скролла
+  const saveScrollPosition = () => {
+    autoScrollRef.current = true
+    scrollPositionRef.current = window.scrollY || document.documentElement.scrollTop
+  }
+
+  // Восстановление позиции скролла
+  const restoreScrollPosition = () => {
+    if (autoScrollRef.current) {
+      window.scrollTo({
+        top: scrollPositionRef.current,
+        behavior: 'auto'
+      })
+      autoScrollRef.current = false
+    }
+  }
+
   
-  const Card = memo(function Card ({card, isDarkTheme}) {
+  const Card = memo(function Card ({card, isDarkTheme, localFavourites, localBasket, cartBasket}) {
     const sale = Math.round(100 * ((card.price - card.price_sale) / card.price))
     const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
     const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
-    const isFav = localFavourites.some(item => item.nazvanie === card.nazvanie)
-    const isInBasket = localBasket.some(item => item.nazvanie === card.nazvanie)
+    const isFav = localFavourites.some(item => item.id === card.id)
+    const isInLocalBasket = localBasket.some(item => item.id_product === card.id)
+    const isInBasket = cartBasket.some(item => item.id_product === card.id)
     const isAddingFav = pendingIdFav === card.id
 
 
@@ -206,7 +268,7 @@ export default memo(function Cards() {
       <div key={card.id} id={card.id} className={`card ${isDarkTheme ? 'dark-theme' : ''}`}>
         <div className="card__top">
           <div id={`card__heart_${card.id}`} className="card__heart">
-            <svg onClick={() => handleAddFav(card.id, card.nazvanie)} 
+            <svg onClick={() => handleAddFav(card.id)} 
             disabled={isPending || isAddingFav}
             width="23" height="21" xmlns="http://www.w3.org/2000/svg">
               <path opacity=".6" fill={isFav ? "red" : ""} 
@@ -231,12 +293,15 @@ export default memo(function Cards() {
               <div className="card__price card__price_count-same">{price}</div>
               <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a>
               <button
-                className={isInBasket ? "card__btn_disabled" : "card__btn"}
+                type="button"
+                className={isInLocalBasket ? "card__btn_disabled" : "card__btn"}
                 id={`card_${card.id}`}
                 disabled={isPending}
-                onClick={() => handleAddBasket(card.id, card.nazvanie)}
+                onClick={() => {
+                  handleAddBasket(card.id)
+                }}
               >
-                {addingStatus[card.id] ? "Добавление" : isInBasket ? "В корзине" : "В корзину"}
+                {addingStatus[card.id] && !isInBasket ? "Добавление" : isInBasket ? "В корзине" : "В корзину"}
               </button>
             </>
           ) : (
@@ -247,12 +312,15 @@ export default memo(function Cards() {
                 </div>
               <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a> 
               <button
-                className={isInBasket ? "card__btn_disabled" : "card__btn"}
+                type="button"
+                className={isInLocalBasket ? "card__btn_disabled" : "card__btn"}
                 id={`card_${card.id}`}
                 disabled={isPending}
-                onClick={() => handleAddBasket(card.id, card.nazvanie)}
+                onClick={() => {
+                  handleAddBasket(card.id) 
+                }}
               >
-                {addingStatus[card.id] ? "Добавление" : isInBasket ? "В корзине" : "В корзину"}
+                {addingStatus[card.id] && !isInBasket ? "Добавление" : isInBasket ? "В корзине" : "В корзину"}
               </button>
             </>
           )}
@@ -289,6 +357,9 @@ export default memo(function Cards() {
                   key={card.id}
                   card={card}
                   isDarkTheme={isDarkTheme}
+                  localFavourites={localFavourites}
+                  localBasket={localBasket}
+                  cartBasket={cartBasket}
                 />
               ))}
             </div>
@@ -331,3 +402,28 @@ export default memo(function Cards() {
     </>
   )
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

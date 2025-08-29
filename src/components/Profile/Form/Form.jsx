@@ -25,6 +25,16 @@ export default function Form() {
 		setNotification({message, type})
 	}
 
+	useEffect(() => {
+		if (notification) {
+	    	const timer = setTimeout(() => {
+	    		setNotification(null)
+	      	}, 3000)
+
+	      	return () => clearTimeout(timer)
+	    }
+	}, [notification])
+
 	const [userName, setUserName] = useState('')
 	const [loginData, setLoginData] = useState({email: '', password: ''})
 

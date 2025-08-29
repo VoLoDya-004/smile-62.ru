@@ -236,39 +236,6 @@ export default function App() {
   })
   }, [cartBasket, deleteProductBasket, increaseBasket, decreaseBasket, handleCountChange, showModal])
 
-  // обновление кружка корзины без обновления страницы
-useEffect(() => {
-  if (userId !== null) {
-    const handleClick = () => {
-      axios.get(`http://localhost:3000/src/PHP/basket.php`, {
-        params: {
-          Operation: 'showBasket',
-          idUser: userId,
-        }
-      })
-      .then(() => {
-        return axios.get(srcBasket)
-      })
-      .then((res) => {
-        dispatch(setCartBasket(res.data))
-      })
-      .catch((error) => {
-        console.error("Ошибка при обновлении кружка корзины:", error)
-      })
-    }
-
-    // Навешиваем один раз
-    document.body.addEventListener('click', handleClick)
-
-    // Очистка
-    return () => {
-      document.body.removeEventListener('click', handleClick)
-    }
-  }
-}, [dispatch, userId])
-//
-
-
 //работа с избранными товарами
   const srcFavourites = 
     `http://localhost:3000/src/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
@@ -644,7 +611,7 @@ useEffect(() => {
                 cards, setCards, setSortType, sortType, handleFiltersChange, filters,
                 setSelectedCategory, setSearchQuery, setCurrentPage, isLoading, currentPage,
                 currentSort, setCurrentSort, activeCategoryId, categories, fetchCards,
-                setActiveCategoryId, totalItems}}>
+                setActiveCategoryId, totalItems, setCartBasket}}>
                   <Basic />
                 </Context.Provider>
               } />                

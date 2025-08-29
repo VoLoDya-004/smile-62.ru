@@ -5,6 +5,11 @@ body.modal-open {
 .fill-clip-rule {
 	@include fill-clip-rule (evenodd, evenodd);
 }
+
+.slider__item img {
+	width: calc(100% - 0.4px);
+	object-fit: cover;
+}
 																	
 																	/*ОСНОВНОЙ КОНТЕНТ*/
 																	//АДАПТАЦИЯ 1000px
