@@ -24,6 +24,19 @@ body.dark-theme {
     }
 }
 
+.header-profile {
+    &.dark-theme {
+        background-color: black;
+        color: white;
+    }  
+}
+
+.header-profile__title {
+    &.dark-theme {
+        color: white;
+    }  
+}
+
                                                     //ФУТЕР
 
 .footer {

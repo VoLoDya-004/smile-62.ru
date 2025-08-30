@@ -1,15 +1,71 @@
-import { NavLink } from "react-router-dom"
-import { useEffect } from "react"
+import { NavLink, useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
 import React from "react"
+import { useSelector, useDispatch } from "react-redux"
+import {logoutUser} from "../../../redux/UserSlice"
+import Button from "../../Button/Button"
+import Notification from "../../sub-components/Notification"
 
 
 export default React.memo(function TabSection() {
+	const dispatch = useDispatch()
+	const isAuth = useSelector((state) => state.user.isAuth)
+	const userName = useSelector((state) => state.user.userName)
+	const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+
+	const location = useLocation()
+	const isActiveProfile = location.pathname === "/profile"
+
+	const [showProfileMenu, setShowProfileMenu] = useState(false)
+	const [notification, setNotification] = useState(null)
+
+	const showNotification = (message, type = "success") => {
+		setNotification({message, type})
+	}
+
+	useEffect(() => {
+		if (notification) {
+	    	const timer = setTimeout(() => {
+	    		setNotification(null)
+	      	}, 3000)
+
+	      	return () => clearTimeout(timer)
+	    }
+	}, [notification])
+
+
+	const handleMouseEnter = () => {
+		setShowProfileMenu(true)
+	}
+
+	const handleMouseLeave = () => {
+		setShowProfileMenu(false)
+	}
+
+	const handleLogout = () => {
+		dispatch(logoutUser())
+		showNotification('Вы вышли из аккаунта', 'success')
+		localStorage.removeItem('auth')
+	}
+
+	const handleLoginp = () => {
+		showNotification('Войдите или зарегистрируйтесь', 'success')
+	}
+
     useEffect(() => {
 	    window.scrollTo(0, 0)
     }, [])
 
 
     return (
+		<>
+		{notification && (
+			<Notification
+				message={notification.message}
+				type={notification.type}
+				onClose={() => setNotification(null)}
+			/>
+		)}
         <ul className="menu">
             <li className="menu__item">
 				<NavLink to="/" className={({ isActive }) =>
@@ -23,10 +79,50 @@ export default React.memo(function TabSection() {
 					Избранное
 				</NavLink>
 			</li>
-			<li className="menu__item">
-				<NavLink to="/profile"className={({ isActive }) =>
-				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+			<li className="menu__item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+				<NavLink to="/profile" className={({ isActive }) =>
+					(isActive ? "line line-text menu__item_style" : "menu__item_style")}
+				>
 					Профиль
+					{showProfileMenu && (
+						isAuth ? (
+							<div className={`header-profile ${isDarkTheme ? 'dark-theme' : ''}`}>
+								<div 
+									className={`header-profile__title ${isDarkTheme ? 'dark-theme' : ''}`}
+									style={{
+										paddingTop: isActiveProfile ? "14.5px" : "8px"
+									}}
+								>
+									Имя: {userName || "Пользователь"}
+								</div>
+								<Button
+									onClick={handleLogout}
+									id="header-profile-out"
+									className="form__registration_btn"
+								>
+									Выйти
+								</Button>
+							</div>	
+						) : (
+							<div className={`header-profile ${isDarkTheme ? 'dark-theme' : ''}`}>
+								<div 
+									className={`header-profile__title ${isDarkTheme ? 'dark-theme' : ''}`}
+									style={{
+										paddingTop: isActiveProfile ? "14.5px" : "8px"
+									}}
+								>
+									Войдите в аккаунт
+								</div>
+								<Button
+									id="header-profile-out"
+									className="form__registration_btn"
+									onClick={handleLoginp}
+								>
+									Войти
+								</Button>
+							</div>	
+						)
+					)}				
 				</NavLink>
 			</li>
   	    	<li className="menu__item">
@@ -36,5 +132,6 @@ export default React.memo(function TabSection() {
 				</NavLink>
 			</li>
         </ul>
+		</>
     )
 })
