@@ -94,7 +94,7 @@ export default function Carousel({ children }) {
 
 
 	return (
-		<>
+		<aside>
 			<div className="slider">
 	    	  		<div className="slider__btn_left" onClick={handleLeftArrow}>
 	    	    		<svg
@@ -177,6 +177,6 @@ export default function Carousel({ children }) {
 	    		ИНН 777777777<br />
 	    		здесь еще что-нибудь
 	    	</div>
-	  	</>
+	  	</aside>
 	)
 }

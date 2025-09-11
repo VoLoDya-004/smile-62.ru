@@ -64,6 +64,7 @@ export default function Recommendations() {
     const [showRightButton, setShowRightButton] = useState(false)
 
     const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
+    const userId = useSelector((state) => state.user.userId)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -71,7 +72,7 @@ export default function Recommendations() {
             const element = containerRef.current
             setShowLeftButton(element.scrollLeft > 0)
             setShowRightButton(
-                element.scrollWidth - element.clientWidth > element.scrollLeft
+                element.scrollWidth - element.clientWidth > element.scrollLeft + 1
             )
             setScrollPosition(element.scrollLeft)
         }
@@ -87,7 +88,7 @@ export default function Recommendations() {
     }, [cards])
 
     useEffect(() => {
-        loadCards()
+        loadCards()      
     }, [])
 
     async function loadCards() {
@@ -96,7 +97,7 @@ export default function Recommendations() {
             const response = await axios.get(`http://localhost:3000/src/PHP/sort.php`, {
                 params: {
                     Operation: 'showCards',
-                    idUser: 222,
+                    idUser: userId ?? 0,
                 },
             })
             setCards(response.data)
@@ -210,5 +211,19 @@ export default function Recommendations() {
         </div>
     )
 }   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

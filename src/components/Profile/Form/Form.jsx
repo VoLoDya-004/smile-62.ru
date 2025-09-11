@@ -15,6 +15,7 @@ export default function Form() {
 	const {productsFavourites} = context
 
 	const dispatch = useDispatch()
+	const userName = useSelector((state) => state.user.userName)
 	const isAuth = useSelector((state) => state.user.isAuth)
 	const totalBasket = useSelector((state) => state.basket.total)
 	const isDarkTheme = useSelector((state) => state.theme.isDarkTheme)
@@ -35,7 +36,6 @@ export default function Form() {
 	    }
 	}, [notification])
 
-	const [userName, setUserName] = useState('')
 	const [loginData, setLoginData] = useState({email: '', password: ''})
 
 	const [registerData, setRegisterData] = useState({
@@ -81,7 +81,6 @@ export default function Form() {
 	const handleLogout = () => {
 		dispatch(logoutUser())
 		showNotification('Вы вышли из аккаунта', 'success')
-		setUserName('')
 		localStorage.removeItem('auth')
 	}
 
@@ -97,7 +96,6 @@ export default function Form() {
 					const userIdFromDB = response.data.id_user
 					dispatch(setUser({userId: userIdFromDB, userName: response.data.name}))
 					showNotification('Вы успешно вошли', 'success')
-					setUserName(response.data.name)
 					localStorage.setItem('auth', JSON.stringify({
 						isAuth: true,
 						userName: response.data.name,
@@ -105,11 +103,9 @@ export default function Form() {
 					}))
 				} else {
 					showNotification(response.data.message, 'error')
-					setUserName("Пользователь")
 				}
 		} catch (error) {
 			showNotification('Ошибка входа', 'error')
-			setUserName("Пользователь")
 		} finally {
 			setLoginData({
 				email: '',
@@ -124,7 +120,6 @@ export default function Form() {
 			const {isAuth, userName, userId} = JSON.parse(storedAuth)
 			if (isAuth) {
 				dispatch(setUser({userId, userName, isAuth}))
-				setUserName(userName)
 			}
 		}
 	}, [])
