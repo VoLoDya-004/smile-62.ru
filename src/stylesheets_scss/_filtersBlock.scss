@@ -2,6 +2,7 @@
 	box-sizing: border-box;
 	color: gray;
 	cursor: default;
+    user-select: none;
 	&:hover {
 		color: gray;
 		border-bottom: 2px solid transparent;
@@ -19,6 +20,7 @@
 	cursor: pointer;
 	color: gray;
 	border-bottom: 2px solid transparent;
+    user-select: none;
 	&:hover {
 		color: black;
 		border-bottom: 2px solid black;
@@ -30,6 +32,7 @@
 	font-size: 25px;
 	font-weight: 600;
 	margin-bottom: 10px;
+    user-select: none;
 }
 
 .countProducts {
@@ -37,6 +40,7 @@
     font-size: 20px;
     display: inline-block;
     margin: 0 5px;
+    user-select: none;
 }
 
 .filtersBlock {
@@ -234,6 +238,7 @@
 	cursor: pointer;
 	color: gray;
 	border-bottom: 2px solid transparent;
+    user-select: none;
 	&:hover {
 		color: black;
 		border-bottom: 2px solid black;
@@ -245,6 +250,7 @@
 	font-size: 25px;
 	font-weight: 600;
 	margin: 0 0 10px 15px;
+    user-select: none;
 }
 
 .countProducts {
@@ -252,6 +258,7 @@
     font-size: 20px;
     display: inline-block;
     margin: 0 5px;
+    user-select: none;
 }
 
 .filtersBlock {
@@ -449,6 +456,7 @@
 	cursor: pointer;
 	color: gray;
 	border-bottom: 2px solid transparent;
+    user-select: none;
 	&:hover {
 		color: black;
 		border-bottom: 2px solid black;
@@ -460,6 +468,7 @@
 	font-size: 15px;
 	font-weight: 600;
 	margin: 0 0 10px 5px;
+    user-select: none;
 }
 
 .countProducts {
@@ -467,6 +476,7 @@
     font-size: 13px;
     display: inline-block;
     margin: 0 5px;
+    user-select: none;
 }
 
 .filtersBlock {
@@ -666,6 +676,7 @@
 	cursor: pointer;
 	color: gray;
 	border-bottom: 2px solid transparent;
+    user-select: none;
 	&:hover {
 		color: black;
 		border-bottom: 2px solid black;
@@ -677,6 +688,7 @@
 	font-size: 11px;
 	font-weight: 600;
 	margin: 0 0 10px 5px;
+    user-select: none;
 }
 
 .countProducts {
@@ -684,6 +696,7 @@
     font-size: 11px;
     display: inline-block;
     margin: 0 5px;
+    user-select: none;
 }
 
 .filtersBlock {

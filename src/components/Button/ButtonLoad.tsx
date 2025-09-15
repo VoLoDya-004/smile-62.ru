@@ -1,0 +1,23 @@
+import React, { memo, type JSX } from "react"
+
+
+interface IButtonLoadProps {
+    onClick: () => void
+    children: React.ReactNode
+    id: string
+    className: string
+    style?: React.CSSProperties
+}
+
+
+const ButtonLoad = ({onClick, children, id, className, style}: IButtonLoadProps): JSX.Element => {
+
+    
+    return (
+            <button id={id} className={className} onClick={onClick} style={style}>
+                {children}
+            </button>
+    )
+}
+
+export default memo(ButtonLoad)

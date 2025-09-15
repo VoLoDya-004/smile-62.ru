@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Целевая версия ECMAScript
+    "useDefineForClassFields": true, // Использовать defineProperty для полей классов
+    "lib": ["ESNext", "DOM", "DOM.Iterable"], // Включаемые библиотеки
+    "module": "ESNext", // Тип модуля
+    "moduleResolution": "bundler", // Режим разрешения модулей
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+    //"allowImportingTsExtensions": true,
+    "allowJs": true, // Разрешить компиляцию JavaScript файлов
+    "jsx": "react-jsx", // Тип JSX (react-jsx для React 17+ без импорта React)
+    "esModuleInterop": true, // Включить совместимость с ES модулями
+    "strict": true, // Включить все строгие проверки
+    "skipLibCheck": true, // Пропускать проверку типов для файлов деклараций
+    "forceConsistentCasingInFileNames": true, // Гарантировать консистентность регистра имен файлов
+    "resolveJsonModule": true, // Разрешить импорт JSON модулей
+    "isolatedModules": true, // Изолировать каждый файл как модуль
+    "noEmit": true, // Не генерировать файлы `.js` (Vite сделает это сам)
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "noUnusedLocals": true, // Отмечать неиспользуемые локальные переменные
+    "noUnusedParameters": true // Отмечать неиспользуемые параметры функций
+  },
+  "include": ["src"] // Папки, которые нужно включать в компиляцию
+}
