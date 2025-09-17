@@ -2,12 +2,12 @@ import { useState, useEffect, useContext, useCallback, useMemo, useTransition, u
 import { useSelector, useDispatch } from 'react-redux'
 import { memo } from 'react'
 import axios, { AxiosError } from 'axios'
-import ButtonLoad from '../../Button/ButtonLoad'
-import Notification from '../../sub-components/Notification'
 import { Context } from '../../../contexts/context'
 import { setCartBasket } from '../../../redux/BasketSlice'
 import type { RootStore } from '../../../redux'
 import type { IProduct, INotificationData, ICardsRender } from '../../../types/types'
+import ButtonLoad from '../../Button/ButtonLoad'
+import Notification from '../../sub-components/Notification'
 
 
 interface ICardProps {
@@ -128,7 +128,6 @@ const Cards = () => {
     })
   }, [localBasket, pendingIdBasket, startTransition, isAuth])
 
-  //сбрасываем скролл если пользователь сам скроллит
   const autoScrollRef = useRef(false)
 
   useEffect(() => {
@@ -186,7 +185,7 @@ const Cards = () => {
       })
     } catch (error) {
       console.error("Ошибка при добавлении в избранное:", error)
-      handleAxiosError(error) // Функция для обработки ошибок
+      handleAxiosError(error) 
       }
     }
   }, [cartFavourites])
@@ -195,21 +194,17 @@ const Cards = () => {
   const handleAxiosError = (error: unknown) => {
     const axiosError = error as AxiosError
     if (axiosError.response) {
-      // Сервер вернул код ошибки
       console.error("Server responded with status code:", axiosError.response.status)
       alert(`Server error: ${axiosError.response.status} - ${axiosError.response.statusText}`)
     } else if (axiosError.request) {
-      // Запрос был сделан, но ответ не получен
       console.error("No response received:", axiosError.request)
       alert("No response from server. Please check your network connection.")
     } else {
-      // Произошла ошибка при настройке запроса
       console.error("Error setting up the request:", axiosError.message)
       alert(`Request setup error: ${axiosError.message}`)
     }
   }
 
-  //скролл при пагинации
   useEffect(() => {
     const toUp = () => {
     window.scrollTo({
@@ -220,7 +215,6 @@ const Cards = () => {
     toUp()
   }, [currentPage])
 
-  // состояние кнопок пагинации
   useEffect(() => {
     const btn = document.getElementById("loadBtnBack")
     if (btn) {
@@ -244,21 +238,17 @@ const Cards = () => {
     }
   }, [cards])
 
-  // поиск
   const filteredCards = cards.filter(card => 
     card.nazvanie.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  // Создаем ref для хранения позиции прокрутки
   const scrollPositionRef = useRef(0)
 
-  // Функция для сохранения текущей позиции скролла
   const saveScrollPosition = () => {
     autoScrollRef.current = true
     scrollPositionRef.current = window.scrollY || document.documentElement.scrollTop
   }
 
-  // Восстановление позиции скролла
   const restoreScrollPosition = () => {
     if (autoScrollRef.current) {
       window.scrollTo({
@@ -322,7 +312,9 @@ const Cards = () => {
                   handleAddBasket(card.id)
                 }}
               >
-                {addingStatus[card.id] && !isInBasket ? "Добавление" : isInBasket ? "В корзине" : "В корзину"}
+                {addingStatus[card.id] && !isInBasket ? "Добавление" : isInBasket ? 
+                  "В корзине" : "В корзину"
+                }
               </button>
             </>
           ) : (
@@ -341,7 +333,9 @@ const Cards = () => {
                   handleAddBasket(card.id) 
                 }}
               >
-                {addingStatus[card.id] && !isInBasket ? "Добавление" : isInBasket ? "В корзине" : "В корзину"}
+                {addingStatus[card.id] && !isInBasket ? "Добавление" : isInBasket ? 
+                  "В корзине" : "В корзину"
+                }
               </button>
             </>
           )}

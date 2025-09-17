@@ -1,9 +1,9 @@
 import { useState, useTransition, type ChangeEvent } from "react"
 import { useSelector } from "react-redux"
 import { memo } from "react"
-import ButtonDeleteBasket from "../../Button/ButtonDeleteBasket"
 import type { RootStore } from "../../../redux"
 import type { IBasket } from "../../../types/types"
+import ButtonDeleteBasket from "../../Button/ButtonDeleteBasket"
 
 
 interface IBasketProductsProps {
@@ -62,8 +62,7 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
     }
 
 
-    return (
-        
+    return (       
         <div className="basketBox__product">
             <div className="basketBox__product_img">
                 <img className="basketBox__product_img" src={image} alt="image" />

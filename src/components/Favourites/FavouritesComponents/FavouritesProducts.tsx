@@ -1,7 +1,7 @@
-import ButtonDeleteFavourites from "../../Button/ButtonDeleteFavourites"
-import ButtonBasket from "../../Button/ButtonBasket"
 import { memo } from "react"
 import type { IFav, IBasket } from "../../../types/types"
+import ButtonDeleteFavourites from "../../Button/ButtonDeleteFavourites"
+import ButtonBasket from "../../Button/ButtonBasket"
 
 
 interface IFavouritesProductsProps {
@@ -14,8 +14,8 @@ interface IFavouritesProductsProps {
 
 
 const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBasket,
-    addInBasketProductFavourites, cartFavourites}: IFavouritesProductsProps) => {
-
+    addInBasketProductFavourites, cartFavourites}: IFavouritesProductsProps) => 
+{
     const {id, nazvanie, image, price_total} = productFavourites
 
     const priceFormatter = new Intl.NumberFormat()
@@ -24,11 +24,18 @@ const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBas
     return (
         <div className="favouritesBox__product" id={String(productFavourites.id)}>
             <div className="favouritesBox__product_img">
-                <img className="favouritesBox__product_img" 
-                src={image} alt="image" />
+                <img 
+                    className="favouritesBox__product_img" 
+                    src={image} 
+                    alt="image" 
+                />
             </div>
-            <div className="favouritesBox__product_title">{nazvanie}</div>
-            <div className="favouritesBox__product_price">{priceFormatter.format(price_total)} руб.</div>           
+            <div className="favouritesBox__product_title">
+                {nazvanie}
+            </div>
+            <div className="favouritesBox__product_price">
+                {priceFormatter.format(price_total)} руб.
+            </div>           
             <ButtonBasket 
                 cartFavourites={cartFavourites} 
                 productFavourites={productFavourites} 

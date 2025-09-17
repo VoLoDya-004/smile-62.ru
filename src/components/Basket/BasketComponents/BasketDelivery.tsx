@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
-import Button from "../../Button/Button"
 import type { RootStore } from "../../../redux"
+import Button from "../../Button/Button"
 
 
 const BasketDelivery = () => {
@@ -22,9 +22,13 @@ const BasketDelivery = () => {
                 <div className="basketDelivery__left_checkbox">
                     <input type="checkbox" id="checkbox1" style={{cursor: "pointer"}} />
                     <label htmlFor="checkbox1" >
-                        Соглашаюсь с <a href="" 
+                        Соглашаюсь с 
+                        <a 
+                            href="" 
                             className={`basketDelivery__left_rules ${isDarkTheme ? 'dark-theme' : ''}`}
-                        > правилами </a> 
+                        > 
+                            правилами 
+                        </a> 
                         пользования <br /> 
                         <span style={{paddingLeft: "20px"}}>торговой площадкой и возврата</span>
                     </label>

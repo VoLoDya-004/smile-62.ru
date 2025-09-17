@@ -56,12 +56,13 @@ const Form = () => {
 
 	const handleRegister = async () => {
 		try {
-			const response = await axios.post("http://localhost:3000/src/PHP/register.php?Operation=register",
-				registerData, {
-					headers: {
-						'Content-Type': 'application/json'
-					}
-			})
+			const response = await 
+				axios.post("http://localhost:3000/src/PHP/register.php?Operation=register",
+					registerData, {
+						headers: {
+							'Content-Type': 'application/json'
+						}
+				})
 			if (response.data.success) {
 				showNotification(response.data.message, 'success')
 			} else {
@@ -91,12 +92,13 @@ const Form = () => {
 
 	const handleLogin = async() => {
 		try {
-			const response = await axios.post("http://localhost:3000/src/PHP/login.php?Operation=login",
-				loginData, {
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				})
+			const response = await 
+				axios.post("http://localhost:3000/src/PHP/login.php?Operation=login",
+					loginData, {
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					})
 				if (response.data.success) {
 					const userIdFromDB = response.data.id_user
 					dispatch(setUser({userId: userIdFromDB, userName: response.data.name, isAuth: true}))
@@ -131,7 +133,9 @@ const Form = () => {
 
     function pluralize(number: number, words: string[]) {
         const cases = [2, 0, 1, 1, 1, 2]
-        return words[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
+        return words[
+			(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]
+		]
     }
 
     const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
@@ -226,7 +230,10 @@ const Form = () => {
 								/>
 							</label>
   						</p>
-						<p className="form__entrance_item" style={{marginBottom: "auto", marginTop: "16px"}}>
+						<p 
+							className="form__entrance_item" 
+							style={{marginBottom: "auto", marginTop: "16px"}}
+						>
     						<label className="form_font">Введите пароль<br/>
     							<input 
 									type="password" 

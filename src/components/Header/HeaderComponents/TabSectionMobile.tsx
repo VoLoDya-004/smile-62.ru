@@ -40,8 +40,10 @@ const TabSectionMobile = () => {
                         </svg>
                     </div>
                 </NavLink>
-                <NavLink to="/profile" className={({ isActive }) =>(isActive ? "menu-mobile__item_active" : 
-                "menu-mobile__item_passiv")}>
+                <NavLink to="/profile" className={({ isActive }) => (isActive ? 
+                    "menu-mobile__item_active" : 
+                    "menu-mobile__item_passiv")}
+                >
                     <div className="menu-mobile__item">
                         <svg xmlns="http://www.w3.org/2000/svg" 
                         width="20" 
@@ -51,8 +53,9 @@ const TabSectionMobile = () => {
                     </div>
                 </NavLink>
                 <NavLink to="/basket" className={({ isActive }) =>(isActive ? 
-                "menu-mobile__item_active pc-none" : 
-                "menu-mobile__item_passiv pc-none")}> 
+                    "menu-mobile__item_active pc-none" : 
+                    "menu-mobile__item_passiv pc-none")}
+                > 
                     <BasketCircleMobile />
                     <div className="menu-mobile__item">
                         <svg 

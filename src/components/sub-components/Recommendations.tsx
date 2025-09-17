@@ -19,7 +19,11 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
 
 
     return (
-        <div key={card.id} id={String(card.id)} className={`recommendationCard ${isDarkTheme ? 'dark-theme' : ''}`}>
+        <div 
+            key={card.id} 
+            id={String(card.id)} 
+            className={`recommendationCard ${isDarkTheme ? 'dark-theme' : ''}`}
+        >
             <div className="recommendationCard__top">
                 <a className="recommendationCard__image">
                     <img src={card.image} alt="image" />
@@ -29,7 +33,9 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
             <div className="recommendationCard__bottom">
                 {price === price_sale ? (
                     <>
-                        <div className="recommendationCard__price recommendationCard__price_count-same">
+                        <div 
+                            className="recommendationCard__price recommendationCard__price_count-same"
+                        >
                             {price}
                         </div>
                         <a className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -39,14 +45,20 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
                 ) : (
                         <>
                             <div className="recommendationCard__prices">
-                                <div className="recommendationCard__price recommendationCard__price_discount">
+                                <div 
+                                    className="recommendationCard__price recommendationCard__price_discount"
+                                >
                                     {price_sale}
                                 </div>
-                                <div className="recommendationCard__price recommendationCard__price_count">
+                                <div 
+                                    className="recommendationCard__price recommendationCard__price_count"
+                                >
                                     {price}
                                 </div>
                             </div>
-                            <a className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                            <a 
+                                className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}
+                            >
                                 {card.nazvanie}
                             </a>
                         </>
@@ -181,7 +193,11 @@ const Recommendations = () => {
                 ) : (
                 <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
                     {showLeftButton && (
-                    <button className="recommendation__leftBtn" onClick={scrollLeftBtn} disabled={scrollPosition === 0}>
+                    <button 
+                        className="recommendation__leftBtn" 
+                        onClick={scrollLeftBtn} 
+                        disabled={scrollPosition === 0}
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" 
                         style={{fill: "none", width: "24", height: "24"}}>
                             <path style={{fill: "#fff", fillRule:"evenodd", clipRule: "evenodd"}}

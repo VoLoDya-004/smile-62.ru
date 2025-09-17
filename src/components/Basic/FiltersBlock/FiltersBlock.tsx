@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, useContext } from "react"
 import { useSelector } from "react-redux"
+import { Context } from "../../../contexts/context"
+import type { RootStore } from "../../../redux"
 import Button from "../../Button/Button"
 import SortMenu from "../SortMenu/SortMenu"
 import FiltersMenu from "../FiltersMenu/FiltersMenu"
-import { Context } from "../../../contexts/context"
-import type { RootStore } from "../../../redux"
 
 
 const FiltersBlock = () => {
@@ -134,7 +134,9 @@ const FiltersBlock = () => {
 
     function pluralize(number: number, words: string[]) {
         const cases = [2, 0, 1, 1, 1, 2]
-        return words[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
+        return words[
+            (number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]
+        ]
     }
 
     const itemText = pluralize(totalItems, ['товар', 'товара', 'товаров'])
@@ -144,12 +146,20 @@ const FiltersBlock = () => {
         <>
             <div 
                 onClick={allCategoriesBtn}
-                className={`categoriesNameMain ${isDarkTheme ? "dark-theme" : ""} ${activeCategoryId === 0 ? 'passive' : '' }`}
+                className={`
+                    categoriesNameMain 
+                    ${isDarkTheme ? "dark-theme" : ""} 
+                    ${activeCategoryId === 0 ? 'passive' : '' }
+                `}
             >
                 Все категории{activeCategoryId === 0 ? ' /' : '' }
             </div>
             {visible && 
-                <div className="categoriesName" id="categoriesName" style={{marginLeft: "0", color: "grey"}}>
+                <div 
+                    className="categoriesName" 
+                    id="categoriesName" 
+                    style={{marginLeft: "0", color: "grey"}}
+                >
                     <div 
                         style={{display: "inline-block", margin: "0 8px", userSelect: "none"}}
                     >
@@ -186,8 +196,12 @@ const FiltersBlock = () => {
                         Сбросить фильтры
                     </Button>
                 </div>
-            {visibleSort && <SortMenu ref={menuSortRef} onSelect={handleSortSelect} />}
-            {visibleFilters && <FiltersMenu handleToggleFilters={handleToggleFilters} ref={menuFiltersRef} />}
+            {visibleSort && 
+                <SortMenu ref={menuSortRef} onSelect={handleSortSelect} />
+            }
+            {visibleFilters && 
+                <FiltersMenu handleToggleFilters={handleToggleFilters} ref={menuFiltersRef} />
+            }
             </section>
         </>
     )

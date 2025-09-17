@@ -1,12 +1,12 @@
-import Accordion from "./Accordion"
-import Button from "../../Button/Button"
-import ButtonLoad from "../../Button/ButtonLoad"
-import ButtonCross from "../../Button/ButtonCross"
 import { forwardRef, useContext, useEffect, useState, type ChangeEvent } from "react"
 import { useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 import { Context } from "../../../contexts/context"
 import type { RootStore } from "../../../redux"
+import Accordion from "./Accordion"
+import Button from "../../Button/Button"
+import ButtonLoad from "../../Button/ButtonLoad"
+import ButtonCross from "../../Button/ButtonCross"
 
 interface IFiltersMenuProps {
     handleToggleFilters: () => void
@@ -54,11 +54,33 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
     }, [filters])
 
     const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
         setMinPrice(e.target.value)
+
+        if (value !== "" || maxPrice !== "") {
+            setActions(prev => ({
+                ...prev,
+                action5: false,
+                action6: false,
+                action7: false,
+                action8: false,
+            }))
+        }
     }
 
     const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
         setMaxPrice(e.target.value)
+
+        if (value !== "" || minPrice !== "") {
+            setActions(prev => ({
+                ...prev,
+                action5: false,
+                action6: false,
+                action7: false,
+                action8: false,
+            }))
+        }
     }
 
     const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -202,6 +224,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             name="action5"
                             checked={actions.action5}
                             onChange={handleCheckboxChange}
+                            disabled={minPrice !== "" || maxPrice !== ""}
                         />
                         <span style={{marginBottom: "3px"}}>
                             Меньше 15&nbsp;000 &#8381;
@@ -215,6 +238,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             name="action6"
                             checked={actions.action6}
                             onChange={handleCheckboxChange}
+                            disabled={minPrice !== "" || maxPrice !== ""}
                         />
                         <span style={{marginBottom: "3px"}}>
                             От 15&nbsp;000 &#8381; до 50&nbsp;000 &#8381;
@@ -228,6 +252,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             name="action7"
                             checked={actions.action7}
                             onChange={handleCheckboxChange}
+                            disabled={minPrice !== "" || maxPrice !== ""}
                         />
                         <span style={{marginBottom: "3px"}}>
                             От 50&nbsp;000 &#8381; до 100&nbsp;000 &#8381;
@@ -241,6 +266,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             name="action8"
                             checked={actions.action8}
                             onChange={handleCheckboxChange}
+                            disabled={minPrice !== "" || maxPrice !== ""}
                         />
                         <span style={{marginBottom: "3px"}}>
                             Больше 100&nbsp;000 &#8381;

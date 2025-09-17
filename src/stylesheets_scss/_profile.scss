@@ -11,8 +11,7 @@
 }
 
 																	//АДАПТАЦИЯ 1000px
-@media (min-width: 1000px) {
-    
+@media (min-width: 1000px) {  
     .form {
         display: flex;
         justify-content: space-around;
@@ -261,7 +260,6 @@
 																	//АДАПТАЦИЯ 768px
 
 @media (max-width: 1000px) and (min-width: 769px) {
-
     .form {
         display: flex;
         justify-content: space-around;
@@ -443,7 +441,6 @@
 																	//АДАПТАЦИЯ 425px
 
 @media (max-width: 768px) and (min-width: 425px) {
-
     .form {
         display: flex;
         justify-content: space-around;

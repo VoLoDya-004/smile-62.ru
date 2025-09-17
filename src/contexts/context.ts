@@ -54,5 +54,4 @@ interface IAppContextType {
     setCartBasket: ActionCreatorWithPayload<ICartItem[]>
 }
 
-
 export const Context = createContext<IAppContextType | undefined>(undefined)

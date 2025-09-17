@@ -23,9 +23,9 @@ const CookiesNotice = () => {
 
   return (
     <div className="cookiesNoticeBox">
-        <div className="cookiesNotice">Мы используем cookies для улучшения работы сайта 
-            <button onClick={handleAccept} className="cookiesNotice__btn">Ok
-            </button>
+        <div className="cookiesNotice">
+            Мы используем cookies для улучшения работы сайта 
+            <button onClick={handleAccept} className="cookiesNotice__btn">Ok</button>
         </div>
     </div>
   )

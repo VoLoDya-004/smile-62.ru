@@ -6,7 +6,7 @@ import { setUser } from './redux/UserSlice'
 import  {setCartBasket} from './redux/BasketSlice'
 import { setIsDarkTheme } from './redux/ThemeSlice'
 import type { RootStore } from './redux'
-import type { IFilters, ICardsRender, IFav } from './types/types'
+import type { IFilters, ICardsRender, IFav } from './types/types' 
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -39,7 +39,8 @@ const App = () => {
     }
   }, [])
 
-//работа с корзиной
+  //работа с корзиной
+
   const srcBasket = `http://localhost:3000/src/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -139,7 +140,6 @@ const App = () => {
         }
       })
       .then(() => {
-        // После успешного увеличения обновляем корзину
         return axios.get(srcBasket)
       })
       .then((res) => {
@@ -162,7 +162,6 @@ const App = () => {
         }
       })
       .then(() => {
-        // После успешного уменьшения обновляем корзину
         return axios.get(srcBasket)
       })
       .then((res) => {
@@ -236,7 +235,8 @@ const App = () => {
   })
   }, [cartBasket, deleteProductBasket, increaseBasket, decreaseBasket, handleCountChange, showModal])
 
-//работа с избранными товарами
+  //работа с избранными товарами
+
   const srcFavourites = 
     `http://localhost:3000/src/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
 
@@ -351,11 +351,12 @@ const App = () => {
   })
   }, [cartFavourites, deleteProductFavourites, addInBasketProductFavourites, cartBasket])
 
-// обновление избранных товаров без обновления страницы
+  // обновление избранных товаров без обновления страницы
+
   useEffect(() => {
     if (userId !== null) {
       const observer = new MutationObserver(() => {
-        const buttons = document.querySelectorAll(".card__heart") // Перепроверяем наличие кнопок
+        const buttons = document.querySelectorAll(".card__heart")
 
         if (buttons.length > 0) {
           buttons.forEach(button => {
@@ -367,7 +368,6 @@ const App = () => {
                 }
               })
               .then(() => {
-                // После успеха обновляем корзину
                 return axios.get(srcFavourites)
               })
               .then((res) => {
@@ -378,19 +378,16 @@ const App = () => {
               })
             })
           })
-          //observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
         }
       })
 
-      // Начинаем наблюдение за изменениями в DOM
-      observer.observe(document.body, { // Наблюдаем за всем body (или родительским элементом, где находятся кнопки)
-          childList: true, // Отслеживаем добавление/удаление дочерних элементов
-          subtree: true // Отслеживаем изменения во всех поддеревьях
+      observer.observe(document.body, { 
+          childList: true,
+          subtree: true
       })
-      //Функция очистки (отключение observer)
       return () => {
         observer.disconnect()
-        const buttons = document.querySelectorAll(".card__heart") // Находим кнопки снова
+        const buttons = document.querySelectorAll(".card__heart")
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
             axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
@@ -400,7 +397,6 @@ const App = () => {
               }
             })
             .then(() => {
-              // После успеха обновляем корзину
               return axios.get(srcFavourites)
             })
             .then((res) => {
@@ -414,13 +410,13 @@ const App = () => {
       }
     }
   }, [userId])
-//
 
-// обновление корзины товаров из избранных без обновления страницы
+  // обновление корзины товаров из избранных без обновления страницы
+
   useEffect(() => {
     if (userId !== null) {
       const observer = new MutationObserver(() => {
-        const buttons = document.querySelectorAll(".basketBox__product_controls") // Перепроверяем наличие кнопок
+        const buttons = document.querySelectorAll(".basketBox__product_controls") 
 
         if (buttons.length > 0) {
           buttons.forEach(button => {
@@ -432,7 +428,6 @@ const App = () => {
                 }
               })
               .then(() => {
-                // После успеха обновляем корзину
                 return axios.get(srcBasket)
               })
               .then((res) => {
@@ -443,19 +438,16 @@ const App = () => {
               })
             })
           })
-          //observer.disconnect() // Прекращаем наблюдение, если кнопки найдены
         }
       })
 
-      // Начинаем наблюдение за изменениями в DOM
-      observer.observe(document.body, { // Наблюдаем за всем body (или родительским элементом, где находятся кнопки)
-          childList: true, // Отслеживаем добавление/удаление дочерних элементов
-          subtree: true // Отслеживаем изменения во всех поддеревьях
+      observer.observe(document.body, { 
+          childList: true, 
+          subtree: true 
       })
-      //Функция очистки (отключение observer)
       return () => {
         observer.disconnect()
-        const buttons = document.querySelectorAll(".basketBox__product_controls") // Находим кнопки снова
+        const buttons = document.querySelectorAll(".basketBox__product_controls") 
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
             axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
@@ -465,7 +457,6 @@ const App = () => {
               }
             })
             .then(() => {
-              // После успеха обновляем корзину
               return axios.get(srcBasket)
             })
             .then((res) => {
@@ -481,12 +472,15 @@ const App = () => {
   }, [dispatch, userId])
 
   //поиск
+
   const[searchQuery, setSearchQuery] = useState('')
 
   //пагинация
+
   const [currentPage, setCurrentPage] = useState(1)
 
   //меню товаров
+
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
 
   const categories = [
@@ -518,14 +512,17 @@ const App = () => {
   ]
 
   // карточки на главной
+
   const [cards, setCards] = useState<ICardsRender[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
   // сортировка товаров
+
   const [sortType, setSortType] = useState("default")
   const [activeCategoryId, setActiveCategoryId] = useState(0)
 
   // фильтры
+
   const [currentSort, setCurrentSort] = useState("по умолчанию")
   const [filters, setFilters] = useState<IFilters>({
     minPrice: null,
@@ -547,6 +544,7 @@ const App = () => {
   }
 
   //загрузка карточек со всеми параметрами
+
   const [totalItems, setTotalItems] = useState(0)
 
   const fetchCards = useCallback(async () => {
@@ -584,12 +582,14 @@ const App = () => {
   }, [fetchCards])
 
   //Инициализация темы при запуске приложения
+
   useEffect(() => {
     const theme = localStorage.getItem('theme')
     dispatch(setIsDarkTheme(theme === 'dark-theme'))
   }, [dispatch])
 
   // мемоизация данных из контекста
+
   const contextValue = useMemo(() => ({
     productsFavourites,
     setSelectedCategory,
