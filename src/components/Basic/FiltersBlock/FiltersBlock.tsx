@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext, type JSX } from "react"
+import { useEffect, useRef, useState, useContext } from "react"
 import { useSelector } from "react-redux"
 import Button from "../../Button/Button"
 import SortMenu from "../SortMenu/SortMenu"
@@ -7,7 +7,7 @@ import { Context } from "../../../contexts/context"
 import type { RootStore } from "../../../redux"
 
 
-const FiltersBlock = (): JSX.Element => {
+const FiltersBlock = () => {
     const context = useContext(Context)
     if (!context) {
         throw new Error("Context must be used within a Provider")

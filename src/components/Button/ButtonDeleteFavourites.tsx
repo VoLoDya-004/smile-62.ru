@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { memo, type JSX } from "react"
+import { memo } from "react"
 import type { RootStore } from "../../redux"
 
 
@@ -10,7 +10,7 @@ interface IButtonDeleteFavouritesProps {
 
 
 const ButtonDeleteFavourites = ({deleteProductFavourites, id}: 
-    IButtonDeleteFavouritesProps): JSX.Element => {
+    IButtonDeleteFavouritesProps) => {
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 

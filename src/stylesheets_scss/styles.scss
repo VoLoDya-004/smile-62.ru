@@ -1,20 +1,21 @@
-//вложенность
-//&(чтобы не повторяться, например в БЭМе)
-//@mixin @include(его подключение)
-//@function; @for
-//$ и (#-в фигурных скобках) - переменная
-//разбивка на файлы
-//все кроме styles.scss должно начинаться с _
-// узнать про аргументы в миксине и переменные в scss
-
-@import
-    'mixins',
-    'variables';
-
-@import 'header', 'content', 'footer', 'profile', 'basket', 'favourites',
-        'support', 'cookiesNotice', 'spinner', 'clearString', 'recommendations',
-        'darkTheme', 'filtersBlock';
+@use 'header';
+@use 'content';
+@use 'footer';
+@use 'profile';
+@use 'basket';
+@use 'favourites';
+@use 'support';
+@use 'cookiesNotice';
+@use 'spinner';
+@use 'clearString';
+@use 'recommendations';
+@use 'darkTheme';
+@use 'filtersBlock';
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+
 
 

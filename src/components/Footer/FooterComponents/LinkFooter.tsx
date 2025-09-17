@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../../redux"
-import type { JSX } from "react"
 
 
-const LinkFooter = (): JSX.Element => {
+const LinkFooter = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 		

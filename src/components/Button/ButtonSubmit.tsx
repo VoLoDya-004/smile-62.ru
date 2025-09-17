@@ -1,4 +1,4 @@
-import type { JSX, MouseEventHandler, ReactNode } from "react"
+import type { MouseEventHandler, ReactNode } from "react"
 
 
 interface IButtonSubmitProps {
@@ -9,7 +9,7 @@ interface IButtonSubmitProps {
 }
 
 
-const ButtonSubmit = ({children, id, className, onClick}: IButtonSubmitProps): JSX.Element => {
+const ButtonSubmit = ({children, id, className, onClick}: IButtonSubmitProps) => {
 
 
     return (

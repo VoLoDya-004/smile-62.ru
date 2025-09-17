@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux"
-import { memo, type JSX } from "react"
+import { memo } from "react"
 import type { RootStore } from "../../../redux"
 
 
-const BasketHeader = (): JSX.Element => {
+const BasketHeader = () => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 

@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom"
-import { memo, type JSX } from "react"
+import { memo } from "react"
 
 
-const LogoHeader = (): JSX.Element => {
+const LogoHeader = () => {
     
 
     return (

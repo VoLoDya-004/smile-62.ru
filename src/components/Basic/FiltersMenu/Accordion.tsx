@@ -1,4 +1,4 @@
-import { useState, type JSX, type ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../../redux"
 
@@ -9,7 +9,7 @@ interface IAccordionProps {
 }
 
 
-const Accordion = ({title, children}: IAccordionProps): JSX.Element => {
+const Accordion = ({title, children}: IAccordionProps) => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
     const [isOpen, setIsOpen] = useState(false)

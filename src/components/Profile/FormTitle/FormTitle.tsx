@@ -1,12 +1,9 @@
-import type { JSX } from "react"
-
-
 interface TFormTitleProps {
     text: string
 }
 
 
-const FormTitle = ({text}: TFormTitleProps): JSX.Element => {
+const FormTitle = ({text}: TFormTitleProps) => {
 
     
     return (

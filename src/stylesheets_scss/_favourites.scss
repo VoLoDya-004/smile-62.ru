@@ -1,5 +1,6 @@
-
-																	//АДАПТАЦИЯ 1000px
+@use './forward.scss';															
+                                                                    
+                                                                    //АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
     .favourites {
 		margin-top: 100px;
@@ -26,7 +27,7 @@
                 display: grid;
                 grid-template-columns: 2fr repeat(2, 3fr) 0.5fr 0.5fr;
                 column-gap: 30px;
-                background-color: $backColorElem;
+                background-color: forward.$backColorElem;
                 padding: 22px 0;
                 font-weight: 700;
                 font-size: 13px;
@@ -113,7 +114,7 @@
                 display: grid;
                 grid-template-columns: 2fr repeat(2, 3fr) 0.5fr 0.5fr;
                 column-gap: 30px;
-                background-color: $backColorElem;
+                background-color: forward.$backColorElem;
                 padding: 22px 0;
                 font-weight: 700;
                 font-size: 13px;

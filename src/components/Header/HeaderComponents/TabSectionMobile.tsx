@@ -1,11 +1,11 @@
 import { NavLink, useLocation } from "react-router-dom"
-import { memo, useEffect, type JSX } from "react"
+import { memo, useEffect } from "react"
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../../redux"
 import BasketCircleMobile from "../../Basket/BasketComponents/BasketCircleMobile"
 
 
-const TabSectionMobile = (): JSX.Element => {  
+const TabSectionMobile = () => {  
     const location = useLocation()    
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)

@@ -1,3 +1,5 @@
+@use './forward.scss';																
+																	
 																	//АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
     .recommendation {
@@ -10,7 +12,7 @@
             padding: 30px 0px;
             margin-top: 10px;
 			position: relative;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             box-sizing: border-box;
             width: 100%;
             border-radius: 19px;
@@ -31,7 +33,7 @@
 		    z-index: 1;
 			position: absolute;
 			left: 10px;
-			@include flex-center;
+			@include forward.flex-center;
 			transform: rotate(-90deg);
 		    &:hover{
 			    background-color: black;
@@ -50,7 +52,7 @@
 		    transition: 0.3s;
 		    z-index: 1;
 			position: absolute;
-			@include flex-center;
+			@include forward.flex-center;
 			right: 10px;
 			transform: rotate(90deg);
 		    &:hover{
@@ -81,37 +83,37 @@
 	    transition: 0.2s;
 	    background-color: #ffffff;
 	    user-select: none;
-	    &:hover { /*смена тени при наведении курсора*/
+	    &:hover { 
 	    	box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 	    }
 	    &.dark-theme {
 	    	background-color: #a6a6a6;
 	    	color: #ffffff;
 	    }
-	    &__top { /*вверх карточки*/
+	    &__top { 
 	    	flex: 0 0 220px;
 	    	position: relative;
 	    	overflow: hidden;
 	    	}
-	    &__image { /*картинка*/
+	    &__image { 
 	    	position: absolute;
 	    	top: 0;
 	    	left: 0;
 	    	width: 100%;
 	    	height: 100%;
 	    	display: block;
-	    	& > img { /*непосредственно к картинке*/
+	    	& > img { 
 	    		width: 100%;
 	    		height: 100%;
 	    		object-fit: contain;
 	    		transition: 0.2s;
 	    		pointer-events: none;
 	    	}
-	    	&:hover > img { /*при наведении курсора на картинку*/
+	    	&:hover > img { 
 	    		transform: scale(1.1);
 	    	}
 	    }
-	    &__label { /*скидка*/
+	    &__label { 
 	    	position: absolute;
 	    	bottom: 10px;
 	    	left: 10px;
@@ -122,22 +124,22 @@
 	    	font-weight: 400;
 	    	font-size: 16px;
 	    }
-	    &__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+	    &__bottom { 
 	    	flex: 1 0 auto;
 	    }
-	    &__prices { /*обе цены*/
+	    &__prices { 
 	    	display: flex;
 	    	margin-bottom: 8px;
 	    	&.dark-theme {
 	    		color: #ffffff;
 	    	}
 	    }
-	    &__price::after { /*для добавления рубля*/
+	    &__price::after { 
 	    	content: "\20BD";
 	    	padding-left: 4px;
 	    	padding-right: 10px;
 	    }
-	    &__price_discount { /*цена со скидкой*/
+	    &__price_discount { 
 	    	font-weight: 700;
 	    	font-size: 17px;
 	    	color: #000000;
@@ -145,28 +147,28 @@
 	    	flex-wrap: wrap-reverse;
 	    	padding-left: 19px;
 	    	padding-right: 28px;
-	    	&::before { /*со скидкой*/
+	    	&::before { 
 	    		content: "Со скидкой";
 	    		font-weight: 700;
 	    		font-size: 13px;
 	    		color: rgb(0, 0, 0);	
 	    	}
 	    }
-	    &__price_count { /*цена без скидки*/
+	    &__price_count { 
 	    	font-weight: 400;
 	    	font-size: 17px;
 	    	color: #000000;
 	    	display: flex;
 	    	flex-wrap: wrap-reverse;
 	    	justify-content: end;
-	    	&::before { /*без скидки*/
+	    	&::before { 
 	    		content: "Обычная";
 	    		font-weight: 400;
 	    		font-size: 13px;
 	    		color: rgb(0, 0, 0);
 	    		padding-right: 20px;	
 	    	}
-	    	&-same { /*цена без скидки при одинаковой цене*/
+	    	&-same { 
 	    		font-weight: 700;
 	    		font-size: 17px;
 	    		color: #000000;
@@ -176,7 +178,7 @@
 	    		width: 45%;
 	    		margin-bottom: 10px;
 	    		padding-left: 19px;
-	    		&::before { /*цена без скидки при одинаковой цене*/
+	    		&::before { 
 	    			display: flex;
 	    			justify-content: start;
 	    			content: "Обычная";
@@ -187,7 +189,7 @@
 	    		}
 	    	}
 	    }
-	    &__title { /*наименование*/
+	    &__title { 
 	    	display: block;
 	    	margin-bottom: 10px;
 	    	font-weight: 400;
@@ -201,7 +203,7 @@
 	    	white-space: nowrap;
 	    	text-overflow: ellipsis;
 			cursor: pointer;
-	    	&:hover { /*наименование при наведении*/
+	    	&:hover { 
 	    		color: rgb(96, 22, 118);
 	    	}
 	    }
@@ -217,7 +219,7 @@
         &__box {
             display: flex;
             padding: 30px 0;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             width: 95vw;
             margin: 10px auto 0;
             box-sizing: border-box;
@@ -258,37 +260,37 @@
 		transition: 0.2s;
 		background-color: #ffffff;
 		user-select: none;
-		&:hover { /*смена тени при наведении курсора*/
+		&:hover { 
 			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 		}
 		&.dark-theme {
 			background-color: #a6a6a6;
 			color: #ffffff;
 		}
-		&__top { /*вверх карточки*/
+		&__top { 
 			flex: 0 0 220px;
 			position: relative;
 			overflow: hidden;
 			}
-		&__image { /*картинка*/
+		&__image { 
 			position: absolute;
 			top: 0;
 			left: 0;
 			width: 100%;
 			height: 100%;
 			display: block;
-			& > img { /*непосредственно к картинке*/
+			& > img { 
 				width: 100%;
 				height: 100%;
 				object-fit: contain;
 				transition: 0.2s;
 				pointer-events: none;
 			}
-			&:hover > img { /*при наведении курсора на картинку*/
+			&:hover > img { 
 				transform: scale(1.1);
 			}
 		}
-		&__label { /*скидка*/
+		&__label { 
 			position: absolute;
 			bottom: 10px;
 			left: 10px;
@@ -299,19 +301,19 @@
 			font-weight: 400;
 			font-size: 16px;
 		}
-		&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+		&__bottom { 
 			flex: 1 0 auto;
 		}
-		&__prices { /*обе цены*/
+		&__prices { 
 			display: flex;
 			margin-bottom: 8px;
 		}
-		&__price::after { /*для добавления рубля*/
+		&__price::after { 
 			content: "\20BD";
 			padding-left: 4px;
 			padding-right: 10px;
 		}
-		&__price_discount { /*цена со скидкой*/
+		&__price_discount { 
 			font-weight: 700;
 			font-size: 17px;
 			color: #000000;
@@ -319,28 +321,28 @@
 			flex-wrap: wrap-reverse;
 			padding-left: 19px;
 			padding-right: 28px;
-			&::before { /*со скидкой*/
+			&::before { 
 				content: "Со скидкой";
 				font-weight: 700;
 				font-size: 13px;
 				color: rgb(0, 0, 0);	
 			}
 		}
-		&__price_count { /*цена без скидки*/
+		&__price_count { 
 			font-weight: 400;
 			font-size: 17px;
 			color: #000000;
 			display: flex;
 			flex-wrap: wrap-reverse;
 			justify-content: end;
-			&::before { /*без скидки*/
+			&::before { 
 				content: "Обычная";
 				font-weight: 400;
 				font-size: 13px;
 				color: rgb(0, 0, 0);
 				padding-right: 20px;	
 			}
-			&-same { /*цена без скидки при одинаковой цене*/
+			&-same { 
 				font-weight: 700;
 				font-size: 17px;
 				color: #000000;
@@ -350,7 +352,7 @@
 				width: 45%;
 				margin-bottom: 10px;
 				padding-left: 19px;
-				&::before { /*цена без скидки при одинаковой цене*/
+				&::before { 
 					display: flex;
 					justify-content: start;
 					content: "Обычная";
@@ -361,7 +363,7 @@
 				}
 			}
 		}
-		&__title { /*наименование*/
+		&__title { 
 			display: block;
 			margin-bottom: 10px;
 			font-weight: 400;
@@ -375,7 +377,7 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			cursor: pointer;
-			&:hover { /*наименование при наведении*/
+			&:hover { 
 				color: rgb(96, 22, 118);
 			}
 		}
@@ -391,7 +393,7 @@
         &__box {
             display: flex;
             padding: 30px 0;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             width: 95vw;
             margin: 10px auto 0;
             box-sizing: border-box;
@@ -432,37 +434,37 @@
 		transition: 0.2s;
 		background-color: #ffffff;
 		user-select: none;
-		&:hover { /*смена тени при наведении курсора*/
+		&:hover { 
 			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 		}
 		&.dark-theme {
 			background-color: #a6a6a6;
 			color: #ffffff;
 		}
-		&__top { /*вверх карточки*/
+		&__top { 
 			flex: 0 0 180px;
 			position: relative;
 			overflow: hidden;
 			}
-		&__image { /*картинка*/
+		&__image { 
 			position: absolute;
 			top: 0;
 			left: 0;
 			width: 100%;
 			height: 100%;
 			display: block;
-			& > img { /*непосредственно к картинке*/
+			& > img { 
 				width: 100%;
 				height: 100%;
 				object-fit: contain;
 				transition: 0.2s;
 				pointer-events: none;
 			}
-			&:hover > img { /*при наведении курсора на картинку*/
+			&:hover > img { 
 				transform: scale(1.1);
 			}
 		}
-		&__label { /*скидка*/
+		&__label { 
 			position: absolute;
 			bottom: 10px;
 			left: 10px;
@@ -473,19 +475,19 @@
 			font-weight: 400;
 			font-size: 16px;
 		}
-		&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+		&__bottom { 
 			flex: 1 0 auto;
 		}
-		&__prices { /*обе цены*/
+		&__prices { 
 			display: flex;
 			margin-bottom: 8px;
 		}
-		&__price::after { /*для добавления рубля*/
+		&__price::after { 
 			content: "\20BD";
 			padding-left: 4px;
 			padding-right: 10px;
 		}
-		&__price_discount { /*цена со скидкой*/
+		&__price_discount { 
 			font-weight: 700;
 			font-size: 15px;
 			color: #000000;
@@ -493,28 +495,28 @@
 			flex-wrap: wrap-reverse;
 			padding-left: 18px;
 			padding-right: 0px;
-			&::before { /*со скидкой*/
+			&::before { 
 				content: "Со скидкой";
 				font-weight: 700;
 				font-size: 13px;
 				color: rgb(0, 0, 0);	
 			}
 		}
-		&__price_count { /*цена без скидки*/
+		&__price_count { 
 			font-weight: 400;
 			font-size: 15px;
 			color: #000000;
 			display: flex;
 			flex-wrap: wrap-reverse;
 			justify-content: end;
-			&::before { /*без скидки*/
+			&::before { 
 				content: "Обычная";
 				font-weight: 400;
 				font-size: 13px;
 				color: rgb(0, 0, 0);
 				padding-right: 20px;	
 			}
-			&-same { /*цена без скидки при одинаковой цене*/
+			&-same { 
 				font-weight: 700;
 				font-size: 15px;
 				color: #000000;
@@ -524,7 +526,7 @@
 				width: 55%;
 				margin-bottom: 10px;
 				padding-left: 19px;
-				&::before { /*цена без скидки при одинаковой цене*/
+				&::before { 
 					display: flex;
 					justify-content: start;
 					content: "Обычная";
@@ -535,7 +537,7 @@
 				}
 			}
 		}
-		&__title { /*наименование*/
+		&__title { 
 			display: block;
 			margin-bottom: 10px;
 			font-weight: 400;
@@ -549,7 +551,7 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			cursor: pointer;
-			&:hover { /*наименование при наведении*/
+			&:hover { 
 				color: rgb(96, 22, 118);
 			}
 		}
@@ -565,7 +567,7 @@
         &__box {
             display: flex;
             padding: 20px 0;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             width: 95vw;
             margin: 10px auto 0;
             box-sizing: border-box;
@@ -606,37 +608,37 @@
 		transition: 0.2s;
 		background-color: #ffffff;
 		user-select: none;
-		&:hover { /*смена тени при наведении курсора*/
+		&:hover { 
 			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
 		}
 		&.dark-theme {
 			background-color: #a6a6a6;
 			color: #ffffff;
 		}
-		&__top { /*вверх карточки*/
+		&__top { 
 			flex: 0 0 150px;
 			position: relative;
 			overflow: hidden;
 			}
-		&__image { /*картинка*/
+		&__image { 
 			position: absolute;
 			top: 0;
 			left: 0;
 			width: 100%;
 			height: 100%;
 			display: block;
-			& > img { /*непосредственно к картинке*/
+			& > img { 
 				width: 100%;
 				height: 100%;
 				object-fit: contain;
 				transition: 0.2s;
 				pointer-events: none;
 			}
-			&:hover > img { /*при наведении курсора на картинку*/
+			&:hover > img { 
 				transform: scale(1.1);
 			}
 		}
-		&__label { /*скидка*/
+		&__label { 
 			position: absolute;
 			bottom: 10px;
 			left: 10px;
@@ -647,47 +649,47 @@
 			font-weight: 400;
 			font-size: 16px;
 		}
-		&__bottom { /*разрешаем расширение, т.к. значения могут меняться а картинка постоянная(низ карточки)*/
+		&__bottom { 
 			flex: 1 0 auto;
 		}
-		&__prices { /*обе цены*/
+		&__prices { 
 			display: flex;
 			margin-bottom: 8px;
 		}
-		&__price::after { /*для добавления рубля*/
+		&__price::after { 
 			content: "\20BD";
 			padding-left: 2px;
 			padding-right: 3px;
 		}
-		&__price_discount { /*цена со скидкой*/
+		&__price_discount { 
 			font-weight: 700;
 			font-size: 12px;
 			color: #000000;
 			display: flex;
 			flex-wrap: wrap-reverse;
 			padding-left: 3px;
-			&::before { /*со скидкой*/
+			&::before { 
 				content: "Со скидкой";
 				font-weight: 700;
 				font-size: 12px;
 				color: rgb(0, 0, 0);	
 			}
 		}
-		&__price_count { /*цена без скидки*/
+		&__price_count { 
 			font-weight: 400;
 			font-size: small;
 			color: #000000;
 			display: flex;
 			flex-wrap: wrap-reverse;
 			justify-content: end;
-			&::before { /*без скидки*/
+			&::before { 
 				content: "Обычная";
 				padding-right: 3px;
 				font-weight: 400;
 				font-size: 12px;
 				color: rgb(0, 0, 0);	
 			}
-			&-same { /*цена без скидки при одинаковой цене*/
+			&-same { 
 				font-weight: 700;
 				font-size: 12px;
 				color: #000000;
@@ -697,7 +699,7 @@
 				width: 50%;
 				margin-bottom: 10px;
 				padding-left: 3px;
-				&::before { /*цена без скидки при одинаковой цене*/
+				&::before { 
 					display: flex;
 					justify-content: start;
 					content: "Обычная";
@@ -708,7 +710,7 @@
 				}
 			}
 		}
-		&__title { /*наименование*/
+		&__title { 
 			display: block;
 			margin-bottom: 10px;
 			font-weight: 400;
@@ -722,7 +724,7 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			cursor: pointer;
-			&:hover { /*наименование при наведении*/
+			&:hover { 
 				color: rgb(96, 22, 118);
 			}
 		}

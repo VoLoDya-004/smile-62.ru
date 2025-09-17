@@ -11,7 +11,7 @@ interface IConfirmModalAllBasketProps {
 }
 
 
-const ConfirmModalAllBasket: React.FC<IConfirmModalAllBasketProps> = ({ isOpen, onConfirm, onCancel }) => {
+const ConfirmModalAllBasket = ({ isOpen, onConfirm, onCancel }: IConfirmModalAllBasketProps) => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
     useEffect(() => {

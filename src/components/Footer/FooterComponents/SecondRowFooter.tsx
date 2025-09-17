@@ -1,7 +1,7 @@
-import type { JSX } from "react"
 
 
-const SecondRowFooter = (): JSX.Element => {
+
+const SecondRowFooter = () => {
 
     
     return (

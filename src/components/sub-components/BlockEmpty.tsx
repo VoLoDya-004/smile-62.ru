@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../redux"
-import type { JSX } from "react"
 import ButtonMainNav from "../Button/ButtonMainNav"
 
 
@@ -10,7 +9,7 @@ interface IBlockEmptyProps {
 }
 
 
-const BlockEmpty = ({text1, text2}: IBlockEmptyProps): JSX.Element => {
+const BlockEmpty = ({text1, text2}: IBlockEmptyProps) => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
     
     

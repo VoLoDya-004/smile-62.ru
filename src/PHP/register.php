@@ -1,33 +1,27 @@
 <?php
 require_once "../../../auth/auth.php";
 
-// Получаем origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     $origin = $_SERVER['HTTP_ORIGIN'];
 } else {
     $origin = '';
 }
 
-// Разрешаем только ваш фронтенд (если нужно)
 $allowed_origins = ['http://localhost:3001'];
 if (in_array($origin, $allowed_origins)) {
     header("Access-Control-Allow-Origin: $origin");
 }
 
-// Разрешаем нужные методы
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-// Обработка preflight-запроса
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Можно указать дополнительные заголовки, если нужно
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    exit; // Завершаем выполнение для OPTIONS-запроса
+    exit; 
 }
 
 if (isset($_GET['Operation'])) {
     if ($_GET['Operation'] == 'register') {
-        // Получение данных POST-запроса
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
@@ -48,14 +42,12 @@ if (isset($_GET['Operation'])) {
             exit;
         }
 
-        // Подключение к базе данных
         $connect = mysqli_connect($hostname, $username, $password, $dbName);
         if (!$connect) {
             die("Ошибка подключения к БД: " . mysqli_connect_error());
         }
         mysqli_set_charset($connect, "utf8");
 
-        // Проверка существования email
         $query_check = "SELECT id_user FROM users WHERE email = '" . mysqli_real_escape_string($connect, $email) . "'";
         $result_check = mysqli_query($connect, $query_check);
         if ($result_check && mysqli_num_rows($result_check) > 0) {
@@ -65,10 +57,8 @@ if (isset($_GET['Operation'])) {
             exit;
         }
 
-        // Хеширование пароля
         $hashedPassword = password_hash($passwordUser, PASSWORD_DEFAULT);
 
-        // Вставка нового пользователя
         $query_insert = "INSERT INTO users (name, email, password) VALUES (
             '" . mysqli_real_escape_string($connect, $name) . "',
             '" . mysqli_real_escape_string($connect, $email) . "',

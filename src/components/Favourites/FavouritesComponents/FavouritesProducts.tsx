@@ -1,6 +1,6 @@
 import ButtonDeleteFavourites from "../../Button/ButtonDeleteFavourites"
 import ButtonBasket from "../../Button/ButtonBasket"
-import { memo, type JSX } from "react"
+import { memo } from "react"
 import type { IFav, IBasket } from "../../../types/types"
 
 
@@ -14,7 +14,7 @@ interface IFavouritesProductsProps {
 
 
 const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBasket,
-    addInBasketProductFavourites, cartFavourites}: IFavouritesProductsProps): JSX.Element => {
+    addInBasketProductFavourites, cartFavourites}: IFavouritesProductsProps) => {
 
     const {id, nazvanie, image, price_total} = productFavourites
 

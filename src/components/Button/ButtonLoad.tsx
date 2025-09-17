@@ -1,4 +1,4 @@
-import React, { memo, type JSX } from "react"
+import { memo } from "react"
 
 
 interface IButtonLoadProps {
@@ -10,7 +10,7 @@ interface IButtonLoadProps {
 }
 
 
-const ButtonLoad = ({onClick, children, id, className, style}: IButtonLoadProps): JSX.Element => {
+const ButtonLoad = ({onClick, children, id, className, style}: IButtonLoadProps) => {
 
     
     return (

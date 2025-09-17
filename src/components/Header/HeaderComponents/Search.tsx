@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, memo, type JSX, type ChangeEvent, type KeyboardEvent } 
+import { useContext, useState, useEffect, memo, type ChangeEvent, type KeyboardEvent } 
 from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { Context } from '../../../contexts/context'
@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import type { RootStore } from '../../../redux'
 
 
-const Search = (): JSX.Element => {
+const Search = () => {
   const context = useContext(Context)
   if(!context) {
     throw new Error("Context must be used within a Provider")

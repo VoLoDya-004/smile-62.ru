@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 import type { RootStore } from "../../redux"
@@ -11,7 +11,7 @@ interface IConfirmModalAllFavProps {
 }
 
 
-const ConfirmModalAllFav: React.FC<IConfirmModalAllFavProps> = ({ isOpen, onConfirm, onCancel }) => {
+const ConfirmModalAllFav = ({ isOpen, onConfirm, onCancel }: IConfirmModalAllFavProps) => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
     useEffect(() => {

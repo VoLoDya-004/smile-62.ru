@@ -1,4 +1,6 @@
-																	//АДАПТАЦИЯ 1000px
+@use './forward.scss';																	
+                                                                    
+                                                                    //АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
     .basket {
         margin-top: 100px;
@@ -12,7 +14,7 @@
             width: 90vw;
             height: 200px;
             border-radius: 19px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             &_str2 {
                 display: flex;
                 text-align: center;
@@ -40,7 +42,7 @@
                 display: grid;
                 grid-template-columns: 2fr repeat(3, 3fr) 1fr;
                 column-gap: 30px;
-                background-color: $backColorElem;
+                background-color: forward.$backColorElem;
                 padding: 22px 0;
                 font-weight: 700;
                 font-size: 13px;
@@ -110,7 +112,7 @@
             display: grid;
             grid-template-columns: 5fr 3fr 4fr;
             column-gap: 30px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             font-weight: 700;
             font-size: 18px;
             line-height: 1.2;
@@ -204,7 +206,7 @@
         justify-content: space-between;
         height: 350px;
         width: 100%;
-        background-color: $backColorElem;
+        background-color: forward.$backColorElem;
         border-radius: 19px;
         &__left {
             display: flex;
@@ -280,7 +282,7 @@
         &__title {
             display: flex;
             width: 100%;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             padding: 20px;
             margin: 0;
             position: relative;
@@ -332,7 +334,7 @@
         letter-spacing: 0.5px;
         transition: .2s;
         &:hover {
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
         }
     }
 }
@@ -352,7 +354,7 @@
             width: 90vw;
             height: 200px;
             border-radius: 19px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             &_str2 {
                 display: flex;
                 text-align: center;
@@ -382,7 +384,7 @@
                 display: grid;
                 grid-template-columns: 2fr repeat(3, 3fr) 1fr;
                 column-gap: 30px;
-                background-color: $backColorElem;
+                background-color: forward.$backColorElem;
                 padding: 22px 0;
                 font-weight: 700;
                 font-size: 13px;
@@ -452,7 +454,7 @@
             display: grid;
             grid-template-columns: 5fr 3fr 4fr;
             column-gap: 30px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             font-weight: 700;
             font-size: 18px;
             line-height: 1.2;
@@ -548,7 +550,7 @@
         width: 95%;
         margin-right: auto;
         margin-left: auto;
-        background-color: $backColorElem;
+        background-color: forward.$backColorElem;
         border-radius: 19px;
         &__left {
             display: flex;
@@ -625,7 +627,7 @@
         &__title {
             display: flex;
             width: 100%;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             padding: 20px;
             margin: 0;
             position: relative;
@@ -677,7 +679,7 @@
         letter-spacing: 0.5px;
         transition: .2s;
         &:hover {
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
         }
     }
 }   
@@ -697,7 +699,7 @@
             width: 90vw;
             height: 200px;
             border-radius: 19px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             &_str1 {
                 font-size: smaller;
             }
@@ -806,7 +808,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             column-gap: 30px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             font-weight: 700;
             font-size: 18px;
             line-height: 1.2;
@@ -904,7 +906,7 @@
         width: 95%;
         margin-right: auto;
         margin-left: auto;
-        background-color: $backColorElem;
+        background-color: forward.$backColorElem;
         border-radius: 19px;
         &__left {
             display: flex;
@@ -983,7 +985,7 @@
         &__title {
             display: flex;
             width: 100%;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             padding: 20px;
             margin: 0;
             position: relative;
@@ -1035,7 +1037,7 @@
         letter-spacing: 0.5px;
         transition: .2s;
         &:hover {
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
         }
     }
 }
@@ -1055,7 +1057,7 @@
             width: 90vw;
             height: 200px;
             border-radius: 19px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             &_str1 {
                 font-size: smaller;
             }
@@ -1167,7 +1169,7 @@
             justify-items: end;
             row-gap: 10px;
             column-gap: 30px;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             font-weight: 700;
             font-size: 18px;
             line-height: 1.2;
@@ -1265,7 +1267,7 @@
         width: 95%;
         margin-right: auto;
         margin-left: auto;
-        background-color: $backColorElem;
+        background-color: forward.$backColorElem;
         border-radius: 19px;
         &__left {
             display: flex;
@@ -1343,7 +1345,7 @@
         &__title {
             display: flex;
             width: 100%;
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
             padding: 20px;
             margin: 0;
             position: relative;
@@ -1396,7 +1398,7 @@
         letter-spacing: 0.5px;
         transition: .2s;
         &:hover {
-            background-color: $backColorElem;
+            background-color: forward.$backColorElem;
         }
     }
 }                                                                

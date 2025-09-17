@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux"
-import { forwardRef, type JSX } from "react"
+import { forwardRef } from "react"
 import type { RootStore } from "../../../redux"
 
 
@@ -8,7 +8,7 @@ interface ISortMenuProps {
 }
 
 
-const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref): JSX.Element => {
+const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) => {
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 

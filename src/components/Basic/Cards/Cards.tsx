@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback, useMemo, useTransition, useRef, type JSX } from 'react'
+import { useState, useEffect, useContext, useCallback, useMemo, useTransition, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { memo } from 'react'
 import axios, { AxiosError } from 'axios'
@@ -19,7 +19,7 @@ interface ICardProps {
 }
 
 
-const Cards = (): JSX.Element => {
+const Cards = () => {
   const dispatch = useDispatch()
   const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)

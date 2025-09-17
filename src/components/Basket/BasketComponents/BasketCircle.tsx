@@ -1,9 +1,9 @@
-import { useEffect, useState, type JSX } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../../redux"
 
 
-const BasketCircle = (): JSX.Element => {
+const BasketCircle = () => {
     const totalBasket = useSelector((state: RootStore) => state.basket.total)
 
     const [isVisible, setIsVisible] = useState(totalBasket.count > 0)

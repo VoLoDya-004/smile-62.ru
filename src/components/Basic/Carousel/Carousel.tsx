@@ -1,9 +1,9 @@
 import React, { useEffect, useState, Children, cloneElement, useRef, 
-type JSX, type ReactNode, type ReactElement, type TouchEvent, useCallback} from "react"
+type ReactNode, type ReactElement, type TouchEvent, useCallback} from "react"
 
 
 interface StyledElementProps extends React.HTMLProps<HTMLElement> {
-	style?: React.CSSProperties
+	style: React.CSSProperties
 }
 
 interface ICarouseelProps {
@@ -11,7 +11,7 @@ interface ICarouseelProps {
 }
 
 
-const Carousel = ({children}: ICarouseelProps): JSX.Element => {
+const Carousel = ({children}: ICarouseelProps) => {
   	const [pages, setPages] = useState<ReactNode[]>([])
   	const sliderRef = useRef<HTMLDivElement | null>(null)
   	const [containerWidth, setContainerWidth] = useState(0)

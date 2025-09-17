@@ -1,3 +1,5 @@
+@use './forward.scss';
+
 body.dark-theme {
     background-color: #121212;
     color: #ffffff;
@@ -41,7 +43,7 @@ body.dark-theme {
 
 .footer {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
     }
 }
 
@@ -49,7 +51,7 @@ body.dark-theme {
 
 .filtersBlock {
     &.dark-theme {
-        background-color: $backColorElemDark;;
+        background-color: forward.$backColorElemDark;;
     }
 }
 
@@ -82,7 +84,7 @@ body.dark-theme {
 
 .filterMenu__title {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
         color: white;
     }
 }
@@ -115,7 +117,7 @@ body.dark-theme {
 
 .setka {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
     }
 }
 
@@ -143,20 +145,20 @@ body.dark-theme {
 
 .form__registration {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
     }
 }
 
 .profile-aside {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
         color: white;
     }
 }
 
 .profile-fav {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
         color: white;
     }
 }
@@ -175,7 +177,7 @@ body.dark-theme {
 
 .profile-basket {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
         color: white;
     }
 }
@@ -226,7 +228,7 @@ body.dark-theme {
 
 .basketDelivery {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
         color: white;
     }    
 }
@@ -256,13 +258,13 @@ body.dark-theme {
 
 .recommendation__box {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
     }
 }
 
 .basket__empty {
     &.dark-theme {
-        background-color: $backColorElemDark;
+        background-color: forward.$backColorElemDark;
     }
 }
 

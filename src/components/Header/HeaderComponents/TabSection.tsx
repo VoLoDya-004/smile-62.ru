@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom"
-import { memo, useEffect, useState, type JSX } from "react"
+import { memo, useEffect, useState } from "react"
 import type { RootStore } from "../../../redux"
 import { useSelector, useDispatch } from "react-redux"
 import {logoutUser} from "../../../redux/UserSlice"
@@ -8,7 +8,7 @@ import Button from "../../Button/Button"
 import Notification from "../../sub-components/Notification"
 
 
-const TabSection = (): JSX.Element => {
+const TabSection = () => {
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 	const userName = useSelector((state: RootStore) => state.user.userName)

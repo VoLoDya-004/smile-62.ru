@@ -11,7 +11,7 @@ interface IFavouritesProps {
 }
 
 
-const Favourites = ({productsFavourites, loading}: IFavouritesProps): JSX.Element => {
+const Favourites = ({productsFavourites, loading}: IFavouritesProps) => {
     const [visible, setVisible] = useState(false)
 
     useEffect(() => {

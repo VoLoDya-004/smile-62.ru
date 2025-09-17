@@ -1,15 +1,17 @@
+@use './forward.scss';
+
 																	//АДАПТАЦИЯ 1000px
 @media (min-width: 1000px) {
 footer {
 	display: flex;
 	margin-top: auto; 
-	background-color: $backColorElem;
+	background-color: forward.$backColorElem;
 	width: 100%;
 	height: 240px;
 	font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
-.logo__footer { /*стиль надписи "МАГАЗИН" в футере сайта */
+.logo__footer { 
 	width: auto;
 	display: inline-flex;
 	height: 60%;
@@ -17,25 +19,25 @@ footer {
 	user-select: none;
 }
 
-.section { /*блоки меню футера (Разделы) */
-	@include i-flex-end-gr;
+.section { 
+	@include forward.i-flex-end-gr;
 	margin-left: auto;
 	width: auto;
 	height: auto;
 	padding-top: 30px;
-	&__item { /*блоки пунктов меню футера (Разделы) */
+	&__item { 
 		margin: 5px 0;
-		@include flex-center-gr;
+		@include forward.flex-center-gr;
 		color: #868695;
 		text-decoration: none;
 		transition: color .3s;
 		user-select: none;
-		&_style { /*стиль разделов футера */
+		&_style { 
 			color: #868695;
 			text-decoration: none;
 			transition: color .3s;
 			width: 80px;
-			&:hover { /*при наведении на раздел шапки */
+			&:hover { 
 				color: rgb(96, 22, 118);
 			}
 			&.dark-theme {
@@ -47,13 +49,13 @@ footer {
 	}
 }
 
-.contact { /*блоки меню футера (Контакты) */
-	@include i-flex-end-gr;
+.contact { 
+	@include forward.i-flex-end-gr;
 	width: auto;
 	margin-left: 30px;
 	height: auto;
 	padding-top: 30px;
-	&__item { /*блоки пунктов меню футера (Контакты) */
+	&__item { 
 		margin: 5px 0;
 		display: flex;
 		color: #868695;
@@ -61,7 +63,7 @@ footer {
 	}
 }
 
-.footer__title { /*подзаголовок в футере */
+.footer__title { 
 	margin: 0 0 20px;
 	font-weight: 800;
 	display: flex;
@@ -69,21 +71,21 @@ footer {
 	cursor: default;
 }
 
-.link { /*блок ссылок в футере*/
+.link { 
 	display: flex;
 	justify-content: end;
 	gap: 8px;
 	width: auto;
 	align-items: end;
 	margin-bottom: 20px;
-	&__item { /*ссылки в футере*/
+	&__item { 
 		background-color: #fff;
 		border-radius: 9px;
 		&.dark-theme {
 			background-color: #000000;
 		}
 		&-vk {
-			@include flex-center;
+			@include forward.flex-center;
 			height: 34px;
 			width: 34px;
 			transition: background-color .3s;
@@ -97,7 +99,7 @@ footer {
 			}
 		}
 		&-tg {
-			@include flex-center;
+			@include forward.flex-center;
 			height: 34px;
 			width: 34px;
 			transition: background-color .3s;
@@ -111,7 +113,7 @@ footer {
 			}
 		}
 		&-ok {
-			@include flex-center;
+			@include forward.flex-center;
 			height: 34px;
 			width: 34px;
 			transition: background-color .3s;
@@ -125,7 +127,7 @@ footer {
 			}
 		}
 		&-youtube {
-			@include flex-center;
+			@include forward.flex-center;
 			height: 34px;
 			width: 34px;
 			transition: background-color .3s;
@@ -141,8 +143,8 @@ footer {
 	}
 }
 
-.second-row { /*низ футера*/
-	@include flex-end;
+.second-row { 
+	@include forward.flex-end;
 	margin: 0 10px 5px 40px;
 	color: #868695;
 	width: auto;
@@ -157,7 +159,7 @@ footer {
 		display: flex;
 		justify-content: space-between;
 		margin-top: auto; 
-		background-color: $backColorElem;
+		background-color: forward.$backColorElem;
 		width: 100%;
 		height: 240px;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
@@ -175,7 +177,7 @@ footer {
 		padding-top: 30px;
 		&__item {
 			margin: 5px 0;
-			@include flex-center-gr;
+			@include forward.flex-center-gr;
 			color: #868695;
 			text-decoration: none;
 			transition: color .3s;
@@ -198,7 +200,7 @@ footer {
 	}
 	
 	.contact { 
-		@include i-flex-end-gr;
+		@include forward.i-flex-end-gr;
 		width: auto;
 		height: auto;
 		padding-top: 30px;
@@ -218,8 +220,7 @@ footer {
 		cursor: default;
 	}
 	
-	.link { /*блок ссылок в футере*/
-		//@include flex-center-gr;
+	.link {
 		display: flex;
 		justify-content: end;
 		gap: 8px;
@@ -227,14 +228,14 @@ footer {
 		align-items: end;
 		margin-bottom: 20px;
 		margin-left: 10px;
-		&__item { /*ссылки в футере*/
+		&__item {
 			background-color: #fff;
 			border-radius: 9px;
 			&.dark-theme {
 				background-color: #000000;
 			}
 			&-vk {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -248,7 +249,7 @@ footer {
 				}
 			}
 			&-tg {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -262,7 +263,7 @@ footer {
 				}
 			}
 			&-ok {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -276,7 +277,7 @@ footer {
 				}
 			}
 			&-youtube {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -292,8 +293,8 @@ footer {
 		}
 	}
 	
-	.second-row { /*низ футера*/
-		@include flex-end;
+	.second-row { 
+		@include forward.flex-end;
 		margin: 0 10px 5px 0;
 		color: #868695;
 		width: auto;;
@@ -310,37 +311,37 @@ footer {
 		flex-wrap: wrap;
 		margin-top: auto; 
 		margin-bottom: 60px;
-		background-color: $backColorElem;
+		background-color: forward.$backColorElem;
 		width: 100%;
 		height: 330px;
 		min-height: 240px;;
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
-	.logo__footer { /*стиль надписи "МАГАЗИН" в футере сайта */
+	.logo__footer { 
 		display: none;
 	}
 	
-	.section { /*блоки меню футера (Разделы) */
-		@include i-flex-end-gr;
+	.section { 
+		@include forward.i-flex-end-gr;
 		margin-left: auto;
 		margin-right: 10px;
 		width: auto;
 		height: auto;
 		padding-top: 30px;
-		&__item { /*блоки пунктов меню футера (Разделы) */
+		&__item { 
 			margin: 5px 0;
-			@include flex-center-gr;
+			@include forward.flex-center-gr;
 			color: #868695;
 			text-decoration: none;
 			transition: color .3s;
 			user-select: none;
-			&_style { /*стиль разделов футера */
+			&_style { 
 				color: #868695;
 				text-decoration: none;
 				transition: color .3s;
 				width: 80px;
-				&:hover { /*при наведении на раздел шапки */
+				&:hover { 
 					color: rgb(96, 22, 118);
 				}
 				&.dark-theme {
@@ -352,14 +353,14 @@ footer {
 		}
 	}
 	
-	.contact { /*блоки меню футера (Контакты) */
-		@include i-flex-end-gr;
+	.contact { 
+		@include forward.i-flex-end-gr;
 		width: auto;
 		margin-left: auto;
 		margin-right: 10px;
 		height: auto;
 		padding-top: 30px;
-		&__item { /*блоки пунктов меню футера (Контакты) */
+		&__item { 
 			margin: 5px 0;
 			display: flex;
 			color: #868695;
@@ -367,7 +368,7 @@ footer {
 		}
 	}
 	
-	.footer__title { /*подзаголовок в футере */
+	.footer__title { 
 		margin: 0 0 20px;
 		font-weight: 800;
 		display: flex;
@@ -375,7 +376,7 @@ footer {
 		cursor: default;
 	}
 	
-	.link { /*блок ссылок в футере*/
+	.link { 
 		display: flex;
 		justify-content: end;
 		gap: 8px;
@@ -384,14 +385,14 @@ footer {
 		margin-bottom: 60px;
 		margin-left: 10px;
 		margin-right: 10px;
-		&__item { /*ссылки в футере*/
+		&__item { 
 			background-color: #fff;
 			border-radius: 9px;
 			&.dark-theme {
 				background-color: #000000;
 			}
 			&-vk {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -405,7 +406,7 @@ footer {
 				}
 			}
 			&-tg {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -419,7 +420,7 @@ footer {
 				}
 			}
 			&-ok {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -433,7 +434,7 @@ footer {
 				}
 			}
 			&-youtube {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 34px;
 				width: 34px;
 				transition: background-color .3s;
@@ -449,7 +450,7 @@ footer {
 		}
 	}
 	
-	.second-row { /*низ футера*/
+	.second-row { 
 		display: flex;
     	align-items: end;
 		margin-left: auto;
@@ -470,7 +471,7 @@ footer {
 		justify-content: space-between;
 		flex-wrap: wrap;
 		margin-top: auto; 
-		background-color: $backColorElem;
+		background-color: forward.$backColorElem;
 		width: 100%;
 		margin-bottom: 60px;
 		height: 310px;
@@ -478,7 +479,7 @@ footer {
 		font-family: Hauss, Segoe UI, -apple-system, Roboto, Helvetica Neue, Noto Sans, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 	}
 	
-	.logo__footer { /*стиль надписи "МАГАЗИН" в футере сайта */
+	.logo__footer { 
 		width: 128px;
 		display: inline-flex;
 		height: 72px;
@@ -487,25 +488,25 @@ footer {
 		display: none;
 	}
 	
-	.section { /*блоки меню футера (Разделы) */
-		@include i-flex-end-gr;
+	.section { 
+		@include forward.i-flex-end-gr;
 		width: auto;
 		height: auto;
 		padding-top: 30px;
 		font-size: small;
-		&__item { /*блоки пунктов меню футера (Разделы) */
+		&__item { 
 			margin: 5px 0;
-			@include flex-center-gr;
+			@include forward.flex-center-gr;
 			color: #868695;
 			text-decoration: none;
 			transition: color .3s;
 			user-select: none;
-			&_style { /*стиль разделов футера */
+			&_style { 
 				color: #868695;
 				text-decoration: none;
 				transition: color .3s;
 				width: 80px;
-				&:hover { /*при наведении на раздел шапки */
+				&:hover { 
 					color: rgb(96, 22, 118);
 				}
 				&.dark-theme {
@@ -517,15 +518,15 @@ footer {
 		}
 	}
 	
-	.contact { /*блоки меню футера (Контакты) */
-		@include i-flex-end-gr;
+	.contact { 
+		@include forward.i-flex-end-gr;
 		width: auto;
 		margin-left: auto;
 		margin-right: 10px;
 		height: auto;
 		padding-top: 30px;
 		font-size: small;
-		&__item { /*блоки пунктов меню футера (Контакты) */
+		&__item { 
 			margin: 5px 0;
 			display: flex;
 			color: #868695;
@@ -533,7 +534,7 @@ footer {
 		}
 	}
 	
-	.footer__title { /*подзаголовок в футере */
+	.footer__title { 
 		margin: 0 0 20px;
 		font-weight: 800;
 		display: flex;
@@ -542,7 +543,7 @@ footer {
 		font-size: small;
 	}
 	
-	.link { /*блок ссылок в футере*/
+	.link { 
 		display: flex;
 		justify-content: end;
 		gap: 8px;
@@ -551,14 +552,14 @@ footer {
 		margin-bottom: 60px;
 		margin-left: 10px;
 		margin-right: 10px;
-		&__item { /*ссылки в футере*/
+		&__item { 
 			background-color: #fff;
 			border-radius: 9px;
 			&.dark-theme {
 				background-color: #000000;
 			}
 			&-vk {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 30px;
 				width: 30px;
 				transition: background-color .3s;
@@ -572,7 +573,7 @@ footer {
 				}
 			}
 			&-tg {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 30px;
 				width: 30px;
 				transition: background-color .3s;
@@ -586,7 +587,7 @@ footer {
 				}
 			}
 			&-ok {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 30px;
 				width: 30px;
 				transition: background-color .3s;
@@ -600,7 +601,7 @@ footer {
 				}
 			}
 			&-youtube {
-				@include flex-center;
+				@include forward.flex-center;
 				height: 30px;
 				width: 30px;
 				transition: background-color .3s;
@@ -616,7 +617,7 @@ footer {
 		}
 	}
 	
-	.second-row { /*низ футера*/
+	.second-row { 
 		display: flex;
     	align-items: end;
 		margin-left: auto;

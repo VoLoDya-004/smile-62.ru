@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux"
 import Button from "../../Button/Button"
-import type { JSX } from "react"
 import type { RootStore } from "../../../redux"
 
 
-const BasketDelivery = (): JSX.Element => {
+const BasketDelivery = () => {
     const totalBasket = useSelector((state: RootStore) => state.basket.total)
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 

@@ -1,7 +1,7 @@
-import { memo, type JSX } from "react"
+import { memo } from "react"
 
 
-const ChatBtn = (): JSX.Element => {
+const ChatBtn = () => {
     function showModal() {
         const modal = document.getElementById("confirmModalChat")
         const modalCross = document.getElementById("support__header_titleBtn")

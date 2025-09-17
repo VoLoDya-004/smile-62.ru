@@ -1,4 +1,4 @@
-import { useState, memo, useContext, type JSX } from "react"
+import { useState, memo, useContext } from "react"
 import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom"
 import { Context } from "../../../contexts/context"
@@ -6,7 +6,7 @@ import type { RootStore } from "../../../redux"
 import type { ICategory } from "../../../types/types"
 
 
-const ButtonNav = (): JSX.Element => {
+const ButtonNav = () => {
     const context = useContext(Context)
     if (!context) {
         throw new Error("Context must be used within a Provider")

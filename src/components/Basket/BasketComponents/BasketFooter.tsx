@@ -1,9 +1,9 @@
-import { memo, type JSX } from "react"
+import { memo } from "react"
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../../redux"
 
 
-const BasketFooter = (): JSX.Element => {
+const BasketFooter = () => {
     const priceFormatter = new Intl.NumberFormat()
 
     const totalBasket = useSelector((state: RootStore) => state.basket.total)

@@ -1,10 +1,9 @@
-import type { JSX } from "react"
 import { useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 import type { RootStore } from "../../../redux"
 
 
-const SectionsFooter = (): JSX.Element => {
+const SectionsFooter = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 

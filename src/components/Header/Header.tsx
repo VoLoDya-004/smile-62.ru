@@ -5,10 +5,9 @@ import ThemeToggle from './HeaderComponents/ThemeToggle'
 import TabSection from './HeaderComponents/TabSection'
 import TabSectionMobile from './HeaderComponents/TabSectionMobile'
 import BasketCircle from '../Basket/BasketComponents/BasketCircle'
-import type { JSX } from 'react'
 
 
-const Header = (): JSX.Element => {
+const Header = () => {
 
     
     return (

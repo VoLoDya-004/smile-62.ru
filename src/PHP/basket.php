@@ -2,7 +2,7 @@
 require_once "../../../auth/auth.php";
 
 if (isset($_GET['Operation'])) {
-    if ($_GET['Operation'] == 'addBasket'){ //добавление в корзину
+    if ($_GET['Operation'] == 'addBasket'){
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $idUser = $_GET['idUser'];
@@ -10,14 +10,14 @@ if (isset($_GET['Operation'])) {
         }
     }
 
-    if ($_GET['Operation'] == 'showBasket'){ //просмотр корзины
+    if ($_GET['Operation'] == 'showBasket'){ 
         if (isset($_GET['idUser'])) {
             $idUser = $_GET['idUser'];
             $query = "SELECT * FROM tovar INNER JOIN basket ON tovar.id = basket.id_product WHERE basket.id_user = $idUser";
         }
     }
 
-    if ($_GET['Operation'] == 'deleteBasket'){ //удаление товара из корзины
+    if ($_GET['Operation'] == 'deleteBasket'){
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $userId = $_GET['idUser'];
@@ -25,7 +25,7 @@ if (isset($_GET['Operation'])) {
         }
     }
 
-    if ($_GET['Operation'] == 'increaseBasket'){ //+1
+    if ($_GET['Operation'] == 'increaseBasket'){
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $userId = $_GET['idUser'];
@@ -33,7 +33,7 @@ if (isset($_GET['Operation'])) {
         }
     }
 
-    if ($_GET['Operation'] == 'decreaseBasket'){ //-1
+    if ($_GET['Operation'] == 'decreaseBasket'){ 
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $userId = $_GET['idUser'];
@@ -50,32 +50,26 @@ if (isset($_GET['Operation'])) {
         }
     }
 
-    if ($_GET['Operation'] == 'clearBasket'){ //удаление товаров из корзины
+    if ($_GET['Operation'] == 'clearBasket'){ 
         if (isset($_GET['idUser'])) {
             $userId = $_GET['idUser'];
             $query = "DELETE FROM basket WHERE id_user = $userId";
         }
     }
     
-    // Выполнение запроса и формирование массива $myArray
-    /* Создаем соединение */
     $connect = mysqli_connect($hostname, $username, $password, $dbName);
     if (!$connect) {
         die("Ошибка подключения к БД: " . mysqli_connect_error());
     }
     mysqli_set_charset($connect, "utf8");
-    /* Выбираем базу данных. Если произойдет ошибка - вывести ее */
     mysqli_select_db($connect, $dbName) or die ("<p>Не могу создать соединение:".mysqli_error().". Ошибка в строке ".__LINE__."</p>");
     $result = mysqli_query($connect, $query) or die(mysqli_error());
 
-    //$basket = "SELECT * FROM basket"; 
-    //$result2 = mysqli_query($connect, $basket);
     $myArray = array();
     while($row = mysqli_fetch_assoc($result)) {
         array_push($myArray, $row);
     }
 
-    // Отправка постов в формате JSON
     header('Content-Type: application/json');
     echo json_encode($myArray);
     mysqli_close($connect);

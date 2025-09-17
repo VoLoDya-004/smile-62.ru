@@ -10,7 +10,7 @@ interface IBasketBoxProps {
 }
 
 
-const BasketBox = ({productsBasket}: IBasketBoxProps): JSX.Element => {
+const BasketBox = ({productsBasket}: IBasketBoxProps) => {
     const context = useContext(Context)
     if(!context) {
         throw new Error("Context must be used within a Provider")

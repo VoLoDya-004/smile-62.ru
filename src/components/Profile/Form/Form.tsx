@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type ChangeEvent, type JSX } from "react"
+import { useContext, useEffect, useState, type ChangeEvent } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
 import { Context } from "../../../contexts/context"
@@ -12,7 +12,7 @@ import Notification from "../../sub-components/Notification"
 import axios from "axios"
 
 
-const Form = (): JSX.Element => {
+const Form = () => {
 	const context = useContext(Context)
 	if(!context) {
 		throw new Error("Context must be used within a Provider")
@@ -136,7 +136,7 @@ const Form = (): JSX.Element => {
 
     const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
 
-	const itemTextFav = pluralize(productsFavourites?.length ?? 0, ['товар', 'товара', 'товаров'])
+	const itemTextFav = pluralize(productsFavourites.length, ['товар', 'товара', 'товаров'])
 
 
     return (
@@ -279,7 +279,7 @@ const Form = (): JSX.Element => {
 									</NavLink>
 								</div>
 								<div className="profile-fav__block-count">
-									{productsFavourites?.length ?? 0} {itemTextFav}
+									{productsFavourites.length} {itemTextFav}
 								</div>
 							</div>
 							<div className="profile-fav__svg">

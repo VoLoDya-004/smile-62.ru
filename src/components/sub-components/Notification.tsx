@@ -1,4 +1,4 @@
-import React, { useEffect, type JSX } from 'react'
+import { useEffect } from 'react'
 
 
 interface INotification {
@@ -8,7 +8,7 @@ interface INotification {
 }
 
 
-const Notification = ({ message, type, onClose }: INotification): JSX.Element => {
+const Notification = ({ message, type, onClose }: INotification) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose()

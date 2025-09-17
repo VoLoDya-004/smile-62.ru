@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, memo, type JSX, type MouseEvent } from "react"
+import { useEffect, useRef, useState, memo, type MouseEvent } from "react"
 import type { RootStore } from "../../redux"
 import { useSelector } from "react-redux"
 import type { ICardsRender } from "../../types/types"
@@ -57,7 +57,7 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
 })
 
 
-const Recommendations = (): JSX.Element => {
+const Recommendations = () => {
     const [cards, setCards] = useState<ICardsRender[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const containerRef = useRef<HTMLDivElement | null>(null)

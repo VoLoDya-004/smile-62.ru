@@ -2,10 +2,9 @@ import { useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 import type { RootStore } from "../../redux"
 import ButtonCross from "../Button/ButtonCross"
-import type React from "react"
 
 
-const Support: React.FC = () => {
+const Support = () => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
     const portalTarget = document.getElementById("confirmModalChat")

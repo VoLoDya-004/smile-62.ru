@@ -9,7 +9,7 @@ interface IFavouritesBoxProps {
 }
 
 
-const FavouritesBox = ({productsFavourites}: IFavouritesBoxProps): JSX.Element => {
+const FavouritesBox = ({productsFavourites}: IFavouritesBoxProps) => {
     const context = useContext(Context)
     if(!context) {
         throw new Error("Context must be used within a Provider")

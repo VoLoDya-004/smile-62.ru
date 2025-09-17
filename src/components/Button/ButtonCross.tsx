@@ -1,6 +1,3 @@
-import type { JSX } from "react"
-
-
 interface IButtonCrossProps {
     id?: string
     className: string
@@ -8,7 +5,7 @@ interface IButtonCrossProps {
 }
 
 
-const ButtonCross = ({id, className, onClick}: IButtonCrossProps): JSX.Element => {
+const ButtonCross = ({id, className, onClick}: IButtonCrossProps) => {
 
 
     return (

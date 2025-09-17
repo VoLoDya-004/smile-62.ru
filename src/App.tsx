@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Context } from './contexts/context'
-import { useState, useEffect, useCallback, useMemo, type JSX, type ChangeEvent } from 'react'
+import { useState, useEffect, useCallback, useMemo, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser } from './redux/UserSlice'
 import  {setCartBasket} from './redux/BasketSlice'
@@ -26,7 +26,7 @@ import ConfirmModalAllBasket from './components/sub-components/ConfirmModalAllBa
 import ConfirmModalAllFav from './components/sub-components/ConfirmModalAllFav'
 
 
-const App = (): JSX.Element => {
+const App = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
 
   useEffect(() => {

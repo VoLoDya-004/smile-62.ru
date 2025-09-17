@@ -1,7 +1,7 @@
-import type { JSX } from "react"
 
 
-const ContactsFooter = (): JSX.Element => {
+
+const ContactsFooter = () => {
 
 	
     return (

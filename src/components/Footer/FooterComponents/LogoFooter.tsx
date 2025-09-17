@@ -1,8 +1,7 @@
-import type { JSX } from "react"
 import { NavLink } from "react-router-dom"
 
 
-const LogoFooter = (): JSX.Element => {
+const LogoFooter = () => {
 
     
     return (

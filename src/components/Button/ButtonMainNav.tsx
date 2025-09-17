@@ -1,8 +1,7 @@
-import type { JSX } from "react"
 import { NavLink } from "react-router-dom"
 
 
-const ButtonMainNav = (): JSX.Element => {
+const ButtonMainNav = () => {
     
     
     return (

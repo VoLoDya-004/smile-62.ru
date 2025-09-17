@@ -1,4 +1,4 @@
-import { useState, useTransition, type ChangeEvent, type JSX } from "react"
+import { useState, useTransition, type ChangeEvent } from "react"
 import { useSelector } from "react-redux"
 import { memo } from "react"
 import ButtonDeleteBasket from "../../Button/ButtonDeleteBasket"
@@ -16,8 +16,7 @@ interface IBasketProductsProps {
 const priceFormatter = new Intl.NumberFormat()
 
 const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPendingDelete}
-    : IBasketProductsProps): 
-    JSX.Element => 
+    : IBasketProductsProps) => 
 {
 
     const { id, nazvanie, image, count, price_total } = productBasket

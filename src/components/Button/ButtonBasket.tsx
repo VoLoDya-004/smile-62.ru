@@ -1,4 +1,4 @@
-import { useState, useEffect, type JSX} from 'react'
+import { useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import { memo } from "react"
 import type { RootStore } from '../../redux'
@@ -20,7 +20,7 @@ const ButtonBasket = ({
     addInBasketProductFavourites, 
     productFavourites, 
     cartFavourites, 
-    cartBasket}: IButtonBasketProps): JSX.Element => {
+    cartBasket}: IButtonBasketProps) => {
         
     const [basketStatus, setBasketStatus] = useState<Record<string, boolean>>({})
     const [localBasketStatus, setLocalBasketStatus] = useState<Record<string, boolean>>({})

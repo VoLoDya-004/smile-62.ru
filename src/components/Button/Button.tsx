@@ -1,4 +1,4 @@
-import type { JSX, MouseEventHandler, ReactNode } from "react"
+import type { MouseEventHandler, ReactNode } from "react"
 import type React from "react"
 
 
@@ -11,7 +11,7 @@ interface IButtonProps {
 }
 
 
-const Button = ({children, id, className, onClick, style}: IButtonProps): JSX.Element => {
+const Button = ({children, id, className, onClick, style}: IButtonProps) => {
 
 
     return (

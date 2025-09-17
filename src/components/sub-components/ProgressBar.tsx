@@ -1,7 +1,7 @@
-import { useState, type JSX } from "react"
+import { useState } from "react"
 
 
-const ProgressBar = (): JSX.Element => {
+const ProgressBar = () => {
     const [scrolled, setScrolled] = useState<number>()
 
     const ProgressBar = () => {

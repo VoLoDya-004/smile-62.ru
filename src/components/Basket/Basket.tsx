@@ -12,7 +12,7 @@ interface IBasketProps {
 }
 
 
-const Basket = ({productsBasket, loading}: IBasketProps): JSX.Element => {
+const Basket = ({productsBasket, loading}: IBasketProps) => {
     const [visible, setVisible] = useState(productsBasket.length > 0)
 
     useEffect(() => {

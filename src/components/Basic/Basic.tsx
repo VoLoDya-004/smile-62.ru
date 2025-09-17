@@ -1,10 +1,10 @@
-import { memo, type JSX } from 'react'
+import { memo } from 'react'
 import Carousel from './Carousel/Carousel'
 import Cards from './Cards/Cards'
 import FiltersBlock from './FiltersBlock/FiltersBlock'
 
 
-const Basic = (): JSX.Element => {
+const Basic = () => {
 
 
     return (

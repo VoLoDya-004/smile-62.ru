@@ -1,8 +1,8 @@
-import { useState, type JSX } from "react"
+import { useState } from "react"
 import { memo } from "react"
 
 
-const ScrollButton = (): JSX.Element => {
+const ScrollButton = () => {
     const [visible, setVisible] = useState(false)
 
     const toggleVisible = () => {

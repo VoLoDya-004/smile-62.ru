@@ -1,11 +1,11 @@
-import { memo, type JSX } from "react"
+import { memo } from "react"
 import { useSelector } from "react-redux"
 import type { RootStore } from "../../redux/index"
 import Form from './Form/Form'
 import Recommendations from '../sub-components/Recommendations'
 
 
-const Profile = (): JSX.Element => {
+const Profile = () => {
     const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
 
