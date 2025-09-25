@@ -1,12 +1,11 @@
-import { forwardRef, useContext, useEffect, useState, type ChangeEvent } from "react"
-import { useSelector } from "react-redux"
-import { createPortal } from "react-dom"
-import { Context } from "../../../contexts/context"
-import type { RootStore } from "../../../redux"
-import Accordion from "./Accordion"
-import Button from "../../Button/Button"
-import ButtonLoad from "../../Button/ButtonLoad"
-import ButtonCross from "../../Button/ButtonCross"
+import { forwardRef, useContext, useEffect, useState, type ChangeEvent } from 'react'
+import { useSelector } from 'react-redux'
+import { createPortal } from 'react-dom'
+import { Context } from '../../../contexts/context'
+import type { RootStore } from '../../../redux'
+import Accordion from './Accordion'
+import Button from '../../Button/Button'
+import ButtonCross from '../../Button/ButtonCross'
 
 interface IFiltersMenuProps {
     handleToggleFilters: () => void
@@ -18,7 +17,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
 
     const context = useContext(Context)
     if (!context) {
-        throw new Error("Context must be used within a Provider")
+        throw new Error('Context must be used within a Provider')
     }
     const {handleFiltersChange, filters, setCurrentPage} = context
 
@@ -57,7 +56,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         const value = e.target.value
         setMinPrice(e.target.value)
 
-        if (value !== "" || maxPrice !== "") {
+        if (value !== '' || maxPrice !== '') {
             setActions(prev => ({
                 ...prev,
                 action5: false,
@@ -72,7 +71,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         const value = e.target.value
         setMaxPrice(e.target.value)
 
-        if (value !== "" || minPrice !== "") {
+        if (value !== '' || minPrice !== '') {
             setActions(prev => ({
                 ...prev,
                 action5: false,
@@ -129,27 +128,30 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         handleToggleFilters()
     }
 
-    const portalTarget = document.getElementById("filterMenu")
+    const portalTarget = document.getElementById('filter-menu')
     if (!portalTarget) {
         return null
     }
 
 
     return createPortal(
-        <section ref={ref} className={`filterMenu ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className={`filterMenu__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+        <section 
+            ref={ref} 
+            className={`filter-menu ${isDarkTheme ? 'dark-theme' : ''}`}
+        >
+            <div className={`filter-menu__title ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <b>Фильтры</b>
                 <ButtonCross
-                    className="support__header_titleBtn"
+                    className='button-cross'
                     onClick={handleToggleFilters}
                 />
             </div>
-            <Accordion title="Акции">
+            <Accordion title='Акции'>
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action1"
+                            type='checkbox'
+                            name='action1'
                             checked={actions.action1}
                             onChange={handleCheckboxChange}
                         />
@@ -159,8 +161,8 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action2"
+                            type='checkbox'
+                            name='action2'
                             checked={actions.action2}
                             onChange={handleCheckboxChange}
                         />
@@ -170,8 +172,8 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action3"
+                            type='checkbox'
+                            name='action3'
                             checked={actions.action3}
                             onChange={handleCheckboxChange}
                         />
@@ -181,8 +183,8 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action4"
+                            type='checkbox'
+                            name='action4'
                             checked={actions.action4}
                             onChange={handleCheckboxChange}
                         />
@@ -190,29 +192,29 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                     </div>
                 </label>
             </Accordion>
-            <Accordion title="Цена">
+            <Accordion title='Цена'>
                 <div className={`accordion__price ${isDarkTheme ? 'dark-theme' : ''}`}>
-                    <div className="accordion__inputBlock">
+                    <div className='accordion__inputBlock'>
                         <input 
-                            id="accordion__input"
-                            className="accordion__input" 
-                            type="number" 
-                            min="1" 
-                            max="1000000" 
+                            id='accordion__input'
+                            className='accordion__input'
+                            type='number'
+                            min='1'
+                            max='1000000'
                             value={minPrice}
-                            placeholder="от..." 
+                            placeholder='от...'
                             onChange={handleMinPriceChange}
                         />
                     </div>
-                    <div className="accordion__inputBlock">
+                    <div className='accordion__inputBlock'>
                         <input 
-                            id="accordion__input"
-                            className="accordion__input" 
-                            type="number" 
-                            min="1" 
-                            max="1000000" 
+                            id='accordion__input'
+                            className='accordion__input'
+                            type='number'
+                            min='1'
+                            max='1000000' 
                             value={maxPrice}
-                            placeholder="до..." 
+                            placeholder='до...'
                             onChange={handleMaxPriceChange}
                         />
                     </div>
@@ -220,13 +222,13 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action5"
+                            type='checkbox'
+                            name='action5'
                             checked={actions.action5}
                             onChange={handleCheckboxChange}
-                            disabled={minPrice !== "" || maxPrice !== ""}
+                            disabled={minPrice !== '' || maxPrice !== ''}
                         />
-                        <span style={{marginBottom: "3px"}}>
+                        <span className='accordion__item-margin'>
                             Меньше 15&nbsp;000 &#8381;
                         </span>
                     </div>
@@ -234,13 +236,13 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action6"
+                            type='checkbox' 
+                            name='action6'
                             checked={actions.action6}
                             onChange={handleCheckboxChange}
-                            disabled={minPrice !== "" || maxPrice !== ""}
+                            disabled={minPrice !== '' || maxPrice !== ''}
                         />
-                        <span style={{marginBottom: "3px"}}>
+                        <span className='accordion__item-margin'>
                             От 15&nbsp;000 &#8381; до 50&nbsp;000 &#8381;
                         </span>
                     </div>
@@ -248,13 +250,13 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action7"
+                            type='checkbox'
+                            name='action7'
                             checked={actions.action7}
                             onChange={handleCheckboxChange}
-                            disabled={minPrice !== "" || maxPrice !== ""}
+                            disabled={minPrice !== '' || maxPrice !== ''}
                         />
-                        <span style={{marginBottom: "3px"}}>
+                        <span className='accordion__item-margin'>
                             От 50&nbsp;000 &#8381; до 100&nbsp;000 &#8381;
                         </span>
                     </div>
@@ -262,34 +264,31 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                 <label>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
-                            type="checkbox" 
-                            name="action8"
+                            type='checkbox'
+                            name='action8'
                             checked={actions.action8}
                             onChange={handleCheckboxChange}
-                            disabled={minPrice !== "" || maxPrice !== ""}
+                            disabled={minPrice !== '' || maxPrice !== ''}
                         />
-                        <span style={{marginBottom: "3px"}}>
+                        <span className='accordion__item-margin'>
                             Больше 100&nbsp;000 &#8381;
                         </span>
                     </div>
                 </label>
             </Accordion>
-            <div className="accordion__btn">
+            <div className='accordion__btn'>
                 <Button
-                    className="form__registration_btn"
-                    id="AccordionBtnApply"
+                    className='button-violet'
                     onClick={handleApplyFilters}
                 >
                     Применить
                 </Button>
-                <ButtonLoad
-                    className="load-more__btnForward"
-                    id="AccordionBtnOff"
-                    style={{width: "150px", borderRadius: "5px", fontSize: "13px"}}
+                <Button
+                    className='button-grey'
                     onClick={handleResetFilters}
                 >
-                    <b>Сбросить</b>
-                </ButtonLoad>
+                    Сбросить
+                </Button>
             </div>
         </section>,
         portalTarget

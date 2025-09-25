@@ -1,4 +1,4 @@
-@use './forward.scss';
+@use '../forward.scss';
 
 body.dark-theme {
     background-color: #121212;
@@ -13,7 +13,7 @@ body.dark-theme {
     }
 }
 
-#search__line_line {
+#search__line-line {
     &.dark-theme {
         background-color: #0000005c;
         color: #ffffff;
@@ -47,15 +47,30 @@ body.dark-theme {
     }
 }
 
+.footer__section-item-style {
+    transition: .3s;
+    &.dark-theme {
+		&:hover {
+			color: white;
+		}
+    }
+}
+
+.footer__link-item {
+    &.dark-theme {
+		background-color: #000000;
+    }
+}
+
                                                     //ГЛАВНАЯ
 
-.filtersBlock {
+.filters-block {
     &.dark-theme {
         background-color: forward.$backColorElemDark;;
     }
 }
 
-.filtersBlock__sort_title {
+.filters-block__sort-title {
     &.dark-theme {
         color: white;
     }
@@ -64,25 +79,25 @@ body.dark-theme {
     }
 }
 
-.sortMenu {
+.sort-menu {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.sortOption:hover {
+.sort-option:hover {
     &.dark-theme {
         color: black;
     }
 }
 
-.filterMenu {
+.filter-menu {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.filterMenu__title {
+.filter-menu__title {
     &.dark-theme {
         background-color: forward.$backColorElemDark;
         color: white;
@@ -93,6 +108,10 @@ body.dark-theme {
     &.dark-theme {
         background-color: black;
         color: white;
+        &:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background-color: #262f39;
+        }
     }
 }
 
@@ -100,15 +119,25 @@ body.dark-theme {
     &.dark-theme {
         background-color: black;
         color: white;
+        &:hover {
+            background-color: #262f39;
+        }
     }
 }
+
 .accordion__price {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.categoriesNameMain:hover {
+.accordion__content {
+    &.dark-theme {
+       border-bottom: 2px solid #262f39;
+    }
+}
+
+.categories-name-main:hover {
     &.dark-theme {
         color: white;
         border-bottom: 2px solid white;
@@ -128,6 +157,7 @@ body.dark-theme {
 }
 
 .card__title:hover {
+    transition: .2s;
     &.dark-theme {
         color: white;
     }
@@ -135,7 +165,7 @@ body.dark-theme {
 
                                                     //ИЗБРАННОЕ
 
-.favouritesBox__table_header {
+.favourites-box__table-header {
     &.dark-theme {
         background-color: black;
     }
@@ -196,19 +226,19 @@ body.dark-theme {
 
                                                     //КОРЗИНА
 
-.basketBox__product_controls {
+.basket-box__product-controls {
     &.dark-theme {
         background-color: #121212;
     }
 }
 
-.basketBox__table_header {
+.basket-box__table-header {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.basketBox__footer {
+.basket-box__footer {
     &.dark-theme {
         background-color: black;
     }
@@ -226,20 +256,20 @@ body.dark-theme {
     }
 }
 
-.basketDelivery {
+.basket-delivery {
     &.dark-theme {
         background-color: forward.$backColorElemDark;
         color: white;
     }    
 }
 
-.basketDelivery__left {
+.basket-delivery__left {
     &.dark-theme {
         background-color: black;
     }    
 }
 
-.basketDelivery__left_rules {
+.basket-delivery__left-rules {
     &.dark-theme {
         color: white;
     }    
@@ -248,14 +278,13 @@ body.dark-theme {
     }   
 }
 
-.basketDelivery__right {
+.basket-delivery__right {
     &.dark-theme {
         background-color: black;
     }    
 }
 
                                                     //ВСПОМОГАТЕЛЬНОЕ
-
 .recommendation__box {
     &.dark-theme {
         background-color: forward.$backColorElemDark;
@@ -268,13 +297,14 @@ body.dark-theme {
     }
 }
 
-.recommendationCard {
+.recommendation-card {
     &.dark-theme {
         background-color: rgba(255, 255, 255, 0.4);
     }
 }
 
-.recommendationCard__title:hover {
+.recommendation-card__title:hover {
+    transition: .2s;
     &.dark-theme {
         color: white;
     }
@@ -298,20 +328,20 @@ body.dark-theme {
     }
 }
 
-.support__footer_message {
+.support__footer-message {
     &.dark-theme {
         background-color: rgb(46, 46, 46);
         color: white;
     }
 }
 
-.modal-contentBasket {
+.modal-content {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.modal-contentBasket__title {
+.modal-content__title {
     &.dark-theme {
         background-color: #121212;
     }

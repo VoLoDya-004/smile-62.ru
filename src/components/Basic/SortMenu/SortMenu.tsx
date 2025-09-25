@@ -1,6 +1,6 @@
-import {useSelector} from "react-redux"
-import { forwardRef } from "react"
-import type { RootStore } from "../../../redux"
+import {useSelector} from 'react-redux'
+import { forwardRef } from 'react'
+import type { RootStore } from '../../../redux'
 
 
 interface ISortMenuProps {
@@ -20,39 +20,56 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) =
 
 
     return (
-        <form className={`sortMenu ${isDarkTheme ? 'dark-theme' : ''}`} ref={ref}>
+        <form 
+            className={`sort-menu ${isDarkTheme ? 'dark-theme' : ''}`} 
+            ref={ref}
+        >
             <label 
-                htmlFor="sortMenu1" 
-                className={`sortOption ${isDarkTheme ? 'dark-theme' : ''}`} 
-                style={{borderRadius: "15px 15px 0 0"}}
+                htmlFor='sort-menu1' 
+                className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`} 
             >
-                <input type="radio" id="sortMenu1" name="sortOptions" onChange={() => 
-                    handleRadioChange("default")} />
+                <input 
+                    name='sortOptions'
+                    type='radio'
+                    id='sort-menu1'
+                    onChange={() => handleRadioChange('default')} 
+                />
                 По умолчанию
             </label>
             <label 
-                htmlFor="sortMenu2" 
-                className={`sortOption ${isDarkTheme ? 'dark-theme' : ''}`}
+                htmlFor='sort-menu2' 
+                className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
             >
-                <input type="radio" id="sortMenu2" name="sortOptions" onChange={() => 
-                    handleRadioChange("cheap")} />
+                <input 
+                    type='radio'
+                    id='sort-menu2' 
+                    name='sortOptions'
+                    onChange={() => handleRadioChange('cheap')}
+                />
                 Дешевле
             </label>
             <label 
-                htmlFor="sortMenu3" 
-                className={`sortOption ${isDarkTheme ? 'dark-theme' : ''}`}
+                htmlFor='sort-menu3'
+                className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
             >
-                <input type="radio" id="sortMenu3" name="sortOptions" onChange={() => 
-                    handleRadioChange("expensive")} />
+                <input 
+                    name='sortOptions' 
+                    type='radio'
+                    id='sort-menu3'
+                    onChange={() => handleRadioChange('expensive')} 
+                />
                 Дороже
             </label>
             <label 
-                htmlFor="sortMenu4" 
-                className={`sortOption ${isDarkTheme ? 'dark-theme' : ''}`}
-                style={{borderRadius: "0 0 15px 15px"}}
+                htmlFor='sort-menu4'
+                className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
             >
-                <input type="radio" id="sortMenu4" name="sortOptions" onChange={() => 
-                    handleRadioChange("discount")} />
+                <input 
+                    type='radio'
+                    id='sort-menu4'
+                    name='sortOptions'
+                    onChange={() => handleRadioChange('discount')} 
+                />
                 По скидке (%)
             </label>
         </form>

@@ -37,7 +37,8 @@ if (isset($_GET['Operation']) && $_GET['Operation'] == 'login') {
     }
     mysqli_set_charset($connect, "utf8");
 
-    $query = "SELECT * FROM users WHERE email='" . mysqli_real_escape_string($connect, $email) . "'";
+    $query = 
+        "SELECT * FROM users WHERE email='" . mysqli_real_escape_string($connect, $email) . "'";
     $result = mysqli_query($connect, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {

@@ -1,7 +1,7 @@
-import { memo } from "react"
-import type { IFav, IBasket } from "../../../types/types"
-import ButtonDeleteFavourites from "../../Button/ButtonDeleteFavourites"
-import ButtonBasket from "../../Button/ButtonBasket"
+import { memo } from 'react'
+import type { IFav, IBasket } from '../../../types/types'
+import ButtonDeleteFavourites from '../../Button/ButtonDeleteFavourites'
+import ButtonBasket from '../../Button/ButtonBasket'
 
 
 interface IFavouritesProductsProps {
@@ -22,18 +22,21 @@ const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBas
 
 
     return (
-        <div className="favouritesBox__product" id={String(productFavourites.id)}>
-            <div className="favouritesBox__product_img">
+        <div 
+            className='favourites-box__product'
+            id={String(productFavourites.id)}
+        >
+            <div className='favourites-box__product-img'>
                 <img 
-                    className="favouritesBox__product_img" 
+                    className='favourites-box__product-img' 
                     src={image} 
-                    alt="image" 
+                    alt='img' 
                 />
             </div>
-            <div className="favouritesBox__product_title">
+            <div className='favourites-box__product-title'>
                 {nazvanie}
             </div>
-            <div className="favouritesBox__product_price">
+            <div className='favourites-box__product-price'>
                 {priceFormatter.format(price_total)} руб.
             </div>           
             <ButtonBasket 

@@ -1,0 +1,24 @@
+@mixin flex-center {
+    display: flex;
+	justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-end {
+    display: flex;
+	justify-content: end;
+    align-items: end;
+}
+
+@mixin wh-auto {
+    width: auto;
+  	height: auto;
+}
+
+@mixin fill-clip-rule ($fill, $clip) {
+    fill-rule: $fill;
+	clip-rule: $fill;
+}
+
+
+

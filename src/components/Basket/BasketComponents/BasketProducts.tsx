@@ -1,9 +1,8 @@
-import { useState, useTransition, type ChangeEvent } from "react"
-import { useSelector } from "react-redux"
-import { memo } from "react"
-import type { RootStore } from "../../../redux"
-import type { IBasket } from "../../../types/types"
-import ButtonDeleteBasket from "../../Button/ButtonDeleteBasket"
+import { useState, useTransition, type ChangeEvent, memo } from 'react'
+import { useSelector } from 'react-redux'
+import type { RootStore } from '../../../redux'
+import type { IBasket } from '../../../types/types'
+import ButtonDeleteBasket from '../../Button/ButtonDeleteBasket'
 
 
 interface IBasketProductsProps {
@@ -15,10 +14,10 @@ interface IBasketProductsProps {
 
 const priceFormatter = new Intl.NumberFormat()
 
+
 const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPendingDelete}
     : IBasketProductsProps) => 
 {
-
     const { id, nazvanie, image, count, price_total } = productBasket
     const [isPending, startTransition] = useTransition()
     const [localCount, setLocalCount] = useState(count)
@@ -49,7 +48,7 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        let newCount = value === "" ? 1 : parseInt(value, 10)
+        let newCount = value === '' ? 1 : parseInt(value, 10)
         if (isNaN(newCount) || newCount < 1) {
             newCount = 1
         } else if (newCount > 100) {
@@ -63,50 +62,75 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
 
 
     return (       
-        <div className="basketBox__product">
-            <div className="basketBox__product_img">
-                <img className="basketBox__product_img" src={image} alt="image" />
+        <div className='basket-box__product'>
+            <div className='basket-box__product-img'>
+                <img 
+                    className='basket-box__product-img'
+                    src={image} 
+                    alt='img'
+                />
             </div>
-            <div className="basketBox__product_title">{nazvanie}</div>
-            <div className="basketBox__product_count">
-                <div className="basketBox__product_count-box">
+            <div className='basket-box__product-title'>{nazvanie}</div>
+            <div className='basket-box__product-count'>
+                <div className='basket-box__product-count-box'>
                     <input
                         onChange={handleInputChange}
-                        className="basketBox__product_count-input"
-                        type="number"
-                        min="1"
-                        max="100"
+                        className='basket-box__product-count-input'
+                        type='number'
+                        min='1'
+                        max='100'
                         value={localCount}
                     />
                 </div>
-                <div className="basketBox__product_count-controls">
+                <div className='basket-box__product-count-controls'>
                     <button
                         onClick={handleIncrease}
                         disabled={isPending}
-                        type="button"
+                        type='button'
                         className={`count__up count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path className="count-svg" d="M13 7L7 1L1 7" />
+                        <svg 
+                            width='14'
+                            height='8'
+                            viewBox='0 0 14 8'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
+                        >
+                            <path 
+                                className='count-svg' 
+                                d='M13 7L7 1L1 7' 
+                            />
                         </svg>
                     </button>
                     <button
                         onClick={handleDecrease}
                         disabled={isPending}
-                        type="button"
+                        type='button'
                         className={`count__down count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path className="count-svg" d="M1 1L7 7L13 1" />
+                        <svg 
+                            width='14'
+                            height='8'
+                            viewBox='0 0 14 8'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
+                        >
+                            <path 
+                                className='count-svg' 
+                                d='M1 1L7 7L13 1' 
+                            />
                         </svg>
                     </button>
                 </div>
             </div>
-            <div className="basketBox__product_price">
+            <div className='basket-box__product-price'>
                 {priceFormatter.format(price_total * localCount)} руб.
             </div>
-                <ButtonDeleteBasket deleteProductBasket={deleteProductBasket} id={id}
-                isPendingDelete={isPendingDelete} />
+                <ButtonDeleteBasket 
+                    deleteProductBasket={deleteProductBasket} 
+                    id={id}
+                    isPendingDelete={isPendingDelete} 
+                />
         </div>
     )
 }

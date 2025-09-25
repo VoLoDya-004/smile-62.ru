@@ -1,8 +1,7 @@
-import { useState, useEffect, type JSX } from "react"
-import { memo } from "react"
-import BlockEmpty from "../sub-components/BlockEmpty"
-import FavouritesBox from "./FavouritesComponents/FavouritesBox"
-import Recommendations from "../sub-components/Recommendations"
+import { useState, useEffect, memo, type JSX } from 'react'
+import BlockEmpty from '../sub-components/BlockEmpty'
+import FavouritesBox from './FavouritesComponents/FavouritesBox'
+import Recommendations from '../sub-components/Recommendations'
 
 
 interface IFavouritesProps {
@@ -23,8 +22,8 @@ const Favourites = ({productsFavourites, loading}: IFavouritesProps) => {
     if (loading) {
         return (
             <>
-                <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
-                <div className="spinnerCards"></div>
+                <h1 className='centered-heading'>Загрузка товаров...</h1>
+                <div className='spinner-cards'></div>
             </>
         )
     }
@@ -33,9 +32,9 @@ const Favourites = ({productsFavourites, loading}: IFavouritesProps) => {
     return (
         <>
             {!visible &&
-            <section className="favourites">
-                <BlockEmpty text1={"В избранных пока пусто"} 
-                text2={"Загляните на главную — собрали там товары, которые могут вам понравиться"} />
+            <section className='favourites'>
+                <BlockEmpty text1={'В избранных пока пусто'} 
+                text2={'Загляните на главную — собрали там товары, которые могут вам понравиться'} />
             </section>
             }
             {visible && <FavouritesBox productsFavourites={productsFavourites} />}

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 interface INotification {
     message: string
-    type: "success" | "error"
+    type: 'success' | 'error'
     onClose: () => void
 }
 

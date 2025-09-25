@@ -21,9 +21,7 @@ import BasketProducts from './components/Basket/BasketComponents/BasketProducts'
 import FavouritesProducts from './components/Favourites/FavouritesComponents/FavouritesProducts'
 import Support from './components/sub-components/Support'
 import CookiesNotice from './components/sub-components/CookiesNotice'
-import ConfirmModalBasket from './components/sub-components/ConfirmModalBasket'
-import ConfirmModalAllBasket from './components/sub-components/ConfirmModalAllBasket'
-import ConfirmModalAllFav from './components/sub-components/ConfirmModalAllFav'
+import ConfirmModal from './components/sub-components/ConfirmModal'
 
 
 const App = () => {
@@ -77,7 +75,7 @@ const App = () => {
       })
       .catch((error) => {
         setIsPendingDelete(prev => ({ ...prev, [idToDelete]: false }))
-        console.error("Ошибка при удалении продукта:", error)
+        console.error('Ошибка при удалении продукта:', error)
       })
     }
   }, [dispatch, productIdToDelete, srcBasket])
@@ -101,7 +99,7 @@ const App = () => {
         setLoadingDeleteAllBasket(false)
       })
       .catch((error) => {
-        console.error("Ошибка при очистке корзины:", error)
+        console.error('Ошибка при очистке корзины:', error)
         closeModalAllBasket()
         setLoadingDeleteAllBasket(false)
       })
@@ -146,7 +144,7 @@ const App = () => {
         dispatch(setCartBasket(res.data))
         })
       .catch((error) => {
-        console.error("Ошибка при увеличении корзины:", error)
+        console.error('Ошибка при увеличении корзины:', error)
       })
     }
   }, [dispatch, srcBasket])
@@ -168,7 +166,7 @@ const App = () => {
         dispatch(setCartBasket(res.data))
       })
       .catch((error) => {
-        console.error("Ошибка при уменьшении корзины:", error)
+        console.error('Ошибка при уменьшении корзины:', error)
       })
     }
   }, [dispatch, srcBasket])
@@ -176,8 +174,8 @@ const App = () => {
   const handleCountChange = useCallback((e: ChangeEvent<HTMLInputElement>, id: number) => {
     if (userId !== null) {
       let newCount = e.target.value
-      if (newCount === "") {
-        newCount = "1"
+      if (newCount === '') {
+        newCount = '1'
       } else {
         let parsedCount = parseInt(newCount, 10)
         if (isNaN(parsedCount) || parsedCount < 1) return
@@ -198,7 +196,7 @@ const App = () => {
         dispatch(setCartBasket(res.data))
       })
       .catch((error) => {
-        console.error("Ошибка при обновлении количества:", error)
+        console.error('Ошибка при обновлении количества:', error)
       })
     }
   }, [dispatch, srcBasket])
@@ -211,7 +209,7 @@ const App = () => {
           dispatch(setCartBasket(res.data))
         })
         .catch((error) => {
-          console.error("Ошибка при загрузке корзины:", error)
+          console.error('Ошибка при загрузке корзины:', error)
         })
         .finally(() => {
           setLoadingBasket(false)
@@ -233,7 +231,14 @@ const App = () => {
       />
     )
   })
-  }, [cartBasket, deleteProductBasket, increaseBasket, decreaseBasket, handleCountChange, showModal])
+  }, [
+      cartBasket, 
+      deleteProductBasket, 
+      increaseBasket, 
+      decreaseBasket, 
+      handleCountChange, 
+      showModal
+  ])
 
   //работа с избранными товарами
 
@@ -255,7 +260,7 @@ const App = () => {
         setCartFavourites(prevFavourites => prevFavourites.filter(item => item.id !== id))
       })
       .catch((error) => {
-        console.error("Ошибка при удалении продукта:", error)
+        console.error('Ошибка при удалении продукта:', error)
       })
     }
   }, [setCartFavourites, userId])
@@ -279,7 +284,7 @@ const App = () => {
           setLoadingDeleteAllFav(false)
       })
       .catch((error) => {
-        console.error("Ошибка при очистке избранных:", error)
+        console.error('Ошибка при очистке избранных:', error)
         setLoadingDeleteAllFav(false)
         closeModalAllFav()
       })
@@ -314,7 +319,7 @@ const App = () => {
         setCartFavourites(res.data)
       })
       .catch((error) => {
-        console.error("Ошибка при удалении продукта:", error)
+        console.error('Ошибка при удалении продукта:', error)
       })
     }
   }, [setCartFavourites, userId])
@@ -327,7 +332,7 @@ const App = () => {
           setCartFavourites(res.data)
         })
         .catch((error) => {
-          console.error("Ошибка при загрузке избранных:", error)
+          console.error('Ошибка при загрузке избранных:', error)
         })
         .finally(() => {
           setLoadingFavourites(false)
@@ -356,7 +361,7 @@ const App = () => {
   useEffect(() => {
     if (userId !== null) {
       const observer = new MutationObserver(() => {
-        const buttons = document.querySelectorAll(".card__heart")
+        const buttons = document.querySelectorAll('.card__heart')
 
         if (buttons.length > 0) {
           buttons.forEach(button => {
@@ -374,7 +379,7 @@ const App = () => {
                 setCartFavourites(res.data)
               })
               .catch((error) => {
-                console.error("Ошибка при обновлении избранных:", error)
+                console.error('Ошибка при обновлении избранных:', error)
               })
             })
           })
@@ -387,7 +392,7 @@ const App = () => {
       })
       return () => {
         observer.disconnect()
-        const buttons = document.querySelectorAll(".card__heart")
+        const buttons = document.querySelectorAll('.card__heart')
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
             axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
@@ -403,7 +408,7 @@ const App = () => {
               setCartFavourites(res.data)
             })
             .catch((error) => {
-              console.error("Ошибка при обновлении избранных:", error)
+              console.error('Ошибка при обновлении избранных:', error)
             }) 
           })
         })
@@ -416,7 +421,7 @@ const App = () => {
   useEffect(() => {
     if (userId !== null) {
       const observer = new MutationObserver(() => {
-        const buttons = document.querySelectorAll(".basketBox__product_controls") 
+        const buttons = document.querySelectorAll('.basket-box__product-controls') 
 
         if (buttons.length > 0) {
           buttons.forEach(button => {
@@ -434,7 +439,7 @@ const App = () => {
                 dispatch(setCartBasket(res.data))
               })
               .catch((error) => {
-                console.error("Ошибка при обновлении избранных:", error)
+                console.error('Ошибка при обновлении избранных:', error)
               })
             })
           })
@@ -447,7 +452,7 @@ const App = () => {
       })
       return () => {
         observer.disconnect()
-        const buttons = document.querySelectorAll(".basketBox__product_controls") 
+        const buttons = document.querySelectorAll('.basket-box__product-controls') 
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
             axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
@@ -463,7 +468,7 @@ const App = () => {
               dispatch(setCartBasket(res.data))
             })
             .catch((error) => {
-              console.error("Ошибка при обновлении избранных:", error)
+              console.error('Ошибка при обновлении избранных:', error)
             }) 
           })
         })
@@ -484,31 +489,31 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
 
   const categories = [
-      { id: 0, label: "Все категории" },
-      { id: 2, label: "Смартфоны" },
-      { id: 4, label: "Телевизоры" },
-      { id: 5, label: "Компьютеры" },
-      { id: 6, label: "Красота и здоровье" },
-      { id: 7, label: "Техника для кухни" },
-      { id: 8, label: "Аудиотехника" },
-      { id: 9, label: "Фото и видео" },
-      { id: 10, label: "Аксессуары" },
-      { id: 11, label: "Сад и огород" },
-      { id: 12, label: "Офис" },
-      { id: 13, label: "Умные устройства" },
-      { id: 14, label: "Автотовары" },
-      { id: 15, label: "Сетевое оборудование" },
-      { id: 3, label: "Планшеты" },
-      { id: 1, label: "Ноутбуки" },
-      { id: 16, label: "Кабели и адаптеры" },
-      { id: 17, label: "Электронные книги" },
-      { id: 18, label: "Климатическая техника" },
-      { id: 19, label: "Техника для творчества" },
-      { id: 20, label: "Отдых и развлечения" },
-      { id: 21, label: "VR-гарнитуры" },
-      { id: 22, label: "Устройства для безопасности" },
-      { id: 23, label: "Техника для ремонта" },
-      { id: 24, label: "Техника для дома" },
+      { id: 0, label: 'Все категории' },
+      { id: 2, label: 'Смартфоны' },
+      { id: 4, label: 'Телевизоры' },
+      { id: 5, label: 'Компьютеры' },
+      { id: 6, label: 'Красота и здоровье' },
+      { id: 7, label: 'Техника для кухни' },
+      { id: 8, label: 'Аудиотехника' },
+      { id: 9, label: 'Фото и видео' },
+      { id: 10, label: 'Аксессуары' },
+      { id: 11, label: 'Сад и огород' },
+      { id: 12, label: 'Офис' },
+      { id: 13, label: 'Умные устройства' },
+      { id: 14, label: 'Автотовары' },
+      { id: 15, label: 'Сетевое оборудование' },
+      { id: 3, label: 'Планшеты' },
+      { id: 1, label: 'Ноутбуки' },
+      { id: 16, label: 'Кабели и адаптеры' },
+      { id: 17, label: 'Электронные книги' },
+      { id: 18, label: 'Климатическая техника' },
+      { id: 19, label: 'Техника для творчества' },
+      { id: 20, label: 'Отдых и развлечения' },
+      { id: 21, label: 'VR-гарнитуры' },
+      { id: 22, label: 'Устройства для безопасности' },
+      { id: 23, label: 'Техника для ремонта' },
+      { id: 24, label: 'Техника для дома' },
   ]
 
   // карточки на главной
@@ -518,12 +523,12 @@ const App = () => {
 
   // сортировка товаров
 
-  const [sortType, setSortType] = useState("default")
+  const [sortType, setSortType] = useState('default')
   const [activeCategoryId, setActiveCategoryId] = useState(0)
 
   // фильтры
 
-  const [currentSort, setCurrentSort] = useState("по умолчанию")
+  const [currentSort, setCurrentSort] = useState('по умолчанию')
   const [filters, setFilters] = useState<IFilters>({
     minPrice: null,
     maxPrice: null,
@@ -669,7 +674,10 @@ const App = () => {
                   } />                
                 <Route path='/favourites' 
                   element={
-                    <Favourites productsFavourites={productsFavourites} loading={loadingFavourites} />
+                    <Favourites 
+                      productsFavourites={productsFavourites} 
+                      loading={loadingFavourites} 
+                    />
                   } />                   
                 <Route path='/profile' 
                   element={
@@ -677,26 +685,41 @@ const App = () => {
                   } />                   
                 <Route path='/basket' 
                   element={
-                    <Basket productsBasket={productsBasket} loading={loadingBasket} />
+                    <Basket 
+                      productsBasket={productsBasket} 
+                      loading={loadingBasket} 
+                    />
                   } />                   
               </Routes>
             <ScrollButton />
             <ChatBtn />
             <Support />
-            <ConfirmModalBasket
+            <ConfirmModal
               isOpen={isModalOpen}
               onConfirm={() => {deleteProductBasket(productIdToDelete)}}
               onCancel={closeModal}
+              modalId='modal-basket-delete'
+              portalId='confirm-modal-basket-delete'
+              title='Удаление товара'
+              description='Удалить выбранный товар? Отменить действие будет невозможно.'
             />
-            <ConfirmModalAllBasket 
+            <ConfirmModal
               isOpen={isModalOpenAllBasket}
               onConfirm={() => {handleClearBasket()}}
               onCancel={closeModalAllBasket}
+              modalId='modal-basket-delete-all'
+              portalId='confirm-modal-basket-delete-all'
+              title='Удаление корзины'
+              description='Удалить все товары из корзины? Отменить действие будет невозможно.'
             />
-            <ConfirmModalAllFav
+            <ConfirmModal
               isOpen={isModalOpenAllFav}
               onConfirm={() => {handleClearFav()}}
               onCancel={closeModalAllFav}
+              modalId='modal-fav-delete-all'
+              portalId='confirm-modal-fav-delete-all'
+              title='Удаление избранного'
+              description='Удалить все товары из избранного? Отменить действие будет невозможно.'
             />
           </main>
           <Footer />      

@@ -1,0 +1,112 @@
+@use '../forward.scss';
+																	
+#confirm-modal-chat {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.support {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    width: 60%;
+    background-color: white;
+    border-radius: 29px;
+    margin: 15px auto auto;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100px;
+        padding: 20px 30px 10px 30px;
+        box-sizing: border-box;
+        border-bottom: 1px solid black;
+        background-color: forward.$backColorElem;
+        border-radius: 25px 25px 0 0;
+        &-title {
+            font-size: 25px;
+            font-family: "Montserrat", sans-serif;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            cursor: default;
+        }
+    }
+    &__main {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100px;
+        padding: 20px 30px 30px 30px;
+        box-sizing: border-box;
+        border-top: 1px solid black;
+        background-color: forward.$backColorElem;
+        border-radius: 0 0 25px 25px;
+        &-message {
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            resize: none;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            margin-right: 10px;
+            box-sizing: border-box;
+            font-size: 17px;
+        }
+        &-btn {
+	        background-color: #9814ad;
+	        border: none;
+	        color: white;
+	        cursor: pointer;
+	        min-height: 44px;
+	        min-width: 44px;
+	        border-radius: 50%;
+	        transition: 0.5s;
+            @include forward.flex-center;
+	        z-index: 1;
+	        &:hover{
+		        background-color: #b200ce;
+	        }
+        }
+    }
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+    .support {
+        width: 75%;
+    }
+}   
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+    .support {
+        width: 85%;
+    }
+}                                                                       
+
+                                                                    //АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+    .support {
+        width: 85%;
+        &__footer {
+            padding: 20px 10px 30px;
+        }
+    }
+}                                                                      

@@ -1,0 +1,72 @@
+@use '../forward.scss';
+
+.cookies-notice-box {
+    user-select: none;
+}					
+
+.cookies-notice__btn {
+    cursor: pointer;
+}
+
+.cookies-notice {
+    @include forward.wh-auto;
+    position: fixed;
+    left: 5px;
+    bottom: 70px;
+    background-color: black;
+    color: white;
+    padding-left: 10px;
+    text-align: center;
+    border-radius: 20px;
+    z-index: 1000;
+    &__btn {
+        margin: 10px ;
+        padding: 5px 15px;
+        border: none;
+        background-color: wheat;
+        border-radius: 10px;
+        box-sizing: border-box;
+        transition: .3s;
+        &:hover {
+            background-color: rgb(243, 211, 152);
+        }
+    }
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+    .cookies-notice-box {
+        display: flex;
+        justify-content: center;
+    }
+
+    .cookies-notice {
+        bottom: 135px;
+    }
+}   
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+    .cookies-notice {
+        bottom: 120px;
+        font-size: 12px;
+        z-index: 1000;
+    }
+}                                                                       
+
+                                                                    //АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+    .cookies-notice {
+        bottom: 120px;
+        margin-right: 5px;
+        padding: 5px 0 5px 5px;
+        border-radius: 10px;
+        font-size: 12px;
+        &__btn {
+            margin: 5px;
+        }
+    }
+}      

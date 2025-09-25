@@ -1,0 +1,148 @@
+.button-grey {
+    margin: 16px 0;
+	width: 150px;
+	height: 40px;
+	border-radius: 5px;
+	background-color: #c8c8c8;
+	border: none;
+	transition: .2s;
+	cursor: pointer;
+    &:hover {
+        background-color: #9c9c9c;
+    }
+}
+
+.button-violet {
+    margin: 16px 0;
+    background-color: #d8c4e0;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    transition: .2s;
+    &:hover {
+        background-color: rgb(186, 155, 194);
+    }
+}
+
+.button-cross {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: rgba(255, 0, 0, 0.8);
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    transition: .2s;
+    &-svg {
+        display: flex;
+        user-select: none;
+        width: 20px;
+    }
+    &:hover {
+        background-color: red;
+    }
+}
+
+#to-main-btn {
+    margin-top: 10px;
+    background-color: #d8c4e0;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    &:hover {
+        background-color: rgb(186, 155, 194);
+        transition: .3s;
+    }
+}
+
+#scroll-to-top-btn {
+	background-color: rgba(0, 0, 0, 0.5);
+	border: none;
+	color: white;
+	cursor: pointer;
+	height: 45px;
+	width: 45px;
+	position: fixed;
+	bottom: 20px;
+    left: 20px;
+    border-radius: 50%;
+	transition: 0.5s;
+	display: none;
+	z-index: 3;
+    @media (max-width: 1000px) and (min-width: 768px) {
+		bottom: 85px;
+		left: 15px;
+    }
+    @media (max-width: 768px) and (min-width: 425px) {
+		bottom: 70px;
+		left: 15px;
+    }
+    @media (max-width: 425px) {
+		bottom: 70px;
+		left: 10px;
+    }
+	&:hover {
+		background-color: black;
+	}
+}
+
+#chat-btn {
+	background-color: #9814ad;
+	border: none;
+	color: white;
+	cursor: pointer;
+	height: 45px;
+	width: 45px;
+	position: fixed;
+	bottom: 20px;
+    right: 20px;
+	z-index: 1;
+    border-radius: 50%;
+	transition: 0.5s;
+    @media (max-width: 1000px) and (min-width: 768px) {
+		bottom: 85px;
+		right: 15px;
+    }
+    @media (max-width: 768px) and (min-width: 425px) {
+		bottom: 70px;
+		right: 15px;
+    }
+    @media (max-width: 425px) {
+		bottom: 70px;
+		right: 10px;
+    }
+	&:hover {
+		background-color: #b200ce;
+	}
+}
+
+.chat-btn-svg {
+	position: fixed;
+	right: 30.335px;
+    bottom: 29.29px;
+    @media (max-width: 1000px) and (min-width: 768px) {
+		right: 25.335px;
+    	bottom: 94.29px;
+    }
+    @media (max-width: 768px) and (min-width: 425px) {
+		right: 25.335px;
+    	bottom: 79.29px;
+    }
+    @media (max-width: 425px) {
+		right: 20.335px;
+    	bottom: 79.29px;
+    }
+}
+
+.chat-svg {
+	fill-rule: evenodd;
+	clip-rule: evenodd;
+}

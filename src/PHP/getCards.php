@@ -86,7 +86,8 @@ function buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $act
     return $conditions;
 }
 
-$filterConditions = buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $actionsFilters);
+$filterConditions = 
+    buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $actionsFilters);
 $filterSQL = '';
 if (!empty($filterConditions)) {
     $filterSQL = ' AND ' . implode(' AND ', $filterConditions);

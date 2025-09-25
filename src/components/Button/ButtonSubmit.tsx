@@ -1,4 +1,4 @@
-import type { MouseEventHandler, ReactNode } from "react"
+import type { MouseEventHandler, ReactNode } from 'react'
 
 
 interface IButtonSubmitProps {
@@ -13,10 +13,14 @@ const ButtonSubmit = ({children, id, className, onClick}: IButtonSubmitProps) =>
 
 
     return (
-        <p>
-			<button type="submit" className={className} id={id} 
-            onClick={onClick}><b style={{userSelect: "none"}}>{children}</b></button>
-		</p>
+		<button 
+            type='submit'
+            className={className} 
+            id={id} 
+            onClick={onClick}
+        >
+            <b className='user-select-none'>{children}</b>
+        </button>
     )
 }
 

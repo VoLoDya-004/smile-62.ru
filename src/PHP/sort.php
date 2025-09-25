@@ -7,7 +7,8 @@ if (isset($_GET['Operation'])) {
         die("Ошибка подключения к БД: " . mysqli_connect_error());
     }
     mysqli_set_charset($connect, "utf8");
-    mysqli_select_db($connect, $dbName) or die ("<p>Не могу выбрать базу данных: ".mysqli_error($connect).". Ошибка в строке ".__LINE__."</p>");
+    mysqli_select_db($connect, $dbName) or die 
+    ("<p>Не могу выбрать базу данных: ".mysqli_error($connect).". Ошибка в строке ".__LINE__."</p>");
 
     $operation = $_GET['Operation'];
     $myArray = array();

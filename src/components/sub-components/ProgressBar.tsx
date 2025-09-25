@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 
 const ProgressBar = () => {
@@ -10,11 +10,11 @@ const ProgressBar = () => {
         setScrolled(scroll / height * 100)
     }
 
-    window.addEventListener("scroll", ProgressBar)
+    window.addEventListener('scroll', ProgressBar)
     
     
     return (
-        <div id="progressBar" style={{width: scrolled+ "%"}}></div>
+        <div id='progress-bar' style={{width: scrolled+ '%'}}></div>
     )
 }
 

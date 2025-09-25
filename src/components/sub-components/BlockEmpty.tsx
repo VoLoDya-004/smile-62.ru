@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux"
-import type { RootStore } from "../../redux"
-import ButtonMainNav from "../Button/ButtonMainNav"
+import { useSelector } from 'react-redux'
+import type { RootStore } from '../../redux'
+import ButtonMainNav from '../Button/ButtonMainNav'
 
 
 interface IBlockEmptyProps {
@@ -15,8 +15,8 @@ const BlockEmpty = ({text1, text2}: IBlockEmptyProps) => {
     
     return (
             <div className={`basket__empty ${isDarkTheme ? 'dark-theme' : ''}`}>
-                <b className="basket__empty_str1">{text1}</b><br/>
-                <div className="basket__empty_str2">{text2}</div><br/>
+                <b className='basket__empty-str1'>{text1}</b><br/>
+                <div className='basket__empty-str2'>{text2}</div><br/>
                 <ButtonMainNav />
             </div>
     )

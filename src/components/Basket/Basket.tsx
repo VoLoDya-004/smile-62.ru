@@ -1,9 +1,8 @@
-import { useState, useEffect, type JSX } from "react"
-import { memo } from "react"
-import BlockEmpty from "../sub-components/BlockEmpty"
-import BasketBox from "./BasketComponents/BasketBox"
-import BasketDelivery from "./BasketComponents/BasketDelivery"
-import Recommendations from "../sub-components/Recommendations"
+import { useState, useEffect, memo, type JSX } from 'react'
+import BlockEmpty from '../sub-components/BlockEmpty'
+import BasketBox from './BasketComponents/BasketBox'
+import BasketDelivery from './BasketComponents/BasketDelivery'
+import Recommendations from '../sub-components/Recommendations'
 
 
 interface IBasketProps {
@@ -24,8 +23,8 @@ const Basket = ({productsBasket, loading}: IBasketProps) => {
     if (loading) {
         return (
             <>
-                <h1 style={{textAlign: 'center'}}>Загрузка товаров...</h1>
-                <div className="spinnerCards"></div>
+                <h1 className='centered-heading'>Загрузка товаров...</h1>
+                <div className='spinner-cards'></div>
             </>
         )
     }
@@ -34,15 +33,17 @@ const Basket = ({productsBasket, loading}: IBasketProps) => {
     return (
         <>
             {!visible &&
-            <section className="basket">
-                <BlockEmpty text1={"В корзине пока пусто"} 
-                text2={"Загляните на главную — собрали там товары, которые могут вам понравиться"} />
+            <section className='basket'>
+                <BlockEmpty 
+                    text1={'В корзине пока пусто'} 
+                    text2={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
+                />
             </section>
             }
             {visible &&
             <>
                 <BasketBox productsBasket={productsBasket} />
-                <div className="delivery-label"><b>Доставка</b></div>
+                <div className='delivery-label'><b>Доставка</b></div>
                 <BasketDelivery />
             </>
             }

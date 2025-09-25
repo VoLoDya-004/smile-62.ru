@@ -1,6 +1,6 @@
-import { memo } from "react"
-import { useSelector } from "react-redux"
-import type { RootStore } from "../../../redux"
+import { memo } from 'react'
+import { useSelector } from 'react-redux'
+import type { RootStore } from '../../../redux'
 
 
 const BasketFooter = () => {
@@ -11,8 +11,8 @@ const BasketFooter = () => {
 
 
     return (                          
-        <div className={`basketBox__footer ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className="basketBox__footer_title">{totalBasket.count} шт.</div>
+        <div className={`basket-box__footer ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <div className='basket-box__footer-title'>{totalBasket.count} шт.</div>
             <div>{priceFormatter.format(totalBasket.price_total)}  руб.</div>
         </div>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Children, cloneElement, useRef, 
-type ReactNode, type ReactElement, type TouchEvent, useCallback} from "react"
+type ReactNode, type ReactElement, type TouchEvent, useCallback} from 'react'
 
 
 interface StyledElementProps extends React.HTMLProps<HTMLElement> {
@@ -28,6 +28,7 @@ const Carousel = ({children}: ICarouseelProps) => {
 		  	}
 	  	}
 		updateWidth()
+
 	  	window.addEventListener('resize', updateWidth)
 	  	return () => window.removeEventListener('resize', updateWidth)
 	}, [])	
@@ -110,91 +111,76 @@ const Carousel = ({children}: ICarouseelProps) => {
 	const handleMouseUp = useCallback((e: MouseEvent)=> {
 	  	if (!isSwiping.current) return
 	  	handleTouchEnd(e)
-	  	document.removeEventListener("mousemove", handleMouseMove)
-	  	document.removeEventListener("mouseup", handleMouseUp)
+	  	document.removeEventListener('mousemove', handleMouseMove)
+	  	document.removeEventListener('mouseup', handleMouseUp)
 	}, [handleMouseMove, handleTouchEnd])
 
 
 	return (
 		<aside>
-			<div className="slider">
-	    	  		<div className="slider__btn_left" onClick={handleLeftArrow}>
+			<div className='slider'>
+	    	  		<div 
+						className='slider__btn-left' 
+						onClick={handleLeftArrow}
+					> 
 	    	    		<svg
-	    	      			xmlns="http://www.w3.org/2000/svg"
-	    	      			style={{
-	    	        			fill: "none",
-	    	        			width: "24px",
-	    	        			height: "24px",
-	    	        			padding: "6px 0 0 6px",
-	    	      			}}
+	    	      			xmlns='http://www.w3.org/2000/svg'
+	    	      			className='slider__btn-svg'
 	    	    		>
 	    	      			<path
-	    	        			style={{
-	    	          				fill: "#fff",
-	    	          				fillRule: "evenodd",
-	    	          				clipRule: "evenodd",
-	    	        			}}
-	    	        			d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"
+	    	        			className='slider__btn-svg-path'
+	    	        			d='M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 
+								1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 
+								1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
 	    	      			/>
 	    	    		</svg>
 	    	  		</div>	
 	    	  	<div
-	    	    	className="slider__window"
+	    	    	className='slider__window'
 	    	    	ref={sliderRef}
-	    	    	style={{
-	    	    		overflow: "hidden",
-	    	    		width: "100%",
-	    	    		position: "relative",
-	    	    		cursor: "grab",
-	    	    	}}
 	    	    	onTouchStart={handleTouchStart}
 	    	    	onTouchEnd={handleTouchEnd}
 					onMouseDown={(e) => {
 						handleTouchStart(e)
-	    				document.addEventListener("mousemove", handleMouseMove)
-	    				document.addEventListener("mouseup", handleMouseUp)
+	    				document.addEventListener('mousemove', handleMouseMove)
+	    				document.addEventListener('mouseup', handleMouseUp)
 					}}
 	    	  	>
 	    	    	<div
-	    	    		className="all-pages-container"
+	    	    		className='all-pages-container'
 	    	    		style={{
-	    	    			display: "flex",
-	    	    			transition: isAnimating ? "transform 0.3s ease" : "none",
+	    	    			transition: isAnimating ? 'transform 0.3s ease' : 'none',
 	    	    			transform: `translateX(${offsetX}px)`,
 	    	    		}}
 	    	    	>
 	    	    	  {pages}
 	    	    	</div>
 	    	  	</div>
-	    	  	<div className="slider__btn_right" onClick={handleRightArrow}>
+	    	  	<div 
+					className='slider__btn-right' 
+					onClick={handleRightArrow}
+				>
 	    	    	<svg
-	    	    		xmlns="http://www.w3.org/2000/svg"
-	    	    		style={{
-	    	    			fill: "none",
-	    	    			width: "24px",
-	    	    			height: "24px",
-	    	    			padding: "6px 0 0 6px",
-	    	    		}}
-	    	    >
+	    	    		xmlns='http://www.w3.org/2000/svg'
+	    	    		className='slider__btn-svg'
+	    	    	>
 	    	    		<path
-	    	      			style={{
-	    	    				fill: "#fff",
-	    	    				fillRule: "evenodd",
-	    	    				clipRule: "evenodd",
-	    	    			}}
-	    	    			d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"
+	    	      			className='slider__btn-svg-path'
+	    	    			d='M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 
+							1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 
+							1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
 	    	    		/>
 	    	    	</svg>
 	    	    </div>
 	    		<span
-	    			className="slider__advertisement"
+	    			className='slider__advertisement'
 	    			onMouseEnter={() => setShowChildren(true)}
 	    			onMouseLeave={() => setShowChildren(false)}
 	    		>
 	    			Реклама
 	    		</span>	
 	    	</div>	
-	    	<div className={`slider__advertisement_description ${showChildren ? "show" : ""}`}>
+	    	<div className={`slider__advertisement-description ${showChildren ? 'show' : ''}`}>
 	    		ООО "что-там"<br />
 	    		ИНН 777777777<br />
 	    		здесь еще что-нибудь

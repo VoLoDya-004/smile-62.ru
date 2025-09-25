@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import type { RootStore } from "../../../redux"
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import type { RootStore } from '../../../redux'
 
 
 const BasketCircle = () => {
@@ -15,7 +15,11 @@ const BasketCircle = () => {
 
     return (
         <>  
-            {isVisible && <span className="circle">{totalBasket.count}</span>}
+            {isVisible && 
+                <span className='circle'>
+                    {totalBasket.count}
+                </span>
+            }
         </>
     )
 }

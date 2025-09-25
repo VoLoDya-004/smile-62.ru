@@ -17,9 +17,20 @@ const ThemeToggle = () => {
 
   
   return (
-    <Tippy content="Сменить тему" placement={'left'} theme='lilac'>
-      <button id="themeToggle" onClick={toggleTheme}>
-        <img src="/images/icons/tema.png" className="themeToggle" />
+    <Tippy 
+      content='Сменить тему' 
+      placement={'left'} 
+      theme='lilac'
+    >
+      <button 
+        id='theme-toggle' 
+        onClick={toggleTheme}
+      >
+        <img 
+          src='/images/icons/tema.png' 
+          alt='img'
+          className='theme-toggle' 
+        />
       </button>
     </Tippy>
   )

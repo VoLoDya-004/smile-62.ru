@@ -1,20 +1,23 @@
-import { memo } from "react"
+import { memo } from 'react'
 
 
 interface IButtonLoadProps {
     onClick: () => void
     children: React.ReactNode
-    id: string
+    id?: string
     className: string
-    style?: React.CSSProperties
 }
 
 
-const ButtonLoad = ({onClick, children, id, className, style}: IButtonLoadProps) => {
+const ButtonLoad = ({onClick, children, id, className}: IButtonLoadProps) => {
 
     
     return (
-            <button id={id} className={className} onClick={onClick} style={style}>
+            <button 
+                id={id} 
+                className={className} 
+                onClick={onClick} 
+            >
                 {children}
             </button>
     )

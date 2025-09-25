@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, memo, type MouseEvent } from "react"
-import type { RootStore } from "../../redux"
-import { useSelector } from "react-redux"
-import type { ICardsRender } from "../../types/types"
-import axios from "axios"
+import { useEffect, useRef, useState, memo, type MouseEvent } from 'react'
+import type { RootStore } from '../../redux'
+import { useSelector } from 'react-redux'
+import type { ICardsRender } from '../../types/types'
+import axios from 'axios'
 
 
 interface IRecommendationsProductProps {
@@ -22,42 +22,64 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
         <div 
             key={card.id} 
             id={String(card.id)} 
-            className={`recommendationCard ${isDarkTheme ? 'dark-theme' : ''}`}
+            className={`recommendation-card ${isDarkTheme ? 'dark-theme' : ''}`}
         >
-            <div className="recommendationCard__top">
-                <a className="recommendationCard__image">
-                    <img src={card.image} alt="image" />
+            <div className='recommendation-card__top'>
+                <a className='recommendation-card__image'>
+                    <img 
+                        src={card.image} 
+                        alt='img' 
+                        loading='lazy' 
+                    />
                 </a>
-                {sale !== 0 && <div className="recommendationCard__label">-{sale}%</div>}
+                {sale !== 0 && 
+                    <div className='recommendation-card__label'>-{sale}%</div>
+                }
             </div>
-            <div className="recommendationCard__bottom">
+            <div className='recommendation-card__bottom'>
                 {price === price_sale ? (
                     <>
                         <div 
-                            className="recommendationCard__price recommendationCard__price_count-same"
+                            className='
+                                recommendation-card__price 
+                                recommendation-card__price-count-same
+                            '
                         >
                             {price}
                         </div>
-                        <a className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                        <a 
+                            className={`
+                                recommendation-card__title 
+                                ${isDarkTheme ? 'dark-theme' : ''}
+                            `}
+                        >
                             {card.nazvanie}
                         </a>
                     </>
                 ) : (
                         <>
-                            <div className="recommendationCard__prices">
+                            <div className='recommendation-card__prices'>
                                 <div 
-                                    className="recommendationCard__price recommendationCard__price_discount"
+                                    className='
+                                        recommendation-card__price 
+                                        recommendation-card__price-discount
+                                    '
                                 >
                                     {price_sale}
                                 </div>
                                 <div 
-                                    className="recommendationCard__price recommendationCard__price_count"
+                                    className='
+                                        recommendation-card__price 
+                                        recommendation-card__price-count
+                                    '
                                 >
                                     {price}
                                 </div>
                             </div>
                             <a 
-                                className={`recommendationCard__title ${isDarkTheme ? 'dark-theme' : ''}`}
+                                className={`recommendation-card__title 
+                                    ${isDarkTheme ? 'dark-theme' : ''}`
+                                }
                             >
                                 {card.nazvanie}
                             </a>
@@ -98,10 +120,10 @@ const Recommendations = () => {
 
         const container = containerRef.current
         if (container) {
-            container.addEventListener("scroll", handleScroll)
+            container.addEventListener('scroll', handleScroll)
             handleScroll()    
             return () => {
-                container.removeEventListener("scroll", handleScroll)
+                container.removeEventListener('scroll', handleScroll)
             }
         }
     }, [cards])
@@ -121,7 +143,7 @@ const Recommendations = () => {
             })
             setCards(response.data)
         } catch (error) {
-            console.error("Ошибка при загрузке карточек:", error)
+            console.error('Ошибка при загрузке карточек:', error)
         } finally {
             setIsLoading(false)
         }
@@ -177,51 +199,66 @@ const Recommendations = () => {
     }
 
     return (
-        <div className="recommendation">
-            <b className="recommendation__title">Рекомендации</b><br />
+        <div className='recommendation'>
+            <b className='recommendation__title'>Рекомендации</b><br />
             {isLoading ? (
             <>
-                <h3 style={{ textAlign: 'center', padding: "20px" }}>Загрузка рекомендаций...</h3>
-                <div className="spinnerCards"></div>
+                <h3 className='recommendation-loading'>Загрузка рекомендаций...</h3>
+                <div className='spinner-cards'></div>
             </>
             ) : (
             <>
                 {cards.length === 0 ? (
-                <div style={{ textAlign: "center", padding: "20px" }}>
+                <div className='recommendation-loading'>
                     Пока что рекомендации пусты
                 </div>
                 ) : (
                 <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
                     {showLeftButton && (
                     <button 
-                        className="recommendation__leftBtn" 
+                        className='recommendation__left-btn' 
                         onClick={scrollLeftBtn} 
                         disabled={scrollPosition === 0}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                        style={{fill: "none", width: "24", height: "24"}}>
-                            <path style={{fill: "#fff", fillRule:"evenodd", clipRule: "evenodd"}}
-                            d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"/>
+                        <svg 
+                            xmlns='http://www.w3.org/2000/svg'
+                            className='svg-btn-fill-none'
+                        >
+                            <path 
+                                className='white-fill-clip'
+                                d='M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 
+                                1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 
+                                1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
+                            />
                         </svg>
                     </button>
                     )}
                     {showRightButton && (
-                    <button className="recommendation__rightBtn" onClick={scrollRightBtn}>
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                        style={{fill: "none", width: "24", height: "24"}}>
-                            <path style={{fill: "#fff", fillRule:"evenodd", clipRule: "evenodd"}} 
-                            d="M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414L11 6.414V19.5a1 1 0 0 0 1 1Z"/>
+                    <button 
+                        className='recommendation__right-btn' 
+                        onClick={scrollRightBtn}
+                    >
+                        <svg 
+                            xmlns='http://www.w3.org/2000/svg' 
+                            className='svg-btn-fill-none'
+                        >
+                            <path 
+                                className='white-fill-clip' 
+                                d='M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 
+                                1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 
+                                1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
+                            />
                         </svg>
                     </button>
                     )}
                     <div
-                    className="recommendation__container"
+                    className='recommendation__container'
                     ref={containerRef}
                     onMouseDown={handleMouseDown}
                     onMouseLeave={handleMouseLeave}
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
-                    style={{ scrollBehavior: isSmoothScroll ? "smooth" : "auto" }}
+                    style={{ scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' }}
                     >
                     {cards.map((card) => (
                         <RecommendationsProduct key={card.id} card={card} />

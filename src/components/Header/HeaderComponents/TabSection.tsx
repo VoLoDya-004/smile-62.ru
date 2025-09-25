@@ -1,13 +1,13 @@
-import { NavLink, useLocation } from "react-router-dom"
-import { memo, useEffect, useState } from "react"
-import type { RootStore } from "../../../redux"
-import { useSelector, useDispatch } from "react-redux"
-import {logoutUser} from "../../../redux/UserSlice"
-import type { INotificationData } from "../../../types/types"
-import Button from "../../Button/Button"
-import Notification from "../../sub-components/Notification"
+import { NavLink, useLocation } from 'react-router-dom'
+import { memo, useEffect, useState } from 'react'
+import type { RootStore } from '../../../redux'
+import { useSelector, useDispatch } from 'react-redux'
+import {logoutUser} from '../../../redux/UserSlice'
+import type { INotificationData } from '../../../types/types'
+import Button from '../../Button/Button'
+import Notification from '../../sub-components/Notification'
 
-
+                                                                                      
 const TabSection = () => {
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
@@ -15,12 +15,12 @@ const TabSection = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 	const location = useLocation()
-	const isActiveProfile = location.pathname === "/profile"
+	const isActiveProfile = location.pathname === '/profile'
 
 	const [showProfileMenu, setShowProfileMenu] = useState(false)
 	const [notification, setNotification] = useState<INotificationData | null>(null)
 
-	const showNotification = (message: string, type: "success" | "error" = "success") => {
+	const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
 		setNotification({message, type})
 	}
 
@@ -67,39 +67,53 @@ const TabSection = () => {
 				onClose={() => setNotification(null)}
 			/>
 		)}
-        <ul className="menu">
-            <li className="menu__item">
-				<NavLink to="/" className={({ isActive }) =>
-				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+        <ul className='menu'>
+            <li className='menu__item'>
+				<NavLink 
+					to='/' 
+					className={({ isActive }) =>
+						(isActive ? 'line line-text menu__item-style' : 'menu__item-style')}
+				>
 					Главная
 				</NavLink>
 			</li>    
-            <li className="menu__item">
-				<NavLink to="/favourites" className={({ isActive }) =>
-				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+            <li className='menu__item'>
+				<NavLink 
+					to='/favourites' 
+					className={({ isActive }) =>
+						(isActive ? 'line line-text menu__item-style' : 'menu__item-style')}
+				>
 					Избранное
 				</NavLink>
 			</li>
-			<li className="menu__item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-				<NavLink to="/profile" className={({ isActive }) =>
-					(isActive ? "line line-text menu__item_style" : "menu__item_style")}
+			<li 
+				className='menu__item' 
+				onMouseEnter={handleMouseEnter} 
+				onMouseLeave={handleMouseLeave}
+			>
+				<NavLink 
+					to='/profile' 
+					className={({ isActive }) =>
+					(isActive ? 'line line-text menu__item-style' : 'menu__item-style')}
 				>
 					Профиль
 					{showProfileMenu && (
 						isAuth ? (
 							<div className={`header-profile ${isDarkTheme ? 'dark-theme' : ''}`}>
 								<div 
-									className={`header-profile__title ${isDarkTheme ? 'dark-theme' : ''}`}
+									className={`
+										header-profile__title ${isDarkTheme ? 'dark-theme' : ''}
+									`}
 									style={{
-										paddingTop: isActiveProfile ? "14.5px" : "8px"
+										paddingTop: isActiveProfile ? '14.5px' : '8px'
 									}}
 								>
-									Имя: {userName || "Пользователь"}
+									Имя: {userName || 'Пользователь'}
 								</div>
 								<Button
 									onClick={handleLogout}
-									id="header-profile-out"
-									className="form__registration_btn"
+									id='header-profile-out'
+									className='button-violet'
 								>
 									Выйти
 								</Button>
@@ -107,16 +121,18 @@ const TabSection = () => {
 						) : (
 							<div className={`header-profile ${isDarkTheme ? 'dark-theme' : ''}`}>
 								<div 
-									className={`header-profile__title ${isDarkTheme ? 'dark-theme' : ''}`}
+									className={`
+										header-profile__title ${isDarkTheme ? 'dark-theme' : ''}
+									`}
 									style={{
-										paddingTop: isActiveProfile ? "14.5px" : "8px"
+										paddingTop: isActiveProfile ? '14.5px' : '8px'
 									}}
 								>
 									Войдите в аккаунт
 								</div>
 								<Button
-									id="header-profile-out"
-									className="form__registration_btn"
+									id='header-profile-out'
+									className='button-violet'
 									onClick={handleLoginp}
 								>
 									Войти
@@ -126,9 +142,12 @@ const TabSection = () => {
 					)}				
 				</NavLink>
 			</li>
-  	    	<li className="menu__item">
-				<NavLink to="/basket" className={({ isActive }) =>
-				(isActive ? "line line-text menu__item_style" : "menu__item_style")}>
+  	    	<li className='menu__item'>
+				<NavLink 
+					to='/basket' 
+					className={({ isActive }) =>
+						(isActive ? 'line line-text menu__item-style' : 'menu__item-style')}
+				>
 					Корзина
 				</NavLink>
 			</li>

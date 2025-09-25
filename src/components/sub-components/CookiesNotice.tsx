@@ -22,10 +22,15 @@ const CookiesNotice = () => {
 
 
   return (
-    <div className="cookiesNoticeBox">
-        <div className="cookiesNotice">
+    <div className='cookies-notice-box'>
+        <div className='cookies-notice'>
             Мы используем cookies для улучшения работы сайта 
-            <button onClick={handleAccept} className="cookiesNotice__btn">Ok</button>
+            <button 
+                onClick={handleAccept}      
+                className='cookies-notice__btn'
+            >
+                Ok
+            </button>
         </div>
     </div>
   )

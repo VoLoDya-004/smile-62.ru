@@ -1,5 +1,5 @@
-import type { MouseEventHandler, ReactNode } from "react"
-import type React from "react"
+import type { MouseEventHandler, ReactNode } from 'react'
+import type React from 'react'
 
 
 interface IButtonProps {
@@ -15,16 +15,14 @@ const Button = ({children, id, className, onClick, style}: IButtonProps) => {
 
 
     return (
-        <p>
-			<button 
-                className={className} 
-                id={id} 
-                onClick={onClick}
-                style={style}
-            >   
-                <b>{children}</b>
-            </button>
-		</p>
+		<button 
+            className={className} 
+            id={id} 
+            onClick={onClick}
+            style={style}
+        >   
+            <b>{children}</b>
+        </button>
     )
 }
 

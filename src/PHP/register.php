@@ -48,7 +48,9 @@ if (isset($_GET['Operation'])) {
         }
         mysqli_set_charset($connect, "utf8");
 
-        $query_check = "SELECT id_user FROM users WHERE email = '" . mysqli_real_escape_string($connect, $email) . "'";
+        $query_check = 
+            "SELECT id_user FROM users WHERE 
+            email = '" . mysqli_real_escape_string($connect, $email) . "'";
         $result_check = mysqli_query($connect, $query_check);
         if ($result_check && mysqli_num_rows($result_check) > 0) {
             mysqli_close($connect);

@@ -9,11 +9,15 @@ const ButtonCross = ({id, className, onClick}: IButtonCrossProps) => {
 
 
     return (
-        <button className={className} id={id} onClick={onClick}>
+        <button 
+            className={className} 
+            id={id} 
+            onClick={onClick}
+        >
             <img 
-                className="support__header_titleSvg" 
-                src="/images/icons/cross.png" 
-                style={{width: "20px"}}
+                className='button-cross-svg'
+                src='/images/icons/cross.png'
+                alt='img'
             />
         </button>
     )

@@ -64,7 +64,7 @@ export interface ICategory {
 
 export interface INotificationData {
   message: string
-  type: "success" | "error"
+  type: 'success' | 'error'
 }
 
 export interface IRegisterData {

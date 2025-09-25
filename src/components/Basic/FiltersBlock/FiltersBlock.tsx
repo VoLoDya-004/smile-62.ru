@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState, useContext } from "react"
-import { useSelector } from "react-redux"
-import { Context } from "../../../contexts/context"
-import type { RootStore } from "../../../redux"
-import Button from "../../Button/Button"
-import SortMenu from "../SortMenu/SortMenu"
-import FiltersMenu from "../FiltersMenu/FiltersMenu"
+import { useEffect, useRef, useState, useContext } from 'react'
+import { useSelector } from 'react-redux'
+import { Context } from '../../../contexts/context'
+import type { RootStore } from '../../../redux'
+import Button from '../../Button/Button'
+import SortMenu from '../SortMenu/SortMenu'
+import FiltersMenu from '../FiltersMenu/FiltersMenu'
 
 
 const FiltersBlock = () => {
     const context = useContext(Context)
     if (!context) {
-        throw new Error("Context must be used within a Provider")
+        throw new Error('Context must be used within a Provider')
     }
     const {setSortType, setCurrentPage, handleFiltersChange, 
     currentSort, setCurrentSort, activeCategoryId, categories,
@@ -21,7 +21,7 @@ const FiltersBlock = () => {
 
     const [visibleSort, setVisibleSort] = useState(false)
     const [visibleFilters, setVisibleFilters] = useState(false)
-    const [categoriesName, setCategoriesName] = useState("Все категории")
+    const [categoriesName, setCategoriesName] = useState('Все категории')
     const [visible, setVisible] = useState(false)
 
     const menuSortRef = useRef<HTMLFormElement | null>(null)
@@ -47,10 +47,10 @@ const FiltersBlock = () => {
     const handleToggleFilters = () => {
         setVisibleFilters(prev => !prev)
         if (visibleFilters) {
-            document.getElementById("blackout")?.classList.remove("blackout")
+            document.getElementById('blackout')?.classList.remove('blackout')
             document.body.classList.remove('modal-open')
         } else {
-            document.getElementById("blackout")?.classList.add("blackout")
+            document.getElementById('blackout')?.classList.add('blackout')
             document.body.classList.add('modal-open')
         }
     }
@@ -58,10 +58,10 @@ const FiltersBlock = () => {
     const handleSortSelect = (sortOption: string) => {
         setCurrentPage(1)
         setSortType(sortOption)
-        setCurrentSort(sortOption === "default" ? "По умолчанию" :
-            sortOption === "cheap" ? "Дешевле" : 
-            sortOption === "expensive" ? "Дороже" : 
-            "По скидке (%)"
+        setCurrentSort(sortOption === 'default' ? 'По умолчанию' :
+            sortOption === 'cheap' ? 'Дешевле' : 
+            sortOption === 'expensive' ? 'Дороже' : 
+            'По скидке (%)'
         )
         setTimeout(() => {
             setVisibleSort(false)
@@ -94,12 +94,12 @@ const FiltersBlock = () => {
         }
 
         if (visibleSort) {
-            document.addEventListener("mousedown", handleClickOutsideSort)
+            document.addEventListener('mousedown', handleClickOutsideSort)
         } else {
-            document.removeEventListener("mousedown", handleClickOutsideSort)
+            document.removeEventListener('mousedown', handleClickOutsideSort)
         }
         return () => {
-            document.removeEventListener("mousedown", handleClickOutsideSort)
+            document.removeEventListener('mousedown', handleClickOutsideSort)
         }
     }, [visibleSort])
 
@@ -107,18 +107,19 @@ const FiltersBlock = () => {
         const handleClickOutsideFilters = (e: MouseEvent) => {
             if (menuFiltersRef.current && !menuFiltersRef.current.contains(e.target as Node)) {
                 setVisibleFilters(false)
-                document.getElementById("blackout")?.classList.remove("blackout")
+                document.getElementById('blackout')?.classList.remove('blackout')
                 document.body.classList.remove('modal-open')
             }
         }
 
         if (visibleFilters) {
-            document.addEventListener("mousedown", handleClickOutsideFilters)
+            document.addEventListener('mousedown', handleClickOutsideFilters)
         } else {
-            document.removeEventListener("mousedown", handleClickOutsideFilters)
+            document.removeEventListener('mousedown', handleClickOutsideFilters)
         }
+
         return () => {
-            document.removeEventListener("mousedown", handleClickOutsideFilters)
+            document.removeEventListener('mousedown', handleClickOutsideFilters)
         }
     }, [visibleFilters])
 
@@ -147,50 +148,42 @@ const FiltersBlock = () => {
             <div 
                 onClick={allCategoriesBtn}
                 className={`
-                    categoriesNameMain 
-                    ${isDarkTheme ? "dark-theme" : ""} 
+                    categories-name-main 
+                    ${isDarkTheme ? 'dark-theme' : ''} 
                     ${activeCategoryId === 0 ? 'passive' : '' }
                 `}
             >
-                Все категории{activeCategoryId === 0 ? ' /' : '' }
+                Все категории{activeCategoryId === 0 ? ' /' : '' } 
             </div>
             {visible && 
-                <div 
-                    className="categoriesName" 
-                    id="categoriesName" 
-                    style={{marginLeft: "0", color: "grey"}}
-                >
-                    <div 
-                        style={{display: "inline-block", margin: "0 8px", userSelect: "none"}}
-                    >
-                        /
-                    </div>
+                <div className='categories-name'>
+                    <div className='categories-name-slash'>/</div>
                     {categoriesName} /
                 </div>
             }
-            <div className="countProducts"> {totalItems} {itemText} </div>
-            <section className={`filtersBlock ${isDarkTheme ? 'dark-theme' : ''}`}>
-                <div className="filtersBlock__sort">Сортировка:
+            <div className='count-products'> {totalItems} {itemText} </div>
+            <section className={`filters-block ${isDarkTheme ? 'dark-theme' : ''}`}>
+                <div className='filters-block__sort'>Сортировка:
                     <div 
-                        className={`filtersBlock__sort_title ${isDarkTheme ? 'dark-theme' : ''}`} 
+                        className={`filters-block__sort-title ${isDarkTheme ? 'dark-theme' : ''}`} 
                         onClick={handleToggleSort}
                     >
                         <span>{currentSort}</span>
-                        {visibleSort ? <span className="sortProduct">▴</span> : 
-                            <span className="sortProduct">▾</span>}
+                        {visibleSort ? 
+                            <span className='sort-product'>▴</span> : 
+                            <span className='sort-product'>▾</span>
+                        }
                     </div>
                 </div>
-                <div className="filtersBlock__filter">
+                <div className='filters-block__filter'>
                     <Button
-                        className="form__registration_btn"
-                        id="filtersProduct"
+                        className='button-violet'
                         onClick={handleToggleFilters}
                     >
                         Фильтры
                     </Button>
                     <Button
-                        className="form__registration_btn"
-                        id="filtersDeleteProduct"
+                        className='button-violet'
                         onClick={handleResetFilters}
                     >
                         Сбросить фильтры

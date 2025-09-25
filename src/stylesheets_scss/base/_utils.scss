@@ -1,0 +1,44 @@
+@use '../forward.scss';
+
+.centered-heading {
+    text-align: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+.margin-null {
+    margin: 0;
+}
+
+.clip-rule-evenodd {
+    clip-rule: evenodd;
+}
+
+.fill-clip-rule {
+	@include forward.fill-clip-rule (evenodd, evenodd);
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
+
+.white-fill-clip {
+    fill: white;
+    @include forward.fill-clip-rule (evenodd, evenodd);
+}
+
+.svg-btn-fill-none {
+    fill: none;
+    width: 24px;
+    height: 24px;
+}
+
+.user-select-none {
+    user-select: none;
+}

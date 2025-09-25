@@ -1,16 +1,23 @@
-@use 'header';
-@use 'content';
-@use 'footer';
-@use 'profile';
-@use 'basket';
-@use 'favourites';
-@use 'support';
-@use 'cookiesNotice';
-@use 'spinner';
-@use 'clearString';
-@use 'recommendations';
-@use 'darkTheme';
-@use 'filtersBlock';
+@use './base/utils';
+@use './base/main';
+
+@use './pages/header';
+@use './pages/content';
+@use './pages/footer';
+@use './pages/profile';
+@use './pages/basket';
+@use './pages/favourites';
+
+@use './sub-components/support';
+@use './sub-components/cookiesNotice';
+@use './sub-components/spinner';
+@use './sub-components/clearString';
+@use './sub-components/recommendations';
+@use './sub-components/filtersBlock';
+
+@use './themes/darkTheme';
+
+@use './buttons/buttons';
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 

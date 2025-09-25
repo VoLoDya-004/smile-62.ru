@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux"
-import { memo } from "react"
-import type { RootStore } from "../../../redux"
+import { useSelector } from 'react-redux'
+import { memo } from 'react'
+import type { RootStore } from '../../../redux'
 
 
 const BasketHeader = () => {
@@ -8,10 +8,10 @@ const BasketHeader = () => {
 
 
     return (
-        <div className={`basketBox__table_header ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className="basketBox__table_header-title">Наименование</div>
-            <div style={{cursor: "default"}}>Количество</div>
-            <div style={{cursor: "default"}}>Стоимость</div>                                              
+        <div className={`basket-box__table-header ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <div className='basket-box__table-header-title'>Наименование</div>
+            <div className='cursor-default'>Количество</div>
+            <div className='cursor-default'>Стоимость</div>                                              
         </div>                 
     )
 }

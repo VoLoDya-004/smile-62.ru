@@ -1,13 +1,16 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from 'react-router-dom'
 
 
 const LogoFooter = () => {
 
     
     return (
-        <NavLink to="/">
-            <div className="logo__footer">
-                <img src="/images/icons/magazin.png" alt="image"/>
+        <NavLink to='/'>
+            <div className='footer__logo'>
+                <img 
+                    src='/images/icons/magazin.png'
+                    alt='img'
+                />
             </div>
         </NavLink>
     )
