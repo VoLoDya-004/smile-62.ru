@@ -52,7 +52,7 @@ const FormSection = () => {
     const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
 
 	const itemTextFav = pluralize(productsFavourites.length, ['товар', 'товара', 'товаров'])
-    
+
 
     return (
 		<>
