@@ -1,5 +1,5 @@
 <?php
-require_once "../../../auth/auth.php";
+require_once "./auth.php";
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     $origin = $_SERVER['HTTP_ORIGIN'];

@@ -135,7 +135,7 @@ const Recommendations = () => {
     async function loadCards() {
         setIsLoading(true)
         try {
-            const response = await axios.get(`http://localhost:3000/src/PHP/sort.php`, {
+            const response = await axios.get(`http://localhost:3000/backend/PHP/sort.php`, {
                 params: {
                     Operation: 'showCards',
                     idUser: userId ?? 0,

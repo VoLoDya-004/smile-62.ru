@@ -1,5 +1,5 @@
 <?php
-require_once "../../../auth/auth.php";
+require_once "./auth.php";
 
 if (isset($_GET['Operation'])) {
     $connect = mysqli_connect($hostname, $username, $password, $dbName);

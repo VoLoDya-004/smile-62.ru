@@ -27,7 +27,7 @@ const Cards = () => {
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
   const srcBasket = 
-    `http://localhost:3000/src/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+    `http://localhost:3000/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
   const context = useContext(Context)
   if (!context) {
@@ -156,7 +156,7 @@ const Cards = () => {
       return
     } else {
       try {
-        await axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+        await axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
           params: {
             Operation: 'addBasket',
             idProduct: idProduct,
@@ -178,7 +178,7 @@ const Cards = () => {
       return
     } else {
     try {
-      await axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+      await axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
         params: {
           Operation: 'addFavourites',
           idProduct: idProduct,

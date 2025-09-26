@@ -1,5 +1,5 @@
 <?php
-require_once "../../../auth/auth.php";
+require_once "./auth.php";
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $perPage = 40;

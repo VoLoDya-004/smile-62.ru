@@ -47,7 +47,7 @@ const Form = () => {
 	const handleRegister = async () => {
 		try {
 			const response = await 
-				axios.post('http://localhost:3000/src/PHP/register.php?Operation=register',
+				axios.post('http://localhost:3000/backend/PHP/register.php?Operation=register',
 					registerData, {
 						headers: {
 							'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ const Form = () => {
 	const handleLogin = async() => {
 		try {
 			const response = await 
-				axios.post('http://localhost:3000/src/PHP/login.php?Operation=login',
+				axios.post('http://localhost:3000/backend/PHP/login.php?Operation=login',
 					loginData, {
 						headers: {
 							'Content-Type': 'application/json'
@@ -116,6 +116,13 @@ const Form = () => {
 			}
 		}
 	}, [])
+
+	useEffect (() => {
+		if (sessionStorage.getItem('showLogoutNotification')) {
+			setNotification({message: 'Вы вышли из аккаунта', type: 'success'})
+			sessionStorage.removeItem('showLogoutNotification')
+		}
+	}, [isAuth])
 
 
     return (

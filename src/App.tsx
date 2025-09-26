@@ -39,7 +39,7 @@ const App = () => {
 
   //работа с корзиной
 
-  const srcBasket = `http://localhost:3000/src/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+  const srcBasket = `http://localhost:3000/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
@@ -59,7 +59,7 @@ const App = () => {
     if (idToDelete && userId !== null) {
       setIsModalOpen(false)
       setIsPendingDelete(prev => ({ ...prev, [idToDelete]: true }))
-      axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
         params: {
           Operation: 'deleteBasket',
           idProduct: idToDelete,
@@ -84,7 +84,7 @@ const App = () => {
     if (userId !== null) {
       setIsModalOpenAllBasket(false)
       setLoadingDeleteAllBasket(true)
-      axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
         params: {
           Operation: 'clearBasket',
           idUser: userId,
@@ -130,7 +130,7 @@ const App = () => {
   const increaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount >= 100) return
-      axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
         params: {
           Operation: 'increaseBasket',
           idProduct: id,
@@ -152,7 +152,7 @@ const App = () => {
   const decreaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount <= 1) return
-      axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
         params: {
           Operation: 'decreaseBasket',
           idProduct: id,
@@ -181,7 +181,7 @@ const App = () => {
         if (isNaN(parsedCount) || parsedCount < 1) return
         if (parsedCount > 100) parsedCount = 100
       }
-      axios.get(`http://localhost:3000/src/PHP/basket.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
         params: {
           Operation: 'updateCount',
           idProduct: id,
@@ -243,13 +243,13 @@ const App = () => {
   //работа с избранными товарами
 
   const srcFavourites = 
-    `http://localhost:3000/src/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+    `http://localhost:3000/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
 
   const [cartFavourites, setCartFavourites] = useState<IFav[]>([])
 
   const deleteProductFavourites = useCallback((id: number) => {
     if (userId !== null) {
-      axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
         params: {
           Operation: 'deleteFavourites',
           idProduct: id,
@@ -269,7 +269,7 @@ const App = () => {
     if (userId !== null) {
       setIsModalOpenAllFav(false)
       setLoadingDeleteAllFav(true)
-      axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
         params: {
           Operation: 'clearFavourites',
           idUser: userId,
@@ -305,7 +305,7 @@ const App = () => {
 
   const addInBasketProductFavourites = useCallback((id: number) => {
     if (userId !== null) {
-      axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+      axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
         params: {
           Operation: 'addBasket',
           idProduct: id,
@@ -366,7 +366,7 @@ const App = () => {
         if (buttons.length > 0) {
           buttons.forEach(button => {
             button.addEventListener('click', () => {
-              axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+              axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
                 params: {
                   Operation: 'showFavourites',
                   idUser: userId,
@@ -395,7 +395,7 @@ const App = () => {
         const buttons = document.querySelectorAll('.card__heart')
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
-            axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+            axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
               params: {
                 Operation: 'showFavourites',
                 idUser: userId,
@@ -426,7 +426,7 @@ const App = () => {
         if (buttons.length > 0) {
           buttons.forEach(button => {
             button.addEventListener('click', () => {
-              axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+              axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
                 params: {
                   Operation: 'showBasket',
                   idUser: userId,
@@ -455,7 +455,7 @@ const App = () => {
         const buttons = document.querySelectorAll('.basket-box__product-controls') 
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
-            axios.get(`http://localhost:3000/src/PHP/favourites.php`, {
+            axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
               params: {
                 Operation: 'showBasket',
                 idUser: userId,
@@ -555,7 +555,7 @@ const App = () => {
   const fetchCards = useCallback(async () => {
   setIsLoading(true)
     try {
-      const response = await axios.get(`http://localhost:3000/src/PHP/getCards.php`, {
+      const response = await axios.get(`http://localhost:3000/backend/PHP/getCards.php`, {
         params: {
           page: currentPage,
           search: searchQuery,

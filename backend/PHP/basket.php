@@ -1,5 +1,5 @@
 <?php
-require_once "../../../auth/auth.php";
+require_once "./auth.php";
 
 if (isset($_GET['Operation'])) {
     if ($_GET['Operation'] == 'addBasket'){

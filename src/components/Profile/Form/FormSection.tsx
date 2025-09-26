@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { RootStore } from '../../../redux'
 import { NavLink } from 'react-router-dom'
 import { Context } from '../../../contexts/context'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { logoutUser } from '../../../redux/UserSlice'
-import type { INotificationData } from '../../../types/types'
 import Button from '../../Button/Button'
 
 
@@ -20,26 +19,10 @@ const FormSection = () => {
 	const userName = useSelector((state: RootStore) => state.user.userName)
 	const totalBasket = useSelector((state: RootStore) => state.basket.total)
 
-    const [notification, setNotification] = useState<INotificationData | null>(null)
-
-    const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-        setNotification({message, type})
-    }
-
-    useEffect(() => {
-        if (notification) {
-            const timer = setTimeout(() => {
-                setNotification(null)
-            }, 3000)
-
-            return () => clearTimeout(timer)
-        }
-    }, [])
-
     const handleLogout = () => {
-        dispatch(logoutUser())
-        showNotification('Вы вышли из аккаунта', 'success')
-        localStorage.removeItem('auth')
+		sessionStorage.setItem('showLogoutNotification', 'true')
+		localStorage.removeItem('auth')
+		dispatch(logoutUser())
     }
 
     function pluralize(number: number, words: string[]) {
