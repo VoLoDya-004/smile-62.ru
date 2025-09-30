@@ -68,12 +68,14 @@ const ConfirmModal = ({
                 <p className='modal-content__description'>{description}</p>
                 <div className='modal-content__footer'>
                     <button 
+                        type='button'
                         className='confirm-yes'
                         onClick={onConfirm}
                     >
                            Удалить
                     </button>
                     <button 
+                        type='button'
                         className='confirm-no'
                         onClick={onCancel}
                     >

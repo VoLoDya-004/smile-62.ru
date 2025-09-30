@@ -23,12 +23,14 @@ const ThemeToggle = () => {
       theme='lilac'
     >
       <button 
+        type='button'
         id='theme-toggle' 
         onClick={toggleTheme}
       >
+        <span className='visually-hidden'>Сменить тему</span>
         <img 
-          src='/images/icons/tema.png' 
-          alt='img'
+          src='/images/icons/theme.png' 
+          alt='Смена темы'
           className='theme-toggle' 
         />
       </button>

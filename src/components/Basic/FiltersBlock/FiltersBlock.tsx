@@ -58,15 +58,33 @@ const FiltersBlock = () => {
     const handleSortSelect = (sortOption: string) => {
         setCurrentPage(1)
         setSortType(sortOption)
-        setCurrentSort(sortOption === 'default' ? 'По умолчанию' :
+        setCurrentSort(
+            sortOption === 'default' ? 'По умолчанию' :
             sortOption === 'cheap' ? 'Дешевле' : 
             sortOption === 'expensive' ? 'Дороже' : 
             'По скидке (%)'
         )
-        setTimeout(() => {
-            setVisibleSort(false)
-        }, 500)     
+        // setTimeout(() => {
+        //     setVisibleSort(false)
+        // }, 500)     
     }
+
+    const handleCloseSortMenu = () => {
+        setVisibleSort(false)
+    }
+
+    useEffect(() => {
+        const savedSort = sessionStorage.getItem('selectedSortOption')
+        if (savedSort) {
+            setSortType(savedSort)
+            setCurrentSort(
+                savedSort === 'default' ? 'По умолчанию' :
+                savedSort === 'cheap' ? 'Дешевле' : 
+                savedSort === 'expensive' ? 'Дороже' : 
+                'По скидке (%)'
+            )
+        }
+    }, [])
 
     const handleResetFilters = () => {
         setCurrentPage(1)
@@ -190,7 +208,11 @@ const FiltersBlock = () => {
                     </Button>
                 </div>
             {visibleSort && 
-                <SortMenu ref={menuSortRef} onSelect={handleSortSelect} />
+                <SortMenu 
+                    ref={menuSortRef} 
+                    onSelect={handleSortSelect} 
+                    onClose={handleCloseSortMenu}
+                />
             }
             {visibleFilters && 
                 <FiltersMenu handleToggleFilters={handleToggleFilters} ref={menuFiltersRef} />

@@ -7,9 +7,10 @@ const LogoFooter = () => {
     return (
         <NavLink to='/'>
             <div className='footer__logo'>
+                <span className='visually-hidden'>Логотип</span>
                 <img 
-                    src='/images/icons/magazin.png'
-                    alt='img'
+                    src='/images/icons/smile-62.png'
+                    alt='Логотип'
                 />
             </div>
         </NavLink>

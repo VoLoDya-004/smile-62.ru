@@ -29,6 +29,9 @@ const ButtonDeleteBasket = ({deleteProductBasket, id, isPendingDelete}: IButtonD
                 disabled={isPendingDelete}
                 onClick={handleDeleteClick}
             >
+                <span className="visually-hidden">
+                    Удалить выбранный товар из корзины
+                </span>
                 <svg 
                     className='cross-svg-hover'
                     width='24'

@@ -1,5 +1,5 @@
 import LogoHeader from './HeaderComponents/LogoHeader'
-import ButtonNav from './HeaderComponents/ButtonNav'
+import ButtonNav from '../Button/ButtonNav'
 import Search from './HeaderComponents/Search'
 import ThemeToggle from './HeaderComponents/ThemeToggle'
 import TabSection from './HeaderComponents/TabSection'

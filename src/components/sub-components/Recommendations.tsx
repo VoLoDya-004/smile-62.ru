@@ -28,7 +28,7 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
                 <a className='recommendation-card__image'>
                     <img 
                         src={card.image} 
-                        alt='img' 
+                        alt='Товар' 
                         loading='lazy' 
                     />
                 </a>
@@ -216,10 +216,14 @@ const Recommendations = () => {
                 <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
                     {showLeftButton && (
                     <button 
+                        type='button'
                         className='recommendation__left-btn' 
                         onClick={scrollLeftBtn} 
                         disabled={scrollPosition === 0}
                     >
+                        <span className='visually-hidden'>
+                            Листать рекомендуемое товары назад
+                        </span>
                         <svg 
                             xmlns='http://www.w3.org/2000/svg'
                             className='svg-btn-fill-none'
@@ -235,9 +239,13 @@ const Recommendations = () => {
                     )}
                     {showRightButton && (
                     <button 
+                        type='button'
                         className='recommendation__right-btn' 
                         onClick={scrollRightBtn}
                     >
+                        <span className='visually-hidden'>
+                            Листать рекомендуемое товары вперёд
+                        </span>
                         <svg 
                             xmlns='http://www.w3.org/2000/svg' 
                             className='svg-btn-fill-none'

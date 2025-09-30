@@ -164,14 +164,14 @@
 		overflow: hidden;
 	}
 	&__heart { 
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	transition: .3s;
-	fill: rgb(118, 118, 118);
-	pointer-events: auto;
-	cursor: pointer;
-	z-index: 1;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		transition: .3s;
+		fill: rgb(118, 118, 118);
+		pointer-events: auto;
+		cursor: pointer;
+		z-index: 1;
 		&:hover { 
 			fill: rgb(96, 22, 118);
 		}
@@ -304,35 +304,29 @@
 		color: black;
 		padding: 10px;
 		text-align: center;
-		border: 1px solid black;
 		border-radius: 4px;
 		cursor: pointer;
 		transition: 0.2s;
 		position: absolute;
 		bottom: 0;
-		background-color: forward.$btnColor;
+		&_active {
+			background-color: forward.$btnColor;
+			border: 1px solid black;
+			&:hover {
+				border: 1px solid rgb(96, 22, 118);
+				background-color: rgb(96, 22, 118);
+				color: #fff;
+			}
+		}
 		&_disabled {
-			display: block;
-			width: 100%;
-			font-weight: 400;
-			font-size: 17px;
-			color: black;
-			padding: 10px;
-			text-align: center;
-			border: 1px solid #000000;
-			border-radius: 4px;
-			cursor: pointer;
-			transition: 0.2s;
-			position: absolute;
-			bottom: 0;
 			background-color: rgb(96, 22, 118);
 			color: white;
 			border: 1px solid rgb(96, 22, 118);
-		}
-		&:hover {
-			border: 1px solid rgb(96, 22, 118);
-			background-color: rgb(96, 22, 118);
-			color: #fff;
+			&:hover {
+				border: 1px solid rgb(96, 22, 118);
+				background-color: rgb(96, 22, 118);
+				color: #fff;
+			}
 		}
 	}
 }
@@ -361,28 +355,24 @@
 	width: 200px;
 	height: 40px;
 	border-radius: 10px;
-	background-color: #c8c8c8;
 	font-weight: 400;
 	font-size: 17px;
 	border: none;
 	transition: .2s;
-	cursor: pointer;
+	&_active {
+		background-color: #c8c8c8;
+		cursor: pointer;
+		&:hover {
+			background-color: #9c9c9c;
+		}
+	}
 	&_disabled {
-		width: 200px;
-		height: 40px;
-		border-radius: 10px;
-		font-weight: 400;
-		font-size: 17px;
-		border: none;
 		background-color: #ececec;
 		color: #00000063;
 		cursor: default;
 		&:hover {
 			background-color: #ececec !important;
 		}
-	}
-	&:hover {
-		background-color: #9c9c9c;
 	}
 }
 
@@ -390,28 +380,24 @@
 	width: 200px;
 	height: 40px;
 	border-radius: 10px;
-	background-color: #c8c8c8;
 	font-weight: 400;
 	font-size: 17px;
 	border: none;
 	transition: .2s;
-	cursor: pointer;
+	&_active {
+		background-color: #c8c8c8;		
+		cursor: pointer;
+		&:hover {
+			background-color: #9c9c9c;
+		}
+	}
 	&_disabled {
-		width: 200px;
-		height: 40px;
-		border-radius: 10px;
-		font-weight: 400;
-		font-size: 17px;
-		border: none;
 		background-color: #ececec;
 		color: #00000063;
 		cursor: default;
 		&:hover {
 			background-color: #ececec !important;
 		}
-	}
-	&:hover {
-		background-color: #9c9c9c;
 	}
 }
 
@@ -525,30 +511,12 @@
 			font-size: 15px;
 			padding-right: 8px;
 		}
-		&__btn { 
-			font-size: 15px;
-			&_disabled {
-				font-size: 15px;
-			}
-		}
 	}
 
-	.load-more__btn-back {
-		width: 170px;
-		height: 35px;
-		&_disabled {
-			width: 170px;
-			height: 35px;
-		}
-	}
-
+	.load-more__btn-back,
 	.load-more__btn-forward {
 		width: 170px;
 		height: 35px;
-		&_disabled {
-			width: 170px;
-			height: 35px;
-		}
 	}
 }
 
@@ -632,31 +600,15 @@
 			padding-left: 3px;
 			padding-right: 3px;
 		}
-		&__btn { 
+		&__btn {
 			font-size: smaller;
 			padding: 7px;
-			&_disabled {
-				font-size: smaller;
-				padding: 7px;
-			}
-		}
-	}
-	
-	.load-more__btn-back {
-		width: 80%;
-		height: 35px;
-		&_disabled {
-			width: 80%;
-			height: 35px;
 		}
 	}
 
+	.load-more__btn-back,
 	.load-more__btn-forward {
 		width: 80%;
 		height: 35px;
-		&_disabled {
-			width: 80%;
-			height: 35px;
-		}
 	}
 }

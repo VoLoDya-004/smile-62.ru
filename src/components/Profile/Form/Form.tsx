@@ -151,7 +151,8 @@ const Form = () => {
 									type='text' 
 									name='name'
 									autoComplete='name'
-									className='form__registration-item' 
+									className=
+									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
 									onChange={handleChange} 
 									value={registerData.name}
 									required
@@ -164,7 +165,8 @@ const Form = () => {
 									type='email'
 									name='email'
 									autoComplete='email'
-									className='form__registration-item' 
+									className=
+									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
 									onChange={handleChange} 
 									value={registerData.email}
 									required
@@ -177,7 +179,8 @@ const Form = () => {
 									type='password' 
 									name='password'
 									autoComplete='new-password'
-									className='form__registration-item' 
+									className=
+									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
 									onChange={handleChange} 
 									value={registerData.password}
 									required
@@ -190,7 +193,8 @@ const Form = () => {
 									type='password' 
 									name='confirmPassword'
 									autoComplete='new-password'
-									className='form__registration-item' 
+									className=
+									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
 									onChange={handleChange} 
 									value={registerData.confirmPassword}
 									required
@@ -214,7 +218,8 @@ const Form = () => {
 									type='email' 
 									name='email'
 									autoComplete='email'
-									className='form__registration-item' 
+									className=
+									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`} 
 									onChange={handleChangeLogin}
 									value={loginData.email}
 									required
@@ -227,7 +232,8 @@ const Form = () => {
 									type='password'
 									name='password'
 									autoComplete='current-password'
-									className='form__registration-item' 
+									className=
+									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`} 
 									onChange={handleChangeLogin}
 									value={loginData.password}
 									required

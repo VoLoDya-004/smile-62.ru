@@ -26,6 +26,7 @@ const CookiesNotice = () => {
         <div className='cookies-notice'>
             Мы используем cookies для улучшения работы сайта 
             <button 
+                type='button'
                 onClick={handleAccept}      
                 className='cookies-notice__btn'
             >

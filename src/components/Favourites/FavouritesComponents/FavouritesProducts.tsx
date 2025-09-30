@@ -30,7 +30,7 @@ const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBas
                 <img 
                     className='favourites-box__product-img' 
                     src={image} 
-                    alt='img' 
+                    alt='Товар' 
                 />
             </div>
             <div className='favourites-box__product-title'>

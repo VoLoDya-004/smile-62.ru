@@ -216,28 +216,8 @@ const Cards = () => {
     toUp()
   }, [currentPage])
 
-  useEffect(() => {
-    const btn = document.getElementById('loadBtnBack')
-    if (btn) {
-      if (currentPage === 1) {
-        btn.classList.add('load-more__btn-back_disabled')
-      } else {
-        btn.classList.remove('load-more__btn-back_disabled')
-      }
-    }
-  }, [currentPage, cards])
-
-  useEffect(() => {
-    const btn = document.getElementById('loadBtnForward')
-
-    if (btn) {
-      if (cards.length < 40) {
-        btn.classList.add('load-more__btn-forward_disabled')
-      } else {
-        btn.classList.remove('load-more__btn-forward_disabled')
-      }
-    }
-  }, [cards])
+  const isBackDisabled = currentPage === 1
+  const isForwardDisabled = cards.length < 40
 
   const filteredCards = cards.filter(card => 
     card.nazvanie.toLowerCase().includes(searchQuery.toLowerCase())
@@ -284,6 +264,7 @@ const Cards = () => {
             id={`card__heart_${card.id}`} 
             className='card__heart'
           >
+            <span className='visually-hidden'>Добавить товар в избранное</span>
             <svg 
               onClick={() => handleAddFav(card.id)} 
               width='23' 
@@ -340,7 +321,7 @@ const Cards = () => {
           <a className='card__image'>
             <img 
               src={card.image} 
-              alt='img'
+              alt='Товар'
             />
           </a>
           {sale !== 0 && <div className='card__label'>-{sale}%</div>}
@@ -353,7 +334,9 @@ const Cards = () => {
               <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a>
               <button
                 type='button'
-                className={isInLocalBasket ? 'card__btn_disabled' : 'card__btn'}
+                className={
+                  `card__btn ${isInLocalBasket ? 'card__btn_disabled' : 'card__btn_active'}`
+                }
                 id={`card_${card.id}`}
                 disabled={isPending}
                 onClick={() => {
@@ -374,7 +357,9 @@ const Cards = () => {
               <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a> 
               <button
                 type='button'
-                className={isInLocalBasket ? 'card__btn_disabled' : 'card__btn'}
+                className={
+                  `card__btn ${isInLocalBasket ? 'card__btn_disabled' : 'card__btn_active'}`
+                }
                 id={`card_${card.id}`}
                 disabled={isPending}
                 onClick={() => {
@@ -431,7 +416,15 @@ const Cards = () => {
               <div className='load-more-back'>
                 <ButtonLoad 
                   id='loadBtnBack' 
-                  className='load-more__btn-back'
+                  className=
+                  {`
+                    load-more__btn-back
+                    ${isBackDisabled ? 
+                      'load-more__btn-back_disabled' : 
+                      'load-more__btn-back_active'
+                    } 
+                    ${isDarkTheme ? 'dark-theme' : ''}
+                  `}
                   onClick={() => {
                     if (currentPage > 1) {
                       setCurrentPage(currentPage - 1)
@@ -447,7 +440,15 @@ const Cards = () => {
               <div className='load-more-forward'>
                 <ButtonLoad 
                   id='loadBtnForward' 
-                  className='load-more__btn-forward'
+                  className=
+                  {`
+                    load-more__btn-forward
+                    ${isForwardDisabled ? 
+                      'load-more__btn-forward_disabled' : 
+                      'load-more__btn-forward_active'
+                    } 
+                    ${isDarkTheme ? 'dark-theme' : ''}
+                  `}
                   onClick={() => {
                     if (cards.length === 40) {
                       setCurrentPage(currentPage + 1)

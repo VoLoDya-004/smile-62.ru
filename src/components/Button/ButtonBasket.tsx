@@ -88,6 +88,9 @@ const ButtonBasket = ({
                                             handleAddInBasketProductFavourites(card.id)
                                     }}
                                 >
+                                    <span className="visually-hidden">
+                                        Добавить избранный товар в корзину
+                                    </span>
                                     <svg 
                                         width='25'
                                         height='24' 
@@ -95,7 +98,16 @@ const ButtonBasket = ({
                                         xmlns='http://www.w3.org/2000/svg'
                                     >
                                         <path
-                                            className={`basket-svg${isBasket ? '_active' : ''}`}
+                                            className=
+                                            {`
+                                                ${isBasket ? 
+                                                    'basket-svg_active' : 
+                                                    'basket-svg_passive'
+                                                } ${isDarkTheme ? 
+                                                    'dark-theme' : 
+                                                    ''
+                                                }
+                                            `} 
                                             d='M2.925.488a.833.833 0 0 0-1.517.691l4.295 
                                             9.416v.001c.005.008.023.05.046.09a.9.9 0 0 0 
                                             .979.446c.045-.01.089-.023.098-.026l6.22-1.853.105-.031c.44-.13.867-.256 
@@ -106,7 +118,6 @@ const ButtonBasket = ({
                                             0-2.667h-.007ZM3.167 13.334c0-.737.597-1.334 
                                             1.333-1.334h.007a1.333 1.333 0 0 1 0 
                                             2.667H4.5a1.333 1.333 0 0 1-1.333-1.333Z'
-                                            fill='#fff'
                                         />
                                     </svg>
                                 </button>

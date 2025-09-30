@@ -13,19 +13,19 @@ const Basic = () => {
                 <div className='slider__item'>
                     <img 
                         src='/images/icons/advertisement1.png'
-                        alt='img'
+                        alt='Первый слайд'
                     />
                 </div>
                 <div className='slider__item'>
                     <img 
                         src='/images/icons/advertisement2.jpg' 
-                        alt='img'
+                        alt='Второй слайд'
                     />
                 </div>
                 <div className='slider__item'>
                     <img 
                         src='/images/icons/advertisement3.jpg' 
-                        alt='img'
+                        alt='Третий слайд'
                     />
                 </div>
             </Carousel>

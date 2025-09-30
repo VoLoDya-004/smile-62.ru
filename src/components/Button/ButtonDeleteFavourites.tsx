@@ -20,6 +20,9 @@ const ButtonDeleteFavourites = ({deleteProductFavourites, id}: IButtonDeleteFavo
                 className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`} 
                 onClick={()=>{deleteProductFavourites(id)}}
             >
+                <span className="visually-hidden">
+                    Удалить выбранный товар из избранного
+                </span>
                 <svg 
                     className='cross-svg-hover'
                     width='24'

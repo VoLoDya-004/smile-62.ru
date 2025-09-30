@@ -16,6 +16,7 @@ const Button = ({children, id, className, onClick, style}: IButtonProps) => {
 
     return (
 		<button 
+            type='button'
             className={className} 
             id={id} 
             onClick={onClick}

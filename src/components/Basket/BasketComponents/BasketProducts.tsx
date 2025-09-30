@@ -20,7 +20,7 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
 {
     const { id, nazvanie, image, count, price_total } = productBasket
     const [isPending, startTransition] = useTransition()
-    const [localCount, setLocalCount] = useState(count)
+    const [localCount, setLocalCount] = useState<string | number>(count)
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
@@ -46,18 +46,30 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
         })
     }
 
+    const handleBlur = () => {
+        if (localCount === '') {
+            setLocalCount(1)
+            onChange({ target: { value: '1' } } as ChangeEvent<HTMLInputElement>, id)
+        }
+    }
+
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        let newCount = value === '' ? 1 : parseInt(value, 10)
-        if (isNaN(newCount) || newCount < 1) {
-            newCount = 1
-        } else if (newCount > 100) {
-            newCount = 100;
-        }
-        startTransition(() => {
-            setLocalCount(newCount)
+        if (value === '') {
+            setLocalCount('')
             onChange(e, id)
-        })
+        } else {
+            let newCount = value === '' ? 1 : parseInt(value, 10)
+            if (isNaN(newCount) || newCount < 1) {
+                newCount = 1
+            } else if (newCount > 100) {
+                newCount = 100;
+            }
+            startTransition(() => {
+                setLocalCount(newCount)
+                onChange(e, id)
+            })
+        }
     }
 
 
@@ -67,15 +79,26 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
                 <img 
                     className='basket-box__product-img'
                     src={image} 
-                    alt='img'
+                    alt='Товар'
                 />
             </div>
             <div className='basket-box__product-title'>{nazvanie}</div>
             <div className='basket-box__product-count'>
-                <div className='basket-box__product-count-box'>
+                <div 
+                    className={`basket-box__product-count-box ${isDarkTheme ? 'dark-theme': ''}`}
+                >
+                    <label 
+                        htmlFor="input-count-change" 
+                        className="visually-hidden"
+                    >
+                        Поле для смены количества товара в корзине
+                    </label>
                     <input
+                        id='input-count-change'
                         onChange={handleInputChange}
-                        className='basket-box__product-count-input'
+                        onBlur={handleBlur}
+                        className=
+                        {`basket-box__product-count-input ${isDarkTheme ? 'dark-theme': ''}`}
                         type='number'
                         min='1'
                         max='100'
@@ -89,6 +112,9 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
                         type='button'
                         className={`count__up count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
+                        <span className="visually-hidden">
+                            Увеличить количество товара в корзине на единицу
+                        </span>
                         <svg 
                             width='14'
                             height='8'
@@ -108,6 +134,9 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
                         type='button'
                         className={`count__down count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
+                        <span className="visually-hidden">
+                            Уменьшить количество товара в корзине на единицу
+                        </span>
                         <svg 
                             width='14'
                             height='8'
@@ -124,7 +153,7 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
                 </div>
             </div>
             <div className='basket-box__product-price'>
-                {priceFormatter.format(price_total * localCount)} руб.
+                {priceFormatter.format(price_total * Number(localCount))} руб.
             </div>
                 <ButtonDeleteBasket 
                     deleteProductBasket={deleteProductBasket} 

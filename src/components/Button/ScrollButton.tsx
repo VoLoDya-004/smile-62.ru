@@ -25,10 +25,12 @@ const ScrollButton = () => {
     
     return (
         <button 
+            type='button'
             id='scroll-to-top-btn' 
             onClick={scrollToTop} 
             style={{display: visible ? 'block' : 'none'}}
         >
+            <span className='visually-hidden'>Вернуться наверх страницы</span>
             <svg 
                 className='svg-btn-fill-none'
                 xmlns='http://www.w3.org/2000/svg' 

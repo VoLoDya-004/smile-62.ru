@@ -14,6 +14,7 @@ const LinkFooter = () => {
 					href='https://vk.com/' 
 					target='_blank'
 				>
+					<span className='visually-hidden'>Логотип ВКонтакте</span>
 					<svg 
 						className='footer__link-item-vk-svg'
 						xmlns='http://www.w3.org/2000/svg'
@@ -37,6 +38,7 @@ const LinkFooter = () => {
 					href='http://web.telegram.org/' 
 					target='_blank'
 				>
+					<span className='visually-hidden'>Логотип Телеграмма</span>
 					<svg 
 						className='footer__link-item-tg-svg' 
 						xmlns='http://www.w3.org/2000/svg' 
@@ -53,6 +55,7 @@ const LinkFooter = () => {
 					href='https://ok.ru/'
 					target='_blank'
 				>
+					<span className='visually-hidden'>Логотип Одноклассников</span>
 					<svg 
 						className='footer__link-item-ok-svg' 
 						xmlns='http://www.w3.org/2000/svg' 
@@ -89,6 +92,7 @@ const LinkFooter = () => {
 					href='youtube.com'
 					target='_blank'
 				>
+					<span className='visually-hidden'>Логотип Ютуба</span>
 					<svg 
 						className='footer__link-item-youtube-svg' 
 						xmlns='http://www.w3.org/2000/svg'

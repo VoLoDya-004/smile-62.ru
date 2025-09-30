@@ -194,10 +194,19 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
             </Accordion>
             <Accordion title='Цена'>
                 <div className={`accordion__price ${isDarkTheme ? 'dark-theme' : ''}`}>
-                    <div className='accordion__inputBlock'>
+                    <div 
+                        className={`accordion__input-block ${isDarkTheme ? 'dark-theme' : ''}`}
+                    >
+                        <label 
+                            htmlFor="accordion__input-left" 
+                            className="visually-hidden"
+                        >
+                            Начальная граница стоимости товаров
+                        </label>
                         <input 
-                            id='accordion__input'
-                            className='accordion__input'
+                            id='accordion__input-left'
+                            className=
+                            {`accordion__input ${isDarkTheme ? 'dark-theme' : ''}`}
                             type='number'
                             min='1'
                             max='1000000'
@@ -206,10 +215,19 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             onChange={handleMinPriceChange}
                         />
                     </div>
-                    <div className='accordion__inputBlock'>
+                    <div 
+                        className={`accordion__input-block ${isDarkTheme ? 'dark-theme' : ''}`}
+                    >
+                        <label 
+                            htmlFor="accordion__input-left" 
+                            className="visually-hidden"
+                        >
+                            Конечная граница стоимости товаров
+                        </label>
                         <input 
-                            id='accordion__input'
-                            className='accordion__input'
+                            id='accordion__input-right'
+                            className=
+                            {`accordion__input ${isDarkTheme ? 'dark-theme' : ''}`}
                             type='number'
                             min='1'
                             max='1000000' 

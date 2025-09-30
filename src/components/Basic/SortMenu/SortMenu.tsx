@@ -1,22 +1,35 @@
 import {useSelector} from 'react-redux'
-import { forwardRef } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import type { RootStore } from '../../../redux'
 
 
 interface ISortMenuProps {
     onSelect: (sortOption: string) => void
+    onClose: () => void
 }
 
 
-const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) => {
+const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose}, ref) => {
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
+    const [selectedOption, setSelectedOption] = useState('')
+
     const handleRadioChange = (value: string) => {
-        if (onSelect) {
-            onSelect(value)
-        }
+        setSelectedOption(value)
+        sessionStorage.setItem('selectedSortOption', value)
+        onSelect(value)
+        onClose()
     }
+
+    useEffect(() => {
+        const savedSort = sessionStorage.getItem('selectedSortOption')
+        if (savedSort) {
+            setSelectedOption(savedSort)
+        } else {
+            setSelectedOption('default')
+        }
+    })
 
 
     return (
@@ -29,6 +42,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) =
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`} 
             >
                 <input 
+                    checked={selectedOption === 'default'}
                     name='sortOptions'
                     type='radio'
                     id='sort-menu1'
@@ -41,6 +55,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) =
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
             >
                 <input 
+                    checked={selectedOption === 'cheap'}
                     type='radio'
                     id='sort-menu2' 
                     name='sortOptions'
@@ -53,6 +68,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) =
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
             >
                 <input 
+                    checked={selectedOption === 'expensive'}
                     name='sortOptions' 
                     type='radio'
                     id='sort-menu3'
@@ -65,6 +81,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect}, ref) =
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
             >
                 <input 
+                    checked={selectedOption === 'discount'}
                     type='radio'
                     id='sort-menu4'
                     name='sortOptions'

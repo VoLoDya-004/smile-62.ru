@@ -14,6 +14,7 @@ const ButtonLoad = ({onClick, children, id, className}: IButtonLoadProps) => {
     
     return (
             <button 
+                type='button'
                 id={id} 
                 className={className} 
                 onClick={onClick} 

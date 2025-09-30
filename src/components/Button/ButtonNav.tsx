@@ -1,9 +1,9 @@
 import { useState, memo, useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Context } from '../../../contexts/context'
-import type { RootStore } from '../../../redux'
-import type { ICategory } from '../../../types/types'
+import { Context } from '../../contexts/context'
+import type { RootStore } from '../../redux'
+import type { ICategory } from '../../types/types'
 
 
 const ButtonNav = () => {
@@ -81,6 +81,7 @@ const ButtonNav = () => {
         <>
         <nav className='nav'>
             <button 
+                type='button'
                 id='nav__button' 
                 onClick={nav} 
             >
@@ -89,6 +90,7 @@ const ButtonNav = () => {
                     alt='img'
                     className='nav__img'
                 />
+                <span className='visually-hidden'>Кнопка выбора категории товаров</span>
             </button>
         </nav>
         
@@ -100,7 +102,7 @@ const ButtonNav = () => {
                         navbar__item ${visible} 
                         ${activeCategoryId === cat.id ? 
                             'navbar__item_active' : 
-                            'navbar__item'
+                            'navbar__item_passive'
                         }
                     `}
                     id={cat.label}

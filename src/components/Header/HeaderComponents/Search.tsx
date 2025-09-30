@@ -35,7 +35,7 @@ const Search = () => {
     document.getElementById('blackout')?.classList.remove('blackout')
     document.body.classList.remove('modal-open')
     if (searchTerm.length === 0) {
-      document.getElementById('search__line-line')?.focus()
+      document.getElementById('search__line-input')?.focus()
     }
     if (location.pathname !== '/') {
       navigate('/')
@@ -52,7 +52,7 @@ const Search = () => {
   }
 
   useEffect(() => {
-    const searchLine = document.getElementById('search__line-line')
+    const searchLine = document.getElementById('search__line-input')
     const blackoutElement = document.getElementById('blackout')
 
     const handleFocus = () => {
@@ -86,8 +86,14 @@ const Search = () => {
   return (
     <div className='search'>
       <div className='search__line'>
+        <label 
+          className='visually-hidden' 
+          htmlFor='search__line-input'
+        >
+            Поиск по сайту
+        </label>
         <input
-          id='search__line-line'
+          id='search__line-input'
           type='search'
           placeholder='Искать здесь...'
           value={searchTerm}
@@ -97,9 +103,11 @@ const Search = () => {
         />
         {searchTerm && (
           <button
+            type='button'
             id='search__line-clear'
             onClick={handleClearClick}
           >
+            <span className='visually-hidden'>Очистить поле поиска по сайту</span>
             <span className='search__clear'>
                 &#x2715;
             </span>
@@ -107,12 +115,15 @@ const Search = () => {
         )}
         <NavLink to='/'>
           <button 
+            type='button'
             id='search__line-button'
-            onClick={handleSearchClick}>
+            onClick={handleSearchClick}
+          >
+            <span className='visually-hidden'>Найти</span>
             <img
               id='search__line-button-img'
-              src='/images/icons/poisk.png'
-              alt='img'
+              src='/images/icons/search.png'
+              alt='Поиск'
             />
           </button>
         </NavLink>

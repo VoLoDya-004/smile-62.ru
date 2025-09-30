@@ -27,9 +27,11 @@ const ChatBtn = () => {
 
     return (
         <button 
+            type='button'
             id='chat-btn' 
             onClick={showModal}
         >
+            <span className='visually-hidden'>Открыть чат поддержки</span>
             <svg 
                 className='chat-btn-svg' 
                 xmlns='http://www.w3.org/2000/svg'

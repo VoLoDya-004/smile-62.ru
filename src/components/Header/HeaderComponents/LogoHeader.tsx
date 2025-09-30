@@ -8,6 +8,7 @@ const LogoHeader = () => {
     return (
     <NavLink to='/'>
         <div className='logo__header'>
+            <span className='visually-hidden'>Логотип</span>
             <svg 
                 version='1.0'
                 xmlns='http://www.w3.org/2000/svg'

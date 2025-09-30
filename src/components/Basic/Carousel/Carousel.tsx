@@ -123,6 +123,7 @@ const Carousel = ({children}: ICarouseelProps) => {
 						className='slider__btn-left' 
 						onClick={handleLeftArrow}
 					> 
+						<span className='visually-hidden'>Предыдущий слайд</span>
 	    	    		<svg
 	    	      			xmlns='http://www.w3.org/2000/svg'
 	    	      			className='slider__btn-svg'
@@ -160,6 +161,7 @@ const Carousel = ({children}: ICarouseelProps) => {
 					className='slider__btn-right' 
 					onClick={handleRightArrow}
 				>
+					<span className='visually-hidden'>Следующий слайд</span>
 	    	    	<svg
 	    	    		xmlns='http://www.w3.org/2000/svg'
 	    	    		className='slider__btn-svg'

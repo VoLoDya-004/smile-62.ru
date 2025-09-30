@@ -6,7 +6,10 @@ const ButtonMainNav = () => {
     
     return (
         <NavLink to='/'>
-            <button id='to-main-btn'>
+            <button 
+                type='button'
+                id='to-main-btn'
+            >
                 <b className='user-select-none'>Перейти на главную</b>
             </button>
         </NavLink>

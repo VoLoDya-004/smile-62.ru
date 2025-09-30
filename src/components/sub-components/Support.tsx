@@ -40,6 +40,7 @@ const Support = () => {
                     id='support__footer-btn'
                     type='submit'
                 >
+                    <span className='visually-hidden'>Отправить сообщение в поддержку</span>
                     <svg 
                         className='svg-btn-fill-none'
                         xmlns='http://www.w3.org/2000/svg'

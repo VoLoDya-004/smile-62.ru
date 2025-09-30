@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '../../../redux'
 import Button from '../../Button/Button'
@@ -8,6 +9,9 @@ const BasketDelivery = () => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
     const priceFormatter = new Intl.NumberFormat()
+
+    const [city, setCity] = useState('')
+    
 
     return (
         <section className={`basket-delivery ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -53,11 +57,13 @@ const BasketDelivery = () => {
                     <b>ВАШ ГОРОД</b>
                 </label><br />
                 <select 
+                    defaultValue={city}
+                    onChange={e => setCity(e.target.value)}
                     name='city' 
-                    className='basket-delivery__right-select cursor-pointer' 
+                    className={`basket-delivery__right-select ${isDarkTheme ? 'dark-theme' : ''} cursor-pointer`} 
                     id='city-select' 
                 >
-                    <option value=''>Выберите город</option>
+                    <option value='' disabled>Выберите город</option>
                     <option value='astrahan'>Астрахань</option>
                     <option value='barnaul'>Барнаул</option>
                     <option value='voronezh'>Воронеж</option>
