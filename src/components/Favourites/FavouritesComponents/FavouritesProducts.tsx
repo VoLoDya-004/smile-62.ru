@@ -8,7 +8,7 @@ interface IFavouritesProductsProps {
     productFavourites: IFav
     deleteProductFavourites: (id: number) => void
     cartBasket: IBasket[]
-    addInBasketProductFavourites: (id: number) => void
+    addInBasketProductFavourites: (id: number) => Promise<void>
     cartFavourites: IFav[]
 }
 

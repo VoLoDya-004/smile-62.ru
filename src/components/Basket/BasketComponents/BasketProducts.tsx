@@ -7,7 +7,7 @@ import ButtonDeleteBasket from '../../Button/ButtonDeleteBasket'
 
 interface IBasketProductsProps {
     productBasket: IBasket
-    deleteProductBasket: (id: number) => void
+    openDeleteModal: (id: number) => void
     onChange: (e: ChangeEvent<HTMLInputElement>, id: number) => void
     isPendingDelete: boolean
 }
@@ -15,7 +15,7 @@ interface IBasketProductsProps {
 const priceFormatter = new Intl.NumberFormat()
 
 
-const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPendingDelete}
+const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDelete}
     : IBasketProductsProps) => 
 {
     const { id, nazvanie, image, count, price_total } = productBasket
@@ -156,7 +156,7 @@ const BasketProducts = ({productBasket, deleteProductBasket, onChange, isPending
                 {priceFormatter.format(price_total * Number(localCount))} руб.
             </div>
                 <ButtonDeleteBasket 
-                    deleteProductBasket={deleteProductBasket} 
+                    openDeleteModal={openDeleteModal} 
                     id={id}
                     isPendingDelete={isPendingDelete} 
                 />

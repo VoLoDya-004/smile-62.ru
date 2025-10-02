@@ -78,7 +78,7 @@ const App = () => {
         console.error('Ошибка при удалении продукта:', error)
       })
     }
-  }, [dispatch, productIdToDelete, srcBasket])
+  }, [dispatch, productIdToDelete, srcBasket, setIsPendingDelete])
 
   const handleClearBasket = useCallback(() => {
     if (userId !== null) {
@@ -225,7 +225,7 @@ const App = () => {
     return (
       <BasketProducts 
         productBasket = {productBasket} key = {productBasket.id} 
-        deleteProductBasket = {() => showModal(productBasket.id)} 
+        openDeleteModal = {() => showModal(productBasket.id)} 
         onChange={handleCountChange}
         isPendingDelete={isPendingDelete[productBasket.id]}
       />
@@ -303,24 +303,22 @@ const App = () => {
     showModalAllFav()
   }, [showModalAllFav])
 
-  const addInBasketProductFavourites = useCallback((id: number) => {
-    if (userId !== null) {
-      axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+  const addInBasketProductFavourites = useCallback(async (id: number): Promise<void> => {
+    if (userId === null) {
+      return
+    }
+    try {
+      await axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
         params: {
           Operation: 'addBasket',
           idProduct: id,
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcFavourites)
-      })
-      .then((res) => {
-        setCartFavourites(res.data)
-      })
-      .catch((error) => {
-        console.error('Ошибка при удалении продукта:', error)
-      })
+      const res = await axios.get(srcFavourites)
+      setCartFavourites(res.data)
+    } catch (error) {
+      console.error('Ошибка при добавлении продукта:', error)
     }
   }, [setCartFavourites, userId])
 
@@ -439,7 +437,7 @@ const App = () => {
                 dispatch(setCartBasket(res.data))
               })
               .catch((error) => {
-                console.error('Ошибка при обновлении избранных:', error)
+                console.error('Ошибка при обновлении корзины:', error)
               })
             })
           })
@@ -447,31 +445,12 @@ const App = () => {
       })
 
       observer.observe(document.body, { 
-          childList: true, 
-          subtree: true 
+        childList: true, 
+        subtree: true 
       })
+
       return () => {
         observer.disconnect()
-        const buttons = document.querySelectorAll('.basket-box__product-controls') 
-        buttons.forEach(button => {
-          button.removeEventListener('click', () => { 
-            axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
-              params: {
-                Operation: 'showBasket',
-                idUser: userId,
-              }
-            })
-            .then(() => {
-              return axios.get(srcBasket)
-            })
-            .then((res) => {
-              dispatch(setCartBasket(res.data))
-            })
-            .catch((error) => {
-              console.error('Ошибка при обновлении избранных:', error)
-            }) 
-          })
-        })
       }
     }
   }, [dispatch, userId])

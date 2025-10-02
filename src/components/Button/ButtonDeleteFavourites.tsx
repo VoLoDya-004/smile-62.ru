@@ -18,7 +18,7 @@ const ButtonDeleteFavourites = ({deleteProductFavourites, id}: IButtonDeleteFavo
             <button 
                 type='button'
                 className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`} 
-                onClick={()=>{deleteProductFavourites(id)}}
+                onClick={() => {deleteProductFavourites(id)}}
             >
                 <span className="visually-hidden">
                     Удалить выбранный товар из избранного

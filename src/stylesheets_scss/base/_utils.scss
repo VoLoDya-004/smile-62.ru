@@ -24,6 +24,10 @@
 	@include forward.fill-clip-rule (evenodd, evenodd);
 }
 
+.fill-red {
+    fill: red;
+}
+
 .text-decoration-none {
     text-decoration: none;
 }
@@ -54,4 +58,12 @@
     clip-path: inset(100%) !important;
     clip: rect(0 0 0 0) !important;
     overflow: hidden !important;
+}
+
+.button-reset {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
 }

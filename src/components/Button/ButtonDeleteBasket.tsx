@@ -4,19 +4,16 @@ import type { RootStore } from '../../redux'
 
 
 interface IButtonDeleteBasketProps {
-    deleteProductBasket: (id: number) => void
+    openDeleteModal: (id: number) => void
     id: number
     isPendingDelete: boolean
 }
 
 
-const ButtonDeleteBasket = ({deleteProductBasket, id, isPendingDelete}: IButtonDeleteBasketProps) => {
+const ButtonDeleteBasket = ({openDeleteModal, id, isPendingDelete}: IButtonDeleteBasketProps) => {
         
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-    const handleDeleteClick = () => {
-        deleteProductBasket(id)
-    }
  
     return (
         <div className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -25,9 +22,10 @@ const ButtonDeleteBasket = ({deleteProductBasket, id, isPendingDelete}: IButtonD
             ) : (
             <button 
                 type='button'
+                data-action='delete-basket-product'
                 className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`}
                 disabled={isPendingDelete}
-                onClick={handleDeleteClick}
+                onClick={() => openDeleteModal(id)}
             >
                 <span className="visually-hidden">
                     Удалить выбранный товар из корзины

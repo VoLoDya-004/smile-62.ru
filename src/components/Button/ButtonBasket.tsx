@@ -1,16 +1,16 @@
-import React, { useState, useEffect, memo} from 'react'
+import React, { useState, memo, useEffect, useCallback, useMemo} from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '../../redux'
-import type { INotificationData, IFav, IBasket } from '../../types/types'
+import type { INotificationData, IFav, IProduct } from '../../types/types'
 import Notification from '../sub-components/Notification'
 
 
 interface IButtonBasketProps {
     id: number
-    addInBasketProductFavourites: (id: number) => void
+    addInBasketProductFavourites: (id: number) => Promise<void>
     productFavourites: IFav
     cartFavourites: IFav[]
-    cartBasket: IBasket[]
+    cartBasket: IProduct[]
 }
 
 
@@ -20,40 +20,49 @@ const ButtonBasket = ({
     cartFavourites, 
     cartBasket}: IButtonBasketProps) => 
 {  
-    const [basketStatus, setBasketStatus] = useState<Record<string, boolean>>({})
-    const [localBasketStatus, setLocalBasketStatus] = useState<Record<string, boolean>>({})
     const [notification, setNotification] = useState<INotificationData | null>(null)
-
-	const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-		setNotification({message, type})
-	}
+    const [addingStatus, setAddingStatus] = useState<Record<number, boolean>>({})
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-    const handleAddInBasketProductFavourites = (id: number) => {
-        const product = cartFavourites.find(item => item.id === id)
-        if (product) {
-            setLocalBasketStatus(prev => ({...prev, [product.nazvanie] : true}))
+    const basketProductIds = useMemo(() => 
+        new Set(cartBasket.map(item => Number(item.id_product)))
+    , [cartBasket])
+
+	const showNotification = useCallback((message: string, type: 'success' | 'error' = 'success') => {
+		setNotification({message, type})
+	}, [])
+
+    useEffect(() => {
+        if (notification) {
+            const timer = setTimeout(() => {
+                setNotification(null)
+            }, 1000)  
+
+            return () => clearTimeout(timer)
         }
-        addInBasketProductFavourites(id)
-    }
+    }, [notification])
 
-    useEffect(() => {
-        const status: Record<string, boolean> = {}
-        cartFavourites.forEach((item) => {
-            const isInBasket = cartBasket.some(basketItem => basketItem.nazvanie === item.nazvanie)
-            status[item.nazvanie] = isInBasket
-        })
-        setBasketStatus(status)
-    }, [cartBasket, cartFavourites])
+    const handleAddInBasketProductFavourites = useCallback(async (id: number) => {
+        if (addingStatus[id]) {
+            return
+        }
 
-    useEffect(() => {
-        const initialLocalStatus: Record<string, boolean> = {}
-        cartFavourites.forEach(item => {
-            initialLocalStatus[item.nazvanie] = basketStatus[item.nazvanie] || false
-        })
-        setLocalBasketStatus(initialLocalStatus)
-    }, [basketStatus, cartFavourites])
+        setAddingStatus(prev => ({...prev, [id]: true}))
+
+        try {
+            await addInBasketProductFavourites(id)
+            showNotification('Товар добавлен в корзину', 'success')
+        } catch (error) {
+            showNotification('Ошибка', 'error')
+        } finally {
+            setAddingStatus(prev => ({...prev, [id]: false}))
+        }
+    }, [basketProductIds, addingStatus, addInBasketProductFavourites, showNotification])
+
+    const filterCards = useMemo(() => 
+        cartFavourites.filter(card => productFavourites.id === card.id)
+    , [cartFavourites, productFavourites.id])
 
 
     return (
@@ -65,8 +74,9 @@ const ButtonBasket = ({
           			onClose={() => setNotification(null)}
         		/>
       		)}
-            {cartFavourites.map((card) => {
-                const isBasket = localBasketStatus[card.nazvanie] || false
+            {filterCards.map((card) => {
+                const isBasket = basketProductIds.has(Number(card.id))
+                const isLoading = addingStatus[card.id]
 
 
                 return (
@@ -78,18 +88,18 @@ const ButtonBasket = ({
                             >
                                 <button
                                     type='button'
+                                    disabled={isBasket || isLoading}
                                     className={`
                                         basket-box__product-controls 
                                         ${isDarkTheme ? 'dark-theme' : ''}
                                     `}
-                                    onClick={() => {
-                                        isBasket ?
-                                            showNotification('товар уже в корзине', 'success') :
-                                            handleAddInBasketProductFavourites(card.id)
-                                    }}
+                                    onClick={() => handleAddInBasketProductFavourites(card.id)}
                                 >
                                     <span className="visually-hidden">
-                                        Добавить избранный товар в корзину
+                                        {isBasket ? 
+                                            'Товар уже в корзине' : 
+                                            'Добавить избранный товар в корзину'
+                                        }
                                     </span>
                                     <svg 
                                         width='25'
@@ -100,7 +110,7 @@ const ButtonBasket = ({
                                         <path
                                             className=
                                             {`
-                                                ${isBasket ? 
+                                                ${isBasket || isLoading ? 
                                                     'basket-svg_active' : 
                                                     'basket-svg_passive'
                                                 } ${isDarkTheme ? 
@@ -131,3 +141,15 @@ const ButtonBasket = ({
 }
 
 export default memo(ButtonBasket)
+
+
+
+
+
+
+
+
+
+
+
+
