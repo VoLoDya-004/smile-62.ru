@@ -1,6 +1,6 @@
-import { useState, memo, useContext } from 'react'
+import { useState, memo, useContext, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Context } from '../../contexts/context'
 import type { RootStore } from '../../redux'
 import type { ICategory } from '../../types/types'
@@ -13,7 +13,7 @@ const ButtonNav = () => {
     }
     const { 
         setSelectedCategory, 
-        setCurrentPage, 
+        setCurrentPage,  
         categories, 
         activeCategoryId, 
         setActiveCategoryId 
@@ -26,6 +26,18 @@ const ButtonNav = () => {
     const [visible, setVisible] = useState<string>('none')
 
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+
+    useEffect(() => {
+        const categoryFromUrl = searchParams.get('category')
+        if (categoryFromUrl) {
+            const categoryId = parseInt(categoryFromUrl)
+            if (!isNaN(categoryId)) {
+                setSelectedCategory(categoryId)
+                setActiveCategoryId(categoryId)
+            }
+        }
+    }, [searchParams, setSelectedCategory, setActiveCategoryId])
 
     function nav() {
         if (toggle === '') {
@@ -39,34 +51,46 @@ const ButtonNav = () => {
             setImage('/images/icons/nav.png')
             setVisible('none')
             document.getElementById('blackout')?.classList.remove('blackout')
-           document.body.classList.remove('modal-open')
+            document.body.classList.remove('modal-open')
         }
     }
 
-    document.addEventListener('mouseup', function(e: MouseEvent) {
-        let container = document.querySelector('.navbar')
-        let navigationBtn = document.getElementById('nav__button')
+    useEffect(() => {
+        const handleMouseUp = (e: MouseEvent) => {
+            let container = document.querySelector('.navbar')
+            let navigationBtn = document.getElementById('nav__button')
 
-        if (container && navigationBtn) {
-            if ((!container.contains(e.target as Node)) && (!navigationBtn.contains(e.target as Node))) {
-                setVisible('none')
-                setToggle('')
-                document.body.classList.remove('modal-open')
-                document.getElementById('blackout')?.classList.remove('blackout')
-                setImage('/images/icons/nav.png')
-            } else {
-                setToggle('navbar')
-                setImage('/images/icons/cross.png')
-                setVisible('block')
-                document.body.classList.add('modal-open')
-                document.getElementById('blackout')?.classList.add('blackout')
+            if (container && navigationBtn) {
+                if ((!container.contains(e.target as Node)) && (!navigationBtn.contains(e.target as Node))) {
+                    setVisible('none')
+                    setToggle('')
+                    document.body.classList.remove('modal-open')
+                    document.getElementById('blackout')?.classList.remove('blackout')
+                    setImage('/images/icons/nav.png')
+                } else {
+                    setToggle('navbar')                  
+                    setImage('/images/icons/cross.png')
+                    setVisible('block')
+                    document.body.classList.add('modal-open')
+                    document.getElementById('blackout')?.classList.add('blackout')
+                }
             }
         }
-    })
+
+        document.addEventListener('mouseup', handleMouseUp)
+        
+        return () => {
+            document.removeEventListener('mouseup', handleMouseUp)
+        }
+    }, [])
 
     const handleCategorySelect = (id: number) => {
+        if (id === 0) {
+            navigate('/?category=0')
+        } else {
+            navigate(`/?category=${id}`)
+        }
         setCurrentPage(1)
-        navigate('/')
         setSelectedCategory(id)
         setActiveCategoryId(id)
         setVisible('none')
@@ -76,10 +100,31 @@ const ButtonNav = () => {
         setImage('/images/icons/nav.png')
     }
 
+    const [viewportHeight, setViewportHeight] = useState(window.innerHeight)
+    const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
+
+    useEffect(() => {
+      const handleResize = () => {
+        setViewportHeight(window.innerHeight)
+        setViewportWidth(window.innerWidth)
+      }
+
+      window.addEventListener('resize', handleResize)
+      handleResize()
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
+    }, [])
+
+    const navbarHeight = viewportWidth < 1001 
+        ? viewportHeight - 148
+        : viewportHeight - 88
+
 
     return (
         <>
-        <nav className='nav'>
+        <div className='nav'>
             <button 
                 type='button'
                 id='nav__button' 
@@ -92,9 +137,12 @@ const ButtonNav = () => {
                 />
                 <span className='visually-hidden'>Кнопка выбора категории товаров</span>
             </button>
-        </nav>
+        </div>
         
-        <div className={isDarkTheme ? `${toggle} dark-theme` : toggle}>
+        <div 
+            className={isDarkTheme ? `${toggle} dark-theme` : toggle}
+            style={{height: `${navbarHeight}px`}}
+        >
             {categories.map((cat: ICategory) => (
                 <div
                     key={cat.id}

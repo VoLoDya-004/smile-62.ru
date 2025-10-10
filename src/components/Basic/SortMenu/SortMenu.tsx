@@ -1,6 +1,7 @@
 import {useSelector} from 'react-redux'
 import { forwardRef, useEffect, useState } from 'react'
 import type { RootStore } from '../../../redux'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 
 interface ISortMenuProps {
@@ -10,27 +11,43 @@ interface ISortMenuProps {
 
 
 const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose}, ref) => {
+    const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-    const [selectedOption, setSelectedOption] = useState('')
+    const [selectedOption, setSelectedOption] = useState(() => {
+        return searchParams.get('sort') || 'default'
+    })
+
+    useEffect(() => {
+        const sortFromUrl = searchParams.get('sort') || 'default'
+        setSelectedOption(sortFromUrl)
+    }, [searchParams])
 
     const handleRadioChange = (value: string) => {
+        const currentCategory = searchParams.get('category')
+        
+        let newUrl = '/?'
+
+        if (currentCategory) {
+            newUrl += `category=${currentCategory}`
+        }
+
+        if (value !== 'default') {
+            newUrl += `${currentCategory ? '&' : ''}sort=${value}`
+        }
+
+        if (newUrl === '/?') {
+            newUrl = '/'
+        }
+
+        navigate(newUrl)
         setSelectedOption(value)
-        sessionStorage.setItem('selectedSortOption', value)
         onSelect(value)
         onClose()
     }
-
-    useEffect(() => {
-        const savedSort = sessionStorage.getItem('selectedSortOption')
-        if (savedSort) {
-            setSelectedOption(savedSort)
-        } else {
-            setSelectedOption('default')
-        }
-    })
-
+    
 
     return (
         <form 

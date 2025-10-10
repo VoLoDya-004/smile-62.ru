@@ -1,4 +1,5 @@
 <?php
+require_once "./cors.php";
 require_once "./auth.php";
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;

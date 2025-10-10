@@ -33,8 +33,10 @@
 				text-decoration: none;
 				transition: color .3s;
 				width: 80px;
-				&:hover { 
-					color: rgb(96, 22, 118);
+				@media (hover: hover) and (pointer: fine) {
+					&:hover { 
+						color: rgb(96, 22, 118);
+					}
 				}
 			}
 		}
@@ -78,8 +80,10 @@
 					fill: #868695;
 					transition: .3s;
 					padding: 11px 7px 11px 7px;
-					&:hover {
-						fill: #07f;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: #07f;
+						}
 					}
 				}
 			}
@@ -92,8 +96,10 @@
 					fill: #868695;
 					transition: .3s;
 					padding: 9px 7px 9px 7px;
-					&:hover {
-						fill: #3490ec;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: #3490ec;
+						}
 					}
 				}
 			}
@@ -106,8 +112,10 @@
 					fill: #868695;
 					transition: .3s;
 					padding: 8px 11px 8px 11px;
-					&:hover {
-						fill: #ff7701;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: #ff7701;
+						}
 					}
 				}
 			}
@@ -120,8 +128,10 @@
 					fill: #868695;
 					transition: .3s;
 					padding: 10px 7px 10px 7px;
-					&:hover {
-						fill: red;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: red;
+						}
 					}
 				}
 			}
@@ -129,7 +139,7 @@
 	}
 } 
 
-.second-row { 
+.copyright { 
 	@include forward.flex-end;
 	margin: 0 10px 5px 40px;
 	color: #868695;
@@ -190,7 +200,7 @@
 		}
 	}
 	
-	.second-row { 
+	.copyright { 
 		display: flex;
     	align-items: end;
 		margin: 17px 10px 60px auto;
@@ -255,7 +265,7 @@
 		}
 	}
 	
-	.second-row { 
+	.copyright { 
 		display: flex;
     	align-items: end;
 		margin: 15px 10px 60px auto;

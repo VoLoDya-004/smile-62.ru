@@ -88,8 +88,10 @@
 		position: absolute;
 		left: 25px;
 		z-index: 1;
-		&:hover {
-			background-color: black;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: black;
+			}
 		}
 	}
 	&__btn-right {
@@ -105,8 +107,10 @@
 		position: absolute;
 		right: 25px;
 		z-index: 1;
-		&:hover {
-			background-color: black;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: black;
+			}
 		}
 	}
 	&__btn-svg {

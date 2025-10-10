@@ -177,8 +177,10 @@
     padding-top: 7px;
 }
 
-.count-svg-hover:hover .count-svg {
-    stroke: #9814ad;
+@media (hover: hover) and (pointer: fine) {
+    .count-svg-hover:hover .count-svg {
+        stroke: #9814ad;
+    }
 }
 
 .count-svg {

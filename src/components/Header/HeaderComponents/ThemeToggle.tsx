@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import {setIsDarkTheme} from '../../../redux/ThemeSlice'
 import { memo } from 'react'
+import useDeviceType from '../../../hooks/useDeviceType'
 import type { RootStore } from '../../../redux'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
@@ -15,12 +16,15 @@ const ThemeToggle = () => {
     dispatch(setIsDarkTheme(!isDarkTheme))
   }
 
+  const {isMobile} = useDeviceType()
+
   
   return (
     <Tippy 
       content='Сменить тему' 
       placement={'left'} 
       theme='lilac'
+      disabled={isMobile}
     >
       <button 
         type='button'

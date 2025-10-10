@@ -128,6 +128,23 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         handleToggleFilters()
     }
 
+    const [viewportHeight, setViewportHeight] = useState(window.innerHeight)
+    const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
+
+    useEffect(() => {
+      const handleResize = () => {
+        setViewportHeight(window.innerHeight)
+        setViewportWidth(window.innerWidth)
+      }
+
+      window.addEventListener('resize', handleResize)
+      handleResize()
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
+    }, [])
+
     const portalTarget = document.getElementById('filter-menu')
     if (!portalTarget) {
         return null
@@ -138,6 +155,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         <section 
             ref={ref} 
             className={`filter-menu ${isDarkTheme ? 'dark-theme' : ''}`}
+            style={{ height: viewportWidth > 1000 ? `${viewportHeight - 72}px` : `${viewportHeight - 132}px`, overflowY: 'auto' }}
         >
             <div className={`filter-menu__title ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <b>Фильтры</b>
@@ -294,7 +312,9 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                     </div>
                 </label>
             </Accordion>
-            <div className='accordion__btn'>
+            <div 
+                className='accordion__btn'   
+            >
                 <Button
                     className='button-violet'
                     onClick={handleApplyFilters}

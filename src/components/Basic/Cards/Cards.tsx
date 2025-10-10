@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useCallback, useMemo, useTransition, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { memo } from 'react'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { Context } from '../../../contexts/context'
 import { setCartBasket } from '../../../redux/BasketSlice'
 import type { RootStore } from '../../../redux'
@@ -27,7 +27,7 @@ const Cards = () => {
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
   const srcBasket = 
-    `http://localhost:3000/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+    `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
   const context = useContext(Context)
   if (!context) {
@@ -71,67 +71,6 @@ const Cards = () => {
     setLocalBasket(cartBasket)
   }, [cartBasket])
 
-  const handleAddFav = useCallback(async (id: number) => {
-    if (addingStatusFav[id]) {
-      return
-    }
-    saveScrollPosition()
-    if (!isAuth) {
-      showNotification('войдите в аккаунт', 'error')
-      return
-    }
-    if (localFavourites.some(item => item.id === id) || pendingIdFav === id) {
-      showNotification('товар уже в избранных', 'success')
-      return
-    }
-    setAddingStatusFav(prev => ({...prev, [id]: true}))
-    setLocalFavourites(prev => [...prev, {id_product: id, id: id}])
-    try {
-      await addFav(id)
-      setPendingIdFav(id)
-      showNotification('Товар добавлен в избранное', 'success')
-    } catch (error) {
-      setLocalFavourites(prev => prev.filter(item => item.id_product === id))
-      showNotification('Ошибка', 'error')
-    } finally {
-      setPendingIdFav(null)
-      setAddingStatusFav(prev => ({...prev, [id]: false}))
-    }
-  }, [localFavourites, pendingIdFav, startTransition, isAuth, addingStatusFav])
-
-  const handleAddBasket = useCallback((id: number) => {
-    if (addingStatusBasket[id]) {
-      return
-    }
-    saveScrollPosition()
-    if (!isAuth) {
-      showNotification('войдите в аккаунт', 'error')
-      return
-    }
-    setAddingStatusBasket(prev => ({ ...prev, [id]: true }))
-    if (
-      localBasket.some(item => item.id_product === id) ||
-      pendingIdBasket === id
-    ) {
-      showNotification('товар уже в корзине', 'success')
-      return
-    }
-    setPendingIdBasket(id)
-    startTransition(() => {
-      setLocalBasket(prev => {
-        if (prev.some(item => item.id_product === id)) return prev
-        return [...prev, { id_product: id, id: id }]
-      })
-    })
-    addBasket(id)
-    .then(() => {
-      setPendingIdBasket(null)
-    })
-    .catch(() => {
-      setPendingIdBasket(null)
-    })
-  }, [localBasket, pendingIdBasket, startTransition, isAuth, addingStatusBasket])
-
   const autoScrollRef = useRef(false)
 
   useEffect(() => {
@@ -157,8 +96,7 @@ const Cards = () => {
     if (exists) {
       return
     } else {
-      try {
-        await axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
+        await axios.get(`/backend/PHP/basket.php`, {
           params: {
             Operation: 'addBasket',
             idProduct: idProduct,
@@ -167,46 +105,97 @@ const Cards = () => {
         })
         const res = await axios.get(srcBasket)
         dispatch(setCartBasket(res.data))
-      } catch (error) {
-        console.error('Ошибка при добавлении в корзину:', error)
-        handleAxiosError(error)
-      }
     }
   }, [cartBasket, userId])
+
+  const handleAddBasket = useCallback(async (id: number) => {
+    if (addingStatusBasket[id]) {
+      return
+    }
+    
+    saveScrollPosition()
+    if (!isAuth) {
+      showNotification('Войдите в аккаунт', 'error')
+      return
+    }
+
+    if (localBasket.some(item => item.id_product === id) || pendingIdBasket === id) {
+      showNotification('Уже в корзине', 'error')
+      return
+    }
+
+    setAddingStatusBasket(prev => ({ ...prev, [id]: true }))
+    setPendingIdBasket(id)
+
+    try {
+      startTransition(() => {
+        setLocalBasket(prev => {
+          if (prev.some(item => item.id_product === id)) return prev
+          return [...prev, { id_product: id, id: id }]
+        })
+      })
+      await addBasket(id)
+      setPendingIdBasket(null)
+      showNotification('Добавлено в корзину', 'success')
+    } catch (error) {
+      setPendingIdBasket(null)
+      showNotification('Ошибка', 'error')
+    } finally {
+      setAddingStatusBasket(prev => ({ ...prev, [id]: false }))
+    }
+  }, [localBasket, pendingIdBasket, startTransition, isAuth, addingStatusBasket, addBasket])
 
   const addFav = useCallback(async (idProduct: number) => {
     const exists = memoizedFavourites.some(item => item.id === idProduct)
     if (exists) {
       return
     } else {
-    try {
-      await axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+      await axios.get(`/backend/PHP/favourites.php`, {
         params: {
           Operation: 'addFavourites',
           idProduct: idProduct,
           idUser: userId,
         },
       })
-    } catch (error) {
-      console.error('Ошибка при добавлении в избранное:', error)
-      handleAxiosError(error) 
+    }
+  }, [cartFavourites, userId])
+
+  const handleAddFav = useCallback(async (id: number) => {
+    if (localFavourites.some(item => item.id === id)) {
+      showNotification('Уже в избранных', 'error')
+      return
+    } else {
+      if (addingStatusFav[id] || pendingIdFav === id) {
+        return
+      }
+
+      saveScrollPosition()
+      if (!isAuth) {
+        showNotification('Войдите в аккаунт', 'error')
+        return
+      }
+
+      setAddingStatusFav(prev => ({...prev, [id]: true}))
+      setPendingIdFav(id)
+
+      try {
+        startTransition(() => {
+          setLocalFavourites(prev => {
+            if (prev.some(item => item.id_product === id)) return prev
+            return [...prev, { id_product: id, id: id }]
+          })
+        })
+        await addFav(id)
+        showNotification('Добавлено в избранное', 'success')
+      } catch (error) {
+        setPendingIdFav(null)
+        setLocalFavourites(prev => prev.filter(item => item.id_product === id))
+        showNotification('Ошибка', 'error')
+      } finally {
+        setPendingIdFav(null)
       }
     }
-  }, [cartFavourites])
-
-  const handleAxiosError = (error: unknown) => {
-    const axiosError = error as AxiosError
-    if (axiosError.response) {
-      console.error('Server responded with status code:', axiosError.response.status)
-      alert(`Server error: ${axiosError.response.status} - ${axiosError.response.statusText}`)
-    } else if (axiosError.request) {
-      console.error('No response received:', axiosError.request)
-      alert('No response from server. Please check your network connection.')
-    } else {
-      console.error('Error setting up the request:', axiosError.message)
-      alert(`Request setup error: ${axiosError.message}`)
-    }
-  }
+  }, [localFavourites, pendingIdFav, isAuth, addingStatusFav, addFav, startTransition])
 
   useEffect(() => {
     const toUp = () => {
@@ -250,7 +239,8 @@ const Cards = () => {
     const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
     const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
-    const isFav = localFavourites.some(item => item.id === card.id)
+    const isInFav = cartFavourites.some(item => item.id_product === card.id)
+    const isInLocalFav = localFavourites.some(item => item.id === card.id)
     const isInBasket = cartBasket.some(item => item.id_product === card.id)
     const isInLocalBasket = localBasket.some(item => item.id_product === card.id)
 
@@ -268,8 +258,9 @@ const Cards = () => {
           >
             <span className='visually-hidden'>Добавить товар в избранное</span>
             <button
+              type='button'
               onClick={() => handleAddFav(card.id)}
-              disabled={addingStatusFav[card.id] || isFav}
+              disabled={addingStatusFav[card.id]}
               className='button-reset'
             >
               <svg 
@@ -280,7 +271,9 @@ const Cards = () => {
                 <path 
                   opacity='.6'
                   className={`
-                    ${isFav || !isFav && addingStatusFav[card.id] ? 'fill-red' : ''}
+                    ${addingStatusFav[card.id] && !isInFav ? 'fill-red' : isInLocalFav ? 
+                      'fill-red' : ''
+                    }
                   `}
                   d='M12.113 19.777a.98.98 0 0 1-1.246 0C5.327 15.102.85 
                   10.749 1.004 6.985c0-2.764 2.093-5.693 5.743-5.973 
@@ -290,7 +283,11 @@ const Cards = () => {
                 /> 
                 <path 
                   className={`
-                    fill-clip-rule ${isFav || !isFav && addingStatusFav[card.id] ? 'fill-red' : ''}
+                    fill-clip-rule ${addingStatusFav[card.id] && !isInFav ? 
+                      'fill-red' : 
+                      isInLocalFav ? 
+                      'fill-red' : ''
+                    }
                   `}
                   d='M7.225 3C4.805 3 3 4.796 3 7.082c0 1.36.91 3.034 2.65 
                   5.023 1.554 1.777 3.621 3.644 5.85 5.574 2.229-1.93 4.296-3.797 

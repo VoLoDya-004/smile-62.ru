@@ -1,6 +1,6 @@
 @use '../forward.scss';													
 																	
-header { 
+.header { 
 	display: flex;
 	justify-content: start;
     color: rgb(255, 255, 255);
@@ -45,9 +45,11 @@ header {
 	transition: border-width .3s;
 	transition: border-color .3s;
 	cursor: pointer;
-    &:hover {
-        border-width: 2px;
-        border-color: white;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            border-width: 2px;
+            border-color: white;
+        }
     }
 }
 	
@@ -79,11 +81,13 @@ header {
 			color: #9814ad;
 			transition: background-color .1s;
 		}
-		&:hover {
-			background-color: forward.$btnColor;
-			border-radius: 10px;
-			color: #9814ad;
-			transition: background-color .1s;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: forward.$btnColor;
+				border-radius: 10px;
+				color: #9814ad;
+				transition: background-color .1s;
+			}
 		}
 	}
 	&::-webkit-scrollbar { 
@@ -147,9 +151,11 @@ header {
 		width: 20px;
 		pointer-events: none;
 	}
-    &:hover {
-        background-color: #b193bd;
-    }
+	@media (hover: hover) and (pointer: fine) {
+    	&:hover {
+    	    background-color: #b193bd;
+    	}
+	}
 }
 	
 #search__line-clear {

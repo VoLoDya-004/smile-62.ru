@@ -4,7 +4,7 @@ import { memo } from 'react'
 import ContactsFooter from './FooterComponents/ContactsFooter'
 import LinkFooter from './FooterComponents/LinkFooter'
 import LogoFooter from './FooterComponents/LogoFooter'
-import SecondRowFooter from './FooterComponents/SecondRowFooter'
+import Copyright from './FooterComponents/Copyright'
 import SectionsFooter from './FooterComponents/SectionsFooter'
 
 
@@ -18,7 +18,7 @@ const Footer = () => {
             <SectionsFooter />
             <ContactsFooter />
             <LinkFooter />
-            <SecondRowFooter />
+            <Copyright />
         </footer>
     )
 }

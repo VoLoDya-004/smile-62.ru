@@ -4,11 +4,14 @@ import type { RootStore } from '../../../redux'
 import { useSelector, useDispatch } from 'react-redux'
 import {logoutUser} from '../../../redux/UserSlice'
 import type { INotificationData } from '../../../types/types'
+import useDeviceType from '../../../hooks/useDeviceType'
 import Button from '../../Button/Button'
 import Notification from '../../sub-components/Notification'
 
                                                                                       
 const TabSection = () => {
+	const {isMobile} = useDeviceType()
+
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 	const userName = useSelector((state: RootStore) => state.user.userName)
@@ -36,6 +39,7 @@ const TabSection = () => {
 
 
 	const handleMouseEnter = () => {
+		if (isMobile) return
 		setShowProfileMenu(true)
 	}
 

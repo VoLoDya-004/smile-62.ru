@@ -135,15 +135,13 @@ const Recommendations = () => {
     async function loadCards() {
         setIsLoading(true)
         try {
-            const response = await axios.get(`http://localhost:3000/backend/PHP/sort.php`, {
+            const response = await axios.get(`/backend/PHP/sort.php`, {
                 params: {
                     Operation: 'showCards',
                     idUser: userId ?? 0,
                 },
             })
             setCards(response.data)
-        } catch (error) {
-            console.error('Ошибка при загрузке карточек:', error)
         } finally {
             setIsLoading(false)
         }
@@ -200,7 +198,7 @@ const Recommendations = () => {
 
     return (
         <div className='recommendation'>
-            <b className='recommendation__title'>Рекомендации</b><br />
+            <b className='recommendation__title'>Рекомендации</b>
             {isLoading ? (
             <>
                 <h3 className='recommendation-loading'>Загрузка рекомендаций...</h3>
@@ -276,7 +274,7 @@ const Recommendations = () => {
                 )}
             </>
             )}
-        </div>
+        </div> 
     )
 }   
 

@@ -10,14 +10,18 @@ const Search = () => {
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const {setCurrentPage, setSearchQuery} = context
+  const {setCurrentPage, setSearchQuery, searchQuery} = context
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(searchQuery)
+
+  useEffect(() => {
+    setSearchTerm(searchQuery)
+  }, [searchQuery])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -27,6 +31,12 @@ const Search = () => {
   const handleClearClick = () => {
     setSearchTerm('')
     setSearchQuery('')
+    if (location.pathname !== '/') {
+      navigate('/')
+    }
+    if (location.pathname === '/') {
+      window.scrollTo({top: 0, behavior: 'smooth'})
+    }
   }
 
   const handleSearchClick = () => {
@@ -46,8 +56,13 @@ const Search = () => {
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    const searchLine = document.getElementById('search__line-input')
+
     if (e.key === 'Enter') {
       handleSearchClick()
+      if (searchLine) {
+        searchLine.blur()
+      }
     }
   }
 

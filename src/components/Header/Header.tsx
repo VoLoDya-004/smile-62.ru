@@ -11,7 +11,7 @@ const Header = () => {
 
     
     return (
-        <header>
+        <header className='header'>
             <LogoHeader />
             <ButtonNav />
             <Search />

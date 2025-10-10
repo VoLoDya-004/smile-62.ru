@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route, useSearchParams } from 'react-router-dom'
 import { Context } from './contexts/context'
 import { useState, useEffect, useCallback, useMemo, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -27,6 +27,8 @@ import ConfirmModal from './components/sub-components/ConfirmModal'
 const App = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
 
+  const [searchParams, setSearchParams] = useSearchParams()
+
   useEffect(() => {
     const storedAuth = localStorage.getItem('auth')
     if (storedAuth) {
@@ -39,7 +41,7 @@ const App = () => {
 
   //работа с корзиной
 
-  const srcBasket = `http://localhost:3000/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+  const srcBasket = `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
@@ -59,7 +61,7 @@ const App = () => {
     if (idToDelete && userId !== null) {
       setIsModalOpen(false)
       setIsPendingDelete(prev => ({ ...prev, [idToDelete]: true }))
-      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
+      axios.get(`/backend/PHP/basket.php`, {
         params: {
           Operation: 'deleteBasket',
           idProduct: idToDelete,
@@ -73,9 +75,8 @@ const App = () => {
         dispatch(setCartBasket(res.data))
         setIsPendingDelete(prev => ({ ...prev, [idToDelete]: false }))
       })
-      .catch((error) => {
+      .catch(() => {
         setIsPendingDelete(prev => ({ ...prev, [idToDelete]: false }))
-        console.error('Ошибка при удалении продукта:', error)
       })
     }
   }, [dispatch, productIdToDelete, srcBasket, setIsPendingDelete])
@@ -84,7 +85,7 @@ const App = () => {
     if (userId !== null) {
       setIsModalOpenAllBasket(false)
       setLoadingDeleteAllBasket(true)
-      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
+      axios.get(`/backend/PHP/basket.php`, {
         params: {
           Operation: 'clearBasket',
           idUser: userId,
@@ -98,8 +99,7 @@ const App = () => {
         closeModalAllBasket()
         setLoadingDeleteAllBasket(false)
       })
-      .catch((error) => {
-        console.error('Ошибка при очистке корзины:', error)
+      .catch(() => {
         closeModalAllBasket()
         setLoadingDeleteAllBasket(false)
       })
@@ -130,7 +130,7 @@ const App = () => {
   const increaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount >= 100) return
-      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
+      axios.get(`/backend/PHP/basket.php`, {
         params: {
           Operation: 'increaseBasket',
           idProduct: id,
@@ -142,9 +142,6 @@ const App = () => {
       })
       .then((res) => {
         dispatch(setCartBasket(res.data))
-        })
-      .catch((error) => {
-        console.error('Ошибка при увеличении корзины:', error)
       })
     }
   }, [dispatch, srcBasket])
@@ -152,7 +149,7 @@ const App = () => {
   const decreaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount <= 1) return
-      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
+      axios.get(`/backend/PHP/basket.php`, {
         params: {
           Operation: 'decreaseBasket',
           idProduct: id,
@@ -164,9 +161,6 @@ const App = () => {
       })
       .then((res) => {
         dispatch(setCartBasket(res.data))
-      })
-      .catch((error) => {
-        console.error('Ошибка при уменьшении корзины:', error)
       })
     }
   }, [dispatch, srcBasket])
@@ -181,7 +175,7 @@ const App = () => {
         if (isNaN(parsedCount) || parsedCount < 1) return
         if (parsedCount > 100) parsedCount = 100
       }
-      axios.get(`http://localhost:3000/backend/PHP/basket.php`, {
+      axios.get(`/backend/PHP/basket.php`, {
         params: {
           Operation: 'updateCount',
           idProduct: id,
@@ -195,9 +189,6 @@ const App = () => {
       .then((res) => {
         dispatch(setCartBasket(res.data))
       })
-      .catch((error) => {
-        console.error('Ошибка при обновлении количества:', error)
-      })
     }
   }, [dispatch, srcBasket])
 
@@ -207,9 +198,6 @@ const App = () => {
       axios.get(srcBasket)
         .then((res) => {
           dispatch(setCartBasket(res.data))
-        })
-        .catch((error) => {
-          console.error('Ошибка при загрузке корзины:', error)
         })
         .finally(() => {
           setLoadingBasket(false)
@@ -243,13 +231,13 @@ const App = () => {
   //работа с избранными товарами
 
   const srcFavourites = 
-    `http://localhost:3000/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+    `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
 
   const [cartFavourites, setCartFavourites] = useState<IFav[]>([])
 
   const deleteProductFavourites = useCallback((id: number) => {
     if (userId !== null) {
-      axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+      axios.get(`/backend/PHP/favourites.php`, {
         params: {
           Operation: 'deleteFavourites',
           idProduct: id,
@@ -259,9 +247,6 @@ const App = () => {
       .then(() => {
         setCartFavourites(prevFavourites => prevFavourites.filter(item => item.id !== id))
       })
-      .catch((error) => {
-        console.error('Ошибка при удалении продукта:', error)
-      })
     }
   }, [setCartFavourites, userId])
 
@@ -269,7 +254,7 @@ const App = () => {
     if (userId !== null) {
       setIsModalOpenAllFav(false)
       setLoadingDeleteAllFav(true)
-      axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+      axios.get(`/backend/PHP/favourites.php`, {
         params: {
           Operation: 'clearFavourites',
           idUser: userId,
@@ -283,8 +268,7 @@ const App = () => {
           closeModalAllFav()
           setLoadingDeleteAllFav(false)
       })
-      .catch((error) => {
-        console.error('Ошибка при очистке избранных:', error)
+      .catch(() => {
         setLoadingDeleteAllFav(false)
         closeModalAllFav()
       })
@@ -307,19 +291,16 @@ const App = () => {
     if (userId === null) {
       return
     }
-    try {
-      await axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
-        params: {
-          Operation: 'addBasket',
-          idProduct: id,
-          idUser: userId,
-        }
-      })
-      const res = await axios.get(srcFavourites)
-      setCartFavourites(res.data)
-    } catch (error) {
-      console.error('Ошибка при добавлении продукта:', error)
-    }
+
+    await axios.get(`/backend/PHP/favourites.php`, {
+      params: {
+        Operation: 'addBasket',
+        idProduct: id,
+        idUser: userId,
+      }
+    })
+    const res = await axios.get(srcFavourites)
+    setCartFavourites(res.data)
   }, [setCartFavourites, userId])
 
   useEffect(() => {
@@ -328,9 +309,6 @@ const App = () => {
       axios.get(srcFavourites)
         .then((res) => {
           setCartFavourites(res.data)
-        })
-        .catch((error) => {
-          console.error('Ошибка при загрузке избранных:', error)
         })
         .finally(() => {
           setLoadingFavourites(false)
@@ -364,7 +342,7 @@ const App = () => {
         if (buttons.length > 0) {
           buttons.forEach(button => {
             button.addEventListener('click', () => {
-              axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+              axios.get(`/backend/PHP/favourites.php`, {
                 params: {
                   Operation: 'showFavourites',
                   idUser: userId,
@@ -375,9 +353,6 @@ const App = () => {
               })
               .then((res) => {
                 setCartFavourites(res.data)
-              })
-              .catch((error) => {
-                console.error('Ошибка при обновлении избранных:', error)
               })
             })
           })
@@ -393,7 +368,7 @@ const App = () => {
         const buttons = document.querySelectorAll('.card__heart')
         buttons.forEach(button => {
           button.removeEventListener('click', () => { 
-            axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+            axios.get(`/backend/PHP/favourites.php`, {
               params: {
                 Operation: 'showFavourites',
                 idUser: userId,
@@ -405,9 +380,6 @@ const App = () => {
             .then((res) => {
               setCartFavourites(res.data)
             })
-            .catch((error) => {
-              console.error('Ошибка при обновлении избранных:', error)
-            }) 
           })
         })
       }
@@ -424,7 +396,7 @@ const App = () => {
         if (buttons.length > 0) {
           buttons.forEach(button => {
             button.addEventListener('click', () => {
-              axios.get(`http://localhost:3000/backend/PHP/favourites.php`, {
+              axios.get(`/backend/PHP/favourites.php`, {
                 params: {
                   Operation: 'showBasket',
                   idUser: userId,
@@ -435,9 +407,6 @@ const App = () => {
               })
               .then((res) => {
                 dispatch(setCartBasket(res.data))
-              })
-              .catch((error) => {
-                console.error('Ошибка при обновлении корзины:', error)
               })
             })
           })
@@ -457,7 +426,18 @@ const App = () => {
 
   //поиск
 
-  const[searchQuery, setSearchQuery] = useState('')
+  const[searchQuery, setSearchQuery] = useState(() => {
+    const savedSearch = sessionStorage.getItem('searchQuery')
+    return savedSearch || ''
+  })
+
+  useEffect(() => {
+    if (searchQuery) {
+      sessionStorage.setItem('searchQuery', searchQuery)
+    } else {
+      sessionStorage.removeItem('searchQuery')
+    }
+  }, [searchQuery])
 
   //пагинация
 
@@ -465,11 +445,16 @@ const App = () => {
 
   //меню товаров
 
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(() => {
+      const categoryFromUrl = searchParams.get('category')
+      return categoryFromUrl ? parseInt(categoryFromUrl) : 0
+  })
 
   const categories = [
       { id: 0, label: 'Все категории' },
+      { id: 1, label: 'Ноутбуки' },
       { id: 2, label: 'Смартфоны' },
+      { id: 3, label: 'Планшеты' },
       { id: 4, label: 'Телевизоры' },
       { id: 5, label: 'Компьютеры' },
       { id: 6, label: 'Красота и здоровье' },
@@ -482,8 +467,6 @@ const App = () => {
       { id: 13, label: 'Умные устройства' },
       { id: 14, label: 'Автотовары' },
       { id: 15, label: 'Сетевое оборудование' },
-      { id: 3, label: 'Планшеты' },
-      { id: 1, label: 'Ноутбуки' },
       { id: 16, label: 'Кабели и адаптеры' },
       { id: 17, label: 'Электронные книги' },
       { id: 18, label: 'Климатическая техника' },
@@ -502,26 +485,58 @@ const App = () => {
 
   // сортировка товаров
 
-  const [sortType, setSortType] = useState('default')
-  const [activeCategoryId, setActiveCategoryId] = useState(0)
+  const [sortType, setSortType] = useState(() => {
+      return searchParams.get('sort') || 'default'
+  })
+  const [activeCategoryId, setActiveCategoryId] = useState(() => {
+      const categoryFromUrl = searchParams.get('category')
+      return categoryFromUrl ? parseInt(categoryFromUrl) : 0
+  })
+
+  const [currentSort, setCurrentSort] = useState(() => {
+    const sortFromUrl = searchParams.get('sort')
+
+    switch (sortFromUrl) {
+      case 'cheap':
+        return 'Дешевле'
+      case 'expensive':
+        return 'Дороже'
+      case 'discount':
+        return 'По скидке (%)'
+      case 'default': 
+        return 'По умолчанию'
+      default: 
+        return 'По умолчанию'
+    }
+  })
 
   // фильтры
 
-  const [currentSort, setCurrentSort] = useState('по умолчанию')
-  const [filters, setFilters] = useState<IFilters>({
-    minPrice: null,
-    maxPrice: null,
-    actions: {
-      action1: false,
-      action2: false,
-      action3: false,
-      action4: false,
-      action5: false,
-      action6: false,
-      action7: false,
-      action8: false,
+  const [filters, setFilters] = useState<IFilters>(() => {
+    const savedFilters = sessionStorage.getItem('productFilters')
+    if (savedFilters) {
+      return JSON.parse(savedFilters)
+    }
+
+    return {
+      minPrice: null,
+      maxPrice: null,
+      actions: {
+        action1: false,
+        action2: false,
+        action3: false,
+        action4: false,
+        action5: false,
+        action6: false,
+        action7: false,
+        action8: false,
+      }
     }
   })
+
+  useEffect(() => {
+    sessionStorage.setItem('productFilters', JSON.stringify(filters))
+  }, [filters])
 
   const handleFiltersChange = (newFilters: IFilters) => {
     setFilters(newFilters)
@@ -529,16 +544,30 @@ const App = () => {
 
   //загрузка карточек со всеми параметрами
 
+  useEffect(() => {
+    const newSearchParams = new URLSearchParams()
+
+    if (selectedCategory !== 0 && selectedCategory !== null) {
+      newSearchParams.set('category', selectedCategory.toString())
+    }
+
+    if (sortType !== 'default') {
+      newSearchParams.set('sort', sortType)
+    }
+
+    setSearchParams(newSearchParams)
+  }, [selectedCategory, sortType, setSearchParams])
+
   const [totalItems, setTotalItems] = useState(0)
 
   const fetchCards = useCallback(async () => {
   setIsLoading(true)
     try {
-      const response = await axios.get(`http://localhost:3000/backend/PHP/getCards.php`, {
+      const response = await axios.get(`/backend/PHP/getCards.php`, {
         params: {
           page: currentPage,
           search: searchQuery,
-          idCategory: selectedCategory,
+          idCategory: selectedCategory === 0 ? null : selectedCategory,
           sortType: sortType,
           minPrice: filters.minPrice,
           maxPrice: filters.maxPrice,
@@ -554,8 +583,6 @@ const App = () => {
       })
       setCards(response.data.items)
       setTotalItems(response.data.total)
-    } catch (error) {
-      console.error('Ошибка при загрузке карточек:', error)
     } finally {
       setIsLoading(false)
     }
@@ -642,68 +669,74 @@ const App = () => {
   return (
     <>
       <Context.Provider value={contextValue}>
-        <Router>
-          <Header />
-          <main id='content'>  
-            <ProgressBar />   
-              <Routes>
-                <Route path='/' 
-                  element={
-                    <Basic />
-                  } />                
-                <Route path='/favourites' 
-                  element={
-                    <Favourites 
-                      productsFavourites={productsFavourites} 
-                      loading={loadingFavourites} 
-                    />
-                  } />                   
-                <Route path='/profile' 
-                  element={
-                    <Profile />
-                  } />                   
-                <Route path='/basket' 
-                  element={
-                    <Basket 
-                      productsBasket={productsBasket} 
-                      loading={loadingBasket} 
-                    />
-                  } />                   
-              </Routes>
-            <ScrollButton />
-            <ChatBtn />
-            <Support />
-            <ConfirmModal
-              isOpen={isModalOpen}
-              onConfirm={() => {deleteProductBasket(productIdToDelete)}}
-              onCancel={closeModal}
-              modalId='modal-basket-delete'
-              portalId='confirm-modal-basket-delete'
-              title='Удаление товара'
-              description='Удалить выбранный товар? Отменить действие будет невозможно.'
-            />
-            <ConfirmModal
-              isOpen={isModalOpenAllBasket}
-              onConfirm={() => {handleClearBasket()}}
-              onCancel={closeModalAllBasket}
-              modalId='modal-basket-delete-all'
-              portalId='confirm-modal-basket-delete-all'
-              title='Удаление корзины'
-              description='Удалить все товары из корзины? Отменить действие будет невозможно.'
-            />
-            <ConfirmModal
-              isOpen={isModalOpenAllFav}
-              onConfirm={() => {handleClearFav()}}
-              onCancel={closeModalAllFav}
-              modalId='modal-fav-delete-all'
-              portalId='confirm-modal-fav-delete-all'
-              title='Удаление избранного'
-              description='Удалить все товары из избранного? Отменить действие будет невозможно.'
-            />
-          </main>
-          <Footer />      
-          <CookiesNotice />
-        </Router>
+        <Header />
+        <main id='content'>  
+          <ProgressBar />   
+            <Routes>
+              <Route 
+                path='/' 
+                element={
+                  <Basic />
+                } 
+              />                
+              <Route 
+                path='/favourites' 
+                element={
+                  <Favourites 
+                    productsFavourites={productsFavourites} 
+                    loading={loadingFavourites} 
+                  />
+                } 
+              />                   
+              <Route 
+                path='/profile' 
+                element={
+                  <Profile />
+                } 
+              />                   
+              <Route 
+                path='/basket' 
+                element={
+                  <Basket 
+                    productsBasket={productsBasket} 
+                    loading={loadingBasket} 
+                  />
+                } 
+              />                   
+            </Routes>
+          <ScrollButton />
+          <ChatBtn />
+          <Support />
+          <ConfirmModal
+            isOpen={isModalOpen}
+            onConfirm={() => {deleteProductBasket(productIdToDelete)}}
+            onCancel={closeModal}
+            modalId='modal-basket-delete'
+            portalId='confirm-modal-basket-delete'
+            title='Удаление товара'
+            description='Удалить выбранный товар? Отменить действие будет невозможно.'
+          />
+          <ConfirmModal
+            isOpen={isModalOpenAllBasket}
+            onConfirm={() => {handleClearBasket()}}
+            onCancel={closeModalAllBasket}
+            modalId='modal-basket-delete-all'
+            portalId='confirm-modal-basket-delete-all'
+            title='Удаление корзины'
+            description='Удалить все товары из корзины? Отменить действие будет невозможно.'
+          />
+          <ConfirmModal
+            isOpen={isModalOpenAllFav}
+            onConfirm={() => {handleClearFav()}}
+            onCancel={closeModalAllFav}
+            modalId='modal-fav-delete-all'
+            portalId='confirm-modal-fav-delete-all'
+            title='Удаление избранного'
+            description='Удалить все товары из избранного? Отменить действие будет невозможно.'
+          />
+        </main>
+        <Footer />      
+        <CookiesNotice />
       </Context.Provider>
     </>
   )
