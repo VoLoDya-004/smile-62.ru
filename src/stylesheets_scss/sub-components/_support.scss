@@ -1,7 +1,7 @@
 @use '../forward.scss';
 																	
 #confirm-modal-chat {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 999;
     left: 0;
@@ -106,6 +106,9 @@
 @media (max-width: 425px) {
     .support {
         width: 85%;
+        &__header {
+            padding: 20px 10px 10px 10px;
+        }
         &__footer {
             padding: 20px 10px 30px;
         }

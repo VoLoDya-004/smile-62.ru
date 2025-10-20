@@ -17,10 +17,10 @@ const BasketDelivery = () => {
         <section className={`basket-delivery ${isDarkTheme ? 'dark-theme' : ''}`}>
             <div className={`basket-delivery__left ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <div className='basket-delivery__left-count'>
-                    <b>ВСЕГО ТОВАРОВ:</b> {totalBasket.count} шт.
+                    <b>Всего товаров:</b> {totalBasket.count} шт.
                 </div>
                 <div className='basket-delivery__left-priceTotal'>
-                    <b>ИТОГО:</b> {priceFormatter.format(totalBasket.price_total)} &#x20bd;
+                    <b>Итого:</b> {priceFormatter.format(totalBasket.price_total)} &#x20bd;
                 </div>
                 <div className='basket-delivery__left-btn'>
                     <Button className='button-violet'>
@@ -54,7 +54,7 @@ const BasketDelivery = () => {
                     className='basket-delivery__right-text' 
                     htmlFor='city-select'
                 >
-                    <b>ВАШ ГОРОД</b>
+                    <h3 className='margin-null'>Ваш город</h3>
                 </label><br />
                 <select 
                     defaultValue={city}

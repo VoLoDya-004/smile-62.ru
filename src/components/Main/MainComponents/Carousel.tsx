@@ -117,13 +117,17 @@ const Carousel = ({children}: ICarouseelProps) => {
 
 
 	return (
-		<aside>
-			<div className='slider'>
-	    	  		<div 
+		<aside aria-label='Рекламный баннер'>
+			<div 
+				className='slider' 
+				aria-label='Слайдер' 
+				tabIndex={0}
+			>
+	    	  		<button 
 						className='slider__btn-left' 
 						onClick={handleLeftArrow}
+						aria-label='Предыдущий слайд'
 					> 
-						<span className='visually-hidden'>Предыдущий слайд</span>
 	    	    		<svg
 	    	      			xmlns='http://www.w3.org/2000/svg'
 	    	      			className='slider__btn-svg'
@@ -135,7 +139,7 @@ const Carousel = ({children}: ICarouseelProps) => {
 								1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
 	    	      			/>
 	    	    		</svg>
-	    	  		</div>	
+	    	  		</button>	
 	    	  	<div
 	    	    	className='slider__window'
 	    	    	ref={sliderRef}
@@ -157,11 +161,11 @@ const Carousel = ({children}: ICarouseelProps) => {
 	    	    	  {pages}
 	    	    	</div>
 	    	  	</div>
-	    	  	<div 
+	    	  	<button 
 					className='slider__btn-right' 
 					onClick={handleRightArrow}
+					aria-label='Следующий слайд'
 				>
-					<span className='visually-hidden'>Следующий слайд</span>
 	    	    	<svg
 	    	    		xmlns='http://www.w3.org/2000/svg'
 	    	    		className='slider__btn-svg'
@@ -173,16 +177,21 @@ const Carousel = ({children}: ICarouseelProps) => {
 							1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
 	    	    		/>
 	    	    	</svg>
-	    	    </div>
+	    	    </button>
 	    		<span
 	    			className='slider__advertisement'
+					role='complementary'
+					aria-label='Реклама'
 	    			onMouseEnter={() => setShowChildren(true)}
 	    			onMouseLeave={() => setShowChildren(false)}
 	    		>
 	    			Реклама
 	    		</span>	
 	    	</div>	
-	    	<div className={`slider__advertisement-description ${showChildren ? 'show' : ''}`}>
+	    	<div 
+				className={`slider__advertisement-description ${showChildren ? 'show' : ''}`}
+				role='contentinfo'
+			>
 	    		ООО "что-там"<br />
 	    		ИНН 777777777<br />
 	    		здесь еще что-нибудь

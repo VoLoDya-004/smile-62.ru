@@ -41,25 +41,8 @@
             }
         }
     }
-    &__entrance { 
-        display: flex;
-        width: 40vw;
-        align-items: center;
-        flex-direction: column;
-        justify-content: space-between;
-        background-color: rgba(211, 212, 221, .24);
-        border-radius: 10%;
-        &-item {
-            width: 300px;
-            height: 25px;
-            border-radius: 5px;
-            margin-top: 5px;
-            margin: 16px 0 auto;
-        }
-    }
     &__header {
-        position: relative;
-        bottom: 40px;
+        text-transform: uppercase;
         font-size: 25px;
         user-select: none;
     }
@@ -256,12 +239,6 @@
                 width: 280px;
             }
         }
-        &__entrance { 
-            width: 43vw;
-            &-item {
-                width: 280px;
-            }
-        }
     }
 
     .form.no-wrap {
@@ -273,20 +250,14 @@
 
 @media (max-width: 768px) and (min-width: 425px) {
     .form {
-        margin: 120px auto 0;
+        margin: 110px auto 0;
         flex-wrap: wrap;
-        height: 750px;
         width: 95vw;
         &__registration { 
             width: 90vw;
-            max-height: 434px;
-            &-item {
-                width: 60vw;
+            &:last-child {
+                margin-top: 15px;
             }
-        }
-        &__entrance { 
-            width: 90vw;
-            max-height: 260px;
             &-item {
                 width: 60vw;
             }
@@ -317,20 +288,14 @@
 
 @media (max-width: 425px){
     .form {
-        margin: 120px auto 0;
+        margin: 100px auto 0;
         flex-wrap: wrap;
-        height: 750px;
         width: 95vw;
         &__registration { 
             width: 90vw;
-            max-height: 434px;
-            &-item {
-                width: 60vw;
+            &:last-child {
+                margin-top: 10px;
             }
-        }
-        &__entrance { 
-            width: 90vw;
-            max-height: 260px;
             &-item {
                 width: 60vw;
             }

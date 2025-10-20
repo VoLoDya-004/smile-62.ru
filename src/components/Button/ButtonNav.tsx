@@ -1,6 +1,6 @@
 import { useState, memo, useContext, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Context } from '../../contexts/context'
 import type { RootStore } from '../../redux'
 import type { ICategory } from '../../types/types'
@@ -26,6 +26,7 @@ const ButtonNav = () => {
     const [visible, setVisible] = useState<string>('none')
 
     const navigate = useNavigate()
+    const location = useLocation()
     const [searchParams] = useSearchParams()
 
     useEffect(() => {
@@ -40,6 +41,9 @@ const ButtonNav = () => {
     }, [searchParams, setSelectedCategory, setActiveCategoryId])
 
     function nav() {
+        if (location.pathname !== '/') {
+            navigate('/')
+        }
         if (toggle === '') {
             setToggle('navbar')
             setImage('/images/icons/cross.png')
@@ -85,11 +89,11 @@ const ButtonNav = () => {
     }, [])
 
     const handleCategorySelect = (id: number) => {
-        if (id === 0) {
-            navigate('/?category=0')
-        } else {
-            navigate(`/?category=${id}`)
+        if (activeCategoryId === id) {
+            return
         }
+        const categoryParam = id === 0 ? '/?category=0' : `/?category=${id}`
+        navigate(categoryParam)
         setCurrentPage(1)
         setSelectedCategory(id)
         setActiveCategoryId(id)
@@ -118,8 +122,72 @@ const ButtonNav = () => {
     }, [])
 
     const navbarHeight = viewportWidth < 1001 
-        ? viewportHeight - 148
-        : viewportHeight - 88
+        ? viewportHeight - 146
+        : viewportHeight - 86
+
+    useEffect(() => {
+        if (toggle === 'navbar') {
+            const handleTabKey = (e: KeyboardEvent) => {
+                if (e.key === 'Tab') {
+                    const navbar = document.querySelector('.navbar') as HTMLElement
+                    const navButton = document.getElementById('nav__button') as HTMLElement
+                    
+                    if (!navbar || !navButton) return
+                    
+                    const focusableElements = [
+                        navButton,
+                        ...Array.from(navbar.querySelectorAll(
+                            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                        )) as HTMLElement[]
+                    ]
+                    
+                    if (focusableElements.length === 0) return
+                    
+                    const firstElement = focusableElements[0]
+                    const lastElement = focusableElements[focusableElements.length - 1]
+                    
+                    if (!focusableElements.includes(document.activeElement as HTMLElement)) {
+                        e.preventDefault()
+                        if (e.shiftKey) {
+                            lastElement.focus()
+                        } else {
+                            firstElement.focus()
+                        }
+                    }
+                    else if (document.activeElement === lastElement && !e.shiftKey) {
+                        e.preventDefault()
+                        firstElement.focus()
+                    }
+                    else if (document.activeElement === firstElement && e.shiftKey) {
+                        e.preventDefault()
+                        lastElement.focus()
+                    }
+                }
+                
+                if (e.key === 'Escape') {
+                    setToggle('')
+                    setImage('/images/icons/nav.png')
+                    setVisible('none')
+                    document.getElementById('blackout')?.classList.remove('blackout')
+                    document.body.classList.remove('modal-open')
+                }
+            }
+            
+            document.addEventListener('keydown', handleTabKey)
+            
+            const timer = setTimeout(() => {
+                const navButton = document.getElementById('nav__button') as HTMLElement
+                if (navButton) {
+                    navButton.focus()
+                }
+            }, 100)
+            
+            return () => {
+                document.removeEventListener('keydown', handleTabKey)
+                clearTimeout(timer)
+            }
+        }
+    }, [toggle])
 
 
     return (
@@ -129,22 +197,27 @@ const ButtonNav = () => {
                 type='button'
                 id='nav__button' 
                 onClick={nav} 
+                aria-label={visible === 'block' ? 
+                    'Закрыть меню категорий товаров' : 
+                    'Открыть меню категорий товаров'
+                }
             >
                 <img 
                     src={image} 
-                    alt='img'
+                    alt='Категории товаров'
                     className='nav__img'
                 />
-                <span className='visually-hidden'>Кнопка выбора категории товаров</span>
             </button>
         </div>
         
-        <div 
+        <aside 
             className={isDarkTheme ? `${toggle} dark-theme` : toggle}
             style={{height: `${navbarHeight}px`}}
+            aria-hidden={visible === 'block' ? 'false' : 'true'}
+            aria-label='Список категории товаров'
         >
             {categories.map((cat: ICategory) => (
-                <div
+                <button
                     key={cat.id}
                     className={`
                         navbar__item ${visible} 
@@ -152,16 +225,26 @@ const ButtonNav = () => {
                             'navbar__item_active' : 
                             'navbar__item_passive'
                         }
+                        ${isDarkTheme ? ' dark-theme' : ''}
                     `}
                     id={cat.label}
                     onClick={() => handleCategorySelect(cat.id)}
                 >
                     {cat.label}
-                </div>
+                </button>
             ))}
-        </div>
+        </aside>
         </>
     )
 }
 
 export default memo(ButtonNav)
+
+
+
+
+
+
+
+
+

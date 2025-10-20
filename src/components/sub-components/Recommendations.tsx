@@ -19,19 +19,19 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
 
 
     return (
-        <div 
+        <article 
             key={card.id} 
             id={String(card.id)} 
             className={`recommendation-card ${isDarkTheme ? 'dark-theme' : ''}`}
         >
             <div className='recommendation-card__top'>
-                <a className='recommendation-card__image'>
+                <div className='recommendation-card__image'>
                     <img 
                         src={card.image} 
                         alt='Товар' 
                         loading='lazy' 
                     />
-                </a>
+                </div>
                 {sale !== 0 && 
                     <div className='recommendation-card__label'>-{sale}%</div>
                 }
@@ -47,14 +47,14 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
                         >
                             {price}
                         </div>
-                        <a 
+                        <div 
                             className={`
                                 recommendation-card__title 
                                 ${isDarkTheme ? 'dark-theme' : ''}
                             `}
                         >
                             {card.nazvanie}
-                        </a>
+                        </div>
                     </>
                 ) : (
                         <>
@@ -76,17 +76,17 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
                                     {price}
                                 </div>
                             </div>
-                            <a 
+                            <div 
                                 className={`recommendation-card__title 
                                     ${isDarkTheme ? 'dark-theme' : ''}`
                                 }
                             >
                                 {card.nazvanie}
-                            </a>
+                            </div>
                         </>
                     )}
             </div>
-        </div>
+        </article>
     )
 })
 
@@ -197,19 +197,19 @@ const Recommendations = () => {
     }
 
     return (
-        <div className='recommendation'>
-            <b className='recommendation__title'>Рекомендации</b>
+        <section className='recommendation'>
+            <h2 className='recommendation__title'>Рекомендации</h2>
             {isLoading ? (
             <>
-                <h3 className='recommendation-loading'>Загрузка рекомендаций...</h3>
+                <h2 className='recommendation-loading'>Загрузка рекомендаций...</h2>
                 <div className='spinner-cards'></div>
             </>
             ) : (
             <>
                 {cards.length === 0 ? (
-                <div className='recommendation-loading'>
+                <h2 className='recommendation-loading'>
                     Пока что рекомендации пусты
-                </div>
+                </h2>
                 ) : (
                 <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
                     {showLeftButton && (
@@ -217,11 +217,9 @@ const Recommendations = () => {
                         type='button'
                         className='recommendation__left-btn' 
                         onClick={scrollLeftBtn} 
+                        aria-label='Листать рекомендуемое товары назад'
                         disabled={scrollPosition === 0}
                     >
-                        <span className='visually-hidden'>
-                            Листать рекомендуемое товары назад
-                        </span>
                         <svg 
                             xmlns='http://www.w3.org/2000/svg'
                             className='svg-btn-fill-none'
@@ -240,10 +238,8 @@ const Recommendations = () => {
                         type='button'
                         className='recommendation__right-btn' 
                         onClick={scrollRightBtn}
+                        aria-label='Листать рекомендуемое товары вперёд'
                     >
-                        <span className='visually-hidden'>
-                            Листать рекомендуемое товары вперёд
-                        </span>
                         <svg 
                             xmlns='http://www.w3.org/2000/svg' 
                             className='svg-btn-fill-none'
@@ -265,6 +261,7 @@ const Recommendations = () => {
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
                     style={{ scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' }}
+                    tabIndex={-1} 
                     >
                     {cards.map((card) => (
                         <RecommendationsProduct key={card.id} card={card} />
@@ -274,7 +271,7 @@ const Recommendations = () => {
                 )}
             </>
             )}
-        </div> 
+        </section> 
     )
 }   
 

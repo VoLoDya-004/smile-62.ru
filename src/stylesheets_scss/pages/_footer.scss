@@ -16,7 +16,7 @@
 	}
 	&__section {
 		display: inline-flex;
-		justify-content: end;
+		flex-direction: column;
 		margin-left: auto;
 		@include forward.wh-auto;
 		padding-top: 30px;
@@ -43,11 +43,12 @@
 	}
 	&__contact {
 		display: inline-flex;
-		justify-content: end;
+		flex-direction: column;
+		align-items: start;
 		@include forward.wh-auto;
-		margin-left: 30px;
 		padding-top: 30px;
 		&-item { 
+			text-decoration: none;
 			margin: 5px 0;
 			display: flex;
 			color: #868695;
@@ -55,11 +56,15 @@
 		}
 	}
 	&__title {
+		font-size: 1em;
 		margin: 0 0 20px;
 		font-weight: 800;
 		display: flex;
 		color: rgb(0, 0, 0);
 		cursor: default;
+		&-section {
+			padding-left: 40px;
+		}
 	}
 	&__link {
 		display: flex;
@@ -157,13 +162,10 @@
 		}
 		&__section {
 			display: inline-flex;
-			justify-content: start;
 		}
 		&__contact {
 			display: inline-flex;
-			justify-content: end;
 			padding-top: 30px;
-			margin-left: 0;
 		}
 		&__link {
 			margin-left: 10px;

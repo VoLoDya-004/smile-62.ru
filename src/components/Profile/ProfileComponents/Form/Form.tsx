@@ -1,12 +1,12 @@
 import { useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {setUser} from '../../../redux/UserSlice'
-import type { RootStore } from '../../../redux/index'
-import type { INotificationData, IRegisterData } from '../../../types/types'
+import {setUser} from '../../../../redux/UserSlice'
+import type { RootStore } from '../../../../redux/index'
+import type { INotificationData, IRegisterData } from '../../../../types/types'
 import axios from 'axios'
-import FormTitle from '../FormTitle/FormTitle'
-import ButtonSubmit from '../../Button/ButtonSubmit'
-import Notification from '../../sub-components/Notification'
+import FormTitle from '../FormTitle'
+import ButtonSubmit from '../../../Button/ButtonSubmit'
+import Notification from '../../../sub-components/Notification'
 import FormSection from './FormSection'
 
 
@@ -143,11 +143,17 @@ const Form = () => {
 							e.preventDefault()
 							handleRegister()
 						}}
+						aria-label='Вход'
 					>
-        			    <FormTitle text={'РЕГИСТРАЦИЯ'} />
+        			    <FormTitle text={'Регистрация'} />
 						<p className='form-margin-top'>
-							<label className='form-font'>Введите имя<br/>
+							<label 
+								className='form-font' 
+								htmlFor='name-register'
+							>
+								Введите имя<br/>
 								<input 
+									id='name-register'
 									type='text' 
 									name='name'
 									autoComplete='name'
@@ -160,8 +166,13 @@ const Form = () => {
 							</label>
 						</p>
 						<p>
-    						<label className='form-font'>Введите e-mail<br/>
+    						<label 
+								className='form-font'
+								htmlFor='email-register'
+							>
+								Введите e-mail<br/>
     							<input 
+									id='email-register'
 									type='email'
 									name='email'
 									autoComplete='email'
@@ -174,8 +185,13 @@ const Form = () => {
 							</label>
   						</p>
 						<p>
-    						<label className='form-font'>Введите пароль<br/>
+    						<label
+								className='form-font'
+								htmlFor='password-register'
+							>
+								Введите пароль<br/>
     							<input 
+									id='password-register'
 									type='password' 
 									name='password'
 									autoComplete='new-password'
@@ -188,8 +204,13 @@ const Form = () => {
 							</label>
   						</p>
 						<p>
-    						<label className='form-font'>Подтвердите пароль<br/>
+    						<label 
+								className='form-font'
+								htmlFor='confirm-password-register'
+							>
+								Подтвердите пароль<br/>
     							<input 
+									id='confirm-password-register'
 									type='password' 
 									name='confirmPassword'
 									autoComplete='new-password'
@@ -210,11 +231,17 @@ const Form = () => {
 						method='post'
 					 	className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
 						onSubmit={(e) => {e.preventDefault(); handleLogin()}}
+						aria-label='Регистрация'
 					>
-        			    <FormTitle text={'ВХОД'} />
+        			    <FormTitle text={'Вход'} />
 						<p className='form-margin-top'>
-    						<label className='form-font'>Введите e-mail<br/>
+    						<label 
+								className='form-font'
+								htmlFor='email-login'
+							>
+								Введите e-mail<br/>
     							<input 
+									id='email-login'
 									type='email' 
 									name='email'
 									autoComplete='email'
@@ -226,9 +253,14 @@ const Form = () => {
 								/>
 							</label>
   						</p>
-						<p className='form__entrance-item'>
-    						<label className='form-font'>Введите пароль<br/>
+						<p>
+    						<label 
+								className='form-font'
+								htmlFor='password-login'
+							>
+								Введите пароль<br/>
     							<input 
+									id='password-login'
 									type='password'
 									name='password'
 									autoComplete='current-password'
@@ -240,7 +272,7 @@ const Form = () => {
 								/>
 							</label>
   						</p>
-						<ButtonSubmit className='button-violet'>
+						<ButtonSubmit className='button-violet margin-top-auto'>
 							Войти
 						</ButtonSubmit>
 					</form>

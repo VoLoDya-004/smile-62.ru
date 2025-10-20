@@ -12,8 +12,12 @@ const BasketFooter = () => {
 
     return (                          
         <div className={`basket-box__footer ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className='basket-box__footer-title'>{totalBasket.count} шт.</div>
-            <div>{priceFormatter.format(totalBasket.price_total)}  руб.</div>
+            <div className='basket-box__footer-title'>
+                {totalBasket.count} шт.
+            </div>
+            <div>
+                {priceFormatter.format(totalBasket.price_total)}  руб.
+            </div>
         </div>
     )
 }

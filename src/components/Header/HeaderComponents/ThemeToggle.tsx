@@ -18,7 +18,7 @@ const ThemeToggle = () => {
 
   const {isMobile} = useDeviceType()
 
-  
+
   return (
     <Tippy 
       content='Сменить тему' 
@@ -30,8 +30,8 @@ const ThemeToggle = () => {
         type='button'
         id='theme-toggle' 
         onClick={toggleTheme}
+        aria-label='Смена темы'
       >
-        <span className='visually-hidden'>Сменить тему</span>
         <img 
           src='/images/icons/theme.png' 
           alt='Смена темы'
@@ -43,6 +43,7 @@ const ThemeToggle = () => {
 }
 
 export default memo(ThemeToggle)
+
 
 
 

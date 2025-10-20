@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
 import type { RootStore } from '../../redux'
+import { usePortal } from '../../hooks/usePortal'
 
 
 interface IConfirmModal {
@@ -26,6 +27,10 @@ const ConfirmModal = ({
 }: IConfirmModal) => {
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
+    const portalElement = usePortal(portalId, isOpen)
+
+    const btnYesRef = useRef<HTMLButtonElement>(null)
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             const modal = document.getElementById(modalId)
@@ -35,23 +40,33 @@ const ConfirmModal = ({
         }
 
         if (isOpen) {
+            btnYesRef.current?.focus()
+            const allChildren = Array.from(document.body.children)
+            allChildren.forEach(child => {
+                if (child.id !== portalId) {
+                    child.setAttribute('inert', '')
+                }
+            })
             window.addEventListener('click', handleClickOutside)
             document.body.classList.add('modal-open')
         } else {
+            const allChildren = Array.from(document.body.children)
+            allChildren.forEach(child => {
+                child.removeAttribute('inert')
+            })
             document.body.classList.remove('modal-open')
         }
 
         return () => {
             window.removeEventListener('click', handleClickOutside)
+            const allChildren = Array.from(document.body.children)
+            allChildren.forEach(child => {
+                child.removeAttribute('inert')
+            })
         }
     }, [isOpen, onCancel, modalId])
 
-    if (!isOpen) {
-        return null
-    }
-
-    const portalTarget = document.getElementById(portalId)
-    if (!portalTarget) {
+    if (!portalElement || !isOpen) {
         return null
     }
 
@@ -60,14 +75,17 @@ const ConfirmModal = ({
         <div 
             id={modalId} 
             className='modal-window'
+            role='alertdialog'
+            aria-modal='true'
         >
             <div className={`modal-content ${isDarkTheme ? 'dark-theme' : ''}`}>
-                <p className={`modal-content__title ${isDarkTheme ? 'dark-theme' : ''}`}>
-                    <b>{title}</b>
-                </p>
+                <h3 className={`modal-content__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                    {title}
+                </h3>
                 <p className='modal-content__description'>{description}</p>
                 <div className='modal-content__footer'>
                     <button 
+                    ref={btnYesRef}
                         type='button'
                         className='confirm-yes'
                         onClick={onConfirm}
@@ -84,7 +102,7 @@ const ConfirmModal = ({
                 </div>
             </div>
         </div>,
-        portalTarget
+        portalElement
     )
 }
 

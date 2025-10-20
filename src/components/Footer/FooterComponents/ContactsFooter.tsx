@@ -6,11 +6,42 @@ const ContactsFooter = () => {
 	
     return (
         <div className='footer__contact'>
-			<ul className='margin-null'>
-				<div className='footer__title'>Контакты</div>
-				<li className='footer__contact-item'>Адрес: 11111111111</li>
-				<li className='footer__contact-item'>Телефон: 2222222222222</li>
-				<li className='footer__contact-item'>E-mail: 333333333333333</li>
+			<h3 className='footer__title footer__title-section'>Контакты</h3>
+			<ul 
+				className='margin-null' 
+				aria-label='Контактная информация'
+			>
+				<li 
+					className='footer__contact-item' 
+					aria-label='Наш адрес'
+				>
+					Адрес:&nbsp;
+					<address>1111111111</address>
+				</li>
+				<li 
+					className='footer__contact-item'
+					aria-label='Наш телефон'
+				>
+					Телефон:&nbsp;
+					<a 
+						href='tel:222222222222'
+						className='link-null'
+					>
+						222222222222
+					</a>
+				</li>
+				<li 
+					className='footer__contact-item'
+					aria-label='Наша электронная почта'
+				>
+					E-mail:&nbsp;
+					<a 
+						href='mailto:33333333333333'
+						className='link-null'
+					>
+						33333333333333
+					</a>
+				</li>
 			</ul>
 		</div>
     )

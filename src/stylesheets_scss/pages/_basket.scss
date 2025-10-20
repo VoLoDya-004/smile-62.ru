@@ -4,21 +4,6 @@
     margin-top: 100px;
     display: flex;
     justify-content: center;
-    &__empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 90vw;
-        height: 200px;
-        border-radius: 19px;
-        background-color: forward.$backColorElem;
-        &-str2 {
-            display: flex;
-            text-align: center;
-            margin-top: -20px;
-        }
-    }
 }
 
 .basket-box {
@@ -216,9 +201,11 @@
         padding-left: 50px;
         width: 40%;
         &-count {
+            text-transform: uppercase;
             font-size: 20px;
         }
         &-priceTotal {
+            text-transform: uppercase;
             font-size: 20px;
         }
         &-btn {
@@ -250,6 +237,7 @@
         padding-right: 0px;
         padding-left: 50px;
         &-text {
+            text-transform: uppercase;
             font-size: 20px;
             margin-top: 16.8px;
         }
@@ -294,18 +282,6 @@
 																	//АДАПТАЦИЯ 425px
 
 @media (max-width: 768px) and (min-width: 425px) {
-    .basket {
-        &__empty {
-            &-str1 {
-                font-size: smaller;
-            }
-            &-str2 {
-                padding: 0 10px;
-                font-size: smaller;
-            }
-        }
-    }
-
     .basket-box {
         width: 95vw;
         margin: 0 auto;
@@ -378,18 +354,6 @@
 																	//АДАПТАЦИЯ < 425px
 
 @media (max-width: 425px) {
-    .basket {
-        &__empty {
-            &-str1 {
-                font-size: smaller;
-            }
-            &-str2 {
-                padding: 0 10px;
-                font-size: smaller;
-            }
-        }
-    }
-
     .basket-box {
         width: 95vw;
         margin: 0 auto;
@@ -441,7 +405,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
-        height: 700px;
+        height: auto;
         width: 95%;
         margin-right: auto;
         margin-left: auto;
@@ -455,7 +419,7 @@
             }
         }
         &__right {
-            margin: 0 25px 25px 25px;
+            margin: 25px;
             width: 80%;
             height: 300px;
             padding-left: 15px;

@@ -22,7 +22,7 @@ const Favourites = ({productsFavourites, loading}: IFavouritesProps) => {
     if (loading) {
         return (
             <>
-                <h1 className='centered-heading'>Загрузка товаров...</h1>
+                <h2 className='centered-heading'>Загрузка товаров...</h2>
                 <div className='spinner-cards'></div>
             </>
         )

@@ -1,27 +1,15 @@
 import { memo } from 'react'
 
 
-const ChatBtn = () => {
-    function showModal() {
-        const modal = document.getElementById('confirm-modal-chat')
-        const modalCross = document.getElementById('button-cross')
+interface ChatBtnProps {
+    onOpen: () => void
+}
 
-        if (!modal || !modalCross) return
 
-        modal.style.display = 'block'
+const ChatBtn = ({ onOpen }: ChatBtnProps) => {
+    const modalOpen = () => {
+        onOpen()
         document.body.classList.add('modal-open')
-
-        modalCross.onclick = () => {
-            modal.style.display = 'none'
-            document.body.classList.remove('modal-open')
-        }
-
-        window.onclick = (e) => {
-            if (e.target == modal) {
-                modal.style.display = 'none'
-                document.body.classList.remove('modal-open')
-            }
-        }
     }
 
 
@@ -29,15 +17,16 @@ const ChatBtn = () => {
         <button 
             type='button'
             id='chat-btn' 
-            onClick={showModal}
+            onClick={modalOpen}
+            aria-label='Чат поддержки'
         >
-            <span className='visually-hidden'>Открыть чат поддержки</span>
             <svg 
                 className='chat-btn-svg' 
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'
                 fill='none'
+                aria-hidden='true'
             >
                 <path 
                     className='chat-svg'

@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../../redux'
+import type { RootStore } from '../../../../redux'
 
 
 interface IAccordionProps {
@@ -21,10 +21,12 @@ const Accordion = ({title, children}: IAccordionProps) => {
 
     return (
         <div className='accordion'>
-            <div 
+            <button 
                 className={`accordion__header ${isDarkTheme ? 'dark-theme' : ''}`} 
-                onClick={toggle}>{title} {isOpen ? '▴' : '▾'}
-            </div>
+                onClick={toggle}
+            >
+                <h4 className='margin-null'>{title} {isOpen ? '▴' : '▾'}</h4>
+            </button>
             {isOpen && 
                 <div className={`accordion__content ${isDarkTheme ? 'dark-theme' : ''}`}>
                     {children}

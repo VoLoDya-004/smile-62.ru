@@ -67,6 +67,7 @@
         max-width: 288px;
         &-title {
             display: inline-flex;
+            align-items: end;
             flex-wrap: nowrap;
             flex-shrink: 0;
             width: auto;
@@ -76,6 +77,9 @@
             cursor: pointer;
             user-select: none;
             transition: .2s;
+            border: none;
+            background-color: inherit;
+            font-size: 16px;
             &::after {
                 content: '';
                 position: absolute;
@@ -186,10 +190,12 @@
         width: 100%;
         padding: 10px;
         background-color: white;
+        border: none;
         border-bottom: 2px solid rgb(126 155 189 / 30%);
         cursor: pointer;
         user-select: none;
         transition: .1s;
+        font-size: 16px;
         @media (hover: hover) and (pointer: fine) {
             &:hover {
                 background-color: forward.$btnColor;

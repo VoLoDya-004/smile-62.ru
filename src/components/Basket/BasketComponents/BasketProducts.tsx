@@ -74,7 +74,10 @@ const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDele
 
 
     return (       
-        <div className='basket-box__product'>
+        <article 
+            className='basket-box__product'
+            aria-label={`Товар ${nazvanie} в корзине`}
+        >
             <div className='basket-box__product-img'>
                 <img 
                     className='basket-box__product-img'
@@ -87,16 +90,11 @@ const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDele
                 <div 
                     className={`basket-box__product-count-box ${isDarkTheme ? 'dark-theme': ''}`}
                 >
-                    <label 
-                        htmlFor="input-count-change" 
-                        className="visually-hidden"
-                    >
-                        Поле для смены количества товара в корзине
-                    </label>
                     <input
                         id='input-count-change'
                         onChange={handleInputChange}
                         onBlur={handleBlur}
+                        aria-label='Поле для смены количества товара в корзине'
                         className=
                         {`basket-box__product-count-input ${isDarkTheme ? 'dark-theme': ''}`}
                         type='number'
@@ -108,13 +106,11 @@ const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDele
                 <div className='basket-box__product-count-controls'>
                     <button
                         onClick={handleIncrease}
+                        aria-label='Увеличить количество товара в корзине на единицу'
                         disabled={isPending}
                         type='button'
                         className={`count__up count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
-                        <span className="visually-hidden">
-                            Увеличить количество товара в корзине на единицу
-                        </span>
                         <svg 
                             width='14'
                             height='8'
@@ -130,13 +126,11 @@ const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDele
                     </button>
                     <button
                         onClick={handleDecrease}
+                        aria-label='Уменьшить количество товара в корзине на единицу'
                         disabled={isPending}
                         type='button'
                         className={`count__down count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
-                        <span className="visually-hidden">
-                            Уменьшить количество товара в корзине на единицу
-                        </span>
                         <svg 
                             width='14'
                             height='8'
@@ -160,7 +154,7 @@ const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDele
                     id={id}
                     isPendingDelete={isPendingDelete} 
                 />
-        </div>
+        </article>
     )
 }
 

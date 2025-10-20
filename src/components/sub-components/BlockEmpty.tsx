@@ -14,9 +14,9 @@ const BlockEmpty = ({text1, text2}: IBlockEmptyProps) => {
     
     
     return (
-            <div className={`basket__empty ${isDarkTheme ? 'dark-theme' : ''}`}>
-                <b className='basket__empty-str1'>{text1}</b><br/>
-                <div className='basket__empty-str2'>{text2}</div><br/>
+            <div className={`block-empty ${isDarkTheme ? 'dark-theme' : ''}`}>
+                <b className='block-empty__str-up'>{text1}</b><br/>
+                <div className='block-empty__str-bottom'>{text2}</div><br/>
                 <ButtonMainNav />
             </div>
     )

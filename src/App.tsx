@@ -10,17 +10,17 @@ import type { IFilters, ICardsRender, IFav } from './types/types'
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
-import Basic from './components/Basic/Basic'
-import Favourites from './components/Favourites/Favourites'
-import Profile from './components/Profile/Profile'
-import Basket from './components/Basket/Basket'
 import ProgressBar from './components/sub-components/ProgressBar'
 import ScrollButton from './components/Button/ScrollButton'
 import ChatBtn from './components/Button/ChatBtn'
 import BasketProducts from './components/Basket/BasketComponents/BasketProducts'
 import FavouritesProducts from './components/Favourites/FavouritesComponents/FavouritesProducts'
-import Support from './components/sub-components/Support'
 import CookiesNotice from './components/sub-components/CookiesNotice'
+import Main from './components/Main/Main'
+import Favourites from './components/Favourites/Favourites'
+import Profile from './components/Profile/Profile'
+import Basket from './components/Basket/Basket'
+import Support from './components/sub-components/Support'
 import ConfirmModal from './components/sub-components/ConfirmModal'
 
 
@@ -39,16 +39,49 @@ const App = () => {
     }
   }, [])
 
+  // Модалки
+
+  const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
+  const [isPendingDelete, setIsPendingDelete] = useState<Record<number, boolean>>({})
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSupportOpen, setIsSupportOpen] = useState(false)
+  const [isModalOpenAllBasket, setIsModalOpenAllBasket] = useState(false)
+  const [isModalOpenAllFav, setIsModalOpenAllFav] = useState(false)
+
+  const openSupport = useCallback(() => setIsSupportOpen(true), [])
+  const closeSupport = useCallback(() => setIsSupportOpen(false), [])
+
+  const showModalAllBasket = useCallback(() => setIsModalOpenAllBasket(true), [])
+  const closeModalAllBasket = useCallback(() => setIsModalOpenAllBasket(false), [])
+  const handleClearBasketBtn = useCallback(() => showModalAllBasket(), [showModalAllBasket])
+
+
+  const showModal = useCallback((id: number) => {
+    setProductIdToDelete(id)
+    setIsModalOpen(true)
+  }, [setIsModalOpen, setProductIdToDelete, setIsPendingDelete])
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false)
+  }, [setIsModalOpen, setProductIdToDelete])
+
+  const showModalAllFav = useCallback(() => {
+    setIsModalOpenAllFav(true)
+  }, [setIsModalOpenAllFav])
+
+  const closeModalAllFav = useCallback(() => {
+    setIsModalOpenAllFav(false)
+  }, [setIsModalOpenAllFav])
+
+  const handleClearFavBtn = useCallback(() => {
+    showModalAllFav()
+  }, [showModalAllFav])
+
   //работа с корзиной
 
   const srcBasket = `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
-  const [isPendingDelete, setIsPendingDelete] = useState<Record<number, boolean>>({})
-
-  const [isModalOpenAllBasket, setIsModalOpenAllBasket] = useState(false)
-  const [isModalOpenAllFav, setIsModalOpenAllFav] = useState(false)
   const [loadingDeleteAllBasket, setLoadingDeleteAllBasket] = useState(false)
   const [loadingDeleteAllFav, setLoadingDeleteAllFav] = useState(false)
   const [loadingFavourites, setLoadingFavourites] = useState(true)
@@ -105,27 +138,6 @@ const App = () => {
       })
     }
   }, [dispatch, userId])
-
-  const showModalAllBasket = useCallback(() => {
-    setIsModalOpenAllBasket(true)
-  }, [setIsModalOpenAllBasket])
-
-  const closeModalAllBasket = useCallback(() => {
-    setIsModalOpenAllBasket(false)
-  }, [setIsModalOpenAllBasket])
-
-  const handleClearBasketBtn = useCallback(() => {
-    showModalAllBasket()
-  }, [showModalAllBasket])
-
-  const showModal = useCallback((id: number) => {
-    setProductIdToDelete(id)
-    setIsModalOpen(true)
-  }, [setIsModalOpen, setProductIdToDelete, setIsPendingDelete])
-
-  const closeModal = useCallback(() => {
-    setIsModalOpen(false)
-  }, [setIsModalOpen, setProductIdToDelete])
 
   const increaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
@@ -274,18 +286,6 @@ const App = () => {
       })
     }
   }, [setCartFavourites, userId])
-
-  const showModalAllFav = useCallback(() => {
-    setIsModalOpenAllFav(true)
-  }, [setIsModalOpenAllFav])
-
-  const closeModalAllFav = useCallback(() => {
-    setIsModalOpenAllFav(false)
-  }, [setIsModalOpenAllFav])
-
-  const handleClearFavBtn = useCallback(() => {
-    showModalAllFav()
-  }, [showModalAllFav])
 
   const addInBasketProductFavourites = useCallback(async (id: number): Promise<void> => {
     if (userId === null) {
@@ -446,8 +446,8 @@ const App = () => {
   //меню товаров
 
   const [selectedCategory, setSelectedCategory] = useState<number | null>(() => {
-      const categoryFromUrl = searchParams.get('category')
-      return categoryFromUrl ? parseInt(categoryFromUrl) : 0
+    const categoryFromUrl = searchParams.get('category')
+    return categoryFromUrl ? parseInt(categoryFromUrl) : 0
   })
 
   const categories = [
@@ -486,11 +486,11 @@ const App = () => {
   // сортировка товаров
 
   const [sortType, setSortType] = useState(() => {
-      return searchParams.get('sort') || 'default'
+    return searchParams.get('sort') || 'default'
   })
   const [activeCategoryId, setActiveCategoryId] = useState(() => {
-      const categoryFromUrl = searchParams.get('category')
-      return categoryFromUrl ? parseInt(categoryFromUrl) : 0
+    const categoryFromUrl = searchParams.get('category')
+    return categoryFromUrl ? parseInt(categoryFromUrl) : 0
   })
 
   const [currentSort, setCurrentSort] = useState(() => {
@@ -670,13 +670,13 @@ const App = () => {
     <>
       <Context.Provider value={contextValue}>
         <Header />
-        <main id='content'>  
+        <main className='main'>  
           <ProgressBar />   
             <Routes>
               <Route 
                 path='/' 
                 element={
-                  <Basic />
+                  <Main />
                 } 
               />                
               <Route 
@@ -705,8 +705,8 @@ const App = () => {
               />                   
             </Routes>
           <ScrollButton />
-          <ChatBtn />
-          <Support />
+          <ChatBtn onOpen={openSupport} />
+          <Support isOpen={isSupportOpen} onClose={closeSupport} />
           <ConfirmModal
             isOpen={isModalOpen}
             onConfirm={() => {deleteProductBasket(productIdToDelete)}}
@@ -743,6 +743,20 @@ const App = () => {
 }
 
 export default App
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

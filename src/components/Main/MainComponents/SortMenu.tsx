@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import type { RootStore } from '../../../redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -47,6 +47,19 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
         onSelect(value)
         onClose()
     }
+
+    const handleKeyDown = (event: React.KeyboardEvent, value: string) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            handleRadioChange(value)
+        }
+    }
+
+    const firstRadioRef = useRef<HTMLLabelElement>(null)
+
+    useEffect(() => {
+        firstRadioRef.current?.focus()
+    }, [])
     
 
     return (
@@ -57,6 +70,9 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
             <label 
                 htmlFor='sort-menu1' 
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`} 
+                tabIndex={0}
+                onKeyDown={(e) => handleKeyDown(e, 'default')}
+                ref={firstRadioRef}
             >
                 <input 
                     checked={selectedOption === 'default'}
@@ -64,12 +80,15 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                     type='radio'
                     id='sort-menu1'
                     onChange={() => handleRadioChange('default')} 
+                    tabIndex={-1}
                 />
                 По умолчанию
             </label>
             <label 
                 htmlFor='sort-menu2' 
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
+                tabIndex={0}
+                onKeyDown={(e) => handleKeyDown(e, 'cheap')}
             >
                 <input 
                     checked={selectedOption === 'cheap'}
@@ -77,12 +96,15 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                     id='sort-menu2' 
                     name='sortOptions'
                     onChange={() => handleRadioChange('cheap')}
+                    tabIndex={-1}
                 />
                 Дешевле
             </label>
             <label 
                 htmlFor='sort-menu3'
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
+                tabIndex={0}
+                onKeyDown={(e) => handleKeyDown(e, 'expensive')}
             >
                 <input 
                     checked={selectedOption === 'expensive'}
@@ -90,12 +112,15 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                     type='radio'
                     id='sort-menu3'
                     onChange={() => handleRadioChange('expensive')} 
+                    tabIndex={-1}
                 />
                 Дороже
             </label>
             <label 
                 htmlFor='sort-menu4'
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
+                tabIndex={0}
+                onKeyDown={(e) => handleKeyDown(e, 'discount')}
             >
                 <input 
                     checked={selectedOption === 'discount'}
@@ -103,6 +128,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                     id='sort-menu4'
                     name='sortOptions'
                     onChange={() => handleRadioChange('discount')} 
+                    tabIndex={-1}
                 />
                 По скидке (%)
             </label>
@@ -111,3 +137,14 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
 })
 
 export default SortMenu
+
+
+
+
+
+
+
+
+
+
+

@@ -7,14 +7,17 @@ const LinkFooter = () => {
 
 		
 	return (
-		<div className='footer__link'>
+		<div 
+			className='footer__link'
+			aria-label="Социальные сети компании"
+		>
 			<div className={`footer__link-item ${isDarkTheme ? 'dark-theme' : ''}`}>
 				<a 
 					className='footer__link-item-vk' 
 					href='https://vk.com/' 
 					target='_blank'
+					aria-label='Наша страница в ВКонтакте'
 				>
-					<span className='visually-hidden'>Логотип ВКонтакте</span>
 					<svg 
 						className='footer__link-item-vk-svg'
 						xmlns='http://www.w3.org/2000/svg'
@@ -37,8 +40,8 @@ const LinkFooter = () => {
 					className='footer__link-item-tg' 
 					href='http://web.telegram.org/' 
 					target='_blank'
+					aria-label='Наш Telegram канал'
 				>
-					<span className='visually-hidden'>Логотип Телеграмма</span>
 					<svg 
 						className='footer__link-item-tg-svg' 
 						xmlns='http://www.w3.org/2000/svg' 
@@ -54,8 +57,8 @@ const LinkFooter = () => {
 					className='footer__link-item-ok' 
 					href='https://ok.ru/'
 					target='_blank'
+					aria-label='Мы в Одноклассниках'
 				>
-					<span className='visually-hidden'>Логотип Одноклассников</span>
 					<svg 
 						className='footer__link-item-ok-svg' 
 						xmlns='http://www.w3.org/2000/svg' 
@@ -91,8 +94,8 @@ const LinkFooter = () => {
 					className='footer__link-item-youtube'
 					href='youtube.com'
 					target='_blank'
+					aria-label='Наш Youtube канал'
 				>
-					<span className='visually-hidden'>Логотип Ютуба</span>
 					<svg 
 						className='footer__link-item-youtube-svg' 
 						xmlns='http://www.w3.org/2000/svg'

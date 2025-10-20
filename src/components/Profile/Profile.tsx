@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '../../redux/index'
-import Form from './Form/Form'
+import Form from './ProfileComponents/Form/Form'
 import Recommendations from '../sub-components/Recommendations'
 
 

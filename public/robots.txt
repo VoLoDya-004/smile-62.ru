@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /backend/
+
+Allow: /images/
+
+Sitemap: https://localhost:3001/sitemap.xml

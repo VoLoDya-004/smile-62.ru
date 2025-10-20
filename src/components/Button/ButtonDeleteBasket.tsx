@@ -26,10 +26,8 @@ const ButtonDeleteBasket = ({openDeleteModal, id, isPendingDelete}: IButtonDelet
                 className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`}
                 disabled={isPendingDelete}
                 onClick={() => openDeleteModal(id)}
+                aria-label='Удалить выбранный товар из корзины'
             >
-                <span className="visually-hidden">
-                    Удалить выбранный товар из корзины
-                </span>
                 <svg 
                     className='cross-svg-hover'
                     width='24'

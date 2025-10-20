@@ -1,18 +1,22 @@
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const ButtonMainNav = () => {
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+        navigate('/')
+    }
     
     
     return (
-        <NavLink to='/'>
-            <button 
-                type='button'
-                id='to-main-btn'
-            >
-                <b className='user-select-none'>Перейти на главную</b>
-            </button>
-        </NavLink>
+        <button 
+            type='button'
+            id='to-main-btn'
+            onClick={handleClick}
+        >
+            <b className='user-select-none'>Перейти на главную</b>
+        </button>
     )
 }
 

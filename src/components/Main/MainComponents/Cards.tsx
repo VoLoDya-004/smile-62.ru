@@ -246,7 +246,7 @@ const Cards = () => {
 
 
     return (
-      <div 
+      <article 
         key={card.id} 
         id={String(card.id)} 
         className={`card ${isDarkTheme ? 'dark-theme' : ''}`}
@@ -256,13 +256,18 @@ const Cards = () => {
             id={`card__heart_${card.id}`} 
             className='card__heart'
           >
-            <span className='visually-hidden'>Добавить товар в избранное</span>
             <button
               type='button'
               onClick={() => handleAddFav(card.id)}
               disabled={addingStatusFav[card.id]}
               className='button-reset'
             >
+              <span className="visually-hidden">
+                  {isInFav ? 
+                      'Товар уже в избранном' : 
+                      'Добавить в избранное'
+                  }
+              </span>
               <svg 
                 width='23' 
                 height='21'
@@ -325,12 +330,12 @@ const Cards = () => {
               </svg>
             </button>
           </div>
-          <a className='card__image'>
+          <div className='card__image'>
             <img 
               src={card.image} 
               alt='Товар'
             />
-          </a>
+          </div>
           {sale !== 0 && <div className='card__label'>-{sale}%</div>}
           {sale >= 20 && <div className='card__sale'>выгодно</div>}
         </div>
@@ -338,7 +343,9 @@ const Cards = () => {
           {price === price_sale ? (
             <>
               <div className='card__price card__price-count-same'>{price}</div>
-              <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a>
+              <div className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                {card.nazvanie}
+              </div>
               <button
                 type='button'
                 className={`
@@ -365,7 +372,9 @@ const Cards = () => {
                 <div className='card__price card__price-discount'>{price_sale}</div>
                 <div className='card__price card__price-count'>{price}</div>
                 </div>
-              <a className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>{card.nazvanie}</a> 
+              <div className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                {card.nazvanie}
+              </div> 
               <button
                 type='button'
                 className={`
@@ -388,7 +397,7 @@ const Cards = () => {
             </>
           )}
         </div>
-      </div>
+      </article>
     )
   })
 
@@ -397,14 +406,14 @@ const Cards = () => {
     <>
       {isLoading ? (
         <>
-          <h1 className='centered-heading'>Загрузка товаров...</h1>
+          <h2 className='centered-heading'>Загрузка товаров...</h2>
           <div className='spinner-cards'></div>
         </>
       ) : (
         <>
         { !isLoading && (searchQuery && filteredCards.length === 0 && !isLoading || 
         cards.length === 0) ? (
-          <h1 className='centered-heading'>Товары отсутствуют</h1>
+          <h2 className='centered-heading'>Товары отсутствуют</h2>
         ) : (
           <>
           {notification && (
@@ -414,7 +423,7 @@ const Cards = () => {
               onClose={() => setNotification(null)}
             />
           )}
-            <div className={`setka ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <section className={`setka ${isDarkTheme ? 'dark-theme' : ''}`}>
               {cards.map((card) => (
                 <Card 
                   key={card.id}
@@ -425,9 +434,9 @@ const Cards = () => {
                   cartBasket={cartBasket}
                 />
               ))}
-            </div>
+            </section>
 
-            <div className='load-more-box'>
+            <section className='load-more-box'>
               <div className='load-more-back'>
                 <ButtonLoad 
                   id='loadBtnBack' 
@@ -475,7 +484,7 @@ const Cards = () => {
                   Вперед
                 </ButtonLoad>
               </div>
-            </div>
+            </section>
           </>
         )}
         </>

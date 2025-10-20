@@ -8,9 +8,15 @@ const SectionsFooter = () => {
 
 
 	return (
-		<div className='footer__section'>
-		<ul className='margin-null'>
-			<div className='footer__title'>Разделы</div>
+		<nav 
+			className='footer__section'
+			aria-label='Навигация по разделам сайта'
+		>
+			<h3 className='footer__title footer__title-section'>Разделы</h3>
+			<ul 
+				className='margin-null' 
+				aria-label='Навигация по разделам сайта'
+			>
 				<li className='footer__section-item'>
 					<NavLink 
 						to='/'
@@ -43,8 +49,8 @@ const SectionsFooter = () => {
 						Корзина
 					</NavLink>
 				</li>
-		</ul>
-		</div>
+			</ul>
+		</nav>
 	)
 }
 

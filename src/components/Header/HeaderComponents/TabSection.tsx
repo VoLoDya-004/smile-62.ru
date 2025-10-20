@@ -4,6 +4,7 @@ import type { RootStore } from '../../../redux'
 import { useSelector, useDispatch } from 'react-redux'
 import {logoutUser} from '../../../redux/UserSlice'
 import type { INotificationData } from '../../../types/types'
+import useScreenWidth from '../../../hooks/useScreenWidth'
 import useDeviceType from '../../../hooks/useDeviceType'
 import Button from '../../Button/Button'
 import Notification from '../../sub-components/Notification'
@@ -53,7 +54,7 @@ const TabSection = () => {
 		localStorage.removeItem('auth')
 	}
 
-	const handleLoginp = () => {
+	const handleLogin = () => {
 		showNotification('Войдите или зарегистрируйтесь', 'success')
 	}
 
@@ -61,9 +62,15 @@ const TabSection = () => {
 	    window.scrollTo(0, 0)
     }, [])
 
+	const isMobileWidth = useScreenWidth(1001)
+
 
     return (
-		<>
+		<nav 
+			className='menu__nav'
+			aria-label='Навигация по сайту'
+			aria-hidden={isMobileWidth ? 'true' : 'false'}
+		>
 		{notification && (
 			<Notification
 				message={notification.message}
@@ -71,7 +78,10 @@ const TabSection = () => {
 				onClose={() => setNotification(null)}
 			/>
 		)}
-        <ul className='menu'>
+        <ul 
+			className='menu' 
+			aria-label='Навигация по сайту'
+		>
             <li className='menu__item'>
 				<NavLink 
 					to='/' 
@@ -99,6 +109,7 @@ const TabSection = () => {
 					to='/profile' 
 					className={({ isActive }) =>
 					(isActive ? 'line line-text menu__item-style' : 'menu__item-style')}
+					aria-label='Профиль'
 				>
 					Профиль
 					{showProfileMenu && (
@@ -137,7 +148,7 @@ const TabSection = () => {
 								<Button
 									id='header-profile-out'
 									className='button-violet'
-									onClick={handleLoginp}
+									onClick={handleLogin}
 								>
 									Войти
 								</Button>
@@ -156,7 +167,7 @@ const TabSection = () => {
 				</NavLink>
 			</li>
         </ul>
-		</>
+		</nav>
     )
 }
 

@@ -1,11 +1,14 @@
 <?php
 $allowed_origins = [
     'http://localhost:3001',
-    'http://192.168.0.106:3001'
+    'http://127.0.0.1:3001'
 ];
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origin, $allowed_origins)) {
+
+if (preg_match('/^http:\/\/192\.168\.0\.\d{1,3}:3001$/', $origin)) {
+    header("Access-Control-Allow-Origin: $origin");
+} elseif (in_array($origin, $allowed_origins)) {
     header("Access-Control-Allow-Origin: $origin");
 }
 

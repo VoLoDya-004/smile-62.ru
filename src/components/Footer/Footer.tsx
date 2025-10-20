@@ -13,7 +13,10 @@ const Footer = () => {
 
 
     return (
-        <footer className={`footer ${isDarkTheme ? 'dark-theme' : ''}`}>
+        <footer 
+            className={`footer ${isDarkTheme ? 'dark-theme' : ''}`}
+            aria-label='Подвал сайта'
+        >
             <LogoFooter />
             <SectionsFooter />
             <ContactsFooter />

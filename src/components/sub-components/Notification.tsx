@@ -57,7 +57,10 @@ const Notification = ({ message, type, onClose }: INotification) => {
 
 
     return (
-        <div style={styles}>
+        <div 
+            style={styles} 
+            role='alert'
+        >
             {message}
         </div>
     )

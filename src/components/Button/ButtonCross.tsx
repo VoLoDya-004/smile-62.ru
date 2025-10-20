@@ -14,8 +14,8 @@ const ButtonCross = ({id, className, onClick}: IButtonCrossProps) => {
             className={className} 
             id={id} 
             onClick={onClick}
+            aria-label='Закрыть'
         >
-            <span className='visually-hidden'>Закрыть</span>
             <img 
                 className='button-cross-svg'
                 src='/images/icons/cross.png'

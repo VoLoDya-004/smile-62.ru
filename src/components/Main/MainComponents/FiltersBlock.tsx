@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 import { Context } from '../../../contexts/context'
 import type { RootStore } from '../../../redux'
 import Button from '../../Button/Button'
-import SortMenu from '../SortMenu/SortMenu'
-import FiltersMenu from '../FiltersMenu/FiltersMenu'
+import SortMenu from './SortMenu'
+import FiltersMenu from './FiltersMenu/FiltersMenu'
 
 
 const FiltersBlock = () => {
@@ -63,10 +63,7 @@ const FiltersBlock = () => {
             sortOption === 'cheap' ? 'Дешевле' : 
             sortOption === 'expensive' ? 'Дороже' : 
             'По скидке (%)'
-        )
-        // setTimeout(() => {
-        //     setVisibleSort(false)
-        // }, 500)     
+        )  
     }
 
     const handleCloseSortMenu = () => {
@@ -161,37 +158,87 @@ const FiltersBlock = () => {
     const itemText = pluralize(totalItems, ['товар', 'товара', 'товаров'])
 
 
+    useEffect(() => {
+        if (visibleFilters) {
+            const handleTabKey = (e: KeyboardEvent) => {
+                if (e.key === 'Tab') {
+                    const filtersMenu = document.querySelector('.filter-menu') as HTMLElement
+                    if (!filtersMenu) return
+
+                    const focusableElements = filtersMenu.querySelectorAll(
+                        'button, input, select, textarea, [href], [tabindex]:not([tabindex="-1"])'
+                    )
+
+                    if (focusableElements.length === 0) return
+
+                    const firstElement = focusableElements[0] as HTMLElement
+                    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
+
+                    if (!filtersMenu.contains(document.activeElement)) {
+                        e.preventDefault()
+                        if (e.shiftKey) {
+                            lastElement.focus()
+                        } else {
+                            firstElement.focus()
+                        }
+                    }
+                    else if (document.activeElement === lastElement && !e.shiftKey) {
+                        e.preventDefault()
+                        firstElement.focus()
+                    }
+                    else if (document.activeElement === firstElement && e.shiftKey) {
+                        e.preventDefault()
+                        lastElement.focus()
+                    }
+                }
+
+                if (e.key === 'Escape') {
+                    handleToggleFilters()
+                }
+            }
+
+            document.addEventListener('keydown', handleTabKey)
+            return () => document.removeEventListener('keydown', handleTabKey)
+        }
+    }, [visibleFilters])
+
+
     return (
         <>
-            <div 
-                onClick={allCategoriesBtn}
-                className={`
-                    categories-name-main 
-                    ${isDarkTheme ? 'dark-theme' : ''} 
-                    ${activeCategoryId === 0 ? 'passive' : '' }
-                `}
-            >
-                Все категории{activeCategoryId === 0 ? ' /' : '' } 
-            </div>
-            {visible && 
-                <div className='categories-name'>
-                    <div className='categories-name-slash'>/</div>
-                    {categoriesName} /
-                </div>
-            }
-            <div className='count-products'> {totalItems} {itemText} </div>
+            <nav aria-label='Навигация по категориям'>
+                <button 
+                    onClick={allCategoriesBtn}
+                    className={`
+                        categories-name-main 
+                        ${isDarkTheme ? 'dark-theme' : ''} 
+                        ${activeCategoryId === 0 ? 'passive' : '' }
+                        button-reset
+                    `}
+                    tabIndex={activeCategoryId === 0 ? -1 : 0}
+                >
+                    Все категории{activeCategoryId === 0 ? ' /' : '' } 
+                </button>
+                {visible && 
+                    <div className='categories-name'>
+                        <div className='categories-name-slash'>/</div>
+                        {categoriesName} /
+                    </div>
+                }
+                <div className='count-products'> {totalItems} {itemText} </div>
+            </nav>
             <section className={`filters-block ${isDarkTheme ? 'dark-theme' : ''}`}>
                 <div className='filters-block__sort'>Сортировка:
-                    <div 
+                    <button 
                         className={`filters-block__sort-title ${isDarkTheme ? 'dark-theme' : ''}`} 
                         onClick={handleToggleSort}
+                        tabIndex={0}
                     >
                         <span>{currentSort}</span>
                         {visibleSort ? 
                             <span className='sort-product'>▴</span> : 
                             <span className='sort-product'>▾</span>
                         }
-                    </div>
+                    </button>
                 </div>
                 <div className='filters-block__filter'>
                     <Button

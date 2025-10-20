@@ -8,11 +8,11 @@ const BasketHeader = () => {
 
 
     return (
-        <div className={`basket-box__table-header ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className='basket-box__table-header-title'>Наименование</div>
-            <div className='cursor-default'>Количество</div>
-            <div className='cursor-default'>Стоимость</div>                                              
-        </div>                 
+        <header className={`basket-box__table-header ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <h4 className='basket-box__table-header-title margin-null'>Наименование</h4>
+            <h4 className='cursor-default margin-null'>Количество</h4>
+            <h4 className='cursor-default margin-null'>Стоимость</h4>                                              
+        </header>                 
     )
 }
 

@@ -23,7 +23,7 @@ const Basket = ({productsBasket, loading}: IBasketProps) => {
     if (loading) {
         return (
             <>
-                <h1 className='centered-heading'>Загрузка товаров...</h1>
+                <h2 className='centered-heading'>Загрузка товаров...</h2>
                 <div className='spinner-cards'></div>
             </>
         )
@@ -43,7 +43,7 @@ const Basket = ({productsBasket, loading}: IBasketProps) => {
             {visible &&
             <>
                 <BasketBox productsBasket={productsBasket} />
-                <div className='delivery-label'><b>Доставка</b></div>
+                <h2 className='delivery-label'>Доставка</h2>
                 <BasketDelivery />
             </>
             }

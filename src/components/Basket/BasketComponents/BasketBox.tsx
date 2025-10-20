@@ -25,13 +25,13 @@ const BasketBox = ({productsBasket}: IBasketBoxProps) => {
                     <div className='clear-string'>
                         {loadingDeleteAllBasket ? (
                         <div className='spinner-clear-box'>
-                            <h1 className='spinner-clear-box-title'>Удаление товаров...</h1>
+                            <h2 className='spinner-clear-box-title'>Удаление товаров...</h2>
                             <div className='spinner-clear'></div>
                         </div>
                         ) : 
                         (
                         <>
-                            <h1 className='basket-box__container-title1'>Корзина товаров</h1>
+                            <h2 className='basket-box__container-title1'>Корзина товаров</h2>
                             <Button 
                                 className='button-violet'
                                 onClick={handleClearBasketBtn} 

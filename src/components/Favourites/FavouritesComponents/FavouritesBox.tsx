@@ -24,13 +24,15 @@ const FavouritesBox = ({productsFavourites}: IFavouritesBoxProps) => {
                     <div className='clear-string'>
                         {loadingDeleteAllFav ? (
                         <div className='spinner-clear-box'>
-                            <h1 className='spinner-clear-box-title'>Удаление товаров...</h1>
+                            <h2 className='spinner-clear-box-title'>Удаление товаров...</h2>
                             <div className='spinner-clear'></div>
                         </div>
                         ) : 
                         (
                         <>
-                            <h1 className='favourites-box__container-title1'>Избранные товары</h1>
+                            <h2 className='favourites-box__container-title1'>
+                                Избранные товары
+                            </h2>
                             <Button
                                 className='button-violet'
                                 onClick={handleClearFavBtn}>

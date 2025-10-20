@@ -22,9 +22,9 @@ const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBas
 
 
     return (
-        <div 
+        <article 
             className='favourites-box__product'
-            id={String(productFavourites.id)}
+            aria-label={`Избранный товар ${nazvanie}`}
         >
             <div className='favourites-box__product-img'>
                 <img 
@@ -50,7 +50,7 @@ const FavouritesProducts = ({productFavourites, deleteProductFavourites, cartBas
                 deleteProductFavourites={deleteProductFavourites} 
                 id={id} 
             />
-        </div> 
+        </article> 
     )
 }
 

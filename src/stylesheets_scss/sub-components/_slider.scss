@@ -1,0 +1,220 @@
+@use '../forward.scss';
+
+.all-pages-container {
+	display: flex;
+	height: 100%;
+	transition: translate;
+	transition-property: transform;
+	transition-duration: 300ms;
+	transition-timing-function: ease-in-out;
+}
+
+.slider__item img {
+	width: calc(100% - 0.4px);
+	object-fit: cover;
+}
+
+.slider {
+	user-select: none;
+	display: flex;
+	align-items: center; 
+	justify-content: center;
+	height: 250px;
+	width: 100%;
+	margin-bottom: 10px;
+	position: relative;
+	&:hover .slider__btn-left, 
+    &:hover .slider__btn-right, 
+    &:focus .slider__btn-left,
+    &:focus .slider__btn-right {
+		opacity: 1;
+	}
+	&__window {
+		position: relative;
+		cursor: grab;
+		height: 100%;
+		width: 100%;
+		border-radius: 50px;
+		overflow: hidden;
+	}
+	&__item {
+		display: flex;
+		user-select: none;
+		pointer-events: none;
+	}
+	&__advertisement {
+		position: absolute;
+		right: 25px;
+		bottom: 20px;
+		color: white;
+		padding: 0 10px 3px;
+		background-color: rgba(0, 0, 0, 0.4);
+		backdrop-filter: blur(2px);
+		user-select: none;
+		border-radius: 20px;
+		&::after {
+			content: url(/images/icons/description_advertisement.svg);
+			padding-left: 5px;
+		}
+		&-description {
+			display: flex;
+			padding: 5px;
+			font-size: 12px;
+			background-color: black;
+			color: white;
+			border-radius: 10px;
+			position: absolute;
+			top: 325px;
+			right: 35px;
+			opacity: 0;
+			transition: opacity .3s ease;
+			user-select: none;
+			z-index: 1;
+			pointer-events: none;
+			&.show {
+				opacity: 1;
+			}
+		}
+	}
+	&__btn-left {
+		@include forward.flex-center;
+		opacity: 0;
+		transition: .3s;
+		background-color: rgba(0, 0, 0, 0.662);
+		width: 36px;
+		aspect-ratio: 1;
+		border: none;
+		border-radius: 50%;
+		transform: rotate(-90deg);
+		transition: .3s;
+		cursor: pointer;
+		position: absolute;
+		left: 25px;
+		z-index: 1;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover,
+            &:focus {
+				background-color: black;
+                opacity: 1;
+			}
+		}
+	}
+	&__btn-right {
+		@include forward.flex-center;
+		opacity: 0;
+		transition: .3s;
+		background-color: rgba(0, 0, 0, 0.662);
+		width: 36px;
+		aspect-ratio: 1;
+		border: none;
+		cursor: pointer;
+		border-radius: 50%;
+		transform: rotate(90deg);
+		transition: .3s;
+		position: absolute;
+		right: 25px;
+		z-index: 1;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover,
+            &:focus {
+				background-color: black;
+                opacity: 1;
+			}
+		}
+	}
+	&__btn-svg {
+		fill: none;
+		width: 24px;
+		height: 24px;
+		&-path {
+			fill: white;
+			fill-rule: evenodd;
+			clip-rule: evenodd;
+		}
+	}
+}
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 768px) {
+	.slider {
+		height: 230px;
+		&__window {
+			margin: 0 15px 0;
+		}
+		&__advertisement {
+			right: 35px;
+			&-description {
+				display: none;
+				&.show {
+					display: none;
+				}
+			}
+		}
+		&__btn-left {
+			opacity: 1;
+		}
+		&__btn-right {
+			opacity: 1;
+		}
+	}
+}
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+	.slider {
+		height: 170px;
+		&__window {
+			margin: 0 5px 0;
+		}
+		&__advertisement {
+			right: 35px;
+			bottom: 5px;
+			font-size: 15px;
+			pointer-events: none;
+			&-description {
+				display: none;
+				&.show {
+					display: none;
+				}
+			}
+		}
+		&__btn-left {
+			opacity: 1;
+			left: 15px;
+		}
+		&__btn-right {
+			opacity: 1;
+			right: 15px;
+		}
+	}
+}
+
+																	//АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+	.slider {
+		height: 130px;
+		&__window {
+			margin: 0 5px 0;
+		}
+		&__advertisement {
+			display: none;
+			&-description {
+				display: none;
+				&.show {
+					display: none;
+				}
+			}
+		}
+		&__btn-left {
+			opacity: 1;
+			left: 15px;
+		}
+		&__btn-right {
+			opacity: 1;
+			right: 15px;
+		}
+	}
+}

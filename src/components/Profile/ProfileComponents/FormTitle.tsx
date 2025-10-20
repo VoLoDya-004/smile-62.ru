@@ -7,9 +7,9 @@ const FormTitle = ({text}: TFormTitleProps) => {
 
     
     return (
-        <span className='form__header'>
-            <b>{text}</b>
-        </span>
+        <h2 className='form__header'>
+            {text}
+        </h2>
     )
 }
 

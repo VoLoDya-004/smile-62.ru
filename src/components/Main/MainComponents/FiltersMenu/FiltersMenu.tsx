@@ -1,11 +1,10 @@
 import { forwardRef, useContext, useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
-import { createPortal } from 'react-dom'
-import { Context } from '../../../contexts/context'
-import type { RootStore } from '../../../redux'
+import { Context } from '../../../../contexts/context'
+import type { RootStore } from '../../../../redux'
 import Accordion from './Accordion'
-import Button from '../../Button/Button'
-import ButtonCross from '../../Button/ButtonCross'
+import Button from '../../../Button/Button'
+import ButtonCross from '../../../Button/ButtonCross'
 
 interface IFiltersMenuProps {
     handleToggleFilters: () => void
@@ -145,27 +144,26 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
       }
     }, [])
 
-    const portalTarget = document.getElementById('filter-menu')
-    if (!portalTarget) {
-        return null
-    }
 
-
-    return createPortal(
+    return (
         <section 
             ref={ref} 
             className={`filter-menu ${isDarkTheme ? 'dark-theme' : ''}`}
-            style={{ height: viewportWidth > 1000 ? `${viewportHeight - 72}px` : `${viewportHeight - 132}px`, overflowY: 'auto' }}
+            style={{ height: viewportWidth > 1000 
+                ? `${viewportHeight - 72}px` 
+                : `${viewportHeight - 132}px`, overflowY: 'auto' 
+            }}
+            aria-label='Фильтры товаров'
         >
             <div className={`filter-menu__title ${isDarkTheme ? 'dark-theme' : ''}`}>
-                <b>Фильтры</b>
+                <h3 className='margin-null'>Фильтры</h3>
                 <ButtonCross
                     className='button-cross'
                     onClick={handleToggleFilters}
                 />
             </div>
             <Accordion title='Акции'>
-                <label>
+                <label aria-label='Без акции'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -176,7 +174,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                         Без акции
                     </div>
                 </label>
-                <label>
+                <label aria-label='Акция 1-10%'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -187,7 +185,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                         Акция 1-10%
                     </div>
                 </label>
-                <label>
+                <label aria-label='Акция 10-20%'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -198,7 +196,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                         Акция 10-20%
                     </div>
                 </label>
-                <label>
+                <label aria-label='Акция больше 20%'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -215,12 +213,6 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                     <div 
                         className={`accordion__input-block ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
-                        <label 
-                            htmlFor="accordion__input-left" 
-                            className="visually-hidden"
-                        >
-                            Начальная граница стоимости товаров
-                        </label>
                         <input 
                             id='accordion__input-left'
                             className=
@@ -231,17 +223,12 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             value={minPrice}
                             placeholder='от...'
                             onChange={handleMinPriceChange}
+                            aria-label='Начальная граница стоимости товаров'
                         />
                     </div>
                     <div 
                         className={`accordion__input-block ${isDarkTheme ? 'dark-theme' : ''}`}
                     >
-                        <label 
-                            htmlFor="accordion__input-left" 
-                            className="visually-hidden"
-                        >
-                            Конечная граница стоимости товаров
-                        </label>
                         <input 
                             id='accordion__input-right'
                             className=
@@ -252,10 +239,11 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                             value={maxPrice}
                             placeholder='до...'
                             onChange={handleMaxPriceChange}
+                            aria-label='Конечная граница стоимости товаров'
                         />
                     </div>
                 </div>
-                <label>
+                <label aria-label='Меньше 15 тысяч рублей'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -269,7 +257,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                         </span>
                     </div>
                 </label>
-                <label>
+                <label aria-label='От 15 тысяч до 50 тысяч рублей'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox' 
@@ -283,7 +271,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                         </span>
                     </div>
                 </label>
-                <label>
+                <label aria-label='От 50 тысяч до 100 тысяч рублей'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -297,7 +285,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                         </span>
                     </div>
                 </label>
-                <label>
+                <label aria-label='Больше 100 тысяч рублей'>
                     <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <input 
                             type='checkbox'
@@ -328,8 +316,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
                     Сбросить
                 </Button>
             </div>
-        </section>,
-        portalTarget
+        </section>
     )
 })
 

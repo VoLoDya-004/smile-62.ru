@@ -8,10 +8,10 @@ const FavouritesHeader = () => {
 
 
     return (
-        <div className={`favourites-box__table-header ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className='favourites-box__table-header-title'>Наименование</div>
-            <div className='cursor-default'>Стоимость</div>                                              
-        </div>   
+        <header className={`favourites-box__table-header ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <h4 className='favourites-box__table-header-title margin-null'>Наименование</h4>
+            <h4 className='cursor-default margin-null'>Стоимость</h4>                                              
+        </header>   
     )
 }
 

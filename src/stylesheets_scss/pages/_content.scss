@@ -1,10 +1,5 @@
 @use '../forward.scss';
 
-.slider__item img {
-	width: calc(100% - 0.4px);
-	object-fit: cover;
-}
-
 #progress-bar { 
 	position: fixed;
 	margin-top: 72px;
@@ -14,125 +9,6 @@
 	height: 4px;
 	width: 0%;
 	background: #9814ad;
-}
-
-.slider {
-	user-select: none;
-	display: flex;
-	align-items: center; 
-	justify-content: center;
-	height: 250px;
-	width: 100%;
-	margin-bottom: 10px;
-	position: relative;
-	&:hover .slider__btn-left, &:hover .slider__btn-right {
-		opacity: 1;
-	}
-	&__window {
-		position: relative;
-		cursor: grab;
-		height: 100%;
-		width: 100%;
-		border-radius: 50px;
-		overflow: hidden;
-	}
-	&__item {
-		display: flex;
-		user-select: none;
-		pointer-events: none;
-	}
-	&__advertisement {
-		position: absolute;
-		right: 25px;
-		bottom: 20px;
-		color: white;
-		padding: 0 10px 3px;
-		background-color: rgba(0, 0, 0, 0.4);
-		backdrop-filter: blur(2px);
-		user-select: none;
-		border-radius: 20px;
-		&::after {
-			content: url(/images/icons/description_advertisement.svg);
-			padding-left: 5px;
-		}
-		&-description {
-			display: flex;
-			padding: 5px;
-			font-size: 12px;
-			background-color: black;
-			color: white;
-			border-radius: 10px;
-			position: absolute;
-			top: 325px;
-			right: 35px;
-			opacity: 0;
-			transition: opacity .3s ease;
-			user-select: none;
-			z-index: 1;
-			pointer-events: none;
-			&.show {
-				opacity: 1;
-			}
-		}
-	}
-	&__btn-left {
-		opacity: 0;
-		transition: .3s;
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		border-radius: 50%;
-		transform: rotate(-90deg);
-		transition: .3s;
-		cursor: pointer;
-		position: absolute;
-		left: 25px;
-		z-index: 1;
-		@media (hover: hover) and (pointer: fine) {
-			&:hover {
-				background-color: black;
-			}
-		}
-	}
-	&__btn-right {
-		opacity: 0;
-		transition: .3s;
-		background-color: rgba(0, 0, 0, 0.662);
-		min-width: 36px;
-		min-height: 36px;
-		cursor: pointer;
-		border-radius: 50%;
-		transform: rotate(90deg);
-		transition: .3s;
-		position: absolute;
-		right: 25px;
-		z-index: 1;
-		@media (hover: hover) and (pointer: fine) {
-			&:hover {
-				background-color: black;
-			}
-		}
-	}
-	&__btn-svg {
-		fill: none;
-		width: 24px;
-		height: 24px;
-		padding: 6px 0 0 6px;
-		&-path {
-			fill: white;
-			fill-rule: evenodd;
-			clip-rule: evenodd;
-		}
-	}
-}
-
-.all-pages-container {
-	display: flex;
-	height: 100%;
-	transition: translate;
-	transition-property: transform;
-	transition-duration: 400ms;
-	transition-timing-function: ease-in-out;
 }
 
 .setka { 
@@ -203,7 +79,7 @@
 		bottom: 10px;
 		left: 10px;
 		padding: 1px 4px;
-		background-color:  #ff5050;
+		background-color:  #e50000;
 		border-radius: 4px;
 		color: white;
 		font-weight: 400;
@@ -214,7 +90,7 @@
 		bottom: 10px;
 		right: 10px;
 		padding: 1px 4px;
-		background-color: red;
+		background-color: #e50000;
 		border-radius: 4px;
 		color: white;
 		font-weight: 400;
@@ -410,36 +286,6 @@
 																	//АДАПТАЦИЯ 768px
 
 @media (max-width: 1000px) and (min-width: 768px) {
-	#content {
-		margin: 90px 0 0 0;
-	}
-
-	.slider {
-		height: 230px;
-		&__window {
-			margin: 0 15px 0;
-		}
-		&__advertisement {
-			right: 35px;
-			&-description {
-				display: none;
-				&.show {
-					display: none;
-				}
-			}
-		}
-		&__btn-left {
-			opacity: 1;
-		}
-		&__btn-right {
-			opacity: 1;
-		}
-	}
-
-	.all-pages-container {
-		transition-duration: 300ms;
-	}
-	
 	.setka { 
 		row-gap: 20px; 
 		margin: 0 15px 30px;
@@ -451,41 +297,6 @@
 																	//АДАПТАЦИЯ 425px
 
 @media (max-width: 768px) and (min-width: 425px) {
-	#content {
-		margin: 90px 0px 0px;
-	}
-
-	.slider {
-		height: 170px;
-		&__window {
-			margin: 0 5px 0;
-		}
-		&__advertisement {
-			right: 35px;
-			bottom: 5px;
-			font-size: 15px;
-			pointer-events: none;
-			&-description {
-				display: none;
-				&.show {
-					display: none;
-				}
-			}
-		}
-		&__btn-left {
-			opacity: 1;
-			left: 15px;
-		}
-		&__btn-right {
-			opacity: 1;
-			right: 15px;
-		}
-	}
-
-	.all-pages-container {
-		transition-duration: 300ms;
-	}
-	
 	.setka { 
 		grid-template-columns: repeat(auto-fill, minmax(204px, 1fr));
 		row-gap: 10px; 
@@ -527,38 +338,6 @@
 																	//АДАПТАЦИЯ < 425px
 
 @media (max-width: 425px) {
-	#content {
-		margin: 90px 0px 0px;
-	}
-
-	.slider {
-		height: 130px;
-		&__window {
-			margin: 0 5px 0;
-		}
-		&__advertisement {
-			display: none;
-			&-description {
-				display: none;
-				&.show {
-					display: none;
-				}
-			}
-		}
-		&__btn-left {
-			opacity: 1;
-			left: 15px;
-		}
-		&__btn-right {
-			opacity: 1;
-			right: 15px;
-		}
-	}
-
-	.all-pages-container {
-		transition-duration: 300ms;
-	}
-	
 	.setka { 
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		row-gap: 10px; 

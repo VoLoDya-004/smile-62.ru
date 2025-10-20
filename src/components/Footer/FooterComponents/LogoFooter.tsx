@@ -5,12 +5,14 @@ const LogoFooter = () => {
 
     
     return (
-        <NavLink to='/'>
+        <NavLink 
+            to='/' 
+            aria-label='Перейти на главную'
+        >
             <div className='footer__logo'>
-                <span className='visually-hidden'>Логотип</span>
                 <img 
                     src='/images/icons/smile-62.png'
-                    alt='Логотип'
+                    alt='Smile'
                 />
             </div>
         </NavLink>

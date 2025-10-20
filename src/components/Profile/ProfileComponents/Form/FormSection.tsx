@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
-import type { RootStore } from '../../../redux'
+import type { RootStore } from '../../../../redux'
 import { NavLink } from 'react-router-dom'
-import { Context } from '../../../contexts/context'
+import { Context } from '../../../../contexts/context'
 import { useContext } from 'react'
-import { logoutUser } from '../../../redux/UserSlice'
-import Button from '../../Button/Button'
+import { logoutUser } from '../../../../redux/UserSlice'
+import Button from '../../../Button/Button'
 
 
 const FormSection = () => {
@@ -39,7 +39,10 @@ const FormSection = () => {
 
     return (
 		<>
-			<aside className={`profile-aside ${isDarkTheme ? 'dark-theme' : ''}`}>
+			<section 
+				className={`profile-aside ${isDarkTheme ? 'dark-theme' : ''}`}
+				aria-label='Ваш баланс'
+			>
 				<div className='profile-aside__name'>{userName || 'Пользователь'}</div>
 				<div className='profile-aside__sum'>Баланс: 0 &#x20bd;</div>
 				<Button className='button-violet'>
@@ -51,9 +54,9 @@ const FormSection = () => {
 				>
 					Выйти из аккаунта
 				</Button>
-			</aside>
+			</section>
         	<section className='container-profile'>
-				<article className={`profile-fav ${isDarkTheme ? 'dark-theme' : ''}`}>
+				<div className={`profile-fav ${isDarkTheme ? 'dark-theme' : ''}`}>
 					<div className='profile-fav__block'>
 						<div 
 							className={`
@@ -81,7 +84,10 @@ const FormSection = () => {
 							{productsFavourites.length} {itemTextFav}
 						</div>
 					</div>
-					<div className='profile-fav__block-svg'>
+					<div 
+						className='profile-fav__block-svg' 
+						aria-hidden='true'
+					>
                 		<svg 
 							xmlns='http://www.w3.org/2000/svg'
                 		    width='42' 
@@ -100,8 +106,8 @@ const FormSection = () => {
 							/>
                 		</svg>
 					</div>
-				</article>
-				<article className={`profile-basket ${isDarkTheme ? 'dark-theme' : ''}`}>
+				</div>
+				<div className={`profile-basket ${isDarkTheme ? 'dark-theme' : ''}`}>
 					<div className='profile-basket__block'>
 						<div 
 							className={`
@@ -129,7 +135,10 @@ const FormSection = () => {
 							{totalBasket.count} {itemTextBasket}
 						</div>
 					</div>
-					<div className='profile-basket__block-svg'>
+					<div 
+						className='profile-basket__block-svg'
+						aria-hidden='true'
+					>
                 		<svg 
                 		    width='42'
                 		    height='38' 
@@ -152,7 +161,7 @@ const FormSection = () => {
 							/>
                 		</svg>
 					</div>
-				</article>
+				</div>
         	</section>
 		</>
     )

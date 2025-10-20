@@ -16,13 +16,17 @@ const TabSectionMobile = () => {
 
 
         return (
-            <div className={`menu-mobile ${isDarkTheme ? 'dark-theme' : ''}`}>
+            <nav 
+                className={`menu-mobile ${isDarkTheme ? 'dark-theme' : ''}`}
+                aria-label='Навигация по сайту'
+            >
                 <NavLink 
                     to='/' 
                     className={({ isActive }) => (isActive ?  
                         'menu-mobile__item_active' : 
                         'menu-mobile__item_passiv'
                     )}
+                    aria-label='Главная'
                 > 
                     <div className='menu-mobile__item'>
                         <svg 
@@ -30,6 +34,7 @@ const TabSectionMobile = () => {
                             width='20'
                             height='20' 
                             className='pc-none'
+                            aria-label='Главная'
                         >
                             <path 
                                 d='m19.463 8.858-.002-.002L11.302.54A1.829 1.829 0 0 0 10 0a1.83 
@@ -48,6 +53,7 @@ const TabSectionMobile = () => {
                         'menu-mobile__item_active' : 
                         'menu-mobile__item_passiv'
                     )}
+                    aria-label='Избранное'
                 >
                     <div className='menu-mobile__item'>
                         <svg 
@@ -55,6 +61,7 @@ const TabSectionMobile = () => {
                             width='21'
                             height='19' 
                             className='pc-none'
+                            aria-label='Избранное'
                         >
                             <path 
                                 className='clip-rule-evenodd' 
@@ -73,6 +80,7 @@ const TabSectionMobile = () => {
                         'menu-mobile__item_active' : 
                         'menu-mobile__item_passiv'
                     )}
+                    aria-label='Профиль'
                 >
                     <div className='menu-mobile__item'>
                         <svg 
@@ -80,6 +88,7 @@ const TabSectionMobile = () => {
                             width='20' 
                             height='20' 
                             className='pc-none'
+                            aria-label='Профиль'
                         >
                             <path 
                                 className='clip-rule-evenodd'
@@ -98,6 +107,7 @@ const TabSectionMobile = () => {
                         'menu-mobile__item_active pc-none' : 
                         'menu-mobile__item_passiv pc-none'
                     )}
+                    aria-label='Корзина'
                 > 
                     <BasketCircleMobile />
                     <div className='menu-mobile__item'>
@@ -106,6 +116,7 @@ const TabSectionMobile = () => {
                             height='16'
                             xmlns='http://www.w3.org/2000/svg' 
                             className='pc-none'
+                            aria-label='Корзина'
                         >
                             <path 
                                 d='M2.925.488a.833.833 0 0 0-1.517.691l4.295 
@@ -119,7 +130,7 @@ const TabSectionMobile = () => {
                         </svg>
                     </div>
                 </NavLink>
-            </div>
+            </nav>
         )
 }
 
