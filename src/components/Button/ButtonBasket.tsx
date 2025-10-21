@@ -1,7 +1,8 @@
-import React, { useState, memo, useEffect, useCallback, useMemo} from 'react'
+import React, { useState, memo, useEffect, useCallback, useMemo, useContext} from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '../../redux'
 import type { INotificationData, IFav, IProduct } from '../../types/types'
+import { Context } from '../../contexts/context'
 import Notification from '../sub-components/Notification'
 
 
@@ -20,6 +21,12 @@ const ButtonBasket = ({
     cartFavourites, 
     cartBasket}: IButtonBasketProps) => 
 {  
+    const context = useContext(Context)
+    if (!context) {
+        throw new Error('Context must be used within a Provider')
+    }
+    const { updateBasketData } = context
+
     const [notification, setNotification] = useState<INotificationData | null>(null)
     const [addingStatus, setAddingStatus] = useState<Record<number, boolean>>({})
 
@@ -44,7 +51,7 @@ const ButtonBasket = ({
     }, [notification])
 
     const handleAddInBasketProductFavourites = useCallback(async (id: number) => {
-        if (addingStatus[id]) {
+        if (addingStatus[id] || basketProductIds.has(id)) {
             return
         }
 
@@ -52,13 +59,13 @@ const ButtonBasket = ({
 
         try {
             await addInBasketProductFavourites(id)
+            await updateBasketData()
             showNotification('Добавлено в корзину', 'success')
         } catch (error) {
             showNotification('Ошибка', 'error')
-        } finally {
-            setAddingStatus(prev => ({...prev, [id]: false}))
         }
-    }, [basketProductIds, addingStatus, addInBasketProductFavourites, showNotification])
+    }, [basketProductIds, addingStatus, addInBasketProductFavourites, showNotification, 
+    updateBasketData])
 
     const filterCards = useMemo(() => 
         cartFavourites.filter(card => productFavourites.id === card.id)

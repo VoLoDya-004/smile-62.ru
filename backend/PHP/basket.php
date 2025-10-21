@@ -3,12 +3,27 @@ require_once "./cors.php";
 require_once "./auth.php";
 
 if (isset($_GET['Operation'])) {
+    $connect = mysqli_connect($hostname, $username, $password, $dbName);
+    if (!$connect) {
+        die("Ошибка подключения к БД: " . mysqli_connect_error());
+    }
+    mysqli_set_charset($connect, "utf8");
+    mysqli_select_db($connect, $dbName) or die 
+    ("<p>Не могу выбрать базу данных: ".mysqli_error($connect).". Ошибка в строке ".__LINE__."</p>");
+
+    $query = "";
+
     if ($_GET['Operation'] == 'addBasket'){
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $idUser = $_GET['idUser'];
-            $query = 
-                "INSERT INTO basket (id_user, id_product, count) VALUES ($idUser, $idProduct, 1)";
+
+            $checkQuery = "SELECT id FROM basket WHERE id_user = $idUser AND id_product = $idProduct";
+            $checkResult = mysqli_query($connect, $checkQuery);
+
+            if (mysqli_num_rows($checkResult) == 0) {
+                $query = "INSERT INTO basket (id_user, id_product, count) VALUES ($idUser, $idProduct, 1)";
+            }
         }
     }
 
@@ -64,22 +79,21 @@ if (isset($_GET['Operation'])) {
         }
     }
     
-    $connect = mysqli_connect($hostname, $username, $password, $dbName);
-    if (!$connect) {
-        die("Ошибка подключения к БД: " . mysqli_connect_error());
-    }
-    mysqli_set_charset($connect, "utf8");
-    mysqli_select_db($connect, $dbName) or die 
-    ("<p>Не могу выбрать базу данных: ".mysqli_error($connect).". Ошибка в строке ".__LINE__."</p>");
-    $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
+    if (!empty($query)) {
+        $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
 
-    $myArray = array();
-    while($row = mysqli_fetch_assoc($result)) {
-        array_push($myArray, $row);
-    }
+        $myArray = array();
+        while($row = mysqli_fetch_assoc($result)) {
+            array_push($myArray, $row);
+        }
 
-    header('Content-Type: application/json');
-    echo json_encode($myArray);
+        header('Content-Type: application/json');
+        echo json_encode($myArray);
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode([]);
+    }
+    
     mysqli_close($connect);
 }
 ?>

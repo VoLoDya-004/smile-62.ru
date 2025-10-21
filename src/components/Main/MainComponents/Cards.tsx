@@ -33,8 +33,15 @@ const Cards = () => {
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const { cartFavourites, searchQuery,
-    isLoading, cards, setCurrentPage, currentPage} = context
+  const { 
+    cartFavourites, 
+    searchQuery,
+    isLoading, 
+    cards, 
+    setCurrentPage, 
+    currentPage,
+    updateFavouritesData
+  } = context
     
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
   const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
@@ -161,6 +168,8 @@ const Cards = () => {
   }, [cartFavourites, userId])
 
   const handleAddFav = useCallback(async (id: number) => {
+    saveScrollPosition()
+
     if (localFavourites.some(item => item.id === id)) {
       showNotification('Уже в избранных', 'error')
       return
@@ -169,7 +178,6 @@ const Cards = () => {
         return
       }
 
-      saveScrollPosition()
       if (!isAuth) {
         showNotification('Войдите в аккаунт', 'error')
         return
@@ -187,6 +195,7 @@ const Cards = () => {
         })
         await addFav(id)
         showNotification('Добавлено в избранное', 'success')
+        updateFavouritesData()
       } catch (error) {
         setPendingIdFav(null)
         setLocalFavourites(prev => prev.filter(item => item.id_product === id))

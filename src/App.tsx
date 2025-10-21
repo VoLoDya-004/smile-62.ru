@@ -334,95 +334,35 @@ const App = () => {
 
   // обновление избранных товаров без обновления страницы
 
-  useEffect(() => {
-    if (userId !== null) {
-      const observer = new MutationObserver(() => {
-        const buttons = document.querySelectorAll('.card__heart')
-
-        if (buttons.length > 0) {
-          buttons.forEach(button => {
-            button.addEventListener('click', () => {
-              axios.get(`/backend/PHP/favourites.php`, {
-                params: {
-                  Operation: 'showFavourites',
-                  idUser: userId,
-                }
-              })
-              .then(() => {
-                return axios.get(srcFavourites)
-              })
-              .then((res) => {
-                setCartFavourites(res.data)
-              })
-            })
-          })
-        }
-      })
-
-      observer.observe(document.body, { 
-          childList: true,
-          subtree: true
-      })
-      return () => {
-        observer.disconnect()
-        const buttons = document.querySelectorAll('.card__heart')
-        buttons.forEach(button => {
-          button.removeEventListener('click', () => { 
-            axios.get(`/backend/PHP/favourites.php`, {
-              params: {
-                Operation: 'showFavourites',
-                idUser: userId,
-              }
-            })
-            .then(() => {
-              return axios.get(srcFavourites)
-            })
-            .then((res) => {
-              setCartFavourites(res.data)
-            })
-          })
+  const updateFavouritesData = useCallback(async () => {
+      if (!userId) return
+      
+      try {
+        await axios.get(`/backend/PHP/favourites.php`, {
+          params: { Operation: 'showBasket', idUser: userId }
         })
+        const res = await axios.get(srcFavourites)
+        setCartFavourites(res.data)
+      } catch (error) {
+        console.error('Ошибка обновления избранного:', error)
       }
-    }
-  }, [userId])
+  }, [userId, srcFavourites, dispatch])
 
   // обновление корзины товаров из избранных без обновления страницы
 
-  useEffect(() => {
-    if (userId !== null) {
-      const observer = new MutationObserver(() => {
-        const buttons = document.querySelectorAll('.basket-box__product-controls') 
-
-        if (buttons.length > 0) {
-          buttons.forEach(button => {
-            button.addEventListener('click', () => {
-              axios.get(`/backend/PHP/favourites.php`, {
-                params: {
-                  Operation: 'showBasket',
-                  idUser: userId,
-                }
-              })
-              .then(() => {
-                return axios.get(srcBasket)
-              })
-              .then((res) => {
-                dispatch(setCartBasket(res.data))
-              })
-            })
-          })
-        }
-      })
-
-      observer.observe(document.body, { 
-        childList: true, 
-        subtree: true 
-      })
-
-      return () => {
-        observer.disconnect()
+  const updateBasketData = useCallback(async () => {
+      if (!userId) return
+      
+      try {
+        await axios.get(`/backend/PHP/favourites.php`, {
+          params: { Operation: 'showBasket', idUser: userId }
+        })
+        const res = await axios.get(srcBasket)
+        dispatch(setCartBasket(res.data))
+      } catch (error) {
+        console.error('Ошибка обновления корзины:', error)
       }
-    }
-  }, [dispatch, userId])
+  }, [userId, srcBasket, dispatch])
 
   //поиск
 
@@ -488,10 +428,6 @@ const App = () => {
   const [sortType, setSortType] = useState(() => {
     return searchParams.get('sort') || 'default'
   })
-  const [activeCategoryId, setActiveCategoryId] = useState(() => {
-    const categoryFromUrl = searchParams.get('category')
-    return categoryFromUrl ? parseInt(categoryFromUrl) : 0
-  })
 
   const [currentSort, setCurrentSort] = useState(() => {
     const sortFromUrl = searchParams.get('sort')
@@ -545,18 +481,27 @@ const App = () => {
   //загрузка карточек со всеми параметрами
 
   useEffect(() => {
-    const newSearchParams = new URLSearchParams()
+    const categoryFromUrl = searchParams.get('category')
+    const categoryId = categoryFromUrl ? parseInt(categoryFromUrl) : 0
+    setSelectedCategory(categoryId)
 
-    if (selectedCategory !== 0 && selectedCategory !== null) {
-      newSearchParams.set('category', selectedCategory.toString())
+    const sortFromUrl = searchParams.get('sort') || 'default'
+    setSortType(sortFromUrl)
+
+    switch (sortFromUrl) {
+      case 'cheap':
+        setCurrentSort('Дешевле')
+        break
+      case 'expensive':
+        setCurrentSort('Дороже')
+        break
+      case 'discount':
+        setCurrentSort('По скидке (%)')
+        break
+      default: 
+        setCurrentSort('По умолчанию')
     }
-
-    if (sortType !== 'default') {
-      newSearchParams.set('sort', sortType)
-    }
-
-    setSearchParams(newSearchParams)
-  }, [selectedCategory, sortType, setSearchParams])
+  }, [searchParams])
 
   const [totalItems, setTotalItems] = useState(0)
 
@@ -606,8 +551,6 @@ const App = () => {
     setSelectedCategory,
     setCurrentPage,
     categories,
-    activeCategoryId,
-    setActiveCategoryId,
     setSearchQuery,
     handleClearFavBtn,
     loadingDeleteAllFav,
@@ -631,14 +574,15 @@ const App = () => {
     selectedCategory,
     setCards,
     sortType,
-    setCartBasket
+    setCartBasket,
+    setSearchParams,
+    updateBasketData,
+    updateFavouritesData
   }), [
     productsFavourites,
     setSelectedCategory,
     setCurrentPage,
     categories,
-    activeCategoryId,
-    setActiveCategoryId,
     setSearchQuery,
     handleClearFavBtn,
     loadingDeleteAllFav,
@@ -662,7 +606,10 @@ const App = () => {
     selectedCategory,
     setCards,
     sortType,
-    setCartBasket
+    setCartBasket,
+    setSearchParams, 
+    updateBasketData,
+    updateFavouritesData
   ])
 
   

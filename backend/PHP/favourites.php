@@ -3,20 +3,35 @@ require_once "./cors.php";
 require_once "./auth.php";
 
 if (isset($_GET['Operation'])) {
-    if ($_GET['Operation'] == 'addFavourites'){ 
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $idUser = $_GET['idUser'];
+if ($_GET['Operation'] == 'addFavourites'){ 
+    if (isset($_GET['idProduct'])) {
+        $idProduct = $_GET['idProduct'];
+        $idUser = $_GET['idUser'];
+
+        $checkQuery = "SELECT id FROM favourites WHERE id_user = $idUser AND id_product = $idProduct";
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        $checkResult = mysqli_query($connect, $checkQuery);
+
+        if (mysqli_num_rows($checkResult) == 0) {
             $query = "INSERT INTO favourites (id_user, id_product) VALUES ($idUser, $idProduct)";
         }
+        mysqli_close($connect);
     }
+}
 
     if ($_GET['Operation'] == 'addBasket'){ 
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $idUser = $_GET['idUser'];
-            $query = 
-                "INSERT INTO basket (id_user, id_product, count) VALUES ($idUser, $idProduct, 1)";
+
+            $checkQuery = "SELECT id FROM basket WHERE id_user = $idUser AND id_product = $idProduct";
+            $connect = mysqli_connect($hostname, $username, $password, $dbName);
+            $checkResult = mysqli_query($connect, $checkQuery);
+
+            if (mysqli_num_rows($checkResult) == 0) {
+                $query = "INSERT INTO basket (id_user, id_product, count) VALUES ($idUser, $idProduct, 1)";
+            }
+            mysqli_close($connect);
         }
     }
 

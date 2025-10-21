@@ -1,7 +1,8 @@
 import {useSelector} from 'react-redux'
-import { forwardRef, useEffect, useRef, useState } from 'react'
+import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
 import type { RootStore } from '../../../redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import { Context } from '../../../contexts/context'
 
 
 interface ISortMenuProps {
@@ -11,8 +12,14 @@ interface ISortMenuProps {
 
 
 const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose}, ref) => {
+    const context = useContext(Context)
+    if (!context) {
+        throw new Error('Context must be used within a Provider')
+    }
+
+    const {setSearchParams} = context
+
     const [searchParams] = useSearchParams()
-    const navigate = useNavigate()
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
@@ -26,23 +33,16 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
     }, [searchParams])
 
     const handleRadioChange = (value: string) => {
-        const currentCategory = searchParams.get('category')
+        const newSearchParams = new URLSearchParams(searchParams)
         
-        let newUrl = '/?'
-
-        if (currentCategory) {
-            newUrl += `category=${currentCategory}`
+        if (value === 'default') {
+            newSearchParams.delete('sort')
+        } else {
+            newSearchParams.set('sort', value)
         }
-
-        if (value !== 'default') {
-            newUrl += `${currentCategory ? '&' : ''}sort=${value}`
-        }
-
-        if (newUrl === '/?') {
-            newUrl = '/'
-        }
-
-        navigate(newUrl)
+        
+        setSearchParams(newSearchParams)
+        
         setSelectedOption(value)
         onSelect(value)
         onClose()

@@ -26,8 +26,6 @@ interface IAppContextType {
     setSelectedCategory: (id: number) => void
     setCurrentPage: (page: number) => void
     categories: {id: number, label: string}[]
-    activeCategoryId: number
-    setActiveCategoryId: (id: number) => void
     setSearchQuery: (query: string) => void
     handleClearFavBtn: () => void
     loadingDeleteAllFav: boolean
@@ -52,6 +50,9 @@ interface IAppContextType {
     setCards: Dispatch<SetStateAction<ICardsRender[]>>
     sortType: string
     setCartBasket: ActionCreatorWithPayload<ICartItem[]>
+    setSearchParams: (params: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams)) => void
+    updateBasketData: () => Promise<void>
+    updateFavouritesData: () => Promise<void>
 }
 
 export const Context = createContext<IAppContextType | undefined>(undefined)

@@ -15,8 +15,8 @@ const ButtonNav = () => {
         setSelectedCategory, 
         setCurrentPage,  
         categories, 
-        activeCategoryId, 
-        setActiveCategoryId 
+        selectedCategory,
+        setSearchParams
     } = context
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -35,10 +35,13 @@ const ButtonNav = () => {
             const categoryId = parseInt(categoryFromUrl)
             if (!isNaN(categoryId)) {
                 setSelectedCategory(categoryId)
-                setActiveCategoryId(categoryId)
+                setSelectedCategory(categoryId)
+            } else {
+                setSelectedCategory(0)
+                setSelectedCategory(0)
             }
         }
-    }, [searchParams, setSelectedCategory, setActiveCategoryId])
+    }, [searchParams, setSelectedCategory])
 
     function nav() {
         if (location.pathname !== '/') {
@@ -89,14 +92,22 @@ const ButtonNav = () => {
     }, [])
 
     const handleCategorySelect = (id: number) => {
-        if (activeCategoryId === id) {
+        if (selectedCategory === id) {
             return
         }
-        const categoryParam = id === 0 ? '/?category=0' : `/?category=${id}`
-        navigate(categoryParam)
+        
+        const newSearchParams = new URLSearchParams(searchParams)
+        
+        if (id === 0) {
+            newSearchParams.delete('category')
+        } else {
+            newSearchParams.set('category', id.toString())
+        }
+        
+        setSearchParams(newSearchParams)
+        
         setCurrentPage(1)
         setSelectedCategory(id)
-        setActiveCategoryId(id)
         setVisible('none')
         setToggle('')
         document.body.classList.remove('modal-open')
@@ -221,7 +232,7 @@ const ButtonNav = () => {
                     key={cat.id}
                     className={`
                         navbar__item ${visible} 
-                        ${activeCategoryId === cat.id ? 
+                        ${selectedCategory === cat.id ? 
                             'navbar__item_active' : 
                             'navbar__item_passive'
                         }

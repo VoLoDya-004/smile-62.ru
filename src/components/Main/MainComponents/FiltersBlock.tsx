@@ -12,10 +12,19 @@ const FiltersBlock = () => {
     if (!context) {
         throw new Error('Context must be used within a Provider')
     }
-    const {setSortType, setCurrentPage, handleFiltersChange, 
-    currentSort, setCurrentSort, activeCategoryId, categories,
-    fetchCards, setSelectedCategory, setActiveCategoryId,
-    totalItems} = context
+    const {
+        setSortType, 
+        setCurrentPage, 
+        handleFiltersChange, 
+        currentSort, 
+        setCurrentSort, 
+        selectedCategory, 
+        categories,
+        fetchCards, 
+        setSelectedCategory, 
+        totalItems, 
+        setSearchParams
+    } = context
 
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
@@ -29,16 +38,16 @@ const FiltersBlock = () => {
 
     useEffect(() => {
         categories.filter(cat => {
-            if (cat.id === activeCategoryId) {
+            if (cat.id === selectedCategory) {
                 setCategoriesName(cat.label)
             }
         })
-        if (activeCategoryId === 0) {
+        if (selectedCategory === 0) {
             setVisible(false)
         } else {
             setVisible(true)
         }
-    }, [activeCategoryId])
+    }, [selectedCategory])
 
     const handleToggleSort = () => {
         setVisibleSort(prev => !prev)
@@ -139,9 +148,13 @@ const FiltersBlock = () => {
     }, [visibleFilters])
 
     const allCategoriesBtn = () => {
-        if (activeCategoryId !== 0) {
+        if (selectedCategory !== 0) {
+            const newSearchParams = new URLSearchParams(window.location.search)
+
+            newSearchParams.delete('category')
+
+            setSearchParams(newSearchParams)
             setVisible(false)
-            setActiveCategoryId(0)
             setSelectedCategory(0)
             setCurrentPage(1)
             fetchCards()         
@@ -211,12 +224,12 @@ const FiltersBlock = () => {
                     className={`
                         categories-name-main 
                         ${isDarkTheme ? 'dark-theme' : ''} 
-                        ${activeCategoryId === 0 ? 'passive' : '' }
+                        ${selectedCategory === 0 ? 'passive' : '' }
                         button-reset
                     `}
-                    tabIndex={activeCategoryId === 0 ? -1 : 0}
+                    tabIndex={selectedCategory === 0 ? -1 : 0}
                 >
-                    Все категории{activeCategoryId === 0 ? ' /' : '' } 
+                    Все категории{selectedCategory === 0 ? ' /' : '' } 
                 </button>
                 {visible && 
                     <div className='categories-name'>
