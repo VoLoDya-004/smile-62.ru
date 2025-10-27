@@ -91,7 +91,6 @@ const BasketProducts = ({productBasket, openDeleteModal, onChange, isPendingDele
                     className={`basket-box__product-count-box ${isDarkTheme ? 'dark-theme': ''}`}
                 >
                     <input
-                        id='input-count-change'
                         onChange={handleInputChange}
                         onBlur={handleBlur}
                         aria-label='Поле для смены количества товара в корзине'

@@ -1,6 +1,6 @@
 @use '../forward.scss';
 
-#progress-bar { 
+.progress-bar { 
 	position: fixed;
 	margin-top: 72px;
 	z-index: 2;
@@ -13,15 +13,15 @@
 
 .setka { 
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	justify-content: center;
 	justify-items: center;
 	column-gap: 30px;
-	row-gap: 40px; 
+	row-gap: 30px; 
 	margin-bottom: 30px;
 	background-color: forward.$backColorElem;
-    padding: 50px 30px 30px;
-    border-radius: 25px;
+    padding: 30px;
+    border-radius: 15px;
 }
 
 .card { 
@@ -35,8 +35,10 @@
 	transition: 0.2s;
 	background-color: #ffffff;
 	user-select: none;
-	&:hover { 
-		box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+	@media (hover: hover) and (pointer: fine) {
+		&:hover { 
+			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+		}
 	}
 	&__top { 
 		flex: 0 0 220px;
@@ -52,8 +54,10 @@
 		pointer-events: auto;
 		cursor: pointer;
 		z-index: 1;
-		&:hover { 
-			fill: rgb(96, 22, 118);
+		@media (hover: hover) and (pointer: fine) {
+			&:hover { 
+				fill: rgb(96, 22, 118);
+			}
 		}
 	}
 	&__image { 
@@ -70,8 +74,10 @@
 			transition: 0.2s;
 			pointer-events: none;
 		}
-		&:hover > img { 
-			transform: scale(1.1);
+		@media (hover: hover) and (pointer: fine) {
+			&:hover > img { 
+				transform: scale(1.1);
+			}
 		}
 	}
 	&__label {
@@ -172,8 +178,10 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		cursor: pointer;
-		&:hover { 
-			color: rgb(96, 22, 118);
+		@media (hover: hover) and (pointer: fine) {
+			&:hover { 
+				color: rgb(96, 22, 118);
+			}
 		}
 	}
 	&__btn { 
@@ -192,10 +200,12 @@
 		&_active {
 			background-color: forward.$btnColor;
 			border: 1px solid black;
-			&:hover {
-				border: 1px solid rgb(96, 22, 118);
-				background-color: rgb(96, 22, 118);
-				color: #fff;
+			@media (hover: hover) and (pointer: fine) {
+				&:hover {
+					border: 1px solid rgb(96, 22, 118);
+					background-color: rgb(96, 22, 118);
+					color: #fff;
+				}
 			}
 		}
 		&_disabled {
@@ -231,65 +241,13 @@
 	margin-left: 3%;
 }
 
-.load-more__btn-back {
-	width: 200px;
-	height: 40px;
-	border-radius: 10px;
-	font-weight: 400;
-	font-size: 17px;
-	border: none;
-	transition: .2s;
-	&_active {
-		background-color: #c8c8c8;
-		cursor: pointer;
-		&:hover {
-			background-color: #9c9c9c;
-		}
-	}
-	&_disabled {
-		background-color: #ececec;
-		color: #00000063;
-		cursor: default;
-		&:hover {
-			background-color: #ececec !important;
-		}
-	}
-}
-
-.load-more__btn-forward {
-	width: 200px;
-	height: 40px;
-	border-radius: 10px;
-	font-weight: 400;
-	font-size: 17px;
-	border: none;
-	transition: .2s;
-	&_active {
-		background-color: #c8c8c8;		
-		cursor: pointer;
-		&:hover {
-			background-color: #9c9c9c;
-		}
-	}
-	&_disabled {
-		background-color: #ececec;
-		color: #00000063;
-		cursor: default;
-		&:hover {
-			background-color: #ececec !important;
-		}
-	}
-}
-
-
-
 																	//АДАПТАЦИЯ 768px
 
 @media (max-width: 1000px) and (min-width: 768px) {
 	.setka { 
 		row-gap: 20px; 
 		margin: 0 15px 30px;
-		padding: 40px 20px 30px;
+		padding: 20px;
 	}
 }
 
@@ -298,11 +256,12 @@
 
 @media (max-width: 768px) and (min-width: 425px) {
 	.setka { 
-		grid-template-columns: repeat(auto-fill, minmax(204px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 		row-gap: 10px; 
-		column-gap: 2px;
+		column-gap: 5px;
 		margin: 0 5px 20px;
-		padding: 20px 2px 30px;
+		padding: 10px 5px;
+		border-radius: 10px;
 	}
 	
 	.card { 
@@ -343,7 +302,8 @@
 		row-gap: 10px; 
 		column-gap: 5px;
 		margin: 0 5px 20px;
-		padding: 15px 0 30px;
+		padding: 10px 2px;
+		border-radius: 5px;
 	}
 	
 	.card { 

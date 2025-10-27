@@ -67,21 +67,6 @@
             box-sizing: border-box;
             font-size: 17px;
         }
-        &-btn {
-	        background-color: #9814ad;
-	        border: none;
-	        color: white;
-	        cursor: pointer;
-	        min-height: 44px;
-	        min-width: 44px;
-	        border-radius: 50%;
-	        transition: 0.5s;
-            @include forward.flex-center;
-	        z-index: 1;
-	        &:hover{
-		        background-color: #b200ce;
-	        }
-        }
     }
 }
 

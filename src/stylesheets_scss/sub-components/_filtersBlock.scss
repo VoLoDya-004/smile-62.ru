@@ -21,10 +21,12 @@
 	color: gray;
 	border-bottom: 2px solid transparent;
     user-select: none;
-	&:hover {
-		color: black;
-		border-bottom: 2px solid black;
-	}
+    @media (hover: hover) and (pointer: fine) {
+	    &:hover {
+	    	color: black;
+	    	border-bottom: 2px solid black;
+	    }
+    }
 }
 
 .categories-name {
@@ -60,7 +62,7 @@
     position: relative;
     &__sort {
         box-sizing: border-box;
-        display: inline-flex;
+        text-wrap: nowrap;
         padding: 0 20px;
         cursor: default;
         width: 28%;
@@ -88,8 +90,10 @@
                 left: 15px;
                 right: calc(100% - 240px);
             }
-            &:hover {
-                color: rgb(96, 22, 118);
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    color: rgb(96, 22, 118);
+                }
             }
         }
     }
@@ -100,10 +104,6 @@
         padding-right: 20px;
         flex: 1;
     }
-}
-
-#filters-delete-product {
-    margin-left: 20px;
 }
 
 .sort-product {
@@ -125,6 +125,8 @@
 }
 
 .sort-option {
+    display: flex;
+    gap: 2px;
     padding: 10px;
     transition: .1s;
     cursor: pointer;
@@ -134,8 +136,10 @@
     &:last-child {
         border-radius: 0 0 15px 15px;
     }
-    &:hover {
-        background-color: forward.$btnColor;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: forward.$btnColor;
+        }
     }
 }
 
@@ -253,6 +257,7 @@
         line-height: 1.3;
     }
     &__btn {
+        margin-top: 16px;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
@@ -318,6 +323,7 @@
         height: auto;
         margin: 0 5px 10px;
         flex-wrap: wrap;
+        border-radius: 10px;
         &__sort {
             padding: 0 10px;
             min-width: 100%;
@@ -336,12 +342,8 @@
         &__filter {
             box-sizing: border-box;
             width: 100%;
-            padding: 0 10px;
+            padding: 10px;
         }
-    }
-
-    #filters-delete-product {
-        margin-left: 10px;
     }
 
     .sort-menu {
@@ -395,14 +397,10 @@
         &__filter {
             box-sizing: border-box;
             width: 100%;
-            padding: 0 3px;
+            padding: 3px;
         }
     }
-    
-    #filters-delete-product {
-        margin-left: 2px;
-    }
-    
+
     .sort-menu {
         top: 23px;
         left: 5px;

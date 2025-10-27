@@ -91,7 +91,10 @@ const ButtonBasket = ({
                         {productFavourites.id === card.id && (
                             <div  
                                 id={String(card.id)} 
-                                className='basket-box__product-controls'
+                                className={`
+                                    basket-box__product-controls 
+                                    ${isDarkTheme ? 'dark-theme' : ''}
+                                `}
                             >
                                 <button
                                     type='button'

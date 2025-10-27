@@ -104,16 +104,16 @@ const Carousel = ({children}: ICarouseelProps) => {
 	  	}
 	}	
 
-	const handleMouseMove = useCallback(() => {
+	const handlePointerMove = useCallback(() => {
 		if (!isSwiping.current) return
 	}, [])
 
-	const handleMouseUp = useCallback((e: MouseEvent)=> {
+	const handlePointerUp = useCallback((e: PointerEvent)=> {
 	  	if (!isSwiping.current) return
 	  	handleTouchEnd(e)
-	  	document.removeEventListener('mousemove', handleMouseMove)
-	  	document.removeEventListener('mouseup', handleMouseUp)
-	}, [handleMouseMove, handleTouchEnd])
+	  	document.removeEventListener('pointermove', handlePointerMove)
+	  	document.removeEventListener('pointerup', handlePointerUp)
+	}, [handlePointerMove, handleTouchEnd])
 
 
 	return (
@@ -147,8 +147,8 @@ const Carousel = ({children}: ICarouseelProps) => {
 	    	    	onTouchEnd={handleTouchEnd}
 					onMouseDown={(e) => {
 						handleTouchStart(e)
-	    				document.addEventListener('mousemove', handleMouseMove)
-	    				document.addEventListener('mouseup', handleMouseUp)
+	    				document.addEventListener('pointermove', handlePointerMove)
+	    				document.addEventListener('pointerup', handlePointerUp)
 					}}
 	    	  	>
 	    	    	<div

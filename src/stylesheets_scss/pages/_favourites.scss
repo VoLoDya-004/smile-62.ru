@@ -13,7 +13,7 @@
     }
     &__container {
         margin: 0 auto;
-        &-title1 {
+        &-title {
             font-size: 28px;
             line-height: 1.3;
             font-weight: 700;
@@ -103,6 +103,12 @@
 	 .favourites-box {
         width: 95vw;
         margin: 0 auto;
+        &__container {
+            &-title {
+                font-size: 24px;
+                padding-right: 10px;
+            }
+        }
         &__table {
             &-header {
                 height: 1px;
@@ -141,7 +147,7 @@
         width: 95vw;
         margin: 0 auto;
         &__container {
-            &-title1 {
+            &-title {
                 font-size: 24px;
                 padding-right: 10px;
             }

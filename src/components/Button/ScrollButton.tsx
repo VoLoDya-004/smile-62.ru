@@ -26,7 +26,7 @@ const ScrollButton = () => {
     return (
         <button 
             type='button'
-            id='scroll-to-top-btn' 
+            className='scroll-to-top-btn' 
             onClick={scrollToTop} 
             style={{display: visible ? 'block' : 'none'}}
             aria-label='Вернуться наверх страницы'

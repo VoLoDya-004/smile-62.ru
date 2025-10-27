@@ -14,7 +14,7 @@ const ButtonDeleteFavourites = ({deleteProductFavourites, id}: IButtonDeleteFavo
 
 
     return (
-        <div className='basket-box__product-controls'>
+        <div className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`}>
             <button 
                 type='button'
                 className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`} 

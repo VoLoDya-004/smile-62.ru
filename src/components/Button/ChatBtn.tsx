@@ -16,7 +16,7 @@ const ChatBtn = ({ onOpen }: ChatBtnProps) => {
     return (
         <button 
             type='button'
-            id='chat-btn' 
+            className='chat-btn' 
             onClick={modalOpen}
             aria-label='Чат поддержки'
         >

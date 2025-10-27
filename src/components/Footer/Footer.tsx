@@ -14,6 +14,7 @@ const Footer = () => {
 
     return (
         <footer 
+            id='footer'
             className={`footer ${isDarkTheme ? 'dark-theme' : ''}`}
             aria-label='Подвал сайта'
         >

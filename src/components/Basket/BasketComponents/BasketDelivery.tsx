@@ -28,18 +28,20 @@ const BasketDelivery = () => {
                     </Button>
                 </div>
                 <div className='basket-delivery__left-checkbox'>
-                    <input 
-                        type='checkbox' 
-                        id='checkbox1' 
-                        className='cursor-pointer'
-                    />
                     <label 
-                        htmlFor='checkbox1' 
+                        htmlFor='accept-rules' 
                         className='cursor-pointer'
                     >
+                    <input 
+                        type='checkbox' 
+                        id='accept-rules' 
+                        className='cursor-pointer'
+                    />
                         Соглашаюсь с <a 
                             href='' 
-                            className={`basket-delivery__left-rules ${isDarkTheme ? 'dark-theme' : ''}`}
+                            className={`
+                                basket-delivery__left-rules ${isDarkTheme ? 'dark-theme' : ''}
+                            `}
                         > 
                             правилами 
                         </a> пользования <br /> 
@@ -60,7 +62,11 @@ const BasketDelivery = () => {
                     defaultValue={city}
                     onChange={e => setCity(e.target.value)}
                     name='city' 
-                    className={`basket-delivery__right-select ${isDarkTheme ? 'dark-theme' : ''} cursor-pointer`} 
+                    className={`
+                        basket-delivery__right-select 
+                        ${isDarkTheme ? 'dark-theme' : ''} 
+                        cursor-pointer
+                    `} 
                     id='city-select' 
                 >
                     <option value='' disabled>Выберите город</option>

@@ -68,7 +68,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
             ref={ref}
         >
             <label 
-                htmlFor='sort-menu1' 
+                htmlFor='sort-menu-default' 
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`} 
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, 'default')}
@@ -78,14 +78,14 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                     checked={selectedOption === 'default'}
                     name='sortOptions'
                     type='radio'
-                    id='sort-menu1'
+                    id='sort-menu-default'
                     onChange={() => handleRadioChange('default')} 
                     tabIndex={-1}
                 />
                 По умолчанию
             </label>
             <label 
-                htmlFor='sort-menu2' 
+                htmlFor='sort-menu-cheap' 
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, 'cheap')}
@@ -93,7 +93,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                 <input 
                     checked={selectedOption === 'cheap'}
                     type='radio'
-                    id='sort-menu2' 
+                    id='sort-menu-cheap' 
                     name='sortOptions'
                     onChange={() => handleRadioChange('cheap')}
                     tabIndex={-1}
@@ -101,7 +101,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                 Дешевле
             </label>
             <label 
-                htmlFor='sort-menu3'
+                htmlFor='sort-menu-expensive'
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, 'expensive')}
@@ -110,14 +110,14 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                     checked={selectedOption === 'expensive'}
                     name='sortOptions' 
                     type='radio'
-                    id='sort-menu3'
+                    id='sort-menu-expensive'
                     onChange={() => handleRadioChange('expensive')} 
                     tabIndex={-1}
                 />
                 Дороже
             </label>
             <label 
-                htmlFor='sort-menu4'
+                htmlFor='sort-menu-discount'
                 className={`sort-option ${isDarkTheme ? 'dark-theme' : ''}`}
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, 'discount')}
@@ -125,7 +125,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
                 <input 
                     checked={selectedOption === 'discount'}
                     type='radio'
-                    id='sort-menu4'
+                    id='sort-menu-discount'
                     name='sortOptions'
                     onChange={() => handleRadioChange('discount')} 
                     tabIndex={-1}

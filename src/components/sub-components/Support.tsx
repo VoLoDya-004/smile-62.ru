@@ -29,6 +29,13 @@ const Support = ({ isOpen, onClose }: SupportProps) => {
             }
         }
 
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose()
+                document.body.classList.remove('modal-open')
+            }
+        }
+
         const allChildren = Array.from(document.body.children)
         allChildren.forEach(child => {
             if (child.id !== 'confirm-modal-chat') {
@@ -58,9 +65,11 @@ const Support = ({ isOpen, onClose }: SupportProps) => {
         }
 
         document.addEventListener('keydown', handleTab)
+        document.addEventListener('keydown', handleKeyDown)
 
         return () => {
             document.removeEventListener('keydown', handleTab)
+            document.removeEventListener('keydown', handleKeyDown)
 
             const allChildren = Array.from(document.body.children)
             allChildren.forEach(child => {
@@ -102,14 +111,13 @@ const Support = ({ isOpen, onClose }: SupportProps) => {
                 <textarea 
                     className={`support__footer-message ${isDarkTheme ? 'dark-theme' : ''}`} 
                     name='support'
-                    id='support' 
                     placeholder='Ваше сообщение...' 
+                    spellCheck='false'
                     required
                 >
                 </textarea>
                 <button 
-                    className='support__footer-btn' 
-                    id='support__footer-btn'
+                    className='support-send-message' 
                     type='submit'
                     aria-label='Отправить сообщение в поддержку'
                 >

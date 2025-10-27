@@ -1,8 +1,10 @@
+import { useSelector } from "react-redux"
+import type { RootStore } from "../../../redux"
 
 
 
 const ContactsFooter = () => {
-
+	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 	
     return (
         <div className='footer__contact'>
@@ -25,7 +27,11 @@ const ContactsFooter = () => {
 					Телефон:&nbsp;
 					<a 
 						href='tel:222222222222'
-						className='link-null'
+						className={`
+							footer__contact-item-hover 
+							${isDarkTheme ? 'dark-theme' : ''} 
+							link-null
+						`}
 					>
 						222222222222
 					</a>
@@ -37,7 +43,11 @@ const ContactsFooter = () => {
 					E-mail:&nbsp;
 					<a 
 						href='mailto:33333333333333'
-						className='link-null'
+						className={`
+							footer__contact-item-hover 
+							${isDarkTheme ? 'dark-theme' : ''} 
+							link-null
+						`}
 					>
 						33333333333333
 					</a>

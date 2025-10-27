@@ -31,7 +31,7 @@ const BasketBox = ({productsBasket}: IBasketBoxProps) => {
                         ) : 
                         (
                         <>
-                            <h2 className='basket-box__container-title1'>Корзина товаров</h2>
+                            <h2 className='basket-box__container-title'>Корзина товаров</h2>
                             <Button 
                                 className='button-violet'
                                 onClick={handleClearBasketBtn} 

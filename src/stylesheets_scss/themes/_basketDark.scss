@@ -1,0 +1,84 @@
+@use '../forward.scss';
+
+.basket-box__product-controls {
+    &.dark-theme {
+        background-color: #121212 !important;
+    }
+}
+
+.basket-box__table-header {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.basket-box__footer {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.basket-box__product-count-box {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.basket-box__product-count-input {
+    &.dark-theme {
+        background-color: black;
+        color: white;
+        border-radius: 3px;
+    }
+}
+
+.count__up {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}
+
+.count__down {
+    &.dark-theme {
+        background-color: #121212;
+    }
+}
+
+.basket-delivery {
+    &.dark-theme {
+        background-color: forward.$backColorElemDark;
+        color: white;
+    }    
+    &__left {
+        &.dark-theme {
+            background-color: black;
+        }  
+        &-rules {
+            &.dark-theme {
+                color: white;
+            }    
+            @media (hover: hover) and (pointer: fine) {
+                &.dark-theme:hover {
+                    color: blue;
+                }  
+            }
+        }
+    }
+    &__right {
+        &.dark-theme {
+            background-color: black;
+        }  
+        &-select {
+            &.dark-theme {
+                background-color: rgb(149 150 150);
+                color: black
+            }
+        }
+    }
+}
+
+.basket-svg_passive.dark-theme {
+    &.dark-theme {
+        fill: rgb(18 18 18);
+    }
+}

@@ -11,6 +11,7 @@
         flex-direction: column;
         background-color: forward.$backColorElem;
         border-radius: 19px;
+        padding-bottom: 16px;
         &-item {
             box-sizing: border-box;
             border: 1px solid black;
@@ -86,8 +87,12 @@
         font-weight: 600;
     }
     &__sum {
+        margin-bottom: 16px;
         font-size: 18px;
         font-weight: 600;
+    }
+    &__sum + .button-violet {
+        margin-bottom: 16px;
     }
 }
 
@@ -110,8 +115,10 @@
                 font-weight: 600;
                 font-size: 18px;
                 cursor: pointer;
-                &:hover {
-                    color: rgb(96, 22, 118);
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+                        color: rgb(96, 22, 118);
+                    }
                 }
             }
             &-count {
@@ -142,8 +149,10 @@
                 font-weight: 600;
                 font-size: 18px;
                 cursor: pointer;
-                &:hover {
-                    color: rgb(96, 22, 118);
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+                        color: rgb(96, 22, 118);
+                    }
                 }
             }
             &-count {
@@ -276,7 +285,7 @@
     .profile-aside {
         min-width: auto;
         height: auto;
-        padding: 10px 10px 0 10px;
+        padding: 10px;
         margin-right: 10px;
         &__name {
             max-width: 150px;
@@ -315,7 +324,7 @@
     .profile-aside {
         width: 100%;
         height: auto;
-        padding: 10px 10px 0 10px;
+        padding: 10px;
         margin: 0 0 10px 0;
         &__name {
             max-width: 370px;

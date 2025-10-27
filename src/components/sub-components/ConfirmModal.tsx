@@ -39,6 +39,12 @@ const ConfirmModal = ({
             }
         }
 
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onCancel()
+            }
+        }
+
         if (isOpen) {
             btnYesRef.current?.focus()
             const allChildren = Array.from(document.body.children)
@@ -48,6 +54,7 @@ const ConfirmModal = ({
                 }
             })
             window.addEventListener('click', handleClickOutside)
+            window.addEventListener('keydown', handleKeyDown)
             document.body.classList.add('modal-open')
         } else {
             const allChildren = Array.from(document.body.children)
@@ -59,6 +66,8 @@ const ConfirmModal = ({
 
         return () => {
             window.removeEventListener('click', handleClickOutside)
+            window.removeEventListener('keydown', handleKeyDown)
+
             const allChildren = Array.from(document.body.children)
             allChildren.forEach(child => {
                 child.removeAttribute('inert')

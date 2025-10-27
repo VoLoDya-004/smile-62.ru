@@ -30,7 +30,7 @@ const FavouritesBox = ({productsFavourites}: IFavouritesBoxProps) => {
                         ) : 
                         (
                         <>
-                            <h2 className='favourites-box__container-title1'>
+                            <h2 className='favourites-box__container-title'>
                                 Избранные товары
                             </h2>
                             <Button

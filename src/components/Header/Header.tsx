@@ -12,7 +12,7 @@ const Header = () => {
     
     return (
         <header 
-            className='header'
+            id='header'
             aria-label='Шапка сайта'    
         >
             <LogoHeader />

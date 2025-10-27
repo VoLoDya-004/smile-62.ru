@@ -1,0 +1,47 @@
+@use '../forward.scss';
+
+.navbar {
+    &.dark-theme {
+        background-color: black;
+		color: white;
+    }
+    &__item_passive {
+        &.dark-theme {
+            background-color: rgba(0, 0, 0, 0.6);
+	    	color: white;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+			    	background-color: forward.$btnColor;
+			    	border-radius: 10px;
+			    	color: #9814ad;
+			    	transition: background-color .1s;
+                }
+            }
+        }
+    }
+}
+
+.search__line-input {
+    &.dark-theme {
+        background-color: #0000005c;
+        color: #ffffff;
+    }
+}
+
+.menu-mobile {
+    &.dark-theme {
+        background-color: black;
+    }
+}
+
+.header-profile {
+    &.dark-theme {
+        background-color: black;
+        color: white;
+    }  
+    &__title {
+        &.dark-theme {
+            color: white;
+        } 
+    }
+}

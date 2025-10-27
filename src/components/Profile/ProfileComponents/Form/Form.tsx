@@ -161,6 +161,7 @@ const Form = () => {
 									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
 									onChange={handleChange} 
 									value={registerData.name}
+									spellCheck='false'
 									required
 								/>
 							</label>
@@ -176,8 +177,9 @@ const Form = () => {
 									type='email'
 									name='email'
 									autoComplete='email'
-									className=
-									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
+									className={`
+										form__registration-item ${isDarkTheme ? 'dark-theme' : ''}
+									`}
 									onChange={handleChange} 
 									value={registerData.email}
 									required
@@ -200,6 +202,7 @@ const Form = () => {
 									onChange={handleChange} 
 									value={registerData.password}
 									required
+									minLength={2}
 								/>
 							</label>
   						</p>

@@ -617,7 +617,7 @@ const App = () => {
     <>
       <Context.Provider value={contextValue}>
         <Header />
-        <main className='main'>  
+        <main id='main'>  
           <ProgressBar />   
             <Routes>
               <Route 

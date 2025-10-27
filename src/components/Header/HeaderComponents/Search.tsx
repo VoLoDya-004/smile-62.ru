@@ -40,12 +40,14 @@ const Search = () => {
   }
 
   const handleSearchClick = () => {
+    const searchLine = document.querySelector('[data-js-search-line-input]') as HTMLInputElement
+
     setCurrentPage(1)
     setSearchQuery(searchTerm)
     document.getElementById('blackout')?.classList.remove('blackout')
     document.body.classList.remove('modal-open')
     if (searchTerm.length === 0) {
-      document.getElementById('search__line-input')?.focus()
+      searchLine?.focus()
     }
     if (location.pathname !== '/') {
       navigate('/')
@@ -56,7 +58,7 @@ const Search = () => {
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const searchLine = document.getElementById('search__line-input')
+    const searchLine = document.querySelector('[data-js-search-line-input]') as HTMLInputElement
 
     if (e.key === 'Enter') {
       handleSearchClick()
@@ -67,7 +69,7 @@ const Search = () => {
   }
 
   useEffect(() => {
-    const searchLine = document.getElementById('search__line-input')
+    const searchLine = document.querySelector('[data-js-search-line-input]')
     const blackoutElement = document.getElementById('blackout')
 
     const handleFocus = () => {
@@ -102,19 +104,20 @@ const Search = () => {
     <div className='search'>
       <div className='search__line'>
         <input
-          id='search__line-input'
           type='search'
           placeholder='Искать здесь...'
           value={searchTerm}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          className={isDarkTheme ? 'dark-theme' : ''}
+          className={`search__line-input ${isDarkTheme ? 'dark-theme' : ''}`}
+          data-js-search-line-input
           aria-label='Строка поиска'
+          spellCheck='false'
         />
         {searchTerm && (
           <button
             type='button'
-            id='search__line-clear'
+            className='search__line-clear'
             onClick={handleClearClick}
             aria-label='Очистить поле поиска'
           >
@@ -125,12 +128,12 @@ const Search = () => {
         )}
         <button 
           type='button'
-          id='search__line-button'
+          className='search__line-button'
           onClick={handleSearchClick}
           aria-label='Поиск'
         >
           <img
-            id='search__line-button-img'
+            className='search__line-button-img'
             src='/images/icons/search.png'
             alt='Поиск'
           />

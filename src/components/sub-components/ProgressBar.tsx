@@ -45,7 +45,7 @@ const ProgressBar = () => {
     
     
     return (
-        <div id='progress-bar' style={{width: scrolled+ '%'}} />
+        <div className='progress-bar' style={{width: scrolled+ '%'}} />
     )
 }
 

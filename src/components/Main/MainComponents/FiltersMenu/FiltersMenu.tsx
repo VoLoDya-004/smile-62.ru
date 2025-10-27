@@ -149,6 +149,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         <section 
             ref={ref} 
             className={`filter-menu ${isDarkTheme ? 'dark-theme' : ''}`}
+            data-js-filter-menu
             style={{ height: viewportWidth > 1000 
                 ? `${viewportHeight - 72}px` 
                 : `${viewportHeight - 132}px`, overflowY: 'auto' 

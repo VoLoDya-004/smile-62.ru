@@ -28,14 +28,14 @@ const ThemeToggle = () => {
     >
       <button 
         type='button'
-        id='theme-toggle' 
+        className='theme-toggle__button' 
         onClick={toggleTheme}
         aria-label='Смена темы'
       >
         <img 
           src='/images/icons/theme.png' 
           alt='Смена темы'
-          className='theme-toggle' 
+          className='theme-toggle__img' 
         />
       </button>
     </Tippy>

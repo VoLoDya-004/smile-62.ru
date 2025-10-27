@@ -111,24 +111,24 @@ const FiltersBlock = () => {
     }
 
     useEffect(() => {
-        const handleClickOutsideSort = (e: MouseEvent) => {
+        const handleClickOutsideSort = (e: PointerEvent) => {
             if (menuSortRef.current && !menuSortRef.current.contains(e.target as Node)) {
                 setVisibleSort(false)
             }
         }
 
         if (visibleSort) {
-            document.addEventListener('mousedown', handleClickOutsideSort)
+            document.addEventListener('pointerdown', handleClickOutsideSort)
         } else {
-            document.removeEventListener('mousedown', handleClickOutsideSort)
+            document.removeEventListener('pointerdown', handleClickOutsideSort)
         }
         return () => {
-            document.removeEventListener('mousedown', handleClickOutsideSort)
+            document.removeEventListener('pointerdown', handleClickOutsideSort)
         }
     }, [visibleSort])
 
     useEffect(() => {
-        const handleClickOutsideFilters = (e: MouseEvent) => {
+        const handleClickOutsideFilters = (e: PointerEvent) => {
             if (menuFiltersRef.current && !menuFiltersRef.current.contains(e.target as Node)) {
                 setVisibleFilters(false)
                 document.getElementById('blackout')?.classList.remove('blackout')
@@ -137,13 +137,13 @@ const FiltersBlock = () => {
         }
 
         if (visibleFilters) {
-            document.addEventListener('mousedown', handleClickOutsideFilters)
+            document.addEventListener('pointerdown', handleClickOutsideFilters)
         } else {
-            document.removeEventListener('mousedown', handleClickOutsideFilters)
+            document.removeEventListener('pointerdown', handleClickOutsideFilters)
         }
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutsideFilters)
+            document.removeEventListener('pointerdown', handleClickOutsideFilters)
         }
     }, [visibleFilters])
 
@@ -175,7 +175,8 @@ const FiltersBlock = () => {
         if (visibleFilters) {
             const handleTabKey = (e: KeyboardEvent) => {
                 if (e.key === 'Tab') {
-                    const filtersMenu = document.querySelector('.filter-menu') as HTMLElement
+                    const filtersMenu = 
+                        document.querySelector('[data-js-filter-menu]') as HTMLElement
                     if (!filtersMenu) return
 
                     const focusableElements = filtersMenu.querySelectorAll(

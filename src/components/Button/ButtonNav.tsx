@@ -63,12 +63,14 @@ const ButtonNav = () => {
     }
 
     useEffect(() => {
-        const handleMouseUp = (e: MouseEvent) => {
+        const handlePointerUp = (e: PointerEvent) => {
             let container = document.querySelector('.navbar')
-            let navigationBtn = document.getElementById('nav__button')
+            let navigationBtn = document.querySelector('[data-js-nav-button]')
 
             if (container && navigationBtn) {
-                if ((!container.contains(e.target as Node)) && (!navigationBtn.contains(e.target as Node))) {
+                if ((!container.contains(e.target as Node)) && 
+                    (!navigationBtn.contains(e.target as Node))
+                ) {
                     setVisible('none')
                     setToggle('')
                     document.body.classList.remove('modal-open')
@@ -84,10 +86,10 @@ const ButtonNav = () => {
             }
         }
 
-        document.addEventListener('mouseup', handleMouseUp)
+        document.addEventListener('pointerup', handlePointerUp)
         
         return () => {
-            document.removeEventListener('mouseup', handleMouseUp)
+            document.removeEventListener('pointerup', handlePointerUp)
         }
     }, [])
 
@@ -141,7 +143,8 @@ const ButtonNav = () => {
             const handleTabKey = (e: KeyboardEvent) => {
                 if (e.key === 'Tab') {
                     const navbar = document.querySelector('.navbar') as HTMLElement
-                    const navButton = document.getElementById('nav__button') as HTMLElement
+                    const navButton = 
+                        document.querySelector('[data-js-nav-button]') as HTMLElement
                     
                     if (!navbar || !navButton) return
                     
@@ -187,7 +190,8 @@ const ButtonNav = () => {
             document.addEventListener('keydown', handleTabKey)
             
             const timer = setTimeout(() => {
-                const navButton = document.getElementById('nav__button') as HTMLElement
+                const navButton = 
+                    document.querySelector('[data-js-nav-button]') as HTMLElement
                 if (navButton) {
                     navButton.focus()
                 }
@@ -206,7 +210,8 @@ const ButtonNav = () => {
         <div className='nav'>
             <button 
                 type='button'
-                id='nav__button' 
+                className='nav__button' 
+                data-js-nav-button
                 onClick={nav} 
                 aria-label={visible === 'block' ? 
                     'Закрыть меню категорий товаров' : 
@@ -223,6 +228,7 @@ const ButtonNav = () => {
         
         <aside 
             className={isDarkTheme ? `${toggle} dark-theme` : toggle}
+            data-js-navbar
             style={{height: `${navbarHeight}px`}}
             aria-hidden={visible === 'block' ? 'false' : 'true'}
             aria-label='Список категории товаров'
