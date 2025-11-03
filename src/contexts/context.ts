@@ -53,6 +53,8 @@ interface IAppContextType {
     setSearchParams: (params: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams)) => void
     updateBasketData: () => Promise<void>
     updateFavouritesData: () => Promise<void>
+    setLoadingBasket: (loading: boolean) => void
+    setLoadingFavourites: (loading: boolean) => void
 }
 
 export const Context = createContext<IAppContextType | undefined>(undefined)

@@ -3,18 +3,16 @@ import type { RootStore } from '../../redux'
 import { useSelector } from 'react-redux'
 import type { ICardsRender } from '../../types/types'
 import axios from 'axios'
-
+import ButtonArrow from '../Button/ButtonArrow'
 
 interface IRecommendationsProductProps {
     card: ICardsRender
 }
 
-
 const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => {
     const sale = Math.round(100 * ((card.price - card.price_sale) / card.price))
     const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
     const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
-
     const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 
@@ -26,76 +24,106 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
         >
             <div className='recommendation-card__top'>
                 <div className='recommendation-card__image'>
-                    <img 
-                        src={card.image} 
-                        alt='Товар' 
-                        loading='lazy' 
-                    />
+                    <img src={card.image} alt='Товар' loading='lazy' />
                 </div>
-                {sale !== 0 && 
-                    <div className='recommendation-card__label'>-{sale}%</div>
-                }
+                {sale !== 0 && <div className='recommendation-card__label'>-{sale}%</div>}
+                {sale >= 20 && <div className='recommendation-card__sale'>выгодно</div>}
             </div>
             <div className='recommendation-card__bottom'>
                 {price === price_sale ? (
                     <>
-                        <div 
-                            className='
-                                recommendation-card__price 
-                                recommendation-card__price-count-same
-                            '
-                        >
+                        <div className='recommendation-card__price recommendation-card__price-count-same'>
                             {price}
                         </div>
-                        <div 
-                            className={`
-                                recommendation-card__title 
-                                ${isDarkTheme ? 'dark-theme' : ''}
-                            `}
-                        >
+                        <div className={`recommendation-card__title ${isDarkTheme ? 'dark-theme' : ''}`}>
                             {card.nazvanie}
                         </div>
                     </>
                 ) : (
-                        <>
-                            <div className='recommendation-card__prices'>
-                                <div 
-                                    className='
-                                        recommendation-card__price 
-                                        recommendation-card__price-discount
-                                    '
-                                >
-                                    {price_sale}
-                                </div>
-                                <div 
-                                    className='
-                                        recommendation-card__price 
-                                        recommendation-card__price-count
-                                    '
-                                >
-                                    {price}
-                                </div>
+                    <>
+                        <div className='recommendation-card__prices'>
+                            <div className='recommendation-card__price recommendation-card__price-discount'>
+                                {price_sale}
                             </div>
-                            <div 
-                                className={`recommendation-card__title 
-                                    ${isDarkTheme ? 'dark-theme' : ''}`
-                                }
-                            >
-                                {card.nazvanie}
+                            <div className='recommendation-card__price recommendation-card__price-count'>
+                                {price}
                             </div>
-                        </>
-                    )}
+                        </div>
+                        <div className={`recommendation-card__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+                            {card.nazvanie}
+                        </div>
+                    </>
+                )}
             </div>
         </article>
     )
 })
+
+const RecommendationsLoading = () => (
+    <>
+        <h2 className='recommendation-loading'>Загрузка рекомендаций...</h2>
+        <div className='spinner-cards'></div>
+    </>
+)
+
+
+const RecommendationsEmpty = () => (
+    <h2 className='recommendation-loading'>Пока что рекомендации пусты</h2>
+)
+
+
+const RecommendationsContainer = ({ 
+    cards, 
+    isDarkTheme,
+    containerRef,
+    scrollHandlers,
+    showLeftButton,
+    showRightButton,
+    scrollLeftBtn,
+    scrollRightBtn
+}: {
+    cards: ICardsRender[]
+    isDarkTheme: boolean
+    containerRef: React.RefObject<HTMLDivElement | null>
+    scrollHandlers: any
+    showLeftButton: boolean
+    showRightButton: boolean
+    scrollLeftBtn: () => void
+    scrollRightBtn: () => void
+}) => (
+    <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
+        {showLeftButton && (
+            <ButtonArrow 
+                onClick={scrollLeftBtn}
+                ariaLabel='Листать рекомендуемые товары назад'
+                className='recommendation__left-btn'
+            />
+        )}
+        {showRightButton && (
+            <ButtonArrow 
+                onClick={scrollRightBtn}
+                ariaLabel='Листать рекомендуемые товары вперёд'
+                className='recommendation__right-btn'
+            />
+        )}
+        <div
+            className='recommendation__container'
+            ref={containerRef}
+            {...scrollHandlers}
+            tabIndex={-1} 
+        >
+            {cards.map((card) => (
+                <RecommendationsProduct key={card.id} card={card} />
+            ))}
+        </div>
+    </div>
+)
 
 
 const Recommendations = () => {
     const [cards, setCards] = useState<ICardsRender[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const containerRef = useRef<HTMLDivElement | null>(null)
-    const [scrollPosition, setScrollPosition] = useState<number>(0)
     const scrollAmount = 500
     const [isDragging, setIsDragging] = useState<boolean>(false)
     const [startX, setStartX] = useState<number>(0)
@@ -115,16 +143,13 @@ const Recommendations = () => {
             setShowRightButton(
                 element.scrollWidth - element.clientWidth > element.scrollLeft + 1
             )
-            setScrollPosition(element.scrollLeft)
         }
 
         const container = containerRef.current
         if (container) {
             container.addEventListener('scroll', handleScroll)
             handleScroll()    
-            return () => {
-                container.removeEventListener('scroll', handleScroll)
-            }
+            return () => container.removeEventListener('scroll', handleScroll)
         }
     }, [cards])
 
@@ -151,7 +176,6 @@ const Recommendations = () => {
         if (containerRef.current) {
             setIsSmoothScroll(true)
             containerRef.current.scrollLeft -= scrollAmount
-            setScrollPosition(containerRef.current.scrollLeft)
         }
     }
 
@@ -159,7 +183,6 @@ const Recommendations = () => {
         if (containerRef.current) {
             setIsSmoothScroll(true)
             containerRef.current.scrollLeft += scrollAmount
-            setScrollPosition(containerRef.current.scrollLeft)
         }
     }
 
@@ -196,80 +219,33 @@ const Recommendations = () => {
         containerRef.current.scrollLeft = scrollLeft - walk
     }
 
+    const scrollHandlers = {
+        onMouseDown: handleMouseDown,
+        onMouseLeave: handleMouseLeave,
+        onMouseUp: handleMouseUp,
+        onMouseMove: handleMouseMove,
+        style: { scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' } as const
+    }
+
+
     return (
         <section className='recommendation'>
             <h2 className='recommendation__title'>Рекомендации</h2>
             {isLoading ? (
-            <>
-                <h2 className='recommendation-loading'>Загрузка рекомендаций...</h2>
-                <div className='spinner-cards'></div>
-            </>
+                <RecommendationsLoading />
+            ) : cards.length === 0 ? (
+                <RecommendationsEmpty />
             ) : (
-            <>
-                {cards.length === 0 ? (
-                <h2 className='recommendation-loading'>
-                    Пока что рекомендации пусты
-                </h2>
-                ) : (
-                <div className={`recommendation__box ${isDarkTheme ? 'dark-theme' : ''}`}>
-                    {showLeftButton && (
-                    <button 
-                        type='button'
-                        className='recommendation__left-btn' 
-                        onClick={scrollLeftBtn} 
-                        aria-label='Листать рекомендуемое товары назад'
-                        disabled={scrollPosition === 0}
-                    >
-                        <svg 
-                            xmlns='http://www.w3.org/2000/svg'
-                            className='svg-btn-fill-none'
-                        >
-                            <path 
-                                className='white-fill-clip'
-                                d='M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 
-                                1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 
-                                1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
-                            />
-                        </svg>
-                    </button>
-                    )}
-                    {showRightButton && (
-                    <button 
-                        type='button'
-                        className='recommendation__right-btn' 
-                        onClick={scrollRightBtn}
-                        aria-label='Листать рекомендуемое товары вперёд'
-                    >
-                        <svg 
-                            xmlns='http://www.w3.org/2000/svg' 
-                            className='svg-btn-fill-none'
-                        >
-                            <path 
-                                className='white-fill-clip' 
-                                d='M12 20.5a1 1 0 0 0 1-1V6.414l4.293 4.293a1 1 0 0 0 
-                                1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 
-                                1.414L11 6.414V19.5a1 1 0 0 0 1 1Z'
-                            />
-                        </svg>
-                    </button>
-                    )}
-                    <div
-                    className='recommendation__container'
-                    ref={containerRef}
-                    onMouseDown={handleMouseDown}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseUp={handleMouseUp}
-                    onMouseMove={handleMouseMove}
-                    style={{ scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' }}
-                    tabIndex={-1} 
-                    >
-                    {cards.map((card) => (
-                        <RecommendationsProduct key={card.id} card={card} />
-                    ))}
-                    </div>
-                </div>
-                )}
-            </>
+                <RecommendationsContainer
+                    cards={cards}
+                    isDarkTheme={isDarkTheme}
+                    containerRef={containerRef}
+                    scrollHandlers={scrollHandlers}
+                    showLeftButton={showLeftButton}
+                    showRightButton={showRightButton}
+                    scrollLeftBtn={scrollLeftBtn}
+                    scrollRightBtn={scrollRightBtn}
+                />
             )}
         </section> 
     )

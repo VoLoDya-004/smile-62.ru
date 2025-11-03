@@ -1,6 +1,6 @@
 @use '../forward.scss';
 
-.navbar {
+.categories-dropdown {
     &.dark-theme {
         background-color: black;
 		color: white;
@@ -28,13 +28,13 @@
     }
 }
 
-.menu-mobile {
+.header-nav-mobile {
     &.dark-theme {
         background-color: black;
     }
 }
 
-.header-profile {
+.profile-menu {
     &.dark-theme {
         background-color: black;
         color: white;

@@ -24,7 +24,7 @@
 		@include forward.wh-auto;
 		padding-top: 30px;
 		&-item { 
-			margin: 5px 0;
+			margin-block: 10px;
 			display: flex;
 			justify-content: center;
 			color: #868695;
@@ -52,7 +52,7 @@
 		padding-top: 30px;
 		&-item { 
 			text-decoration: none;
-			margin: 5px 0;
+			margin-block: 10px;
 			display: flex;
 			color: #868695;
 			&-hover {
@@ -67,7 +67,7 @@
 	}
 	&__title {
 		font-size: 1em;
-		margin: 0 0 20px;
+		margin-bottom: 15px;
 		font-weight: 800;
 		display: flex;
 		color: rgb(0, 0, 0);
@@ -241,15 +241,15 @@
 			display: none;
 		}
 		&__section {
-			font-size: small;
+			font-size: 0.81em;
 		}
 		&__contact {
 			margin-left: auto;
 			margin: 0 10px 0 0;
-			font-size: small;
+			font-size: 0.81em;
 		}
 		&__title  {
-			font-size: small;
+			font-size: 0.81em;
 		}
 		&__link {
 			margin: 0 10px 60px;
@@ -290,6 +290,6 @@
 		display: flex;
     	align-items: end;
 		margin: 15px 10px 60px auto;
-		font-size: small;
+		font-size: 0.81em;
 	}
 }

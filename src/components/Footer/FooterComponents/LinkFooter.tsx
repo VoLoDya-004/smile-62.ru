@@ -9,7 +9,7 @@ const LinkFooter = () => {
 	return (
 		<div 
 			className='footer__link'
-			aria-label="Социальные сети компании"
+			aria-label='Социальные сети компании'
 		>
 			<div className={`footer__link-item ${isDarkTheme ? 'dark-theme' : ''}`}>
 				<a 
@@ -112,8 +112,8 @@ const LinkFooter = () => {
 							0 10.307 0 7.245v-.49Z'
 						/>
 						<path 
-							fill="#fff" 
-							d="m13.135 7.031-5.25-3.03v6.061l5.25-3.03Z"
+							fill='#fff'
+							d='m13.135 7.031-5.25-3.03v6.061l5.25-3.03Z'
 						/>
 					</svg>
 				</a>

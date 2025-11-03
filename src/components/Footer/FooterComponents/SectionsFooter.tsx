@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import type { RootStore } from '../../../redux'
+import FooterTitle from './FooterTitle'
 
 
 const SectionsFooter = () => {
@@ -12,7 +13,7 @@ const SectionsFooter = () => {
 			className='footer__section'
 			aria-label='Навигация по разделам сайта'
 		>
-			<h3 className='footer__title footer__title-section'>Разделы</h3>
+			<FooterTitle>Разделы</FooterTitle>
 			<ul 
 				className='margin-null' 
 				aria-label='Навигация по разделам сайта'

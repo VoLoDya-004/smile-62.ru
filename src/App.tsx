@@ -3,18 +3,19 @@ import { Context } from './contexts/context'
 import { useState, useEffect, useCallback, useMemo, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser } from './redux/UserSlice'
-import  {setCartBasket} from './redux/BasketSlice'
+import  { setCartBasket } from './redux/BasketSlice'
 import { setIsDarkTheme } from './redux/ThemeSlice'
+import { setCartFavourites } from './redux/FavouritesSlice'
 import type { RootStore } from './redux'
-import type { IFilters, ICardsRender, IFav } from './types/types' 
+import type { IFilters, ICardsRender } from './types/types' 
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import ProgressBar from './components/sub-components/ProgressBar'
-import ScrollButton from './components/Button/ScrollButton'
-import ChatBtn from './components/Button/ChatBtn'
-import BasketProducts from './components/Basket/BasketComponents/BasketProducts'
-import FavouritesProducts from './components/Favourites/FavouritesComponents/FavouritesProducts'
+import ButtonScroll from './components/Button/ButtonScroll'
+import ButtonChat from './components/Button/ButtonChat'
+import BasketProducts from './components/Basket/BasketComponents/BasketTable/BasketProducts'
+import FavouritesProducts from './components/Favourites/FavouritesComponents/FavouritesTable/FavouritesProducts'
 import CookiesNotice from './components/sub-components/CookiesNotice'
 import Main from './components/Main/Main'
 import Favourites from './components/Favourites/Favourites'
@@ -25,6 +26,7 @@ import ConfirmModal from './components/sub-components/ConfirmModal'
 
 
 const App = () => {
+  const dispatch = useDispatch()
   const userId = useSelector((state: RootStore) => state.user.userId)
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -42,7 +44,6 @@ const App = () => {
   // Модалки
 
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
-  const [isPendingDelete, setIsPendingDelete] = useState<Record<number, boolean>>({})
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSupportOpen, setIsSupportOpen] = useState(false)
@@ -60,7 +61,7 @@ const App = () => {
   const showModal = useCallback((id: number) => {
     setProductIdToDelete(id)
     setIsModalOpen(true)
-  }, [setIsModalOpen, setProductIdToDelete, setIsPendingDelete])
+  }, [setIsModalOpen, setProductIdToDelete])
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
@@ -87,32 +88,35 @@ const App = () => {
   const [loadingFavourites, setLoadingFavourites] = useState(true)
   const [loadingBasket, setLoadingBasket] = useState(true)
 
-  const dispatch = useDispatch()
   const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
 
-  const deleteProductBasket = useCallback((idToDelete: number | null) => {
-    if (idToDelete && userId !== null) {
+  const [deletingProductsBasket, setDeletingProductsBasket] = useState<Set<number>>(new Set())
+
+  const deleteProductBasket = useCallback((id: number | null) => {
+    if (id && userId !== null) {
       setIsModalOpen(false)
-      setIsPendingDelete(prev => ({ ...prev, [idToDelete]: true }))
+      setDeletingProductsBasket(prev => new Set(prev).add(id))
+
       axios.get(`/backend/PHP/basket.php`, {
         params: {
           Operation: 'deleteBasket',
-          idProduct: idToDelete,
+          idProduct: id,
           idUser: userId,
         },
       })
-      .then(() => {
-        return axios.get(srcBasket)
-      })
+      .then(() => axios.get(srcBasket))
       .then((res) => {
         dispatch(setCartBasket(res.data))
-        setIsPendingDelete(prev => ({ ...prev, [idToDelete]: false }))
       })
-      .catch(() => {
-        setIsPendingDelete(prev => ({ ...prev, [idToDelete]: false }))
+      .finally(() => {
+        setDeletingProductsBasket(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(id)
+          return newSet
+        })
       })
     }
-  }, [dispatch, productIdToDelete, srcBasket, setIsPendingDelete])
+  }, [dispatch, userId, srcBasket])
 
   const handleClearBasket = useCallback(() => {
     if (userId !== null) {
@@ -129,11 +133,9 @@ const App = () => {
       })
       .then((res) => {
         dispatch(setCartBasket(res.data))
-        closeModalAllBasket()
         setLoadingDeleteAllBasket(false)
       })
       .catch(() => {
-        closeModalAllBasket()
         setLoadingDeleteAllBasket(false)
       })
     }
@@ -224,10 +226,11 @@ const App = () => {
   return cartBasket.map((productBasket) => {
     return (
       <BasketProducts 
-        productBasket = {productBasket} key = {productBasket.id} 
+        productBasket = {productBasket} 
+        key = {productBasket.id} 
         openDeleteModal = {() => showModal(productBasket.id)} 
         onChange={handleCountChange}
-        isPendingDelete={isPendingDelete[productBasket.id]}
+        isDeleting={deletingProductsBasket.has(productBasket.id)}
       />
     )
   })
@@ -237,7 +240,8 @@ const App = () => {
       increaseBasket, 
       decreaseBasket, 
       handleCountChange, 
-      showModal
+      showModal,
+      deletingProductsBasket
   ])
 
   //работа с избранными товарами
@@ -245,10 +249,15 @@ const App = () => {
   const srcFavourites = 
     `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
 
-  const [cartFavourites, setCartFavourites] = useState<IFav[]>([])
+  const cartFavourites = useSelector((state: RootStore) => state.favourites.cartFavourites)
+
+  const [deletingProductsFavourites, setDeletingProductsFavourites] = 
+    useState<Set<number>>(new Set())
 
   const deleteProductFavourites = useCallback((id: number) => {
     if (userId !== null) {
+      setDeletingProductsFavourites(prev => new Set(prev).add(id))
+
       axios.get(`/backend/PHP/favourites.php`, {
         params: {
           Operation: 'deleteFavourites',
@@ -257,10 +266,20 @@ const App = () => {
         }
       })
       .then(() => {
-        setCartFavourites(prevFavourites => prevFavourites.filter(item => item.id !== id))
+        return axios.get(srcFavourites)
+      })
+      .then((res) => {
+        dispatch(setCartFavourites(res.data))
+      })
+      .finally(() => {
+        setDeletingProductsFavourites(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(id)
+          return newSet
+        })
       })
     }
-  }, [setCartFavourites, userId])
+  }, [dispatch, userId])
 
   const handleClearFav = useCallback(() => {
     if (userId !== null) {
@@ -276,16 +295,16 @@ const App = () => {
         return axios.get(srcFavourites)
       })
       .then((res) => {
-          setCartFavourites(res.data)
-          closeModalAllFav()
-          setLoadingDeleteAllFav(false)
+        dispatch(setCartFavourites(res.data))
+        closeModalAllFav()
+        setLoadingDeleteAllFav(false)
       })
       .catch(() => {
         setLoadingDeleteAllFav(false)
         closeModalAllFav()
       })
     }
-  }, [setCartFavourites, userId])
+  }, [dispatch, userId])
 
   const addInBasketProductFavourites = useCallback(async (id: number): Promise<void> => {
     if (userId === null) {
@@ -300,22 +319,22 @@ const App = () => {
       }
     })
     const res = await axios.get(srcFavourites)
-    setCartFavourites(res.data)
-  }, [setCartFavourites, userId])
+    dispatch(setCartFavourites(res.data))
+  }, [dispatch, userId])
 
   useEffect(() => {
     if (userId !== null) {
       setLoadingFavourites(true)
       axios.get(srcFavourites)
         .then((res) => {
-          setCartFavourites(res.data)
+          dispatch(setCartFavourites(res.data))
         })
         .finally(() => {
           setLoadingFavourites(false)
         })
     } else {
       setLoadingFavourites(false)
-      setCartFavourites([])
+      dispatch(setCartFavourites([]))
     }
   }, [userId])
 
@@ -323,31 +342,40 @@ const App = () => {
   return cartFavourites.map((productFavourites) => {
     return (
       <FavouritesProducts 
-        productFavourites = {productFavourites} key = {productFavourites.id} 
+        productFavourites = {productFavourites} 
+        key = {productFavourites.id} 
         deleteProductFavourites = {deleteProductFavourites}
         addInBasketProductFavourites = {addInBasketProductFavourites}
-        cartBasket={cartBasket} cartFavourites={cartFavourites}
+        cartBasket={cartBasket} 
+        cartFavourites={cartFavourites}
+        isDeleting={deletingProductsFavourites.has(productFavourites.id)}
       />
     )
   })
-  }, [cartFavourites, deleteProductFavourites, addInBasketProductFavourites, cartBasket])
+  }, [
+      cartFavourites, 
+      deleteProductFavourites, 
+      addInBasketProductFavourites, 
+      cartBasket,
+      deletingProductsFavourites
+  ])
 
   // обновление избранных товаров без обновления страницы
 
   const updateFavouritesData = useCallback(async () => {
-      if (!userId) return
-      
-      try {
-        await axios.get(`/backend/PHP/favourites.php`, {
-          params: { Operation: 'showBasket', idUser: userId }
-        })
-        const res = await axios.get(srcFavourites)
-        setCartFavourites(res.data)
-      } catch (error) {
-        console.error('Ошибка обновления избранного:', error)
-      }
+    if (!userId) return
+    
+    try {
+      await axios.get(`/backend/PHP/favourites.php`, {
+        params: { Operation: 'showBasket', idUser: userId }
+      })
+      const res = await axios.get(srcFavourites)
+      dispatch(setCartFavourites(res.data))
+    } catch (error) { 
+      console.error('Ошибка обновления избранного:', error)
+    }
   }, [userId, srcFavourites, dispatch])
-
+    
   // обновление корзины товаров из избранных без обновления страницы
 
   const updateBasketData = useCallback(async () => {
@@ -539,10 +567,37 @@ const App = () => {
 
   //Инициализация темы при запуске приложения
 
+  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+
   useEffect(() => {
     const theme = localStorage.getItem('theme')
     dispatch(setIsDarkTheme(theme === 'dark-theme'))
   }, [dispatch])
+
+  useEffect(() => {
+    const themeColor = isDarkTheme ? '#121212' : '#ffffff'
+    const statusBarStyle = isDarkTheme ? 'black-translucent' : 'default'
+    
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]')
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', themeColor)
+    } else {
+      metaThemeColor = document.createElement('meta')
+      metaThemeColor.setAttribute('name', 'theme-color')
+      metaThemeColor.setAttribute('content', themeColor)
+      document.head.appendChild(metaThemeColor)
+    }
+    
+    let metaApple = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
+    if (metaApple) {
+      metaApple.setAttribute('content', statusBarStyle)
+    } else {
+      metaApple = document.createElement('meta')
+      metaApple.setAttribute('name', 'apple-mobile-web-app-status-bar-style')
+      metaApple.setAttribute('content', statusBarStyle)
+      document.head.appendChild(metaApple)
+    } 
+  }, [isDarkTheme])
 
   // мемоизация данных из контекста
 
@@ -577,7 +632,9 @@ const App = () => {
     setCartBasket,
     setSearchParams,
     updateBasketData,
-    updateFavouritesData
+    updateFavouritesData,
+    setLoadingBasket,
+    setLoadingFavourites
   }), [
     productsFavourites,
     setSelectedCategory,
@@ -609,7 +666,9 @@ const App = () => {
     setCartBasket,
     setSearchParams, 
     updateBasketData,
-    updateFavouritesData
+    updateFavouritesData,
+    setLoadingBasket,
+    setLoadingFavourites
   ])
 
   
@@ -651,8 +710,8 @@ const App = () => {
                 } 
               />                   
             </Routes>
-          <ScrollButton />
-          <ChatBtn onOpen={openSupport} />
+          <ButtonScroll />
+          <ButtonChat onOpen={openSupport} />
           <Support isOpen={isSupportOpen} onClose={closeSupport} />
           <ConfirmModal
             isOpen={isModalOpen}
@@ -690,12 +749,6 @@ const App = () => {
 }
 
 export default App
-
-
-
-
-
-
 
 
 

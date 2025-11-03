@@ -1,6 +1,6 @@
 import { useState, useEffect, memo, type JSX } from 'react'
 import BlockEmpty from '../sub-components/BlockEmpty'
-import FavouritesBox from './FavouritesComponents/FavouritesBox'
+import FavouritesBox from './FavouritesComponents/FavouritesTable/FavouritesBox'
 import Recommendations from '../sub-components/Recommendations'
 
 

@@ -25,7 +25,7 @@ const ButtonBasket = ({
     if (!context) {
         throw new Error('Context must be used within a Provider')
     }
-    const { updateBasketData } = context
+    const { updateBasketData, setLoadingBasket } = context
 
     const [notification, setNotification] = useState<INotificationData | null>(null)
     const [addingStatus, setAddingStatus] = useState<Record<number, boolean>>({})
@@ -55,6 +55,7 @@ const ButtonBasket = ({
             return
         }
 
+        setLoadingBasket(true)
         setAddingStatus(prev => ({...prev, [id]: true}))
 
         try {
@@ -63,6 +64,9 @@ const ButtonBasket = ({
             showNotification('Добавлено в корзину', 'success')
         } catch (error) {
             showNotification('Ошибка', 'error')
+        }
+        finally {
+            setLoadingBasket(false)
         }
     }, [basketProductIds, addingStatus, addInBasketProductFavourites, showNotification, 
     updateBasketData])
@@ -105,7 +109,7 @@ const ButtonBasket = ({
                                     `}
                                     onClick={() => handleAddInBasketProductFavourites(card.id)}
                                 >
-                                    <span className="visually-hidden">
+                                    <span className='visually-hidden'>
                                         {isBasket ? 
                                             'Товар уже в корзине' : 
                                             'Добавить избранный товар в корзину'

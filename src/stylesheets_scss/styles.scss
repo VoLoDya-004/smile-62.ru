@@ -1,5 +1,6 @@
 @use './base/utils';
 @use './base/main';
+@use './base/fonts';
 
 @use './pages/header';
 @use './pages/content';
@@ -16,12 +17,11 @@
 @use './sub-components/filtersBlock';
 @use './sub-components/blockEmpty';
 @use './sub-components/slider';
+@use './sub-components/categoriesDropdown';
 
 @use './themes/index';
 
 @use './buttons/buttons';
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 

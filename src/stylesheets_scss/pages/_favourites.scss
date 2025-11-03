@@ -1,24 +1,18 @@
 @use '../forward.scss';															
                                                                     
 .favourites {
-	margin-top: 100px;
 	display: flex;
 	justify-content: center;
 }
 
 .favourites-box {
-    &__header {
-        margin-bottom: 40px;
-        text-align: center;
-    }
-    &__container {
-        margin: 0 auto;
-        &-title {
-            font-size: 28px;
-            line-height: 1.3;
-            font-weight: 700;
-            cursor: default;
-        }
+    text-align: center;
+    margin: 0 auto;
+    &__title {
+        font-size: 1.75em;
+        line-height: 1.3;
+        font-weight: 700;
+        cursor: default;
     }
     &__table {
         &-header {
@@ -28,7 +22,7 @@
             background-color: forward.$backColorElem;
             padding: 22px 0;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 0.81em;
             line-height: 1.2;
             letter-spacing: 0.2em;
             text-transform: uppercase;
@@ -44,13 +38,14 @@
         grid-template-columns: 2fr repeat(2, 3fr) 0.5fr 0.5fr;
         column-gap: 30px;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 1.125em;
         line-height: 1.3;
         padding: 20px 0;
         border-bottom: 2px solid rgba(126, 155, 189, 0.3);
         &-img {
             justify-self: center;
             width: 90%;
+            max-width: 210px;
             user-select: none;
             pointer-events: none;
         }
@@ -103,11 +98,9 @@
 	 .favourites-box {
         width: 95vw;
         margin: 0 auto;
-        &__container {
-            &-title {
-                font-size: 24px;
-                padding-right: 10px;
-            }
+        &__title {
+            font-size: 1.5em;
+            padding-right: 10px;
         }
         &__table {
             &-header {
@@ -146,11 +139,9 @@
 	.favourites-box {
         width: 95vw;
         margin: 0 auto;
-        &__container {
-            &-title {
-                font-size: 24px;
-                padding-right: 10px;
-            }
+        &__title {
+            font-size: 1.5em;
+            padding-right: 10px;
         }
         &__table {
             &-header {

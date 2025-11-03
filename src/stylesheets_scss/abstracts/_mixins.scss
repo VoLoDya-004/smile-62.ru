@@ -20,5 +20,10 @@
 	clip-rule: $fill;
 }
 
+@mixin fonts-montserrat-medium {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
 
 

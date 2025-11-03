@@ -1,7 +1,7 @@
 import { useState, useEffect, memo, type JSX } from 'react'
 import BlockEmpty from '../sub-components/BlockEmpty'
-import BasketBox from './BasketComponents/BasketBox'
-import BasketDelivery from './BasketComponents/BasketDelivery'
+import BasketBox from './BasketComponents/BasketTable/BasketBox'
+import BasketDelivery from './BasketComponents/BasketDelivery/BasketDelivery'
 import Recommendations from '../sub-components/Recommendations'
 
 
@@ -43,7 +43,6 @@ const Basket = ({productsBasket, loading}: IBasketProps) => {
             {visible &&
             <>
                 <BasketBox productsBasket={productsBasket} />
-                <h2 className='delivery-label'>Доставка</h2>
                 <BasketDelivery />
             </>
             }

@@ -4,9 +4,9 @@ import { memo } from 'react'
 import axios from 'axios'
 import { Context } from '../../../contexts/context'
 import { setCartBasket } from '../../../redux/BasketSlice'
+import { setCartFavourites } from '../../../redux/FavouritesSlice'
 import type { RootStore } from '../../../redux'
 import type { IProduct, INotificationData, ICardsRender } from '../../../types/types'
-import ButtonLoad from '../../Button/ButtonLoad'
 import Notification from '../../sub-components/Notification'
 
 
@@ -22,6 +22,7 @@ interface ICardProps {
 const Cards = () => {
   const dispatch = useDispatch()
   const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
+  const cartFavourites = useSelector((state: RootStore) => state.favourites.cartFavourites)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
   const userId = useSelector((state: RootStore) => state.user.userId)
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
@@ -29,18 +30,21 @@ const Cards = () => {
   const srcBasket = 
     `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
+  const srcFavourites = `
+    /backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
   const { 
-    cartFavourites, 
     searchQuery,
     isLoading, 
     cards, 
-    setCurrentPage, 
     currentPage,
-    updateFavouritesData
+    updateFavouritesData,
+    setLoadingBasket,
+    setLoadingFavourites
   } = context
     
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
@@ -103,6 +107,7 @@ const Cards = () => {
     if (exists) {
       return
     } else {
+        setLoadingBasket(true)
         await axios.get(`/backend/PHP/basket.php`, {
           params: {
             Operation: 'addBasket',
@@ -112,6 +117,7 @@ const Cards = () => {
         })
         const res = await axios.get(srcBasket)
         dispatch(setCartBasket(res.data))
+        setLoadingBasket(false)
     }
   }, [cartBasket, userId])
 
@@ -157,6 +163,7 @@ const Cards = () => {
     if (exists) {
       return
     } else {
+      setLoadingFavourites(true)
       await axios.get(`/backend/PHP/favourites.php`, {
         params: {
           Operation: 'addFavourites',
@@ -164,6 +171,9 @@ const Cards = () => {
           idUser: userId,
         },
       })
+      const res = await axios.get(srcFavourites)
+      dispatch(setCartFavourites(res.data))
+      setLoadingFavourites(false)
     }
   }, [cartFavourites, userId])
 
@@ -215,9 +225,6 @@ const Cards = () => {
     }
     toUp()
   }, [currentPage])
-
-  const isBackDisabled = currentPage === 1
-  const isForwardDisabled = cards.length < 40
 
   const filteredCards = cards.filter(card => 
     card.nazvanie.toLowerCase().includes(searchQuery.toLowerCase())
@@ -271,10 +278,10 @@ const Cards = () => {
               disabled={addingStatusFav[card.id]}
               className='button-reset'
             >
-              <span className="visually-hidden">
+              <span className='visually-hidden'>
                   {isInFav ? 
-                      'Товар уже в избранном' : 
-                      'Добавить в избранное'
+                    'Товар уже в избранном' : 
+                    'Добавить в избранное'
                   }
               </span>
               <svg 
@@ -444,56 +451,6 @@ const Cards = () => {
                 />
               ))}
             </section>
-
-            <section className='load-more-box'>
-              <div className='load-more-back'>
-                <ButtonLoad 
-                  id='loadBtnBack' 
-                  className=
-                  {`
-                    load-more__btn-back
-                    ${isBackDisabled ? 
-                      'load-more__btn-back_disabled' : 
-                      'load-more__btn-back_active'
-                    } 
-                    ${isDarkTheme ? 'dark-theme' : ''}
-                  `}
-                  onClick={() => {
-                    if (currentPage > 1) {
-                      setCurrentPage(currentPage - 1)
-                    } else if (currentPage === 1) {
-                    } else {
-                      setCurrentPage(currentPage)
-                    }
-                  }}
-                >
-                  Назад
-                </ButtonLoad>
-              </div>
-              <div className='load-more-forward'>
-                <ButtonLoad 
-                  id='loadBtnForward' 
-                  className=
-                  {`
-                    load-more__btn-forward
-                    ${isForwardDisabled ? 
-                      'load-more__btn-forward_disabled' : 
-                      'load-more__btn-forward_active'
-                    } 
-                    ${isDarkTheme ? 'dark-theme' : ''}
-                  `}
-                  onClick={() => {
-                    if (cards.length === 40) {
-                      setCurrentPage(currentPage + 1)
-                    } else {
-                      setCurrentPage(currentPage)
-                    }
-                  }}
-                >
-                  Вперед
-                </ButtonLoad>
-              </div>
-            </section>
           </>
         )}
         </>
@@ -503,16 +460,6 @@ const Cards = () => {
 }
 
 export default memo(Cards)
-
-
-
-
-
-
-
-
-
-
 
 
 

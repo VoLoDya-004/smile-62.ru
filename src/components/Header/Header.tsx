@@ -1,10 +1,10 @@
 import LogoHeader from './HeaderComponents/LogoHeader'
-import ButtonNav from '../Button/ButtonNav'
+import ButtonCategories from '../Button/ButtonCategories'
 import Search from './HeaderComponents/Search'
 import ThemeToggle from './HeaderComponents/ThemeToggle'
-import TabSection from './HeaderComponents/TabSection'
-import TabSectionMobile from './HeaderComponents/TabSectionMobile'
-import BasketCircle from '../Basket/BasketComponents/BasketCircle'
+import NavSection from './HeaderComponents/NavSection/NavSection'
+import NavSectionMobile from './HeaderComponents/NavSection/NavSectionMobile/NavSectionMobile'
+import BasketCircle from './HeaderComponents/NavSection/BasketCircle'
 
 
 const Header = () => {
@@ -16,10 +16,10 @@ const Header = () => {
             aria-label='Шапка сайта'    
         >
             <LogoHeader />
-            <ButtonNav />
+            <ButtonCategories />
             <Search />
-            <TabSection />
-            <TabSectionMobile />
+            <NavSection />
+            <NavSectionMobile />
             <BasketCircle />
             <ThemeToggle />
         </header> 

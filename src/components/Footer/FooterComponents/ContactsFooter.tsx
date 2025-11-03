@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux"
-import type { RootStore } from "../../../redux"
-
+import { useSelector } from 'react-redux'
+import type { RootStore } from '../../../redux'
+import FooterTitle from './FooterTitle'
 
 
 const ContactsFooter = () => {
@@ -8,7 +8,7 @@ const ContactsFooter = () => {
 	
     return (
         <div className='footer__contact'>
-			<h3 className='footer__title footer__title-section'>Контакты</h3>
+			<FooterTitle>Контакты</FooterTitle>
 			<ul 
 				className='margin-null' 
 				aria-label='Контактная информация'
@@ -18,7 +18,7 @@ const ContactsFooter = () => {
 					aria-label='Наш адрес'
 				>
 					Адрес:&nbsp;
-					<address>1111111111</address>
+					<address>г. Рязань</address>
 				</li>
 				<li 
 					className='footer__contact-item'
@@ -26,14 +26,14 @@ const ContactsFooter = () => {
 				>
 					Телефон:&nbsp;
 					<a 
-						href='tel:222222222222'
+						href='tel:77777777777'
 						className={`
 							footer__contact-item-hover 
 							${isDarkTheme ? 'dark-theme' : ''} 
 							link-null
 						`}
 					>
-						222222222222
+						77777777777
 					</a>
 				</li>
 				<li 
@@ -42,14 +42,14 @@ const ContactsFooter = () => {
 				>
 					E-mail:&nbsp;
 					<a 
-						href='mailto:33333333333333'
+						href='mailto:smile@yandex.ru'
 						className={`
 							footer__contact-item-hover 
 							${isDarkTheme ? 'dark-theme' : ''} 
 							link-null
 						`}
 					>
-						33333333333333
+						smile@yandex.ru
 					</a>
 				</li>
 			</ul>

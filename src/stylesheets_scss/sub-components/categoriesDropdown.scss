@@ -1,0 +1,87 @@
+@use '../forward.scss';	
+
+.categories-dropdown { 
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: white;
+	color: black;
+	width: 25vw;
+	height: calc(100dvh - 86px);
+	z-index: 5;
+	position: absolute;
+	top: 72px;
+	padding: 7px 0;
+	margin-bottom: 100px;
+	overflow-y: scroll;
+	border: none;
+	&__item {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 35px;
+		width: 95%;
+		cursor: pointer;
+		border: none;
+		background-color: inherit;
+		font-size: 1em;
+		margin: 1px 0;
+		&_active {
+			background-color: forward.$btnColor;
+			border-radius: 10px;
+			color: #9814ad;
+			transition: background-color .1s;
+		}
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: forward.$btnColor;
+				border-radius: 10px;
+				color: #9814ad;
+				transition: background-color .1s;
+			}
+		}
+	}
+	&::-webkit-scrollbar { 
+		width: 7px;
+		&-thumb { 
+			background: rgba(96, 22, 118, 0.25); 
+			&:hover { 
+				background: rgba(96, 22, 118, 0.5);
+			}
+			&:active { 
+				background: rgb(96, 22, 118);
+			}
+		}
+		&-track { 
+			background-color: #c5c5c5ac;
+		}
+	}
+}
+
+
+																	//АДАПТАЦИЯ 768px
+
+@media (max-width: 1000px) and (min-width: 769px) {
+	.categories-dropdown { 
+		width: 35vw;
+		height: calc(100dvh - 146px);
+	}
+}   
+
+																	//АДАПТАЦИЯ 425px
+
+@media (max-width: 768px) and (min-width: 425px) {
+	.categories-dropdown { 
+		width: 60vw;
+		height: calc(100dvh - 146px);
+	}
+}                                                                       
+
+                                                                    //АДАПТАЦИЯ < 425px
+
+@media (max-width: 425px) {
+	.categories-dropdown { 
+		width: 100vw;
+		height: calc(100dvh - 146px);
+	}
+}       

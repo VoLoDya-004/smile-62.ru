@@ -25,9 +25,8 @@
 	}
 }
 	
-.nav { 
-    display: flex;
-	align-items: center;
+.categories { 
+    margin-block: auto;
 	&__button {
     	display: flex;
 		align-items: center;
@@ -52,64 +51,6 @@
 	}
 }
 	
-.navbar { 
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	background-color: white;
-	color: black;
-	width: 25vw;
-	height: calc(100vh - 88px);
-	z-index: 5;
-	position: absolute;
-	top: 72px;
-	padding: 7px 0;
-	margin-bottom: 100px;
-	overflow-y: scroll;
-	border: none;
-	&__item {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 5vh;
-		width: 95%;
-		cursor: pointer;
-		border: none;
-		background-color: inherit;
-		font-size: 16px;
-		margin: 1px 0;
-		&_active {
-			background-color: forward.$btnColor;
-			border-radius: 10px;
-			color: #9814ad;
-			transition: background-color .1s;
-		}
-		@media (hover: hover) and (pointer: fine) {
-			&:hover {
-				background-color: forward.$btnColor;
-				border-radius: 10px;
-				color: #9814ad;
-				transition: background-color .1s;
-			}
-		}
-	}
-	&::-webkit-scrollbar { 
-		width: 7px;
-		&-thumb { 
-			background: rgba(96, 22, 118, 0.25); 
-			&:hover { 
-				background: rgba(96, 22, 118, 0.5);
-			}
-			&:active { 
-				background: rgb(96, 22, 118);
-			}
-		}
-		&-track { 
-			background-color: #c5c5c5ac;
-		}
-	}
-}
-	
 .search { 
 	display: inline-flex;
 	align-items: center;
@@ -126,7 +67,7 @@
 			height: 36px;
 			color: #000000;
 			padding-left: 13px;
-			font-size: 16px;
+			font-size: 1em;
 			outline: none;
 			border: 3px solid #d8c4e0;
 			&:-webkit-autofill {
@@ -140,7 +81,7 @@
 			margin: 3px 3px 0 0;
 			min-width: 69px;
 			background-color: #d8c4e0;
-			font-size: 16px;
+			font-size: 1em;
 			padding: 0 15px 0 13px;
 			border: none;
 			cursor: pointer;
@@ -180,17 +121,17 @@ input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 input:-moz-placeholder { /* Firefox 18- */ color: rgba(0, 0, 0, 0.196) !important; }
 input::-moz-placeholder { /* Firefox 19+ */ color: rgba(0, 0, 0, 0.196) !important; }
 input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
-	
-.menu { 
+
+.header-nav {
 	margin: 0 5px 0 auto;
 	display: inline-flex;
-	width: auto;
-	column-gap: 12px;
-	&__nav {
+	&__list {
 		margin: 0 5px 0 auto;
 		display: inline-flex;
+		width: auto;
+		column-gap: 12px;
 	}
-    &__item { 
+	&__item {
         margin: auto;
         display: inline-block;
         &-style {
@@ -205,10 +146,17 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
                 color: white;
             }
         }
-    }
+	}
+	&__line {
+		text-decoration: underline rgb(186, 155, 194);
+		text-decoration-thickness: 5px;
+		line-height: 10px;
+		text-underline-offset: 13.4px;
+		color: white;
+	}
 }
 
-.menu-mobile {
+.header-nav-mobile {
 	display: none;
 	flex-wrap: nowrap;
 	justify-content: space-around;
@@ -237,61 +185,6 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	}
 }
 	
-.header-profile {
-	box-sizing: border-box;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	position: absolute;
-	top: 75px;
-	width: 190px;
-	background-color: rgb(236, 220, 233);
-    border-radius: 15px;
-    height: 102px;
-    z-index: 5;
-	cursor: default;
-	&::before {
-		content: "";
-		position: absolute;
-		width: 100%;
-		background: transparent;
-		pointer-events: auto;
-		top: -18px;
-		left: 0;
-		height: 25px;
-	}
-	&__title {
-		box-sizing: border-box;
-		min-height: 30px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		box-sizing: border-box;
-		white-space: nowrap;
-		color: black;
-		max-width: 190px;
-		padding: 0 16px;
-		margin-bottom: 16px;
-	}
-}
-	
-.pc-none {
-	display: none;
-}
-	
-.none {
-	display: none;
-}
-	
-.line {
-	text-decoration: underline rgb(186, 155, 194);
-	text-decoration-thickness: 5px;
-	line-height: 10px;
-	text-underline-offset: 13.4px;
-    &-text { 
-        color: white;
-    }
-}
-	
 .circle { 
 	border-radius: 50%;
 	min-width: 17px;
@@ -308,7 +201,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	line-height: 18px;
 	font-weight: 500;
 	z-index: 3;
-	&__mobile {
+	&-mobile {
 		border-radius: 50%;
 		width: 17px;
 		height: 17px;
@@ -372,11 +265,6 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 																	//АДАПТАЦИЯ 768px
 
 @media (max-width: 1000px) and (min-width: 769px) {
-	.navbar { 
-		width: 35vw;
-		height: calc(100vh - 148px);
-	}
-
 	.search { 
 		padding-right: 40px;
 		width: 90vw;
@@ -386,15 +274,11 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		}
 	}
 
-	.menu { 
+	.header-nav { 
 		display: none;
 	}
 
-	.pc-none {
-		display: block;
-	}
-
-	.menu-mobile {
+	.header-nav-mobile {
 		display: flex;
 		&__item {
 			&_active {
@@ -408,7 +292,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	
 	.circle { 
 		display: none;
-		&__mobile {
+		&-mobile {
 			display: block;
 		}
 	}
@@ -422,13 +306,8 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		display: none;
 	}
 	
-	.nav { 
+	.categories { 
 		margin-left: 10px;
-	}
-
-	.navbar { 
-		width: 60vw;
-		height: calc(100vh - 148px);
 	}
 	
 	.search { 
@@ -440,15 +319,11 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		}
 	}
 
-	.menu { 
+	.header-nav { 
 		display: none;
 	}
 
-	.pc-none {
-		display: block;
-	}
-
-	.menu-mobile {
+	.header-nav-mobile {
 		display: flex;
 		&__item {
 			&_active {
@@ -462,7 +337,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	
 	.circle { 
 		display: none;
-		&__mobile {
+		&-mobile {
 			display: block;
 		}
 	}
@@ -474,13 +349,8 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		display: none;
 	}
 	
-	.nav { 
+	.categories { 
 		margin-left: 10px;
-	}
-
-	.navbar { 
-		width: 100vw;
-		height: calc(100vh - 148px);
 	}
 	
 	.search { 
@@ -492,15 +362,11 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		}
 	}
 
-	.pc-none {
-		display: block;
-	}
-
-	.menu { 
+	.header-nav { 
 		display: none;
 	}
 
-	.menu-mobile {
+	.header-nav-mobile {
 		display: flex;
 		&__item {
 			&_active {
@@ -514,7 +380,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	
 	.circle { 
 		display: none;
-		&__mobile {
+		&-mobile {
 			display: block;
 		}
 	}

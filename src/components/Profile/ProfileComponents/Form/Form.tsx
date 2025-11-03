@@ -1,289 +1,308 @@
 import { useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {setUser} from '../../../../redux/UserSlice'
+import { setUser } from '../../../../redux/UserSlice'
 import type { RootStore } from '../../../../redux/index'
 import type { INotificationData, IRegisterData } from '../../../../types/types'
 import axios from 'axios'
-import FormTitle from '../FormTitle'
+import FormTitle from './FormTitle'
 import ButtonSubmit from '../../../Button/ButtonSubmit'
 import Notification from '../../../sub-components/Notification'
-import FormSection from './FormSection'
+import FormAccount from './FormAccount'
+
+
+const RegisterForm = ({ 
+	isDarkTheme, 
+  	onNotification 
+}: { 
+  	isDarkTheme: boolean
+  	onNotification: (message: string, type: 'success' | 'error') => void 
+}) => {
+  	const [registerData, setRegisterData] = useState<IRegisterData>({
+  	  	name: '',
+  	  	email: '',
+  	  	password: '',
+  	  	confirmPassword: '',
+  	})
+
+  	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  	  	setRegisterData({ ...registerData, [e.target.name]: e.target.value })
+  	}
+
+  	const handleRegister = async () => {
+  	  	try {
+  	  	  	const response = await axios.post(
+  	  	  	  	'/backend/PHP/register.php?Operation=register',
+  	  	  	  	registerData,
+  	  	  	  	{
+  	  	  	  	  	headers: {
+  	  	  	  	  	  	'Content-Type': 'application/json'
+  	  	  	  	  	}
+  	  	  	  	}
+  	  	  	)
+  	  	  	if (response.data.success) {
+  	  	  	  	onNotification(response.data.message, 'success')
+  	  	  	} else {
+  	  	  	  	onNotification(response.data.message, 'error')
+  	  	  	}
+  	  	} catch (error) {
+  	  	  	onNotification('Ошибка при регистрации', 'error')
+  	  	} finally {
+  	  	  	setRegisterData({
+  	  	  	  	name: '',
+  	  	  	  	email: '',
+  	  	  	  	password: '',
+  	  	  	  	confirmPassword: '',
+  	  	  	})
+  	  	}
+  	}
+
+
+  	return (
+  	  	<form 
+  	  	  	method='post' 
+  	  	  	className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  	onSubmit={(e) => {
+  	  	  	  	e.preventDefault()
+  	  	  	  	handleRegister()
+  	  	  	}}
+  	  	  	aria-label='Регистрация'
+  	  	>
+  	  	  	<FormTitle text={'Регистрация'} />
+  	  	  	<p className='form-margin-top'>
+  	  	  	  	<label className='form-font' htmlFor='name-register'>
+  	  	  	  	  	Введите имя<br/>
+  	  	  	  	  	<input 
+  	  	  	  	  	  	id='name-register'
+  	  	  	  	  	  	type='text' 
+  	  	  	  	  	  	name='name'
+  	  	  	  	  	  	autoComplete='name'
+  	  	  	  	  	  	className={`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  	  	  	  	onChange={handleChange} 
+  	  	  	  	  	  	value={registerData.name}
+  	  	  	  	  	  	spellCheck='false'
+  	  	  	  	  	  	required
+  	  	  	  	  	/>
+  	  	  	  	</label>
+  	  	  	</p>
+  	  	  	<p>
+  	  	  	  	<label className='form-font' htmlFor='email-register'>
+  	  	  	  	  	Введите e-mail<br/>
+  	  	  	  	  	<input 
+  	  	  	  	  	  	id='email-register'
+  	  	  	  	  	  	type='email'
+  	  	  	  	  	  	name='email'
+  	  	  	  	  	  	autoComplete='email'
+  	  	  	  	  	  	className={`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  	  	  	  	onChange={handleChange} 
+  	  	  	  	  	  	value={registerData.email}
+  	  	  	  	  	  	required
+  	  	  	  	  	/>
+  	  	  	  	</label>
+  	  	  	</p>
+  	  	  	<p>
+  	  	  	  	<label className='form-font' htmlFor='password-register'>
+  	  	  	  	  	Введите пароль<br/>
+  	  	  	  	  	<input 
+  	  	  	  	  	  	id='password-register'
+  	  	  	  	  	  	type='password' 
+  	  	  	  	  	  	name='password'
+  	  	  	  	  	  	autoComplete='new-password'
+  	  	  	  	  	  	className={`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  	  	  	  	onChange={handleChange} 
+  	  	  	  	  	  	value={registerData.password}
+  	  	  	  	  	  	required
+  	  	  	  	  	  	minLength={2}
+  	  	  	  	  	/>
+  	  	  	  	</label>
+  	  	  	</p>
+  	  	  	<p>
+  	  	  	  	<label className='form-font' htmlFor='confirm-password-register'>
+  	  	  	  	  	Подтвердите пароль<br/>
+  	  	  	  	  	<input 
+  	  	  	  	  	  	id='confirm-password-register'
+  	  	  	  	  	  	type='password' 
+  	  	  	  	  	  	name='confirmPassword'
+  	  	  	  	  	  	autoComplete='new-password'
+  	  	  	  	  	  	className={`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  	  	  	  	onChange={handleChange} 
+  	  	  	  	  	  	value={registerData.confirmPassword}
+  	  	  	  	  	  	required
+  	  	  	  	  	/>
+  	  	  	  	</label>
+  	  	  	</p>
+  	  	  	<ButtonSubmit className='button-violet'>
+  	  	  	  	Зарегистрироваться
+  	  	  	</ButtonSubmit>
+  	  	</form>
+  	)
+}
+
+
+const LoginForm = ({ 
+  	isDarkTheme, 
+  	onNotification,
+  	onLoginSuccess 
+}: { 
+  	isDarkTheme: boolean
+  	onNotification: (message: string, type: 'success' | 'error') => void
+  	onLoginSuccess: (userData: { id_user: number; name: string }) => void 
+}) => {
+  	const [loginData, setLoginData] = useState<IRegisterData>({ email: '', password: '' })
+
+  	const handleChangeLogin = (e: ChangeEvent<HTMLInputElement>) => {
+  	  	setLoginData({ ...loginData, [e.target.name]: e.target.value })
+  	}
+
+  	const handleLogin = async () => {
+  	  	try {
+  	  	  	const response = await axios.post(
+  	  	  	  	'/backend/PHP/login.php?Operation=login',
+  	  	  	  	loginData,
+  	  	  	  	{
+  	  	  	  	  	headers: {
+  	  	  	  	  	  	'Content-Type': 'application/json'
+  	  	  	  	  	}
+  	  	  	  	}
+  	  	  	)
+  	  	  	if (response.data.success) {
+  	  	  	  	onLoginSuccess({ id_user: response.data.id_user, name: response.data.name })
+  	  	  	  	onNotification('Вы успешно вошли', 'success')
+  	  	  	} else {
+  	  	  	  	onNotification(response.data.message, 'error')
+  	  	  	}
+  	  	} catch (error) {
+  	  	  	onNotification('Ошибка входа', 'error')
+  	  	} finally {
+  	  	  	setLoginData({
+  	  	    	email: '',
+  	  	    	password: '',
+  	  	  	})
+  	  	}
+  	}
+
+
+  	return (
+  	  	<form 
+  	  	  method='post'
+  	  	  className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  onSubmit={(e) => { e.preventDefault(); handleLogin() }}
+  	  	  aria-label='Вход'
+  	  	>
+  	  	  	<FormTitle text={'Вход'} />
+  	  	  	<p className='form-margin-top'>
+  	  	  	  	<label className='form-font' htmlFor='email-login'>
+  	  	  	  	  	Введите e-mail<br/>
+  	  	  	  	  	<input 
+  	  	  	  	  	  	id='email-login'
+  	  	  	  	  	  	type='email' 
+  	  	  	  	  	  	name='email'
+  	  	  	  	  	  	autoComplete='email'
+  	  	  	  	  	  	className={`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`} 
+  	  	  	  	  	  	onChange={handleChangeLogin}
+  	  	  	  	  	  	value={loginData.email}
+  	  	  	  	  	  	required
+  	  	  	  	  	/>
+  	  	  	  	</label>
+  	  	  	</p>
+  	  	  	<p>
+  	  	  	  	<label className='form-font' htmlFor='password-login'>
+  	  	  	  	  	Введите пароль<br/>
+  	  	  	  	  	<input 
+  	  	  	  	  	  	id='password-login'
+  	  	  	  	  	  	type='password'
+  	  	  	  	  	  	name='password'
+  	  	  	  	  	  	autoComplete='current-password'
+  	  	  	  	  	  	className={`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`} 
+  	  	  	  	  	  	onChange={handleChangeLogin}
+  	  	  	  	  	  	value={loginData.password}
+  	  	  	  	  	  	required
+  	  	  	  	  	/>
+  	  	  	  	</label>
+  	  	  	</p>
+  	  	  	<ButtonSubmit className='button-violet margin-top-auto'>
+  	  	  	  	Войти
+  	  	  	</ButtonSubmit>
+  	  	</form>
+  	)
+}
 
 
 const Form = () => {
-	const dispatch = useDispatch()
-	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
-	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  	const dispatch = useDispatch()
+  	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
+  	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-	const [notification, setNotification] = useState<INotificationData | null>(null)
+  	const [notification, setNotification] = useState<INotificationData | null>(null)
 
-	const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-		setNotification({message, type})
-	}
+  	const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  	  	setNotification({ message, type })
+  	}
 
-	useEffect(() => {
-		if (notification) {
-	    	const timer = setTimeout(() => {
-	    		setNotification(null)
-	      	}, 3000)
+  	useEffect(() => {
+  	  	if (notification) {
+  	  		const timer = setTimeout(() => {
+  	  	  	  	setNotification(null)
+  	  	  	}, 3000)
 
-	      	return () => clearTimeout(timer)
-	    }
-	}, [notification])
+  	  	  	return () => clearTimeout(timer)
+  	  	}
+  	}, [notification])
 
-	const [loginData, setLoginData] = useState<IRegisterData>({email: '', password: ''})
+  	const handleLoginSuccess = (userData: { id_user: number; name: string }) => {
+  	  	dispatch(
+  	  	  	setUser({ userId: userData.id_user, userName: userData.name, isAuth: true })
+  	  	)
+  	  	localStorage.setItem('auth', JSON.stringify({
+  	  	  	isAuth: true,
+  	  	  	userName: userData.name,
+  	  	  	userId: userData.id_user,
+  	  	}))
+  	}
 
-	const [registerData, setRegisterData] = useState<IRegisterData>({
-		name: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-	}) 
+  	useEffect(() => {
+  	  	const storedAuth = localStorage.getItem('auth')
+  	  	if (storedAuth) {
+  	  	  	const { isAuth, userName, userId } = JSON.parse(storedAuth)
+  	  	  	if (isAuth) {
+  	  	  	  	dispatch(setUser({ userId, userName, isAuth }))
+  	  	  	}
+  	  	}
+  	}, [dispatch])
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setRegisterData({...registerData, [e.target.name]: e.target.value})
-	}
-
-	const handleRegister = async () => {
-		try {
-			const response = await 
-				axios.post('/backend/PHP/register.php?Operation=register',
-					registerData, {
-						headers: {
-							'Content-Type': 'application/json'
-						}
-				})
-			if (response.data.success) {
-				showNotification(response.data.message, 'success')
-			} else {
-				showNotification(response.data.message, 'error')
-			}
-		} catch (error) {
-			showNotification('Ошибка при регистрации', 'error')
-		} finally {
-			setRegisterData({
-				name: '',
-				email: '',
-				password: '',
-				confirmPassword: '',
-			})
-		}
-	}
-
-	const handleChangeLogin = (e: ChangeEvent<HTMLInputElement>) => {
-		setLoginData({...loginData, [e.target.name]: e.target.value})
-	}
-
-	const handleLogin = async() => {
-		try {
-			const response = await 
-				axios.post('/backend/PHP/login.php?Operation=login',
-					loginData, {
-						headers: {
-							'Content-Type': 'application/json'
-						}
-					})
-				if (response.data.success) {
-					const userIdFromDB = response.data.id_user
-					dispatch(
-						setUser({userId: userIdFromDB, userName: response.data.name, isAuth: true})
-					)
-					showNotification('Вы успешно вошли', 'success')
-					localStorage.setItem('auth', JSON.stringify({
-						isAuth: true,
-						userName: response.data.name,
-						userId: userIdFromDB,
-					}))
-				} else {
-					showNotification(response.data.message, 'error')
-				}
-		} catch (error) {
-			showNotification('Ошибка входа', 'error')
-		} finally {
-			setLoginData({
-				email: '',
-				password: '',
-			})
-		}
-	}
-
-	useEffect(() => {
-		const storedAuth = localStorage.getItem('auth')
-		if (storedAuth) {
-			const {isAuth, userName, userId} = JSON.parse(storedAuth)
-			if (isAuth) {
-				dispatch(setUser({userId, userName, isAuth}))
-			}
-		}
-	}, [])
-
-	useEffect (() => {
-		if (sessionStorage.getItem('showLogoutNotification')) {
-			setNotification({message: 'Вы вышли из аккаунта', type: 'success'})
-			sessionStorage.removeItem('showLogoutNotification')
-		}
-	}, [isAuth])
+  	useEffect(() => {
+			if (sessionStorage.getItem('showLogoutNotification')) {
+  	    	setNotification({ message: 'Вы вышли из аккаунта', type: 'success' })
+  	    	sessionStorage.removeItem('showLogoutNotification')
+  	  }
+  	}, [isAuth])
 
 
-    return (
-        <>
-			{notification && (
-        		<Notification
-          			message={notification.message}
-          			type={notification.type}
-          			onClose={() => setNotification(null)}
-        		/>
-      		)}
-			{!isAuth ? (
-				<>
-        			<form 
-						method='post' 
-						className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
-						onSubmit={(e) => {
-							e.preventDefault()
-							handleRegister()
-						}}
-						aria-label='Вход'
-					>
-        			    <FormTitle text={'Регистрация'} />
-						<p className='form-margin-top'>
-							<label 
-								className='form-font' 
-								htmlFor='name-register'
-							>
-								Введите имя<br/>
-								<input 
-									id='name-register'
-									type='text' 
-									name='name'
-									autoComplete='name'
-									className=
-									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
-									onChange={handleChange} 
-									value={registerData.name}
-									spellCheck='false'
-									required
-								/>
-							</label>
-						</p>
-						<p>
-    						<label 
-								className='form-font'
-								htmlFor='email-register'
-							>
-								Введите e-mail<br/>
-    							<input 
-									id='email-register'
-									type='email'
-									name='email'
-									autoComplete='email'
-									className={`
-										form__registration-item ${isDarkTheme ? 'dark-theme' : ''}
-									`}
-									onChange={handleChange} 
-									value={registerData.email}
-									required
-								/>
-							</label>
-  						</p>
-						<p>
-    						<label
-								className='form-font'
-								htmlFor='password-register'
-							>
-								Введите пароль<br/>
-    							<input 
-									id='password-register'
-									type='password' 
-									name='password'
-									autoComplete='new-password'
-									className=
-									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
-									onChange={handleChange} 
-									value={registerData.password}
-									required
-									minLength={2}
-								/>
-							</label>
-  						</p>
-						<p>
-    						<label 
-								className='form-font'
-								htmlFor='confirm-password-register'
-							>
-								Подтвердите пароль<br/>
-    							<input 
-									id='confirm-password-register'
-									type='password' 
-									name='confirmPassword'
-									autoComplete='new-password'
-									className=
-									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`}
-									onChange={handleChange} 
-									value={registerData.confirmPassword}
-									required
-								/>
-							</label>
-  						</p>
-						<ButtonSubmit className='button-violet'>
-							Зарегистрироваться
-						</ButtonSubmit>
-					</form>
-					
-					<form 
-						method='post'
-					 	className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
-						onSubmit={(e) => {e.preventDefault(); handleLogin()}}
-						aria-label='Регистрация'
-					>
-        			    <FormTitle text={'Вход'} />
-						<p className='form-margin-top'>
-    						<label 
-								className='form-font'
-								htmlFor='email-login'
-							>
-								Введите e-mail<br/>
-    							<input 
-									id='email-login'
-									type='email' 
-									name='email'
-									autoComplete='email'
-									className=
-									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`} 
-									onChange={handleChangeLogin}
-									value={loginData.email}
-									required
-								/>
-							</label>
-  						</p>
-						<p>
-    						<label 
-								className='form-font'
-								htmlFor='password-login'
-							>
-								Введите пароль<br/>
-    							<input 
-									id='password-login'
-									type='password'
-									name='password'
-									autoComplete='current-password'
-									className=
-									{`form__registration-item ${isDarkTheme ? 'dark-theme' : ''}`} 
-									onChange={handleChangeLogin}
-									value={loginData.password}
-									required
-								/>
-							</label>
-  						</p>
-						<ButtonSubmit className='button-violet margin-top-auto'>
-							Войти
-						</ButtonSubmit>
-					</form>
-				</>
-			) : ( <FormSection />)}
-        </>
-    )
+  	return (
+		<>
+  	    	{notification && (
+  	    	  	<Notification
+  	    	  	  	message={notification.message}
+  	    	  	  	type={notification.type}
+  	    	  	  	onClose={() => setNotification(null)}
+  	    	  	/>
+  	    	)}
+  	    	{!isAuth ? (
+  	    	  	<>
+  	    	  	  	<RegisterForm 
+  	    	  	  	  	isDarkTheme={isDarkTheme} 
+  	    	  	  	  	onNotification={showNotification} 
+  	    	  	  	/>
+  	    	  	  	<LoginForm 
+  	    	  	  	  	isDarkTheme={isDarkTheme} 
+  	    	  	  	  	onNotification={showNotification}
+  	    	  	  	  	onLoginSuccess={handleLoginSuccess}
+  	    	  	  	/>
+  	    	  	</>
+  	    	) : (
+  	    	  	<FormAccount />
+  	    	)}
+  	  	</>
+  	)
 }
 
 export default Form
-

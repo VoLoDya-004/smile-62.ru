@@ -1,4 +1,5 @@
-import { useContext, useState, useEffect, memo, type ChangeEvent, type KeyboardEvent } from 'react'
+import { useContext, useState, useEffect, memo, type ChangeEvent, type KeyboardEvent, 
+  useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Context } from '../../../contexts/context'
 import { useSelector } from 'react-redux'
@@ -10,12 +11,12 @@ const Search = () => {
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const {setCurrentPage, setSearchQuery, searchQuery} = context
+  const { setCurrentPage, setSearchQuery, searchQuery } = context
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-
   const navigate = useNavigate()
   const location = useLocation()
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   const [searchTerm, setSearchTerm] = useState(searchQuery)
 
@@ -23,97 +24,93 @@ const Search = () => {
     setSearchTerm(searchQuery)
   }, [searchQuery])
 
+  const navigateToHome = () => {
+    if (location.pathname !== '/') {
+      navigate('/')
+    }
+  }
+
+  const scrollToTop = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  const handleModal = (action: 'open' | 'close') => {
+    const blackout = document.getElementById('blackout')
+    if (action === 'open') {
+      blackout?.classList.add('blackout')
+      document.body.classList.add('modal-open')
+    } else {
+      blackout?.classList.remove('blackout')
+      document.body.classList.remove('modal-open')
+    }
+  }
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchTerm(value)
+    setSearchTerm(e.target.value)
   }
 
   const handleClearClick = () => {
     setSearchTerm('')
     setSearchQuery('')
-    if (location.pathname !== '/') {
-      navigate('/')
-    }
-    if (location.pathname === '/') {
-      window.scrollTo({top: 0, behavior: 'smooth'})
-    }
+    navigateToHome()
+    scrollToTop()
   }
 
   const handleSearchClick = () => {
-    const searchLine = document.querySelector('[data-js-search-line-input]') as HTMLInputElement
-
     setCurrentPage(1)
     setSearchQuery(searchTerm)
-    document.getElementById('blackout')?.classList.remove('blackout')
-    document.body.classList.remove('modal-open')
+    handleModal('close')
+    
     if (searchTerm.length === 0) {
-      searchLine?.focus()
+      searchInputRef.current?.focus()
     }
-    if (location.pathname !== '/') {
-      navigate('/')
-    }
-    if (location.pathname === '/') {
-      window.scrollTo({top: 0, behavior: 'smooth'})
-    }
+    
+    navigateToHome()
+    scrollToTop()
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const searchLine = document.querySelector('[data-js-search-line-input]') as HTMLInputElement
-
     if (e.key === 'Enter') {
       handleSearchClick()
-      if (searchLine) {
-        searchLine.blur()
-      }
+      searchInputRef.current?.blur()
     }
   }
 
   useEffect(() => {
-    const searchLine = document.querySelector('[data-js-search-line-input]')
-    const blackoutElement = document.getElementById('blackout')
+    const searchInput = searchInputRef.current
+    if (!searchInput) return
 
-    const handleFocus = () => {
-      if (blackoutElement) {
-        blackoutElement.classList.add('blackout')
-        document.body.classList.add('modal-open')
-      }
-    }
+    const handleFocus = () => handleModal('open')
+    const handleBlur = () => handleModal('close')
 
-    const handleBlur = () => {
-      if (blackoutElement) {
-        blackoutElement.classList.remove('blackout')
-        document.body.classList.remove('modal-open')
-      }
-    }
-
-    if (searchLine) {
-      searchLine.addEventListener('focus', handleFocus)
-      searchLine.addEventListener('blur', handleBlur)
-    }
+    searchInput.addEventListener('focus', handleFocus)
+    searchInput.addEventListener('blur', handleBlur)
 
     return () => {
-      if (searchLine) {
-        searchLine.removeEventListener('focus', handleFocus)
-        searchLine.removeEventListener('blur', handleBlur)
-      }
+      searchInput.removeEventListener('focus', handleFocus)
+      searchInput.removeEventListener('blur', handleBlur)
     }
-  }, [searchTerm])
+  }, [])
 
 
   return (
     <div className='search'>
       <div className='search__line'>
         <input
+          ref={searchInputRef}
           type='search'
+          name='search'
           placeholder='Искать здесь...'
           value={searchTerm}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           className={`search__line-input ${isDarkTheme ? 'dark-theme' : ''}`}
-          data-js-search-line-input
           aria-label='Строка поиска'
           spellCheck='false'
         />
+        
         {searchTerm && (
           <button
             type='button'
@@ -121,11 +118,10 @@ const Search = () => {
             onClick={handleClearClick}
             aria-label='Очистить поле поиска'
           >
-            <span className='search__clear'>
-                &#x2715;
-            </span>
+            <span className='search__clear'>✕</span>
           </button>
         )}
+        
         <button 
           type='button'
           className='search__line-button'

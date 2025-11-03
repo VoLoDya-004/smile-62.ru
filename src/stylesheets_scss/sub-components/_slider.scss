@@ -52,6 +52,7 @@
 		backdrop-filter: blur(2px);
 		user-select: none;
 		border-radius: 20px;
+		line-height: 1.5;
 		&::after {
 			content: url(/images/icons/description_advertisement.svg);
 			padding-left: 5px;
@@ -59,7 +60,7 @@
 		&-description {
 			display: flex;
 			padding: 5px;
-			font-size: 12px;
+			font-size: 0.75em;
 			background-color: black;
 			color: white;
 			border-radius: 10px;
@@ -71,6 +72,7 @@
 			user-select: none;
 			z-index: 1;
 			pointer-events: none;
+			line-height: 1.5;
 			&.show {
 				opacity: 1;
 			}
@@ -93,7 +95,7 @@
 		z-index: 1;
 		@media (hover: hover) and (pointer: fine) {
 			&:hover,
-            &:focus {
+            &:focus-visible {
 				background-color: black;
                 opacity: 1;
 			}
@@ -116,7 +118,7 @@
 		z-index: 1;
 		@media (hover: hover) and (pointer: fine) {
 			&:hover,
-            &:focus {
+            &:focus-visible {
 				background-color: black;
                 opacity: 1;
 			}
@@ -171,7 +173,7 @@
 		&__advertisement {
 			right: 35px;
 			bottom: 5px;
-			font-size: 15px;
+			font-size: 0.93em;
 			pointer-events: none;
 			&-description {
 				display: none;

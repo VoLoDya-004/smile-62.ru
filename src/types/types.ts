@@ -24,6 +24,7 @@ export interface IFav {
   nazvanie: string
   image: string
   price_total: number
+  id_product: number
 }
 
 export interface ICardsRender {
