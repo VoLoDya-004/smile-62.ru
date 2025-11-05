@@ -94,10 +94,9 @@ const CitySelection = ({
 
     return (
         <section className={`basket-delivery__city ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <label className='basket-delivery__city-text' htmlFor='city-select'>
-                <h3 className='margin-null'>Ваш город</h3>
+            <label htmlFor='city-select'>
+                <h3 className='basket-delivery__city-text margin-null'>Ваш город</h3>
             </label>
-            <br />
             <select 
                 value={city}
                 onChange={e => onCityChange(e.target.value)}

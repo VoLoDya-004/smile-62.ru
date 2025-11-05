@@ -1,7 +1,7 @@
 @use '../forward.scss';
 
 .breadcrumbs-container {
-    margin: 0;
+    margin-bottom: 8px;
 }
 
 .categories-name-main.passive {
@@ -18,13 +18,17 @@
 .categories-name-main {
 	box-sizing: border-box;
 	display: inline-block;
+    font-family: forward.$fontSegoe;
 	font-size: 1.56em;
 	font-weight: 600;
-	margin-bottom: 8px;
 	cursor: pointer;
 	color: gray;
+    border: none;
 	border-bottom: 2px solid transparent;
     user-select: none;
+    background: none;
+    padding: 0;
+    padding-bottom: 2px;
     @media (hover: hover) and (pointer: fine) {
 	    &:hover {
 	    	color: black;
@@ -34,12 +38,10 @@
 }
 
 .categories-name {
-    margin-left: 0;
     color: grey;
 	display: inline-block;
 	font-size: 1.56em;
 	font-weight: 600;
-	margin-bottom: 10px;
     &-slash {
         display: inline-block;
         margin: 0 8px;
@@ -125,7 +127,7 @@
     background-color: rgb(236 220 233);
     border-radius: 15px;
     height: auto;
-    z-index: 2;
+    z-index: 200;
 }
 
 .sort-option {
@@ -156,11 +158,11 @@ input[name="sortOptions"] {
     display: flex;
     flex-direction: column;
     background-color: white;
-    z-index: 6;
+    z-index: 600;
     position: fixed;
     top: 72px;
     right: 0px;
-    width: 25vw;
+    width: clamp(384px, 25vw, 500px);
     height: calc(100dvh - 72px);
     overflow-x: hidden;
     transition: .2s;
@@ -278,25 +280,9 @@ input[name="sortOptions"] {
     appearance: none;
 }
 
-
-                                                                    //АДАПТАЦИЯ 768px
-
-
-@media (max-width: 1000px) and (min-width: 768px) {
-    .categories-name-main {
-    	margin: 0 0 8px 15px;
-    }
-
-    .categories-name {
-    	margin: 0 0 10px 0;
-    }
-
-    .filters-block {
-        width: calc(100% - 30px) !important;
-        margin: 0 15px 10px;
-        &__sort {
-            width: 35%;
-        }
+@media (max-width: forward.$breakpoint-md) {
+    .filters-block__sort {
+        width: 35%;
     }
 
     .sort-menu {
@@ -304,23 +290,18 @@ input[name="sortOptions"] {
     }
 
     .filter-menu {
-        width: 30vw;
+        width: 45vw;
         height: calc(100dvh - 132px);
     }
 }
 
-																	//АДАПТАЦИЯ 425px
-
-
-@media (max-width: 768px) and (min-width: 425px) {
+@media (max-width: forward.$breakpoint-sm) {
     .categories-name-main {
     	font-size: 0.93em;
-    	margin: 0 0 8px 5px;
     }
 
     .categories-name {
     	font-size: 0.93em;
-    	margin: 0 0 10px 0;
     }
 
     .count-products {
@@ -329,9 +310,7 @@ input[name="sortOptions"] {
 
     .filters-block {
         flex-direction: column;
-        width: calc(100% - 10px) !important;
         height: auto;
-        margin: 0 5px 10px;
         flex-wrap: wrap;
         border-radius: 10px;
         &__sort {
@@ -363,14 +342,11 @@ input[name="sortOptions"] {
 
     .filter-menu {
         width: 62vw;
-        height: calc(100dvh - 132px);
+        width: max(50vw, 347px);
     }
 }
 
-																	//АДАПТАЦИЯ < 425px
-
-
-@media (max-width: 425px) {
+@media (max-width: forward.$breakpoint-xs) {
     .breadcrumbs-container {
         margin-inline: 5px;
         margin-bottom: 8px;
@@ -391,39 +367,21 @@ input[name="sortOptions"] {
     }
     
     .filters-block {
-        width: calc(100% - 10px) !important;
-        height: auto;
-        margin: 0 5px 10px;
         border-radius: 5px;
-        flex-wrap: wrap;
         &__sort {
             padding: 0 3px;
-            &-title {
-                width: auto;
-                &::after {
-                    content: '';
-                    position: absolute;
-                    top: 3px;
-                    bottom: 51px;
-                    left: 2px;
-                    right: calc(100% - 182px);
-                }
+            &-title::after {
+                bottom: 51px;
+                left: 2px;
+                right: calc(100% - 182px);
             }
         }
         &__filter {
-            box-sizing: border-box;
-            width: 100%;
             padding: 3px;
         }
     }
 
-    .sort-menu {
-        top: 23px;
-        left: 5px;
-    }
-
     .filter-menu {
         width: 100vw;
-        height: calc(100dvh - 132px);
     }
 }

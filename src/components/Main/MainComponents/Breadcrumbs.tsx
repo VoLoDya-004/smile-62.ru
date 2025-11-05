@@ -76,7 +76,6 @@ const Breadcrumbs = ({
                     categories-name-main 
                     ${isDarkTheme ? 'dark-theme' : ''} 
                     ${selectedCategory === 0 ? 'passive' : '' }
-                    button-reset
                 `}
                 tabIndex={selectedCategory === 0 ? -1 : 0}
             >

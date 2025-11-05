@@ -677,72 +677,72 @@ const App = () => {
       <Context.Provider value={contextValue}>
         <Header />
         <main id='main'>  
-          <ProgressBar />   
-            <Routes>
-              <Route 
-                path='/' 
-                element={
-                  <Main />
-                } 
-              />                
-              <Route 
-                path='/favourites' 
-                element={
-                  <Favourites 
-                    productsFavourites={productsFavourites} 
-                    loading={loadingFavourites} 
-                  />
-                } 
-              />                   
-              <Route 
-                path='/profile' 
-                element={
-                  <Profile />
-                } 
-              />                   
-              <Route 
-                path='/basket' 
-                element={
-                  <Basket 
-                    productsBasket={productsBasket} 
-                    loading={loadingBasket} 
-                  />
-                } 
-              />                   
-            </Routes>
-          <ButtonScroll />
-          <ButtonChat onOpen={openSupport} />
-          <Support isOpen={isSupportOpen} onClose={closeSupport} />
-          <ConfirmModal
-            isOpen={isModalOpen}
-            onConfirm={() => {deleteProductBasket(productIdToDelete)}}
-            onCancel={closeModal}
-            modalId='modal-basket-delete'
-            portalId='confirm-modal-basket-delete'
-            title='Удаление товара'
-            description='Удалить выбранный товар? Отменить действие будет невозможно.'
-          />
-          <ConfirmModal
-            isOpen={isModalOpenAllBasket}
-            onConfirm={() => {handleClearBasket()}}
-            onCancel={closeModalAllBasket}
-            modalId='modal-basket-delete-all'
-            portalId='confirm-modal-basket-delete-all'
-            title='Удаление корзины'
-            description='Удалить все товары из корзины? Отменить действие будет невозможно.'
-          />
-          <ConfirmModal
-            isOpen={isModalOpenAllFav}
-            onConfirm={() => {handleClearFav()}}
-            onCancel={closeModalAllFav}
-            modalId='modal-fav-delete-all'
-            portalId='confirm-modal-fav-delete-all'
-            title='Удаление избранного'
-            description='Удалить все товары из избранного? Отменить действие будет невозможно.'
-          />
+          <Routes>
+            <Route 
+              path='/' 
+              element={
+                <Main />
+              } 
+            />                
+            <Route 
+              path='/favourites' 
+              element={
+                <Favourites 
+                  productsFavourites={productsFavourites} 
+                  loading={loadingFavourites} 
+                />
+              } 
+            />                   
+            <Route 
+              path='/profile' 
+              element={
+                <Profile />
+              } 
+            />                   
+            <Route 
+              path='/basket' 
+              element={
+                <Basket 
+                  productsBasket={productsBasket} 
+                  loading={loadingBasket} 
+                />
+              } 
+            />                   
+          </Routes>
         </main>
-        <Footer />      
+        <ProgressBar /> 
+        <ButtonScroll />
+        <ButtonChat onOpen={openSupport} />
+        <Support isOpen={isSupportOpen} onClose={closeSupport} />
+        <ConfirmModal
+          isOpen={isModalOpen}
+          onConfirm={() => {deleteProductBasket(productIdToDelete)}}
+          onCancel={closeModal}
+          modalId='modal-basket-delete'
+          portalId='confirm-modal-basket-delete'
+          title='Удаление товара'
+          description='Удалить выбранный товар? Отменить действие будет невозможно.'
+        />
+        <ConfirmModal
+          isOpen={isModalOpenAllBasket}
+          onConfirm={() => {handleClearBasket()}}
+          onCancel={closeModalAllBasket}
+          modalId='modal-basket-delete-all'
+          portalId='confirm-modal-basket-delete-all'
+          title='Удаление корзины'
+          description='Удалить все товары из корзины? Отменить действие будет невозможно.'
+        />
+        <ConfirmModal
+          isOpen={isModalOpenAllFav}
+          onConfirm={() => {handleClearFav()}}
+          onCancel={closeModalAllFav}
+          modalId='modal-fav-delete-all'
+          portalId='confirm-modal-fav-delete-all'
+          title='Удаление избранного'
+          description='Удалить все товары из избранного? Отменить действие будет невозможно.'
+        />
         <CookiesNotice />
+        <Footer />      
       </Context.Provider>
     </>
   )

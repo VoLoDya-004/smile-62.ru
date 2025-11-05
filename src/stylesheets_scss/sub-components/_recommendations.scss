@@ -18,8 +18,6 @@
         padding: 30px 0px;
 		position: relative;
         background-color: forward.$backColorElem;
-        box-sizing: border-box;
-        width: 100%;
         border-radius: 19px;
         display: flex;
 		align-items: center;
@@ -35,7 +33,7 @@
 	    max-width: 44px;
 	    border-radius: 50%;
 	    transition: 0.3s;
-	    z-index: 1;
+	    z-index: 100;
 		position: absolute;
 		left: 10px;
 		@include forward.flex-center;
@@ -55,7 +53,7 @@
 	    max-width: 44px;
 	    border-radius: 50%;
 	    transition: 0.3s;
-	    z-index: 1;
+	    z-index: 100;
 		position: absolute;
 		@include forward.flex-center;
 		right: 10px;
@@ -223,19 +221,9 @@
     }
 }
 
-
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 769px) {
+@media (max-width: forward.$breakpoint-md) {
     .recommendation {
         margin: 10px 0 40px;
-        &__box {
-            width: 95vw;
-            margin: 0 auto;
-        }
-        &__title {
-            padding-left: 2.5vw;
-        }
 		&__left-btn { 
 			display: none;
 		}
@@ -245,26 +233,7 @@
     }
 }
 
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {
-    .recommendation {
-        margin: 10px 0 40px;
-        &__box {
-            width: 95vw;
-            margin: 0 auto;
-        }
-        &__title {
-            padding-left: 2.5vw;
-        }
-		&__left-btn { 
-			display: none;
-		}
-		&__right-btn { 
-			display: none;
-		}
-    }
-
+@media (max-width: forward.$breakpoint-sm) {
     .recommendation-card {
 		min-width: 200px;
         max-width: 200px;
@@ -290,27 +259,14 @@
     }
 }
 
-																	//АДАПТАЦИЯ < 425px
-
-@media (max-width: 425px){
+@media (max-width: forward.$breakpoint-xs){
     .recommendation {
         margin: 0 0 30px;
         &__box {
             padding: 20px 0;
-            width: 95vw;
-            margin: 0 auto;
         }
-        &__title {
-            padding-left: 2.5vw;
-        }
-		&__left-btn { 
-			display: none;
-		}
-		&__right-btn { 
-			display: none;
-		}
 		&__container {
-			padding: 0 10px;
+			padding-inline: 10px;
 		}
     }
     .recommendation-card {

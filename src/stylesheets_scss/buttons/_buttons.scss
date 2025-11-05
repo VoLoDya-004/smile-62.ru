@@ -86,17 +86,15 @@
     border-radius: 50%;
 	transition: 0.5s;
 	display: none;
-	z-index: 3;
-    @media (max-width: 1000px) and (min-width: 768px) {
+	z-index: 300;
+    @media (max-width: forward.$breakpoint-md) {
 		bottom: 85px;
 		left: 15px;
     }
-    @media (max-width: 768px) and (min-width: 425px) {
+    @media (max-width: forward.$breakpoint-sm) {
 		bottom: 70px;
-		left: 15px;
     }
-    @media (max-width: 425px) {
-		bottom: 70px;
+    @media (max-width: forward.$breakpoint-xs) {
 		left: 10px;
     }
     @media (hover: hover) and (pointer: fine) {
@@ -116,20 +114,18 @@
 	position: fixed;
 	bottom: 25px;
     right: 20px;
-	z-index: 1;
+	z-index: 100;
     border-radius: 50%;
 	box-shadow: 0 0 20px rgba(0, 0, 0, .2);
 	transition: 0.5s;
-    @media (max-width: 1000px) and (min-width: 768px) {
+    @media (max-width: forward.$breakpoint-md) {
 		bottom: 85px;
 		right: 15px;
     }
-    @media (max-width: 768px) and (min-width: 425px) {
+    @media (max-width: forward.$breakpoint-sm) {
 		bottom: 70px;
-		right: 15px;
     }
-    @media (max-width: 425px) {
-		bottom: 70px;
+    @media (max-width: forward.$breakpoint-xs) {
 		right: 10px;
     }
     @media (hover: hover) and (pointer: fine) {
@@ -143,17 +139,15 @@
 	position: fixed;
 	right: 30.335px;
     bottom: 34.29px;
-    @media (max-width: 1000px) and (min-width: 768px) {
+    @media (max-width: forward.$breakpoint-md) {
 		right: 25.335px;
     	bottom: 94.29px;
     }
-    @media (max-width: 768px) and (min-width: 425px) {
-		right: 25.335px;
+    @media (max-width: forward.$breakpoint-sm) {
     	bottom: 79.29px;
     }
-    @media (max-width: 425px) {
+    @media (max-width: forward.$breakpoint-xs) {
 		right: 20.335px;
-    	bottom: 79.29px;
     }
 }
 
@@ -161,7 +155,7 @@
 	@include forward.fill-clip-rule (evenodd, evenodd);
 }
 
-.support-send-message {
+.button-support-message {
 	background-color: #9814ad;
 	border: none;
 	color: white;
@@ -171,7 +165,7 @@
 	border-radius: 50%;
 	transition: 0.5s;
     @include forward.flex-center;
-	z-index: 1;
+	z-index: 100;
     @media (hover: hover) and (pointer: fine) {
 	    &:hover {
 	        background-color: #b200ce;
@@ -201,16 +195,15 @@
 		color: #00000063;
 		cursor: default;
 		&:hover {
-			background-color: #ececec !important;
+			background-color: #ececec;
 		}
 	}
-    @media (max-width: 768px) and (min-width: 425px) {
+    @media (max-width: forward.$breakpoint-sm) {
 		width: 170px;
 		height: 35px;
     }
-    @media (max-width: 425px) {
+    @media (max-width: forward.$breakpoint-xs) {
 		width: 80%;
-		height: 35px;
     }
 }
 
@@ -236,16 +229,15 @@
 		color: #00000063;
 		cursor: default;
 		&:hover {
-			background-color: #ececec !important;
+			background-color: #ececec;
 		}
 	}
-    @media (max-width: 768px) and (min-width: 425px) {
+    @media (max-width: forward.$breakpoint-sm) {
 		width: 170px;
 		height: 35px;
     }
-    @media (max-width: 425px) {
+    @media (max-width: forward.$breakpoint-xs) {
 		width: 80%;
-		height: 35px;
     }
 }
 

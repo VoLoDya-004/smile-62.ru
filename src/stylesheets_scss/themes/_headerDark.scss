@@ -25,6 +25,7 @@
     &.dark-theme {
         background-color: #0000005c;
         color: #ffffff;
+        @include forward.autofill-styles(#8a7d8f, white, white);
     }
 }
 

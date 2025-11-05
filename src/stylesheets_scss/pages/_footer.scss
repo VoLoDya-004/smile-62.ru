@@ -6,7 +6,7 @@
 	background-color: forward.$backColorElem;
 	width: 100%;
 	height: 240px;
-	font-family: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	font-family: forward.$fontSegoe;
 }
 
 .footer {
@@ -161,12 +161,9 @@
 	width: auto;
 }
 
-																	//АДАПТАЦИЯ 768px
-
-
-@media (max-width: 1000px) and (min-width: 768px) {	
+@media (max-width: forward.$breakpoint-md) {	
 	#footer {
-		margin: auto 0 60px;
+		margin-bottom: 60px;
 	}
 
 	.footer {
@@ -175,84 +172,62 @@
 		}
 		&__section {
 			display: inline-flex;
+			margin: 0;
 		}
 		&__contact {
 			display: inline-flex;
 			padding-top: 30px;
 		}
 		&__link {
-			margin-left: 10px;
+			margin-left: auto;
 		}
 	}
 }
 
-																	//АДАПТАЦИЯ 425px
-
-
-@media (max-width: 768px) and (min-width: 425px) {
+@media (max-width: forward.$breakpoint-sm) {
 	#footer {
 		justify-content: space-between;
 		flex-wrap: wrap;
-		margin: auto 0 60px;
 		height: 330px;
 		min-height: 240px;
 	}
 
 	.footer {
-		&__logo {
-			display: none;
-		}
 		&__section {
 			margin-right: 10px;
 		}
 		&__contact {
-			margin-left: auto;
-			margin-right: 10px;
+			//margin-left: auto;
+			margin-right: auto;
 		}
 		&__link {
 			margin: 0 10px 60px;
-			&-item { 
-				background-color: #fff;
-				border-radius: 9px;
-			}
 		}
 	}
 	
 	.copyright { 
 		display: flex;
     	align-items: end;
-		margin: 17px 10px 60px auto;
+		margin: 17px 10px 60px;
 	}
 }
 
-																	//АДАПТАЦИЯ < 425px
-
-
-@media (max-width: 425px) {
+@media (max-width: forward.$breakpoint-xs) {
 	#footer {
-		justify-content: space-between;
-		flex-wrap: wrap;
-		margin-bottom: 60px;
 		height: 310px;
 	}
 
 	.footer {
-		&__logo {
-			display: none;
-		}
 		&__section {
 			font-size: 0.81em;
 		}
 		&__contact {
-			margin-left: auto;
-			margin: 0 10px 0 0;
 			font-size: 0.81em;
 		}
 		&__title  {
 			font-size: 0.81em;
 		}
 		&__link {
-			margin: 0 10px 60px;
 			&-item { 
 				&-vk {
 					height: 30px;
@@ -287,9 +262,7 @@
 	}
 	
 	.copyright { 
-		display: flex;
-    	align-items: end;
-		margin: 15px 10px 60px auto;
+		margin-top: 15px;
 		font-size: 0.81em;
 	}
 }

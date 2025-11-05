@@ -20,26 +20,31 @@ const ProfileMenu = memo(({
 	onLogout,
 	onLogin
 }: ProfileMenuProps) => {
+	const name = isAuth ? `Имя: ${userName || 'Пользователь'}` : 'Войдите в аккаунт'
+	const ButtonText = isAuth ? 'Выйти' : 'Войти'
 
     
 	return (
-		<div className={`profile-menu ${isDarkTheme ? 'dark-theme' : ''}`}>
+		<aside 
+			className={`profile-menu ${isDarkTheme ? 'dark-theme' : ''}`}
+			aria-label='Меню профиля'
+			style={{
+				top: isActiveProfile ? '55px' : ''
+			}}
+		>
 			<div
 				className={`profile-menu__title ${isDarkTheme ? 'dark-theme' : ''}`}
-				style={{
-					paddingTop: isActiveProfile ? '14.5px' : '8px'
-				}}
 			>
-				{isAuth ? `Имя: ${userName || 'Пользователь'}` : 'Войдите в аккаунт'}
+				{name}
 			</div>
 			<Button
 				onClick={isAuth ? onLogout : onLogin}
 				id='profile-menu-out'
 				className='button-violet'
 			>
-				{isAuth ? 'Выйти' : 'Войти'}
+				{ButtonText}
 			</Button>
-		</div>
+		</aside>
 	)
 })
 

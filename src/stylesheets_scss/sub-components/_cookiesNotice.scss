@@ -20,7 +20,7 @@
     border-radius: 20px;
     z-index: 1000;
     &__btn {
-        margin: 10px ;
+        margin: 10px;
         padding: 5px 15px;
         border: none;
         background-color: wheat;
@@ -35,9 +35,7 @@
     }
 }
 
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 769px) {
+@media (max-width: forward.$breakpoint-md) {
     .cookies-notice-box {
         display: flex;
         justify-content: center;
@@ -48,9 +46,7 @@
     }
 }   
 
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {
+@media (max-width: forward.$breakpoint-sm) {
     .cookies-notice {
         bottom: 120px;
         font-size: 0.75em;
@@ -58,15 +54,11 @@
     }
 }                                                                       
 
-                                                                    //АДАПТАЦИЯ < 425px
-
-@media (max-width: 425px) {
+@media (max-width: forward.$breakpoint-xs) {
     .cookies-notice {
-        bottom: 120px;
         margin-right: 5px;
         padding: 5px 0 5px 5px;
         border-radius: 10px;
-        font-size: 0.75em;
         &__btn {
             margin: 5px;
         }

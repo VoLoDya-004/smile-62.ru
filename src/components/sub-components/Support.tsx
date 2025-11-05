@@ -59,7 +59,7 @@ const SupportForm = ({
             required
         />
         <button 
-            className='support-send-message' 
+            className='button-support-message' 
             type='submit'
             aria-label='Отправить сообщение в поддержку'
         >

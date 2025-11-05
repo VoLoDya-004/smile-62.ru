@@ -34,16 +34,16 @@
     justify-content: space-between;
     width: 100%;
     padding-right: 75px; 
-    @media (max-width: 425px) {
-        padding-right: 10px;
-    }
-    @media (min-width: 425px) and (max-width: 768px) {
+    @media (max-width: forward.$breakpoint-sm) {
         padding-right: 30px;
+    }
+    @media (max-width: forward.$breakpoint-xs) {
+        padding-right: 10px;
     }
     &-title {
         font-size: 2em;
         padding-right: 10px;
-        @media (max-width: 425px) {
+        @media (max-width: forward.$breakpoint-xs) {
             font-size: 1.375em;
         }
     }

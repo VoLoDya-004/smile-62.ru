@@ -25,5 +25,27 @@
     font-weight: 500;
 }
 
+@mixin autofill-styles($bg-color: white, $text-color: #000, $caret-color: null) {
+    &:-webkit-autofill {
+        box-shadow: 0 0 0 1000px $bg-color inset !important;
+        -webkit-text-fill-color: $text-color !important;
+        
+        @if $caret-color {
+            caret-color: $caret-color !important;
+        }
+    }
+
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+        box-shadow: 0 0 0 1000px $bg-color inset !important;
+        -webkit-text-fill-color: $text-color !important;
+
+        @if $caret-color {
+            caret-color: $caret-color !important;
+        }
+    }
+}
+
 
 

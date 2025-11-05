@@ -42,7 +42,6 @@
         display: flex;
         width: 100%;
         height: 100%;
-        box-sizing: border-box;
     }
     &__footer {
         display: flex;
@@ -69,27 +68,20 @@
     }
 }
 
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 769px) {
+@media (max-width: forward.$breakpoint-md) {
     .support {
         width: 75%;
     }
 }   
 
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {
+@media (max-width: forward.$breakpoint-sm) {
     .support {
         width: 85%;
     }
 }                                                                       
 
-                                                                    //АДАПТАЦИЯ < 425px
-
-@media (max-width: 425px) {
+@media (max-width: forward.$breakpoint-xs) {
     .support {
-        width: 85%;
         &__header {
             padding: 20px 10px 10px 10px;
         }

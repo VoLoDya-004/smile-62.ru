@@ -47,7 +47,7 @@
 		right: 25px;
 		bottom: 20px;
 		color: white;
-		padding: 0 10px 3px;
+		padding: 0 10px;
 		background-color: rgba(0, 0, 0, 0.4);
 		backdrop-filter: blur(2px);
 		user-select: none;
@@ -70,7 +70,7 @@
 			opacity: 0;
 			transition: opacity .3s ease;
 			user-select: none;
-			z-index: 1;
+			z-index: 100;
 			pointer-events: none;
 			line-height: 1.5;
 			&.show {
@@ -92,7 +92,7 @@
 		cursor: pointer;
 		position: absolute;
 		left: 25px;
-		z-index: 1;
+		z-index: 100;
 		@media (hover: hover) and (pointer: fine) {
 			&:hover,
             &:focus-visible {
@@ -115,7 +115,7 @@
 		transition: .3s;
 		position: absolute;
 		right: 25px;
-		z-index: 1;
+		z-index: 100;
 		@media (hover: hover) and (pointer: fine) {
 			&:hover,
             &:focus-visible {
@@ -136,44 +136,11 @@
 	}
 }
 
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 768px) {
+@media (max-width: forward.$breakpoint-md) {
 	.slider {
 		height: 230px;
-		&__window {
-			margin: 0 15px 0;
-		}
 		&__advertisement {
 			right: 35px;
-			&-description {
-				display: none;
-				&.show {
-					display: none;
-				}
-			}
-		}
-		&__btn-left {
-			opacity: 1;
-		}
-		&__btn-right {
-			opacity: 1;
-		}
-	}
-}
-
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {
-	.slider {
-		height: 170px;
-		&__window {
-			margin: 0 5px 0;
-		}
-		&__advertisement {
-			right: 35px;
-			bottom: 5px;
-			font-size: 0.93em;
 			pointer-events: none;
 			&-description {
 				display: none;
@@ -184,39 +151,31 @@
 		}
 		&__btn-left {
 			opacity: 1;
-			left: 15px;
 		}
 		&__btn-right {
 			opacity: 1;
+		}
+	}
+}
+
+@media (max-width: forward.$breakpoint-sm) {
+	.slider {
+		height: 170px;
+		&__advertisement {
+			bottom: 5px;
+			font-size: 0.93em;
+		}
+		&__btn-left {
+			left: 15px;
+		}
+		&__btn-right {
 			right: 15px;
 		}
 	}
 }
 
-																	//АДАПТАЦИЯ < 425px
-
-@media (max-width: 425px) {
+@media (max-width: forward.$breakpoint-xs) {
 	.slider {
 		height: 130px;
-		&__window {
-			margin: 0 5px 0;
-		}
-		&__advertisement {
-			display: none;
-			&-description {
-				display: none;
-				&.show {
-					display: none;
-				}
-			}
-		}
-		&__btn-left {
-			opacity: 1;
-			left: 15px;
-		}
-		&__btn-right {
-			opacity: 1;
-			right: 15px;
-		}
 	}
 }

@@ -10,8 +10,8 @@
 	User-select: none;
 	position: fixed;
 	top: 0;
-	z-index: 7;
-	font-family: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	z-index: 700;
+	font-family: forward.$fontSegoe;
 }
 	
 .logo__header { 
@@ -55,7 +55,7 @@
 	display: inline-flex;
 	align-items: center;
 	width: 56vw;
-	margin-left: 10px;
+	margin-inline: 10px;
     &__line { 
         width: 100%;
         display: inline-flex;
@@ -70,10 +70,7 @@
 			font-size: 1em;
 			outline: none;
 			border: 3px solid #d8c4e0;
-			&:-webkit-autofill {
-				box-shadow: 0 0 0 1000px white inset !important;
-  				-webkit-text-fill-color: #000;
-			}
+			@include forward.autofill-styles(white, #000);
 		}
 		&-button {
 			border-radius: 10px;
@@ -109,18 +106,6 @@
 		}
     }
 }
-	
-input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
-input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration { display: none; }
-
-input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
-input:-moz-placeholder { /* Firefox 18- */ color: rgba(0, 0, 0, 0.196) !important; }
-input::-moz-placeholder { /* Firefox 19+ */ color: rgba(0, 0, 0, 0.196) !important; }
-input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 
 .header-nav {
 	margin: 0 5px 0 auto;
@@ -134,6 +119,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	&__item {
         margin: auto;
         display: inline-block;
+		position: relative;
         &-style {
 			display: flex;
 			justify-content: center;
@@ -166,7 +152,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	background-color: #ffffff;
 	bottom: 0;
 	position: fixed;
-	z-index: 7;
+	z-index: 700;
 	&__item {
 		@include forward.flex-center;
 		pointer-events: none;
@@ -200,7 +186,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	letter-spacing: normal;
 	line-height: 18px;
 	font-weight: 500;
-	z-index: 3;
+	z-index: 300;
 	&-mobile {
 		border-radius: 50%;
 		width: 17px;
@@ -216,7 +202,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		line-height: 18px;
 		font-weight: 500;
 		display: none;
-		z-index: 5;
+		z-index: 500;
 	}
 }
 
@@ -227,7 +213,7 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 		position: fixed;
 		right: 10px;
 		top: 5px;
-		z-index: 2;
+		z-index: 200;
 		border: none;
 		background-color: forward.$btnColor;
 		border-radius: 50%;
@@ -262,16 +248,10 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	border-left-color: rgb(140, 43, 185);
 }
 
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 769px) {
+@media (max-width: forward.$breakpoint-md) {
 	.search { 
 		padding-right: 40px;
 		width: 90vw;
-		margin: 0 10px;
-		&__line { 
-			width: 100%;
-		}
 	}
 
 	.header-nav { 
@@ -298,90 +278,12 @@ input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.196) !important; }
 	}
 }
 
-
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {	
+@media (max-width: forward.$breakpoint-sm) {	
 	.logo__header { 
 		display: none;
 	}
 	
 	.categories { 
 		margin-left: 10px;
-	}
-	
-	.search { 
-		padding-right: 40px;
-		width: 90vw;
-		margin: 0 10px;
-		&__line { 
-			width: 100%;
-		}
-	}
-
-	.header-nav { 
-		display: none;
-	}
-
-	.header-nav-mobile {
-		display: flex;
-		&__item {
-			&_active {
-				display: block;
-			}
-			&_passiv {
-				display: block;
-			}
-		}
-	}
-	
-	.circle { 
-		display: none;
-		&-mobile {
-			display: block;
-		}
-	}
-}
-
-																	//АДАПТАЦИЯ < 425px
-@media (max-width: 425px) {
-	.logo__header { 
-		display: none;
-	}
-	
-	.categories { 
-		margin-left: 10px;
-	}
-	
-	.search { 
-		width: 90vw;
-		margin: 0 10px;
-		padding-right: 40px;
-		&__line { 
-			width: 100%;
-		}
-	}
-
-	.header-nav { 
-		display: none;
-	}
-
-	.header-nav-mobile {
-		display: flex;
-		&__item {
-			&_active {
-				display: block;
-			}
-			&_passiv {
-				display: block;
-			}
-		}
-	}
-	
-	.circle { 
-		display: none;
-		&-mobile {
-			display: block;
-		}
 	}
 }

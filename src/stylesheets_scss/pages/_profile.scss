@@ -1,17 +1,19 @@
 @use '../forward.scss';
 
 .profile-menu {
-	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	position: absolute;
-	top: 75px;
+	top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
 	width: 190px;
 	background-color: rgb(236, 220, 233);
     border-radius: 15px;
     height: 102px;
-    z-index: 5;
+    z-index: 500;
+    justify-content: center;
 	cursor: default;
 	&::before {
 		content: "";
@@ -24,14 +26,10 @@
 		height: 25px;
 	}
 	&__title {
-		box-sizing: border-box;
-		min-height: 30px;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		box-sizing: border-box;
 		white-space: nowrap;
 		color: black;
-		max-width: 190px;
 		padding: 0 16px;
 		margin-bottom: 16px;
 	}
@@ -60,10 +58,7 @@
             &:focus {
                 background-color: #ffffff8f;
             }
-	        &:-webkit-autofill {
-	        	box-shadow: 0 0 0 1000px white inset !important;
-  	        	-webkit-text-fill-color: #000;
-	        }
+	        @include forward.autofill-styles(white, #000);
         }
         &-btn {
             background-color: #d8c4e0;
@@ -93,7 +88,6 @@
 
 .form.no-wrap {
     flex-wrap: nowrap;
-    height: auto;
 }
 
 .container-profile {
@@ -270,12 +264,8 @@
     }
 }
 
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 769px) {
+@media (max-width: forward.$breakpoint-md) {
     .form {
-        width: 95vw;
-        margin: 0 auto;
         &__registration { 
             width: 43vw;
             &-item {
@@ -289,26 +279,18 @@
     }
 }
 
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {
+@media (max-width: forward.$breakpoint-sm) {
     .form {
-        margin: 0 auto;
         flex-wrap: wrap;
-        width: 95vw;
         &__registration { 
             width: 90vw;
-            &:last-child {
-                margin-top: 15px;
+            &:first-child {
+                margin-bottom: 15px;
             }
             &-item {
                 width: 60vw;
             }
         }
-    }
-
-    .form.no-wrap {
-        margin-bottom: 0;
     }
 
     .container-profile {
@@ -318,7 +300,6 @@
 
     .profile-aside {
         min-width: auto;
-        height: auto;
         padding: 10px;
         margin-right: 10px;
         &__name {
@@ -327,38 +308,17 @@
     }
 }
 
-																	//АДАПТАЦИЯ < 425px
-
-@media (max-width: 425px){
-    .form {
-        margin: 0 auto;
-        flex-wrap: wrap;
-        width: 95vw;
-        &__registration { 
-            width: 90vw;
-            &:last-child {
-                margin-top: 10px;
-            }
-            &-item {
-                width: 60vw;
-            }
-        }
+@media (max-width: forward.$breakpoint-xs) {
+    .form__registration:first-child {
+        margin-bottom: 10px;
     }
 
     .form.no-wrap {
         flex-wrap: wrap;
-        margin-bottom: 0;
-    }
-
-    .container-profile {
-        gap: 10px;
-        height: auto;
     }
 
     .profile-aside {
         width: 100%;
-        height: auto;
-        padding: 10px;
         margin: 0 0 10px 0;
         &__name {
             max-width: 370px;

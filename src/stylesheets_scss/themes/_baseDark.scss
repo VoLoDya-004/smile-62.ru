@@ -1,27 +1,17 @@
+@use '../forward.scss';
+
 body.dark-theme {
-  background-color: #121212;
-  color: #ffffff;
-}            
-
-input.search__line-input.dark-theme:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px #8a7d8f inset !important;
-  -webkit-text-fill-color: white !important;
-  caret-color: white;
-}
-
-input.form__registration-item.dark-theme:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px #313333 inset !important;
-  -webkit-text-fill-color: white !important;
-  caret-color: white;
-}
+	background-color: #121212;
+  	color: #ffffff;
+}      
 
 .modal-content {
-  &.dark-theme {
-    background-color: black;
-  }
-  &__title {
-    &.dark-theme {
-      background-color: #121212;
-    }
-  }
+  	&.dark-theme {
+  	  	background-color: black;
+  	}
+  	&__title {
+  	  	&.dark-theme {
+  	  	  	background-color: #121212;
+  	  	}
+  	}
 }

@@ -7,7 +7,6 @@
 
 .favourites-box {
     text-align: center;
-    margin: 0 auto;
     &__title {
         font-size: 1.75em;
         line-height: 1.3;
@@ -77,27 +76,14 @@
     display: block;
 }
 
-
-																	//АДАПТАЦИЯ 768px
-
-@media (max-width: 1000px) and (min-width: 769px) {
-	.favourites-box {
-        width: 95vw;
-        margin: 0 auto;
-        &__product {
-            &-img {
-                width: 100%;
-            }
-        }
+@media (max-width: forward.$breakpoint-md) {
+	.favourites-box__product-img {
+        width: 100%;
     }
 }   
 
-																	//АДАПТАЦИЯ 425px
-
-@media (max-width: 768px) and (min-width: 425px) {
-	 .favourites-box {
-        width: 95vw;
-        margin: 0 auto;
+@media (max-width: forward.$breakpoint-sm) {
+	.favourites-box {
         &__title {
             font-size: 1.5em;
             padding-right: 10px;
@@ -132,44 +118,3 @@
         }
     }
 }
-
-																	//АДАПТАЦИЯ < 425px
-
-@media (max-width: 425px) {
-	.favourites-box {
-        width: 95vw;
-        margin: 0 auto;
-        &__title {
-            font-size: 1.5em;
-            padding-right: 10px;
-        }
-        &__table {
-            &-header {
-                height: 1px;
-                padding: 0;
-                & > * {
-                    display: none;
-                }
-            }
-        }
-        &__product {
-            grid-template-columns: repeat(5, 1fr);
-            grid-auto-rows: minmax(60px, auto);
-            column-gap: 15px;
-            row-gap: 10px;
-            &-img {
-                grid-column: 1/3;
-                width: 80%;
-            }
-            &-title {
-                grid-column: 3/6;
-            }
-            &-price {
-                grid-column: 1/4;
-                margin-right: auto;
-                padding-left: 15%;
-                justify-self: center;
-            }
-        }
-    }
-}   

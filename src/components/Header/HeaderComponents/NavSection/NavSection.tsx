@@ -1,10 +1,9 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { memo, useEffect, useState } from 'react'
 import type { RootStore } from '../../../../redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '../../../../redux/UserSlice'
 import type { INotificationData } from '../../../../types/types'
-import useScreenWidth from '../../../../hooks/useScreenWidth'
 import useDeviceType from '../../../../hooks/useDeviceType'
 import Notification from '../../../sub-components/Notification'
 import ProfileMenu from '../../../Profile/ProfileComponents/ProfileMenu/ProfileMenu'
@@ -19,6 +18,7 @@ const NavSection = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 	const location = useLocation()
+	const navigate = useNavigate()
 	const isActiveProfile = location.pathname === '/profile'
 
 	const [showProfileMenu, setShowProfileMenu] = useState(false)
@@ -55,20 +55,21 @@ const NavSection = () => {
 
 	const handleLogin = () => {
 		showNotification('Войдите или зарегистрируйтесь', 'success')
+		if (location.pathname === '/profile') {
+			return
+		}
+		navigate('/profile')
 	}
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
 	}, [])
 
-	const isMobileWidth = useScreenWidth(1001)
-
 
 	return (
 		<nav
 			className='header-nav'
 			aria-label='Навигация по сайту'
-			aria-hidden={isMobileWidth ? 'true' : 'false'}
 		>
 			{notification && (
 				<Notification
@@ -120,17 +121,17 @@ const NavSection = () => {
 						aria-label='Профиль'
 					>
 						Профиль
-						{showProfileMenu && (
-							<ProfileMenu
-								isAuth={isAuth}
-								userName={userName}
-								isDarkTheme={isDarkTheme}
-								isActiveProfile={isActiveProfile}
-								onLogout={handleLogout}
-								onLogin={handleLogin}
-							/>
-						)}
 					</NavLink>
+					{showProfileMenu && (
+						<ProfileMenu
+							isAuth={isAuth}
+							userName={userName}
+							isDarkTheme={isDarkTheme}
+							isActiveProfile={isActiveProfile}
+							onLogout={handleLogout}
+							onLogin={handleLogin}
+						/>
+					)}
 				</li>
 				<li className='header-nav__item'>
 					<NavLink
