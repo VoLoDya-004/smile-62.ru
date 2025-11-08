@@ -46,14 +46,14 @@ const ModalFooter = ({
         <button 
             ref={initialFocusRef}
             type='button'
-            className='confirm-yes'
+            className='confirm-delete-button'
             onClick={onConfirm}
         >
             Удалить
         </button>
         <button 
             type='button'
-            className='confirm-no'
+            className='confirm-cancel-button'
             onClick={onCancel}
         >
             Оставить

@@ -10,11 +10,6 @@
     align-items: end;
 }
 
-@mixin wh-auto {
-    width: auto;
-  	height: auto;
-}
-
 @mixin fill-clip-rule ($fill, $clip) {
     fill-rule: $fill;
 	clip-rule: $fill;

@@ -358,7 +358,10 @@ const Cards = () => {
         <div className='card__bottom'>
           {price === price_sale ? (
             <>
-              <div className='card__price card__price-count-same'>{price}</div>
+              <div className='card__price card__price-count-same'>
+                <span className='text-nowrap'>{price} &#x20BD;</span>
+                <div className='card__price-count-same-title'>Обычная</div>
+              </div>
               <div className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>
                 {card.nazvanie}
               </div>
@@ -385,8 +388,14 @@ const Cards = () => {
           ) : (
             <>
               <div className='card__prices'>
-                <div className='card__price card__price-discount'>{price_sale}</div>
-                <div className='card__price card__price-count'>{price}</div>
+                <div className='card__price card__price-discount'>
+                  <span className='text-nowrap'>{price_sale} &#x20BD;</span>
+                  <div className='card__price-discount-title'>Со скидкой</div>
+                </div>
+                <div className='card__price card__price-count'>
+                  <span className='text-nowrap'>{price} &#x20BD;</span> 
+                  <div className='card__price-count-title'>Обычная</div>
+                </div>
                 </div>
               <div className={`card__title ${isDarkTheme ? 'dark-theme' : ''}`}>
                 {card.nazvanie}
@@ -460,16 +469,5 @@ const Cards = () => {
 }
 
 export default memo(Cards)
-
-
-
-
-
-
-
-
-
-
-
 
 

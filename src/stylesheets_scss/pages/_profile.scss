@@ -1,6 +1,6 @@
 @use '../forward.scss';
 
-.profile-menu {
+.profile-dropdown {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -98,7 +98,7 @@
     width: 100%;
 }
 
-.profile-aside {
+.user-aside {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -298,7 +298,7 @@
         height: auto;
     }
 
-    .profile-aside {
+    .user-aside {
         min-width: auto;
         padding: 10px;
         margin-right: 10px;
@@ -317,7 +317,7 @@
         flex-wrap: wrap;
     }
 
-    .profile-aside {
+    .user-aside {
         width: 100%;
         margin: 0 0 10px 0;
         &__name {

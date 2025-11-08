@@ -27,14 +27,14 @@
 		font-size: 1em;
 		margin: 1px 0;
 		&_active {
-			background-color: forward.$btnColor;
+			background-color: forward.$buttonColor;
 			border-radius: 10px;
 			color: #9814ad;
 			transition: background-color .1s;
 		}
 		@media (hover: hover) and (pointer: fine) {
 			&:hover {
-				background-color: forward.$btnColor;
+				background-color: forward.$buttonColor;
 				border-radius: 10px;
 				color: #9814ad;
 				transition: background-color .1s;

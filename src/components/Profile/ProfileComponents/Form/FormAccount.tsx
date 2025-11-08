@@ -20,11 +20,11 @@ const ProfileAside = ({
 
   	return (
   	  	<section 
-  	  	  	className={`profile-aside ${isDarkTheme ? 'dark-theme' : ''}`}
+  	  	  	className={`user-aside ${isDarkTheme ? 'dark-theme' : ''}`}
   	  	  	aria-label='Ваш баланс'
   	  	>
-  	  	  	<div className='profile-aside__name'>{userName || 'Пользователь'}</div>
-  	  	  	<div className='profile-aside__sum'>Баланс: 0 &#x20bd;</div>
+  	  	  	<div className='user-aside__name'>{userName || 'Пользователь'}</div>
+  	  	  	<div className='user-aside__sum'>Баланс: 0 &#x20bd;</div>
   	  	  	<Button className='button-violet'>
   	  	  	  	Пополнить
   	  	  	</Button>

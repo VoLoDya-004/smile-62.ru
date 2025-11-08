@@ -12,7 +12,7 @@ const ButtonMainNav = () => {
     return (
         <button 
             type='button'
-            className='to-main-btn'
+            className='to-main-button'
             onClick={handleClick}
         >
             <b className='user-select-none'>Перейти на главную</b>

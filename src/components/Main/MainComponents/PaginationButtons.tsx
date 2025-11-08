@@ -21,15 +21,15 @@ const PaginationButtons = memo(function PaginationButtons({
 
 
     return (
-        <section className='load-more-box'>
-            <div className='load-more-back'>
+        <section className='pagination-box'>
+            <div className='pagination-back'>
                 <ButtonLoad 
                     id='loadBtnBack' 
                     className={`
-                        load-more__btn-back
+                        pagination__button-back
                         ${isBackDisabled ? 
-                            'load-more__btn-back_disabled' : 
-                            'load-more__btn-back_active'
+                            'pagination__button-back_disabled' : 
+                            'pagination__button-back_active'
                         } 
                         ${isDarkTheme ? 'dark-theme' : ''}
                     `}
@@ -42,14 +42,14 @@ const PaginationButtons = memo(function PaginationButtons({
                     Назад
                 </ButtonLoad>
             </div>
-            <div className='load-more-forward'>
+            <div className='pagination-forward'>
                 <ButtonLoad 
                     id='loadBtnForward' 
                     className={`
-                        load-more__btn-forward
+                        pagination__button-forward
                         ${isForwardDisabled ? 
-                            'load-more__btn-forward_disabled' : 
-                            'load-more__btn-forward_active'
+                            'pagination__button-forward_disabled' : 
+                            'pagination__button-forward_active'
                         } 
                         ${isDarkTheme ? 'dark-theme' : ''}
                     `}

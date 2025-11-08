@@ -67,7 +67,7 @@ const Breadcrumbs = ({
 
     return (
         <nav 
-            className='breadcrumbs-container'
+            className='breadcrumbs'
             aria-label='Навигация по категориям'
         >
             <button 

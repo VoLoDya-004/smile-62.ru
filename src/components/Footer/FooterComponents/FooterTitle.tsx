@@ -5,7 +5,7 @@ interface FooterTitleProps {
 
 const FooterTitle = ({ children }: FooterTitleProps) => {
   return (
-    <h3 className='footer__title footer__title-section'>{children}</h3>
+    <h2 className='footer__title footer__title-section'>{children}</h2>
   )
 }
 

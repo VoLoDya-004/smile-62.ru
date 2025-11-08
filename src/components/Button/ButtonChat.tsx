@@ -16,12 +16,12 @@ const ButtonChat = ({ onOpen }: ButtonChatProps) => {
     return (
         <button 
             type='button'
-            className='chat-btn' 
+            className='chat-button' 
             onClick={modalOpen}
             aria-label='Чат поддержки'
         >
             <svg 
-                className='chat-btn-svg' 
+                className='chat-button-svg' 
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'

@@ -1,6 +1,6 @@
 @use '../forward.scss';
 
-.breadcrumbs-container {
+.breadcrumbs {
     margin-bottom: 8px;
 }
 
@@ -144,7 +144,7 @@
     }
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            background-color: forward.$btnColor;
+            background-color: forward.$buttonColor;
         }
     }
 }
@@ -213,7 +213,7 @@ input[name="sortOptions"] {
         font-size: 1em;
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: forward.$btnColor;
+                background-color: forward.$buttonColor;
                 color: rgb(96, 22, 118);
             }
         }
@@ -235,7 +235,7 @@ input[name="sortOptions"] {
         }
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: forward.$btnColor;
+                background-color: forward.$buttonColor;
                 color: rgb(96, 22, 118);
             }
         }
@@ -347,7 +347,7 @@ input[name="sortOptions"] {
 }
 
 @media (max-width: forward.$breakpoint-xs) {
-    .breadcrumbs-container {
+    .breadcrumbs {
         margin-inline: 5px;
         margin-bottom: 8px;
     }

@@ -26,20 +26,19 @@ const ProfileMenu = memo(({
     
 	return (
 		<aside 
-			className={`profile-menu ${isDarkTheme ? 'dark-theme' : ''}`}
+			className={`profile-dropdown ${isDarkTheme ? 'dark-theme' : ''}`}
 			aria-label='Меню профиля'
 			style={{
 				top: isActiveProfile ? '55px' : ''
 			}}
 		>
 			<div
-				className={`profile-menu__title ${isDarkTheme ? 'dark-theme' : ''}`}
+				className={`profile-dropdown__title ${isDarkTheme ? 'dark-theme' : ''}`}
 			>
 				{name}
 			</div>
 			<Button
 				onClick={isAuth ? onLogout : onLogin}
-				id='profile-menu-out'
 				className='button-violet'
 			>
 				{ButtonText}

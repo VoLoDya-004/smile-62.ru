@@ -28,7 +28,7 @@ const ButtonScroll = () => {
         <ButtonArrow 
             onClick={scrollToTop} 
             ariaLabel='Вернуться наверх страницы'
-            className='scroll-to-top-btn'
+            className='scroll-to-top-button'
             style={{display: visible ? 'block' : 'none'}}
         />
     )

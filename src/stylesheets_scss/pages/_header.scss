@@ -111,7 +111,7 @@
 	margin: 0 5px 0 auto;
 	display: inline-flex;
 	&__list {
-		margin: 0 5px 0 auto;
+		margin: 0 40px 0 auto;
 		display: inline-flex;
 		width: auto;
 		column-gap: 12px;
@@ -182,7 +182,7 @@
 	display: inline-block;
 	position: fixed;
 	top: 30px;
-    right: 2px;
+    right: 37px;
 	letter-spacing: normal;
 	line-height: 18px;
 	font-weight: 500;
@@ -215,7 +215,7 @@
 		top: 5px;
 		z-index: 200;
 		border: none;
-		background-color: forward.$btnColor;
+		background-color: forward.$buttonColor;
 		border-radius: 50%;
 		cursor: pointer;
 		transition: .4s linear;

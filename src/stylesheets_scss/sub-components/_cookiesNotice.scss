@@ -9,10 +9,9 @@
 }
 
 .cookies-notice {
-    @include forward.wh-auto;
     position: fixed;
     left: 5px;
-    bottom: 70px;
+    bottom: 75px;
     background-color: black;
     color: white;
     padding-left: 10px;
