@@ -3,11 +3,11 @@
 #header { 
 	display: flex;
 	justify-content: start;
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 	background-color: rgb(48 0 80);
 	width: 100%;
 	height: 72px;
-	User-select: none;
+	user-select: none;
 	position: fixed;
 	top: 0;
 	z-index: 700;
@@ -26,9 +26,9 @@
 }
 	
 .categories { 
-    margin-block: auto;
+  margin-block: auto;
 	&__button {
-    	display: flex;
+    display: flex;
 		align-items: center;
 		background-color: transparent;
 		width: 35px;
@@ -39,12 +39,12 @@
 		transition: border-width .3s;
 		transition: border-color .3s;
 		cursor: pointer;
-    	@media (hover: hover) and (pointer: fine) {
-    	    &:hover {
-    	        border-width: 2px;
-    	        border-color: white;
-    	    }
-    	}
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-width: 2px;
+        border-color: white;
+      }
+    }
 	}
 	&__img {
 		width: 20px;
@@ -56,11 +56,11 @@
 	align-items: center;
 	width: 56vw;
 	margin-inline: 10px;
-    &__line { 
-        width: 100%;
-        display: inline-flex;
-        background-color: #d8c4e0;
-        border-radius: 10px;
+  &__line { 
+    width: 100%;
+    display: inline-flex;
+    background-color: #d8c4e0;
+    border-radius: 10px;
 		&-input {
 			border-radius: 10px;
 			width: 100%;
@@ -88,9 +88,9 @@
 				pointer-events: none;
 			}
 			@media (hover: hover) and (pointer: fine) {
-    			&:hover {
-    			    background-color: #b193bd;
-    			}
+    		&:hover {
+    		  background-color: #b193bd;
+    		}
 			}
 		}
 		&-clear {
@@ -104,7 +104,7 @@
 				background-color: #b193bd;
 			}
 		}
-    }
+  }
 }
 
 .header-nav {
@@ -117,21 +117,21 @@
 		column-gap: 12px;
 	}
 	&__item {
-        margin: auto;
-        display: inline-block;
+    margin: auto;
+    display: inline-block;
 		position: relative;
-        &-style {
+    &-style {
 			display: flex;
 			justify-content: center;
-            color: Silver;
-            text-decoration: none;
-            padding: 22px 5px 0;
-            width: auto;
-            transition: color .3s;
-            &:hover { 
-                color: white;
-            }
-        }
+      color: Silver;
+      text-decoration: none;
+      padding: 22px 5px 0;
+      width: auto;
+      transition: color .3s;
+      &:hover { 
+        color: white;
+      }
+    }
 	}
 	&__line {
 		text-decoration: underline rgb(186, 155, 194);
@@ -174,7 +174,7 @@
 .circle { 
 	border-radius: 50%;
 	min-width: 17px;
-    height: 17px;
+  height: 17px;
 	text-align: center;
 	color: #fff;
 	background: #e50000;
@@ -182,7 +182,7 @@
 	display: inline-block;
 	position: fixed;
 	top: 30px;
-    right: 37px;
+  right: 37px;
 	letter-spacing: normal;
 	line-height: 18px;
 	font-weight: 500;
@@ -219,14 +219,14 @@
 		border-radius: 50%;
 		cursor: pointer;
 		transition: .4s linear;
-    	&::after {
-    	    content: '';
-    	    position: absolute;
-    		top: -2px;
-    		bottom: -2px;
-    		left: -4px;
-    		right: calc(100% - 24px);
-    	}
+    &::after {
+      content: '';
+      position: absolute;
+    	top: -2px;
+    	bottom: -2px;
+    	left: -4px;
+    	right: calc(100% - 24px);
+    }
 		&:hover {
 			background-color: rgb(186 155 194);
 		}

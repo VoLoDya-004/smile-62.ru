@@ -1,11 +1,11 @@
 @use '../forward.scss';																	
 
 html {
-    font-size: 16px;
-    body {
-        background-color: #ffffff;
-		font-family: forward.$fontSegoe;
-    }
+  font-size: 16px;
+  body {
+    background-color: white;
+	  font-family: forward.$fontSegoe;
+  }
 	&::-webkit-scrollbar {
 		width: 10px;
 		&-thumb { 
@@ -50,26 +50,26 @@ button, input, textarea, select {
 }
 
 button {
-    user-select: none;
+  user-select: none;
 }
 	
 ::selection { 
-    background: #350047;
-    color: rgb(255, 255, 255);
+  background: #350047;
+  color: rgb(255, 255, 255);
 }
 
 body.modal-open {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 #main {
 	margin: 90px 30px 0px;
-    @media (max-width: forward.$breakpoint-md) {
-        margin-inline: 15px;
-    }
-    @media (max-width: forward.$breakpoint-sm) {
-        margin-inline: 5px;
-    }
+  @media (max-width: forward.$breakpoint-md) {
+    margin-inline: 15px;
+  }
+  @media (max-width: forward.$breakpoint-sm) {
+    margin-inline: 5px;
+  }
 }
 
 .blackout {
@@ -83,54 +83,54 @@ body.modal-open {
 }
 
 .modal-window {
-    display: block;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+  display: block;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    line-height: 1.5;
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  line-height: 1.5;
 	@media (max-width: forward.$breakpoint-xs) {
 		width: 250px;
 	}
-    &__title {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        background-color: forward.$backColorElem;
-        padding: 20px;
-        margin: 0;
-        position: relative;
-        left: -20px;
-        top: -23px;
-        border-radius: 8px 8px 0 0;
-        font-size: 1.25em;
-        user-select: none;
-    }
-    &__description {
-        text-align: center;
-        margin-top: 0;
-		@media (max-width: forward.$breakpoint-xs) {
-			font-size: 0.84em;
-		}
-    }
-    &__footer {
-        display: flex;
-        width: 100%;
-        gap: 15px;
-        user-select: none;
-    }
+  &__title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: forward.$backColorElem;
+    padding: 20px;
+    margin: 0;
+    position: relative;
+    left: -20px;
+    top: -23px;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.25em;
+    user-select: none;
+  }
+  &__description {
+    text-align: center;
+    margin-top: 0;
+	@media (max-width: forward.$breakpoint-xs) {
+		font-size: 0.84em;
+	}
+  }
+  &__footer {
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    user-select: none;
+  }
 }
 
 

@@ -1,35 +1,35 @@
 @use '../forward.scss';
 
 #footer {
-    &.dark-theme {
-        background-color: forward.$backColorElemDark;
-    }
+  &.dark-theme {
+    background-color: forward.$backColorElemDark;
+  }
 }
 
 .footer {
-    &__section-item-style {
-        transition: .3s;
-        &.dark-theme {
-            @media (hover: hover) and (pointer: fine) {
-	    	    &:hover {
-	    	    	color: white;
-	    	    }
-            }
-        }
+  &__section-item-style {
+    transition: .3s;
+    &.dark-theme {
+      @media (hover: hover) and (pointer: fine) {
+	      &:hover {
+	      	color: white;
+	      }
+      }
     }
-    &__contact-item-hover {
-        &.dark-theme {
-		    @media (hover: hover) and (pointer: fine) {
-		    	&:hover { 
-                    transition: .2s;
-		    		color: white;
-		    	}
-		    }
-        }
+  }
+  &__contact-item-hover {
+    &.dark-theme {
+	    @media (hover: hover) and (pointer: fine) {
+	    	&:hover { 
+          transition: .2s;
+	    		color: white;
+	    	}
+	    }
     }
-    &__link-item {
-        &.dark-theme {
-		    background-color: #000000;
-        }
+  }
+  &__link-item {
+    &.dark-theme {
+	    background-color: black;
     }
+  }
 }

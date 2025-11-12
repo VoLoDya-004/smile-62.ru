@@ -9,22 +9,22 @@ import SectionsFooter from './FooterComponents/SectionsFooter'
 
 
 const Footer = () => {
-    const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 
-    return (
-        <footer 
-            id='footer'
-            className={`footer ${isDarkTheme ? 'dark-theme' : ''}`}
-            aria-label='Подвал сайта'
-        >
-            <LogoFooter />
-            <SectionsFooter />
-            <ContactsFooter />
-            <LinkFooter />
-            <Copyright />
-        </footer>
-    )
+  return (
+    <footer 
+      id='footer'
+      className={`footer ${isDarkTheme ? 'dark-theme' : ''}`}
+      aria-label='Подвал сайта'
+    >
+      <LogoFooter />
+      <SectionsFooter />
+      <ContactsFooter />
+      <LinkFooter />
+      <Copyright />
+    </footer>
+  )
 }
 
 export default memo(Footer)

@@ -1,26 +1,26 @@
 @use '../forward.scss';		
 
 .block-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  height: 200px;
+  border-radius: 19px;
+  background-color: forward.$backColorElem;
+  &__str-bottom {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90vw;
-    height: 200px;
-    border-radius: 19px;
-    background-color: forward.$backColorElem;
+    text-align: center;
+    margin-top: -15px;
+  }
+  @media (max-width: forward.$breakpoint-sm) {
+    &__str-up {
+      font-size: 0.84em;
+    }
     &__str-bottom {
-        display: flex;
-        text-align: center;
-        margin-top: -15px;
+      padding: 0 10px;
+      font-size: 0.84em;
     }
-    @media (max-width: forward.$breakpoint-sm) {
-        &__str-up {
-            font-size: 0.84em;
-        }
-        &__str-bottom {
-            padding: 0 10px;
-            font-size: 0.84em;
-        }
-    }
+  }
 }

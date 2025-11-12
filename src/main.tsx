@@ -6,6 +6,7 @@ import { store } from './redux/index'
 import 'normalize.css'
 import './stylesheets_scss/styles.scss'
 
+
 const container = document.getElementById('root')
 
 if (!container) {
@@ -17,5 +18,5 @@ createRoot(container).render(
     <Router>
       <App />
     </Router>
-  </Provider> 
+  </Provider>
 )

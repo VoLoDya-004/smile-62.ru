@@ -4,22 +4,22 @@ import type { RootStore } from '../../../../redux'
 
 
 const BasketFooter = () => {
-    const priceFormatter = new Intl.NumberFormat()
+  const priceFormatter = new Intl.NumberFormat()
 
-    const totalBasket = useSelector((state: RootStore) => state.basket.total)
-    const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const totalBasket = useSelector((state: RootStore) => state.basket.total)
+  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 
-    return (                          
-        <div className={`basket-box__footer ${isDarkTheme ? 'dark-theme' : ''}`}>
-            <div className='basket-box__footer-title'>
-                {totalBasket.count} шт.
-            </div>
-            <div>
-                {priceFormatter.format(totalBasket.price_total)}  руб.
-            </div>
-        </div>
-    )
+  return (                          
+    <div className={`basket-box__footer ${isDarkTheme ? 'dark-theme' : ''}`}>
+      <div className='basket-box__footer-title'>
+        {totalBasket.count} шт.
+      </div>
+      <div>
+        {priceFormatter.format(totalBasket.price_total)}  руб.
+      </div>
+    </div>
+  )
 }
 
 export default memo(BasketFooter)

@@ -10,20 +10,20 @@ import BasketCircle from './HeaderComponents/NavSection/BasketCircle'
 const Header = () => {
 
     
-    return (
-        <header 
-            id='header'
-            aria-label='Шапка сайта'    
-        >
-            <LogoHeader />
-            <ButtonCategories />
-            <Search />
-            <NavSection />
-            <NavSectionMobile />
-            <BasketCircle />
-            <ThemeToggle />
-        </header> 
-    )
+  return (
+    <header 
+      id='header'
+      aria-label='Шапка сайта'    
+    >
+      <LogoHeader />
+      <ButtonCategories />
+      <Search />
+      <NavSection />
+      <NavSectionMobile />
+      <BasketCircle />
+      <ThemeToggle />
+    </header> 
+  )
 }
 
 export default Header

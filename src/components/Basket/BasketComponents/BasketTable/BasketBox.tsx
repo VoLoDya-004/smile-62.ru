@@ -5,23 +5,23 @@ import BasketClearString from '../BasketClearString'
 
 
 interface IBasketBoxProps {
-    productsBasket: JSX.Element[]
+  productsBasket: JSX.Element[]
 }
 
 
 const BasketBox = ({productsBasket}: IBasketBoxProps) => {
 
     
-    return (
-        <section className='basket-box'>
-            <BasketClearString />
-            <section className='basket-box__table'>
-                <BasketHeader />
-                {productsBasket}
-                <BasketFooter />
-            </section>
-        </section>
-    )
+  return (
+    <section className='basket-box'>
+      <BasketClearString />
+      <section className='basket-box__table'>
+        <BasketHeader />
+        {productsBasket}
+        <BasketFooter />
+      </section>
+    </section>
+  )
 }
 
 export default memo(BasketBox)

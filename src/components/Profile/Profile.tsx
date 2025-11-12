@@ -6,17 +6,17 @@ import Recommendations from '../sub-components/Recommendations'
 
 
 const Profile = () => {
-    const isAuth = useSelector((state: RootStore) => state.user.isAuth)
+  const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
 
-    return (
-        <>
-            <section className={`form ${isAuth ? 'no-wrap' : ''}`}>
-                <Form />
-            </section>
-            <Recommendations />
-        </>
-    )
+  return (
+    <>
+      <section className={`form ${isAuth ? 'no-wrap' : ''}`}>
+        <Form />
+      </section>
+      <Recommendations />
+    </>
+  )
 }
 
 export default memo(Profile)

@@ -2,16 +2,16 @@
 
 body.dark-theme {
 	background-color: #121212;
-  	color: #ffffff;
+  color: white;
 }      
 
 .modal-content {
-  	&.dark-theme {
-  	  	background-color: black;
-  	}
-  	&__title {
-  	  	&.dark-theme {
-  	  	  	background-color: #121212;
-  	  	}
-  	}
+  &.dark-theme {
+    background-color: black;
+  }
+  &__title {
+    &.dark-theme {
+      background-color: #121212;
+    }
+  }
 }

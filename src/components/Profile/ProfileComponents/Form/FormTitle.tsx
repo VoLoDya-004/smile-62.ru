@@ -1,16 +1,16 @@
-interface TFormTitleProps {
-    text: string
+interface IFormTitleProps {
+  text: string
 }
 
 
-const FormTitle = ({text}: TFormTitleProps) => {
+const FormTitle = ({text}: IFormTitleProps) => {
 
     
-    return (
-        <h2 className='form__header'>
-            {text}
-        </h2>
-    )
+  return (
+    <h2 className='form__header'>
+      {text}
+    </h2>
+  )
 }
 
 export default FormTitle
