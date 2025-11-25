@@ -19,7 +19,7 @@ const CookiesNotice = () => {
   if (!showBanner) {
     return null
   }
-
+  
 
   return (
     <div className='cookies-notice-box'>

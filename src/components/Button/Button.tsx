@@ -1,17 +1,16 @@
-import type { MouseEventHandler, ReactNode } from 'react'
-import type React from 'react'
+import type { CSSProperties, PointerEventHandler, ReactNode } from 'react'
 
 
 interface IButtonProps {
   id?: string
   className?: string
-  onClick?: MouseEventHandler<HTMLButtonElement>
+  onClick?: PointerEventHandler<HTMLButtonElement>
   children: ReactNode
-  style?: React.CSSProperties 
+  style?: CSSProperties
 }
 
 
-const Button = ({children, id, className, onClick, style}: IButtonProps) => {
+const Button = ({ children, id, className, onClick, style }: IButtonProps) => {
 
 
   return (
@@ -22,7 +21,7 @@ const Button = ({children, id, className, onClick, style}: IButtonProps) => {
       onClick={onClick}
       style={style}
     >   
-      <b>{children}</b>
+      {children}
     </button>
   )
 }

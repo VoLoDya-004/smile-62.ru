@@ -276,8 +276,14 @@ input[name="sortOptions"] {
   }
 }
 
-.accordion__input::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-  appearance: none;
+.accordion__input {
+  &::-webkit-inner-spin-button, 
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 @media (max-width: forward.$breakpoint-md) {

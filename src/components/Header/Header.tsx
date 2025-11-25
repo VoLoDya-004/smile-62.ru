@@ -11,10 +11,7 @@ const Header = () => {
 
     
   return (
-    <header 
-      id='header'
-      aria-label='Шапка сайта'    
-    >
+    <header id='header'aria-label='Шапка сайта'>
       <LogoHeader />
       <ButtonCategories />
       <Search />

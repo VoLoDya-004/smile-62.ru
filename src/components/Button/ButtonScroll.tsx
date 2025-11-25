@@ -1,4 +1,4 @@
-import { useState, memo } from 'react'
+import { useState, memo, useEffect } from 'react'
 import ButtonArrow from './ButtonArrow'
 
 
@@ -7,11 +7,7 @@ const ButtonScroll = () => {
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop
-    if (scrolled > 100) {
-      setVisible(true)
-    } else if (scrolled <= 100) {
-      setVisible(false)
-    }
+    setVisible(scrolled > 100)
   }
 
   const scrollToTop = () => {
@@ -21,8 +17,12 @@ const ButtonScroll = () => {
     })
   }
 
-  window.addEventListener('scroll', toggleVisible)
-    
+  useEffect(() => {
+    window.addEventListener('scroll', toggleVisible)
+
+    return () => window.removeEventListener('scroll', toggleVisible)
+  }, [])
+
     
   return (
     <ButtonArrow 

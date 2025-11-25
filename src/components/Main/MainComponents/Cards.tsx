@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback, useMemo, useTransition, useRef } from 'react'
+import { useState, useEffect, useContext, useCallback, useMemo, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { memo } from 'react'
 import axios from 'axios'
@@ -27,11 +27,9 @@ const Cards = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const srcBasket = 
-    `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+  const srcBasket = `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
 
-  const srcFavourites = `
-    /backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+  const srcFavourites = `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
 
   const context = useContext(Context)
   if (!context) {
@@ -50,8 +48,6 @@ const Cards = () => {
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
   const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
 
-  const [isPending, startTransition] = useTransition()
-
   const [pendingIdBasket, setPendingIdBasket] = useState<number | null>(null)
   const [pendingIdFav, setPendingIdFav] = useState<number | null>(null)
   const [localFavourites, setLocalFavourites] = useState<IProduct[]>([])
@@ -60,8 +56,10 @@ const Cards = () => {
   const [addingStatusFav, setAddingStatusFav] = useState<Record<number, boolean>>({})
   const [notification, setNotification] = useState<INotificationData | null>(null)
 
+  const scrollPositionRef = useRef(0)
+
   const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-    setNotification({message, type})
+    setNotification({ message, type })
   }
 
   useEffect(() => {
@@ -93,9 +91,7 @@ const Cards = () => {
 
     window.addEventListener('scroll', handleUserScroll)
 
-    return () => {
-      window.removeEventListener('scroll', handleUserScroll)
-    }
+    return () => window.removeEventListener('scroll', handleUserScroll)
   }, [])
 
   useEffect(() => {
@@ -104,27 +100,24 @@ const Cards = () => {
   
   const addBasket = useCallback(async (idProduct: number) => {
     const exists = memoizedBasket.some(item => item.id === idProduct)
-    if (exists) {
-      return
-    } else {
-        setLoadingBasket(true)
-        await axios.get(`/backend/PHP/basket.php`, {
-          params: {
-            Operation: 'addBasket',
-            idProduct: idProduct,
-            idUser: userId,
-          },
-        })
-        const res = await axios.get(srcBasket)
-        dispatch(setCartBasket(res.data))
-        setLoadingBasket(false)
+
+    if (!exists) {
+      setLoadingBasket(true)
+      await axios.get('/backend/PHP/basket.php', {
+        params: {
+          Operation: 'addBasket',
+          idProduct: idProduct,
+          idUser: userId,
+        }
+      })
+      const res = await axios.get(srcBasket)
+      dispatch(setCartBasket(res.data))
+      setLoadingBasket(false)
     }
   }, [cartBasket, userId])
 
   const handleAddBasket = useCallback(async (id: number) => {
-    if (addingStatusBasket[id]) {
-      return
-    }
+    if (addingStatusBasket[id]) return
     
     saveScrollPosition()
     if (!isAuth) {
@@ -141,30 +134,26 @@ const Cards = () => {
     setPendingIdBasket(id)
 
     try {
-      startTransition(() => {
-        setLocalBasket(prev => {
-          if (prev.some(item => item.id_product === id)) return prev
-          return [...prev, { id_product: id, id: id }]
-        })
+      setLocalBasket(prev => {
+        if (prev.some(item => item.id_product === id)) return prev
+        return [...prev, { id_product: id, id: id }]
       })
       await addBasket(id)
-      setPendingIdBasket(null)
       showNotification('Добавлено в корзину', 'success')
     } catch (error) {
-      setPendingIdBasket(null)
       showNotification('Ошибка', 'error')
     } finally {
       setAddingStatusBasket(prev => ({ ...prev, [id]: false }))
+      setPendingIdBasket(null)
     }
-  }, [localBasket, pendingIdBasket, startTransition, isAuth, addingStatusBasket, addBasket])
-
+  }, [localBasket, pendingIdBasket, isAuth, addingStatusBasket, addBasket])
+  
   const addFav = useCallback(async (idProduct: number) => {
     const exists = memoizedFavourites.some(item => item.id === idProduct)
-    if (exists) {
-      return
-    } else {
+
+    if (!exists) {
       setLoadingFavourites(true)
-      await axios.get(`/backend/PHP/favourites.php`, {
+      await axios.get('/backend/PHP/favourites.php', {
         params: {
           Operation: 'addFavourites',
           idProduct: idProduct,
@@ -197,40 +186,36 @@ const Cards = () => {
       setPendingIdFav(id)
 
       try {
-        startTransition(() => {
-          setLocalFavourites(prev => {
-            if (prev.some(item => item.id_product === id)) return prev
-            return [...prev, { id_product: id, id: id }]
-          })
+        setLocalFavourites(prev => {
+          if (prev.some(item => item.id_product === id)) return prev
+          return [...prev, { id_product: id, id: id }]
         })
         await addFav(id)
         showNotification('Добавлено в избранное', 'success')
         updateFavouritesData()
       } catch (error) {
-        setPendingIdFav(null)
         setLocalFavourites(prev => prev.filter(item => item.id_product === id))
         showNotification('Ошибка', 'error')
       } finally {
         setPendingIdFav(null)
       }
     }
-  }, [localFavourites, pendingIdFav, isAuth, addingStatusFav, addFav, startTransition])
+  }, [localFavourites, pendingIdFav, isAuth, addingStatusFav, addFav])
 
   useEffect(() => {
     const toUp = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'auto',
-    })
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto',
+      })
     }
+
     toUp()
   }, [currentPage])
 
   const filteredCards = cards.filter(card => 
     card.nazvanie.toLowerCase().includes(searchQuery.toLowerCase())
   )
-
-  const scrollPositionRef = useRef(0)
 
   const saveScrollPosition = () => {
     autoScrollRef.current = true
@@ -375,7 +360,6 @@ const Cards = () => {
                   }
                 `}
                 id={`card_${card.id}`}
-                disabled={isPending}
                 onClick={() => {
                   handleAddBasket(card.id)
                 }}
@@ -410,7 +394,6 @@ const Cards = () => {
                   }
                 `}
                 id={`card_${card.id}`}
-                disabled={isPending}
                 onClick={() => {
                   handleAddBasket(card.id) 
                 }}
@@ -436,32 +419,32 @@ const Cards = () => {
         </>
       ) : (
         <>
-        { !isLoading && (searchQuery && filteredCards.length === 0 && !isLoading || 
-        cards.length === 0) ? (
-          <h2 className='centered-heading'>Товары отсутствуют</h2>
-        ) : (
-          <>
-          {notification && (
-            <Notification
-              message={notification.message}
-              type={notification.type}
-              onClose={() => setNotification(null)}
-            />
+          {!isLoading && (searchQuery && filteredCards.length === 0 && !isLoading || cards.length === 0
+          ) ? (
+            <h2 className='centered-heading'>Товары отсутствуют</h2>
+          ) : (
+            <>
+            {notification && (
+              <Notification
+                message={notification.message}
+                type={notification.type}
+                onClose={() => setNotification(null)}
+              />
+            )}
+              <section className={`setka ${isDarkTheme ? 'dark-theme' : ''}`}>
+                {cards.map((card) => (
+                  <Card 
+                    key={card.id}
+                    card={card}
+                    isDarkTheme={isDarkTheme}
+                    localFavourites={localFavourites}
+                    localBasket={localBasket}
+                    cartBasket={cartBasket}
+                  />
+                ))}
+              </section>
+            </>
           )}
-            <section className={`setka ${isDarkTheme ? 'dark-theme' : ''}`}>
-              {cards.map((card) => (
-                <Card 
-                  key={card.id}
-                  card={card}
-                  isDarkTheme={isDarkTheme}
-                  localFavourites={localFavourites}
-                  localBasket={localBasket}
-                  cartBasket={cartBasket}
-                />
-              ))}
-            </section>
-          </>
-        )}
         </>
       )}
     </>

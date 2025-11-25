@@ -11,14 +11,14 @@ interface IFiltersMenuProps {
 }
 
 
-const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFilters}, ref) => {
+const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFilters }, ref) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const {handleFiltersChange, filters, setCurrentPage} = context
+  const { handleFiltersChange, filters, setCurrentPage } = context
 
   const [actions, setActions] = useState({
     action1: false,
@@ -37,14 +37,14 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
   useEffect(() => {
     if (filters) {
       setActions({
-        action1: filters.actions?.action1 ? true : false,
-        action2: filters.actions?.action2 ? true : false,
-        action3: filters.actions?.action3 ? true : false,
-        action4: filters.actions?.action4 ? true : false,
-        action5: filters.actions?.action5 ? true : false,
-        action6: filters.actions?.action6 ? true : false,
-        action7: filters.actions?.action7 ? true : false,
-        action8: filters.actions?.action8 ? true : false,
+        action1: filters.actions.action1 ? true : false,
+        action2: filters.actions.action2 ? true : false,
+        action3: filters.actions.action3 ? true : false,
+        action4: filters.actions.action4 ? true : false,
+        action5: filters.actions.action5 ? true : false,
+        action6: filters.actions.action6 ? true : false,
+        action7: filters.actions.action7 ? true : false,
+        action8: filters.actions.action8 ? true : false,
       })
       setMinPrice(filters.minPrice !== null ? String(filters.minPrice) : '')
       setMaxPrice(filters.maxPrice !== null ? String(filters.maxPrice) : '')
@@ -53,7 +53,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
 
   const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setMinPrice(e.target.value)
+    setMinPrice(value)
 
     if (value !== '' || maxPrice !== '') {
       setActions(prev => ({
@@ -68,7 +68,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
 
   const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setMaxPrice(e.target.value)
+    setMaxPrice(value)
 
     if (value !== '' || minPrice !== '') {
       setActions(prev => ({
@@ -87,34 +87,16 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
 
   const handleApplyFilters = () => {
     setCurrentPage(1)
-
-    const actionsForSend: typeof actions = {
-      action1: actions.action1,
-      action2: actions.action2,
-      action3: actions.action3,
-      action4: actions.action4,
-      action5: actions.action5,
-      action6: actions.action6,
-      action7: actions.action7,
-      action8: actions.action8,
-    }
-
-    for (const key of Object.keys(actions) as (keyof typeof actions)[]) {
-      actionsForSend[key] = actions[key] ? true : false
-    }
-
     handleFiltersChange({
       minPrice: minPrice !== '' ? parseFloat(minPrice) : null,
       maxPrice: maxPrice !== '' ? parseFloat(maxPrice) : null,
-      actions: actionsForSend
+      actions: { ...actions }
     })
-
     handleToggleFilters()
   }
 
   const handleResetFilters = () => {
     setCurrentPage(1)
-
     handleFiltersChange({
       minPrice: null,
       maxPrice: null,
@@ -129,7 +111,6 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({handleToggleFil
         action8: false,
       }
     })
-        
     handleToggleFilters()
   }
 

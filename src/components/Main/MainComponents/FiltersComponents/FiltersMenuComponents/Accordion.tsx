@@ -9,7 +9,7 @@ interface IAccordionProps {
 }
 
 
-const Accordion = ({title, children}: IAccordionProps) => {
+const Accordion = ({ title, children }: IAccordionProps) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
   const [isOpen, setIsOpen] = useState(false)

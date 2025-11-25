@@ -4,6 +4,7 @@
   margin: 16px 0;
 	width: 150px;
 	height: 40px;
+  font-weight: 700;
 	border-radius: 5px;
 	background-color: #c8c8c8;
 	border: none;
@@ -22,6 +23,7 @@
   border-radius: 5px;
   width: 150px;
   height: 40px;
+  font-weight: 700;
   cursor: pointer;
   transition: .2s;
 	white-space: nowrap;
@@ -57,7 +59,6 @@
 }
 
 .to-main-button {
-  margin-top: 10px;
   background-color: #d8c4e0;
   height: 30px;
   border: none;
@@ -160,8 +161,9 @@
 	border: none;
 	color: white;
 	cursor: pointer;
-	min-height: 44px;
-	min-width: 44px;
+	height: 44px;
+	width: 44px;
+  aspect-ratio: 1;
 	border-radius: 50%;
 	transition: 0.5s;
   @include forward.flex-center;

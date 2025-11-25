@@ -21,13 +21,12 @@ const ButtonCategories = () => {
 
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category')
+
     if (categoryFromUrl) {
       const categoryId = parseInt(categoryFromUrl)
       if (!isNaN(categoryId)) {
         setSelectedCategory(categoryId)
-        setSelectedCategory(categoryId)
       } else {
-        setSelectedCategory(0)
         setSelectedCategory(0)
       }
     }
@@ -66,9 +65,7 @@ const ButtonCategories = () => {
       let navigationBtn = document.querySelector('[data-js-categories-button]')
 
       if (container && navigationBtn) {
-        if ((!container.contains(e.target as Node)) && 
-          (!navigationBtn.contains(e.target as Node))
-        ) {
+        if ((!container.contains(e.target as Node)) && (!navigationBtn.contains(e.target as Node))) {
           closeCategoriesDropdown()
         } else {
           showCategoriesDropdown()
@@ -78,9 +75,7 @@ const ButtonCategories = () => {
 
     document.addEventListener('pointerup', handlePointerUp)
         
-    return () => {
-      document.removeEventListener('pointerup', handlePointerUp)
-    }
+    return () => document.removeEventListener('pointerup', handlePointerUp)
   }, [])
 
   useEffect(() => {
@@ -88,8 +83,7 @@ const ButtonCategories = () => {
       const handleTabKey = (e: KeyboardEvent) => {
         if (e.key === 'Tab') {
           const categoriesDropdown = document.querySelector('.categories-dropdown') as HTMLElement
-          const navButton = 
-            document.querySelector('[data-js-categories-button]') as HTMLElement
+          const navButton = document.querySelector('[data-js-categories-button]') as HTMLElement
           
           if (!categoriesDropdown || !navButton) return
                     
@@ -112,12 +106,10 @@ const ButtonCategories = () => {
             } else {
               firstElement.focus()
             }
-          }
-          else if (document.activeElement === lastElement && !e.shiftKey) {
+          } else if (document.activeElement === lastElement && !e.shiftKey) {
             e.preventDefault()
             firstElement.focus()
-          }
-          else if (document.activeElement === firstElement && e.shiftKey) {
+          } else if (document.activeElement === firstElement && e.shiftKey) {
             e.preventDefault()
             lastElement.focus()
           }
@@ -131,8 +123,8 @@ const ButtonCategories = () => {
       document.addEventListener('keydown', handleTabKey)
             
       const timer = setTimeout(() => {
-        const navButton = 
-          document.querySelector('[data-js-categories-button]') as HTMLElement
+        const navButton = document.querySelector('[data-js-categories-button]') as HTMLElement
+
         if (navButton) {
           navButton.focus()
         }

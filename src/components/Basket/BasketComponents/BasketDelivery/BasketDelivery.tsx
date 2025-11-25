@@ -11,7 +11,7 @@ const OrderSummary = ({
   isDarkTheme: boolean
   totalBasket: { count: number; price_total: number }
 }) => {
-  const priceFormatter = new Intl.NumberFormat()
+  const priceFormatter = new Intl.NumberFormat('ru-RU')
 
 
   return (
@@ -87,7 +87,7 @@ const CitySelection = ({
     { value: 'orenburg', label: 'Оренбург' },
     { value: 'cheboksar', label: 'Чебоксары' },
     { value: 'oryol', label: 'Орел' },
-    { value: 'sochi', label: 'Сочи' }
+    { value: 'sochi', label: 'Сочи' },
   ]
 
 

@@ -12,11 +12,11 @@ const ThemeToggle = () => {
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
   
-  const toggleTheme =  () => {
+  const toggleTheme = () => {
     dispatch(setIsDarkTheme(!isDarkTheme))
   }
 
-  const {isMobile} = useDeviceType()
+  const { isMobile } = useDeviceType()
 
 
   return (

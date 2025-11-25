@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, memo, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, memo, type RefObject } from 'react'
 import type { RootStore } from '../../redux'
 import { useSelector } from 'react-redux'
 import type { ICardsRender } from '../../types/types'
@@ -13,6 +13,7 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
   const sale = Math.round(100 * ((card.price - card.price_sale) / card.price))
   const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
   const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
+
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 
@@ -93,7 +94,7 @@ const RecommendationsContainer = ({
 }: {
   cards: ICardsRender[]
   isDarkTheme: boolean
-  containerRef: React.RefObject<HTMLDivElement | null>
+  containerRef: RefObject<HTMLDivElement | null>
   scrollHandlers: any
   showLeftButton: boolean
   showRightButton: boolean
@@ -149,14 +150,14 @@ const Recommendations = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
+
       const element = containerRef.current
       setShowLeftButton(element.scrollLeft > 0)
-      setShowRightButton(
-        element.scrollWidth - element.clientWidth > element.scrollLeft + 1
-      )
+      setShowRightButton(element.scrollWidth - element.clientWidth > element.scrollLeft + 1)
     }
 
     const container = containerRef.current
+
     if (container) {
       container.addEventListener('scroll', handleScroll)
       handleScroll()    
@@ -170,12 +171,13 @@ const Recommendations = () => {
 
   async function loadCards() {
     setIsLoading(true)
+
     try {
-      const response = await axios.get(`/backend/PHP/sort.php`, {
+      const response = await axios.get('/backend/PHP/sort.php', {
         params: {
           Operation: 'showCards',
           idUser: userId ?? 0,
-        },
+        }
       })
       setCards(response.data)
     } finally {
@@ -197,44 +199,43 @@ const Recommendations = () => {
     }
   }
 
-  const handleMouseDown = (e: MouseEvent) => {
+  const handlePointerDown = (e: PointerEvent) => {
     if (!containerRef.current) return
+    
     setIsDragging(true)
-    setStartX(e.pageX - containerRef.current.offsetLeft)
+    setStartX(e.clientX - containerRef.current.offsetLeft)
     setScrollLeft(containerRef.current.scrollLeft)
     containerRef.current.style.cursor = 'grabbing'
     setIsSmoothScroll(false)
   }
 
-  const handleMouseLeave = () => {
+  const stopDragging = () => {
     setIsDragging(false)
+    setIsSmoothScroll(true)
+
     if (containerRef.current) {
       containerRef.current.style.cursor = 'grab'
     }
-    setIsSmoothScroll(true)
   }
 
-  const handleMouseUp = () => {
-    setIsDragging(false)
-    if (containerRef.current) {
-      containerRef.current.style.cursor = 'grab'
-    }
-    setIsSmoothScroll(true)
-  }
+  const handlePointerLeave = stopDragging
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handlePointerUp = stopDragging
+
+  const handlePointerMove = (e: PointerEvent) => {
     if (!isDragging || !containerRef.current) return
+
     e.preventDefault()
-    const x = e.pageX - containerRef.current.offsetLeft
+    const x = e.clientX - containerRef.current.offsetLeft
     const walk = (x - startX) * 1
     containerRef.current.scrollLeft = scrollLeft - walk
   }
 
   const scrollHandlers = {
-    onMouseDown: handleMouseDown,
-    onMouseLeave: handleMouseLeave,
-    onMouseUp: handleMouseUp,
-    onMouseMove: handleMouseMove,
+    onPointerDown: handlePointerDown,
+    onPointerLeave: handlePointerLeave,
+    onPointerUp: handlePointerUp,
+    onPointerMove: handlePointerMove,
     style: { scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' } as const
   }
 
@@ -263,17 +264,6 @@ const Recommendations = () => {
 }   
 
 export default Recommendations
-
-
-
-
-
-
-
-
-
-
-
 
 
 

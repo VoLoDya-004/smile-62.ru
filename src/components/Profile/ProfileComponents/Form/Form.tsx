@@ -67,7 +67,7 @@ const RegisterForm = ({
       }}
       aria-label='Регистрация'
     >
-      <FormTitle text={'Регистрация'} />
+      <FormTitle children={'Регистрация'} />
       <p className='form-margin-top'>
         <label className='form-font' htmlFor='name-register'>
           Введите имя<br/>
@@ -185,10 +185,13 @@ const LoginForm = ({
     <form 
       method='post'
       className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
-      onSubmit={(e) => { e.preventDefault(); handleLogin() }}
+      onSubmit={(e) => { 
+        e.preventDefault() 
+        handleLogin() 
+      }}
       aria-label='Вход'
     >
-      <FormTitle text={'Вход'} />
+      <FormTitle children={'Вход'} />
       <p className='form-margin-top'>
         <label className='form-font' htmlFor='email-login'>
           Введите e-mail<br/>
@@ -249,9 +252,7 @@ const Form = () => {
   }, [notification])
 
   const handleLoginSuccess = (userData: { id_user: number; name: string }) => {
-    dispatch(
-      setUser({ userId: userData.id_user, userName: userData.name, isAuth: true })
-    )
+    dispatch(setUser({ userId: userData.id_user, userName: userData.name, isAuth: true }))
     localStorage.setItem('auth', JSON.stringify({
       isAuth: true,
       userName: userData.name,
@@ -261,6 +262,7 @@ const Form = () => {
 
   useEffect(() => {
     const storedAuth = localStorage.getItem('auth')
+
     if (storedAuth) {
       const { isAuth, userName, userId } = JSON.parse(storedAuth)
       if (isAuth) {

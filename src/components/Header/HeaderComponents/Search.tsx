@@ -1,5 +1,12 @@
-import { useContext, useState, useEffect, memo, type ChangeEvent, type KeyboardEvent, 
-  useRef } from 'react'
+import { 
+  useContext, 
+  useState, 
+  useEffect, 
+  memo, 
+  useRef, 
+  type ChangeEvent, 
+  type KeyboardEvent,
+} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Context } from '../../../contexts/context'
 import { useSelector } from 'react-redux'
@@ -38,6 +45,7 @@ const Search = () => {
 
   const handleModal = (action: 'open' | 'close') => {
     const blackout = document.getElementById('blackout')
+
     if (action === 'open') {
       blackout?.classList.add('blackout')
       document.body.classList.add('modal-open')
@@ -80,6 +88,7 @@ const Search = () => {
 
   useEffect(() => {
     const searchInput = searchInputRef.current
+    
     if (!searchInput) return
 
     const handleFocus = () => handleModal('open')
@@ -110,7 +119,6 @@ const Search = () => {
           aria-label='Строка поиска'
           spellCheck='false'
         />
-        
         {searchTerm && (
           <button
             type='button'
@@ -121,7 +129,6 @@ const Search = () => {
             <span className='search__clear'>✕</span>
           </button>
         )}
-        
         <button 
           type='button'
           className='search__line-button'

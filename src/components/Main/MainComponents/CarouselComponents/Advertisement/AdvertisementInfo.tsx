@@ -3,6 +3,8 @@ interface AdvertisementInfoProps {
 }
 
 const AdvertisementInfo = ({ show }: AdvertisementInfoProps) => {
+
+  
   return (
     <div 
       className={`slider__advertisement-description ${show ? 'show' : ''}`}

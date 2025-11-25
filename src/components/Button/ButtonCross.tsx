@@ -5,7 +5,7 @@ interface IButtonCrossProps {
 }
 
 
-const ButtonCross = ({id, className, onClick}: IButtonCrossProps) => {
+const ButtonCross = ({ id, className, onClick }: IButtonCrossProps) => {
 
 
   return (

@@ -4,7 +4,7 @@ import type { RootStore } from '../../../../redux'
 
 
 const BasketFooter = () => {
-  const priceFormatter = new Intl.NumberFormat()
+  const priceFormatter = new Intl.NumberFormat('ru-RU')
 
   const totalBasket = useSelector((state: RootStore) => state.basket.total)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)

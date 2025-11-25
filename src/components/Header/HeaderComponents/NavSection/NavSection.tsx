@@ -38,12 +38,12 @@ const NavSection = () => {
 		}
 	}, [notification])
 
-	const handleMouseEnter = () => {
+	const handlePointerEnter = () => {
 		if (isMobile) return
 		setShowProfileMenu(true)
 	}
 
-	const handleMouseLeave = () => {
+	const handlePointerLeave = () => {
 		setShowProfileMenu(false)
 	}
 
@@ -54,10 +54,8 @@ const NavSection = () => {
 	}
 
 	const handleLogin = () => {
+		if (location.pathname === '/profile') return
 		showNotification('Войдите или зарегистрируйтесь', 'success')
-		if (location.pathname === '/profile') {
-			return
-		}
 		navigate('/profile')
 	}
 
@@ -108,8 +106,8 @@ const NavSection = () => {
 				</li>
 				<li
 					className='header-nav__item'
-					onMouseEnter={handleMouseEnter}
-					onMouseLeave={handleMouseLeave}
+					onPointerEnter={handlePointerEnter}
+					onPointerLeave={handlePointerLeave}
 				>
 					<NavLink
 						to='/profile'

@@ -34,6 +34,7 @@ const FiltersBlock = () => {
 
   const handleToggleFilters = () => {
     setVisibleFilters(prev => !prev)
+
     if (visibleFilters) {
       document.getElementById('blackout')?.classList.remove('blackout')
       document.body.classList.remove('modal-open')
@@ -57,19 +58,6 @@ const FiltersBlock = () => {
   const handleCloseSortMenu = () => {
     setVisibleSort(false)
   }
-
-  useEffect(() => {
-    const savedSort = sessionStorage.getItem('selectedSortOption')
-    if (savedSort) {
-      setSortType(savedSort)
-      setCurrentSort(
-        savedSort === 'default' ? 'По умолчанию' :
-        savedSort === 'cheap' ? 'Дешевле' : 
-        savedSort === 'expensive' ? 'Дороже' : 
-        'По скидке (%)'
-      )
-    }
-  }, [])
 
   const handleResetFilters = () => {
     setCurrentPage(1)
@@ -102,9 +90,7 @@ const FiltersBlock = () => {
     document.removeEventListener('pointerdown', handleClickOutsideSort)
   }
 
-  return () => {
-    document.removeEventListener('pointerdown', handleClickOutsideSort)
-  }
+  return () => document.removeEventListener('pointerdown', handleClickOutsideSort)
   }, [visibleSort])
 
   useEffect(() => {
@@ -131,8 +117,7 @@ const FiltersBlock = () => {
     if (visibleFilters) {
       const handleTabKey = (e: KeyboardEvent) => {
         if (e.key === 'Tab') {
-          const filtersMenu = 
-            document.querySelector('[data-js-filter-menu]') as HTMLElement
+          const filtersMenu = document.querySelector('[data-js-filter-menu]') as HTMLElement
           if (!filtersMenu) return
 
           const focusableElements = filtersMenu.querySelectorAll(

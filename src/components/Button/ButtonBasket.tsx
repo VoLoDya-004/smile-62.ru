@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect, useCallback, useMemo, useContext} from 'react'
+import { useState, memo, useEffect, useCallback, useMemo, useContext, Fragment} from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '../../redux'
 import type { INotificationData, IFav, IProduct } from '../../types/types'
@@ -19,8 +19,8 @@ const ButtonBasket = ({
   addInBasketProductFavourites, 
   productFavourites, 
   cartFavourites, 
-  cartBasket}: IButtonBasketProps) => 
-{  
+  cartBasket 
+}: IButtonBasketProps) => {  
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')
@@ -32,12 +32,13 @@ const ButtonBasket = ({
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-  const basketProductIds = useMemo(() => 
-    new Set(cartBasket.map(item => Number(item.id_product)))
-  , [cartBasket])
+  const basketProductIds = useMemo(
+    () => new Set(cartBasket.map(item => Number(item.id_product))), 
+    [cartBasket]
+  )
 
 	const showNotification = useCallback((message: string, type: 'success' | 'error' = 'success') => {
-		setNotification({message, type})
+		setNotification({ message, type })
 	}, [])
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const ButtonBasket = ({
     }
 
     setLoadingBasket(true)
-    setAddingStatus(prev => ({...prev, [id]: true}))
+    setAddingStatus(prev => ({ ...prev, [id]: true }))
 
     try {
       await addInBasketProductFavourites(id)
@@ -64,16 +65,21 @@ const ButtonBasket = ({
       showNotification('Добавлено в корзину', 'success')
     } catch (error) {
       showNotification('Ошибка', 'error')
-    }
-    finally {
+    } finally {
       setLoadingBasket(false)
     }
-  }, [basketProductIds, addingStatus, addInBasketProductFavourites, showNotification, 
-  updateBasketData])
+  }, [
+    basketProductIds, 
+    addingStatus, 
+    addInBasketProductFavourites, 
+    showNotification, 
+    updateBasketData
+  ])
 
-  const filterCards = useMemo(() => 
-    cartFavourites.filter(card => productFavourites.id === card.id)
-  , [cartFavourites, productFavourites.id])
+  const filterCards = useMemo(
+    () => cartFavourites.filter(card => productFavourites.id === card.id), 
+    [cartFavourites, productFavourites.id]
+  )
 
 
   return (
@@ -91,7 +97,7 @@ const ButtonBasket = ({
 
 
         return (
-          <React.Fragment key={card.id}>
+          <Fragment key={card.id}>
             {productFavourites.id === card.id && (
               <div  
                 id={String(card.id)} 
@@ -146,7 +152,7 @@ const ButtonBasket = ({
                 </button>
               </div>
             )}
-          </React.Fragment>
+          </Fragment>
         )
       })}
     </>

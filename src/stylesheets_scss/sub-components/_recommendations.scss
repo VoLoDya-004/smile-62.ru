@@ -162,6 +162,7 @@
   	color: #000000;
   	display: flex;
   	flex-wrap: wrap;
+    justify-content: end;
 	  width: 50%;
 	  padding-right: 10px;
   	&-title { 
@@ -169,7 +170,7 @@
   		font-weight: 400;
   		font-size: 0.81em;
   		color: black;
-  		padding-right: 20px;	
+      text-align: end;
   	}
   	&-same { 
   		font-weight: 700;
@@ -202,9 +203,11 @@
   	white-space: nowrap;
   	text-overflow: ellipsis;
 	  cursor: pointer;
-  	&:hover { 
-  		color: rgb(96, 22, 118);
-  	}
+    @media (hover: hover) and (pointer: fine) {
+  	  &:hover { 
+  	  	color: rgb(96, 22, 118);
+  	  }
+    }
   }
 	@media (hover: hover) and (pointer: fine) {
     &:hover { 

@@ -4,19 +4,19 @@ import ButtonMainNav from '../Button/ButtonMainNav'
 
 
 interface IBlockEmptyProps {
-  text1: string
-  text2: string
+  textUp: string
+  textDown: string
 }
 
 
-const BlockEmpty = ({text1, text2}: IBlockEmptyProps) => {
+const BlockEmpty = ({ textUp, textDown }: IBlockEmptyProps) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
     
     
   return (
     <div className={`block-empty ${isDarkTheme ? 'dark-theme' : ''}`}>
-      <b className='block-empty__str-up'>{text1}</b><br/>
-      <div className='block-empty__str-bottom'>{text2}</div><br/>
+      <b className='block-empty__str-up'>{textUp}</b>
+      <div className='block-empty__str-bottom'>{textDown}</div>
       <ButtonMainNav />
     </div>
   )

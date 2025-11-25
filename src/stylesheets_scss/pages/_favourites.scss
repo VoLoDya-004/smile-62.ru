@@ -1,9 +1,4 @@
-@use '../forward.scss';															
-                                                                    
-.favourites {
-	display: flex;
-	justify-content: center;
-}
+@use '../forward.scss';															                                                               
 
 .favourites-box {
   text-align: center;
@@ -68,8 +63,14 @@
   justify-self: center;
 }
 
-.favourites-box__product-count-input::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-  appearance: none;
+.favourites-box__product-count-input {
+  &::-webkit-inner-spin-button, 
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .favourites-box__product-count-controls img {

@@ -9,7 +9,7 @@ interface IBasketBoxProps {
 }
 
 
-const BasketBox = ({productsBasket}: IBasketBoxProps) => {
+const BasketBox = ({ productsBasket }: IBasketBoxProps) => {
 
     
   return (

@@ -1,4 +1,4 @@
-import type { TouchEvent, MouseEvent, RefObject, ReactNode } from 'react'
+import type { TouchEvent, RefObject, ReactNode, PointerEvent } from 'react'
 import ButtonArrow from '../../../Button/ButtonArrow'
 import AdvertisementLabel from './Advertisement/AdvertisementLabel'
 
@@ -7,9 +7,9 @@ interface CarouselContainerProps {
   onLeftArrowClick: () => void
   onRightArrowClick: () => void
   sliderRef: RefObject<HTMLDivElement | null> 
-  onTouchStart: (e: TouchEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>) => void
-  onTouchEnd: (e: TouchEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>) => void
-  onMouseDown: (e: MouseEvent<HTMLDivElement>) => void
+  onTouchStart: (e: TouchEvent<HTMLDivElement> | PointerEvent<HTMLDivElement>) => void
+  onTouchEnd: (e: TouchEvent<HTMLDivElement> | PointerEvent<HTMLDivElement>) => void
+  onPointerDown: (e: PointerEvent<HTMLDivElement>) => void
   offsetX: number
   isAnimating: boolean
   pages: ReactNode[]
@@ -23,7 +23,7 @@ const CarouselContainer = ({
   sliderRef,
   onTouchStart,
   onTouchEnd,
-  onMouseDown,
+  onPointerDown,
   offsetX,
   isAnimating,
   pages,
@@ -43,7 +43,7 @@ const CarouselContainer = ({
         ref={sliderRef}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        onMouseDown={onMouseDown}
+        onPointerDown={onPointerDown}
       >
         <div
           className='all-pages-container'

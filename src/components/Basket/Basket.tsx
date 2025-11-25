@@ -11,7 +11,7 @@ interface IBasketProps {
 }
 
 
-const Basket = ({productsBasket, loading}: IBasketProps) => {
+const Basket = ({ productsBasket, loading }: IBasketProps) => {
   const [visible, setVisible] = useState(productsBasket.length > 0)
 
   useEffect(() => {
@@ -33,18 +33,16 @@ const Basket = ({productsBasket, loading}: IBasketProps) => {
   return (
     <>
       {!visible &&
-      <section className='basket'>
         <BlockEmpty 
-          text1={'В корзине пока пусто'} 
-          text2={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
+          textUp={'В корзине пока пусто'} 
+          textDown={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
         />
-      </section>
       }
       {visible &&
-      <>
-        <BasketBox productsBasket={productsBasket} />
-        <BasketDelivery />
-      </>
+        <>
+          <BasketBox productsBasket={productsBasket} />
+          <BasketDelivery />
+        </>
       }
       <Recommendations />
     </>

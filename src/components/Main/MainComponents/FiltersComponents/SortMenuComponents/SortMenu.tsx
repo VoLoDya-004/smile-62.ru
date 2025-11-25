@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux'
-import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
+import { forwardRef, useContext, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { RootStore } from '../../../../../redux'
 import { useSearchParams } from 'react-router-dom'
 import { Context } from '../../../../../contexts/context'
@@ -11,21 +11,19 @@ interface ISortMenuProps {
 }
 
 
-const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose}, ref) => {
+const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClose }, ref) => {
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
 
-  const {setSearchParams} = context
+  const { setSearchParams } = context
 
   const [searchParams] = useSearchParams()
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-  const [selectedOption, setSelectedOption] = useState(() => {
-    return searchParams.get('sort') || 'default'
-  })
+  const [selectedOption, setSelectedOption] = useState(() => searchParams.get('sort') || 'default')
 
   useEffect(() => {
     const sortFromUrl = searchParams.get('sort') || 'default'
@@ -41,16 +39,15 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({onSelect, onClose
       newSearchParams.set('sort', value)
     }
         
-    setSearchParams(newSearchParams)
-        
+    setSearchParams(newSearchParams) 
     setSelectedOption(value)
     onSelect(value)
     onClose()
   }
 
-  const handleKeyDown = (event: React.KeyboardEvent, value: string) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
+  const handleKeyDown = (e: KeyboardEvent, value: string) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
       handleRadioChange(value)
     }
   }

@@ -10,7 +10,7 @@ interface IFavouritesProps {
 }
 
 
-const Favourites = ({productsFavourites, loading}: IFavouritesProps) => {
+const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -32,10 +32,10 @@ const Favourites = ({productsFavourites, loading}: IFavouritesProps) => {
   return (
     <>
       {!visible &&
-      <section className='favourites'>
-        <BlockEmpty text1={'В избранных пока пусто'} 
-        text2={'Загляните на главную — собрали там товары, которые могут вам понравиться'} />
-      </section>
+        <BlockEmpty 
+          textUp={'В избранных пока пусто'} 
+          textDown={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
+        />
       }
       {visible && <FavouritesBox productsFavourites={productsFavourites} />}
       <Recommendations />

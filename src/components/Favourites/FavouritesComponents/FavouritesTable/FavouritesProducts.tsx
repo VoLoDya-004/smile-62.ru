@@ -21,11 +21,10 @@ const FavouritesProducts = ({
   addInBasketProductFavourites, 
   cartFavourites, 
   isDeleting
-}: IFavouritesProductsProps) => 
-{
-  const {id, nazvanie, image, price_total} = productFavourites
+}: IFavouritesProductsProps) => {
+  const { id, nazvanie, image, price_total } = productFavourites
 
-  const priceFormatter = new Intl.NumberFormat()
+  const priceFormatter = new Intl.NumberFormat('ru-RU')
 
 
   return (

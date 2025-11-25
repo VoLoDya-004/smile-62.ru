@@ -20,5 +20,4 @@ const favouritesSlice = createSlice({
 })
 
 export const { setCartFavourites } = favouritesSlice.actions
-
 export default favouritesSlice.reducer

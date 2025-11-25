@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 
 
 interface INotification {
@@ -17,7 +17,7 @@ const Notification = ({ message, type, onClose }: INotification) => {
     return () => clearTimeout(timer)
   }, [onClose])
 
-  const styles: React.CSSProperties = {
+  const styles: CSSProperties = {
     width: '200px',
     textAlign: 'center',
     padding: '10px 0',

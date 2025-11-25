@@ -1,14 +1,14 @@
 interface IFormTitleProps {
-  text: string
+  children: string
 }
 
 
-const FormTitle = ({text}: IFormTitleProps) => {
+const FormTitle = ({ children }: IFormTitleProps) => {
 
     
   return (
     <h2 className='form__header'>
-      {text}
+      {children}
     </h2>
   )
 }

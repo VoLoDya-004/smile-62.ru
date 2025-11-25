@@ -28,7 +28,7 @@ const basketSlice = createSlice({
     setCartBasket(state, action: PayloadAction<ICartItem[]>) {
       state.cartBasket = action.payload
       const newTotal = calculateTotal(action.payload)
-      state.total = newTotal;
+      state.total = newTotal
     },
     updateTotal(state) {
       state.total = calculateTotal(state.cartBasket)
@@ -47,6 +47,7 @@ function calculateTotal(cartItems: ICartItem[]): ITotalState {
 
 export const { setCartBasket, updateTotal } = basketSlice.actions
 export default basketSlice.reducer
+
 
 
 

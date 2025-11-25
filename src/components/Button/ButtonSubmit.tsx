@@ -1,15 +1,15 @@
-import type { MouseEventHandler, ReactNode } from 'react'
+import type { PointerEventHandler, ReactNode } from 'react'
 
 
 interface IButtonSubmitProps {
   id?: string
   className?: string
-  onClick?: MouseEventHandler<HTMLButtonElement>
+  onClick?: PointerEventHandler<HTMLButtonElement>
   children: ReactNode
 }
 
 
-const ButtonSubmit = ({children, id, className, onClick}: IButtonSubmitProps) => {
+const ButtonSubmit = ({ children, id, className, onClick }: IButtonSubmitProps) => {
 
 
   return (
@@ -19,7 +19,7 @@ const ButtonSubmit = ({children, id, className, onClick}: IButtonSubmitProps) =>
       id={id} 
       onClick={onClick}
     >
-      <b className='user-select-none'>{children}</b>
+      {children}
     </button>
   )
 }

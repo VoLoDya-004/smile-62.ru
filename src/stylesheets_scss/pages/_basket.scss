@@ -1,9 +1,4 @@
 @use '../forward.scss';																	
-                                                                                                                                     
-.basket {
-  display: flex;
-  justify-content: center;
-}
 
 .basket-box {
   width: 100%;
@@ -126,8 +121,14 @@
   cursor: pointer;
 }
 
-.basket-box__product-count-input::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-  appearance: none;
+.basket-box__product-count-input {
+  &::-webkit-inner-spin-button, 
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .basket-box__product-count-controls img {

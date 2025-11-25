@@ -16,10 +16,14 @@
   &.dark-theme {
     background-color: rgba(255, 255, 255, 0.4);
   }
-  &__title:hover {
-    transition: .2s;
-    &.dark-theme {
-      color: white;
+  &__title {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transition: .2s;
+        &.dark-theme {
+          color: white;
+        }
+      }
     }
   }
 }

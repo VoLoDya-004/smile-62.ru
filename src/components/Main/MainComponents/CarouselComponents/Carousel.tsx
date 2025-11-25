@@ -1,10 +1,25 @@
-import React, { useEffect, useState, Children, cloneElement, useRef, useCallback } from 'react'
-import type { ReactNode, ReactElement, TouchEvent, MouseEvent, CSSProperties } from 'react'
+import { 
+  useEffect, 
+  useState, 
+  Children, 
+  cloneElement, 
+  useRef, 
+  useCallback, 
+  isValidElement 
+} from 'react'
+import type { 
+  ReactNode, 
+  ReactElement, 
+  TouchEvent, 
+  CSSProperties, 
+  HTMLProps, 
+  PointerEvent 
+} from 'react'
 import CarouselContainer from './CarouselContainer'
 import AdvertisementInfo from './Advertisement/AdvertisementInfo'
 
 
-interface StyledElementProps extends React.HTMLProps<HTMLElement> {
+interface StyledElementProps extends HTMLProps<HTMLElement> {
 	style: CSSProperties
 }
 
@@ -39,14 +54,14 @@ const Carousel = ({ children }: ICarouselProps) => {
   useEffect(() => {
     setPages(
       Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
+        if (isValidElement(child)) {
           return cloneElement(child as ReactElement<StyledElementProps>, {
             style: {
               height: '100%',
               minWidth: '100%',
               maxWidth: '100%',
               flexShrink: 0,
-            },
+            }
           })
         }
         return child
@@ -55,8 +70,9 @@ const Carousel = ({ children }: ICarouselProps) => {
   }, [children])
 
   const handleLeftArrow = () => {
-    setCurrentIndex((prevIndex) => {
+    setCurrentIndex(prevIndex => {
       const newIndex = prevIndex - 1
+
       if (newIndex < 0) {
         setIsAnimating(false)
         return pages.length - 1
@@ -67,8 +83,9 @@ const Carousel = ({ children }: ICarouselProps) => {
   }
 
   const handleRightArrow = () => {
-    setCurrentIndex((prevIndex) => {
+    setCurrentIndex(prevIndex => {
       const newIndex = prevIndex + 1
+
       if (newIndex >= pages.length) {
         setIsAnimating(false)
         return 0
@@ -78,8 +95,9 @@ const Carousel = ({ children }: ICarouselProps) => {
     })
   }
 
-  const handleTouchStart = (e: TouchEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>) => {
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement> | PointerEvent<HTMLDivElement>) => {
     isSwiping.current = true
+
     if ('touches' in e) {
       startX.current = e.touches[0].clientX
     } else {
@@ -87,17 +105,21 @@ const Carousel = ({ children }: ICarouselProps) => {
     }
   }
 
-  const handleTouchEnd = (e: TouchEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>) => {
+  const handleTouchEnd = (e: TouchEvent<HTMLDivElement> | PointerEvent<HTMLDivElement>) => {
     if (!isSwiping.current) return
+
     isSwiping.current = false
     let endX: number
+
     if ('touches' in e) {
       endX = e.changedTouches[0].clientX
     } else {
       endX = e.clientX
     }
+
     const deltaX = endX - startX.current
-    const swipeThreshold = 50
+    const swipeThreshold = containerWidth * 0.1
+
     if (deltaX > swipeThreshold) {
       handleLeftArrow()
     } else if (deltaX < -swipeThreshold) {
@@ -105,19 +127,12 @@ const Carousel = ({ children }: ICarouselProps) => {
     }
   }
 
-  const handlePointerMove = useCallback(() => {
-  	if (!isSwiping.current) return
-  }, [])
+  const handlePointerUp = useCallback((e: Event) => {
+    if (!isSwiping.current) return
 
-  const handlePointerUp = useCallback(
-    (e: PointerEvent) => {
-      if (!isSwiping.current) return
-      handleTouchEnd(e as unknown as MouseEvent<HTMLDivElement>)
-      document.removeEventListener('pointermove', handlePointerMove)
-      document.removeEventListener('pointerup', handlePointerUp)
-    },
-    [handlePointerMove, handleTouchEnd]
-  )
+    handleTouchEnd(e as unknown as PointerEvent<HTMLDivElement>)
+    document.removeEventListener('pointerup', handlePointerUp)
+  }, [handleTouchEnd])
 
   const offsetX = -currentIndex * containerWidth
 
@@ -130,9 +145,8 @@ const Carousel = ({ children }: ICarouselProps) => {
 	      sliderRef={sliderRef}
 	      onTouchStart={handleTouchStart}
 	      onTouchEnd={handleTouchEnd}
-	      onMouseDown={(e) => {
+	      onPointerDown={(e) => {
 	        handleTouchStart(e)
-	        document.addEventListener('pointermove', handlePointerMove)
 	        document.addEventListener('pointerup', handlePointerUp)
 	      }}
 	      offsetX={offsetX}
@@ -146,6 +160,10 @@ const Carousel = ({ children }: ICarouselProps) => {
 }
 
 export default Carousel
+
+
+
+
 
 
 

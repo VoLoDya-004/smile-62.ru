@@ -56,7 +56,9 @@ const App = () => {
   const showModalAllBasket = useCallback(() => setIsModalOpenAllBasket(true), [])
   const closeModalAllBasket = useCallback(() => setIsModalOpenAllBasket(false), [])
   const handleClearBasketBtn = useCallback(() => showModalAllBasket(), [showModalAllBasket])
-
+  const handleClearBasketProduct = useCallback(() => {
+    deleteProductBasket(productIdToDelete)
+  }, [productIdToDelete])
 
   const showModal = useCallback((id: number) => {
     setProductIdToDelete(id)
@@ -90,26 +92,24 @@ const App = () => {
 
   const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
 
-  const [deletingProductsBasket, setDeletingProductsBasket] = useState<Set<number>>(new Set())
+  const [deletingBasket, setDeletingBasket] = useState<Set<number>>(new Set())
 
   const deleteProductBasket = useCallback((id: number | null) => {
     if (id && userId !== null) {
       setIsModalOpen(false)
-      setDeletingProductsBasket(prev => new Set(prev).add(id))
+      setDeletingBasket(prev => new Set(prev).add(id))
 
-      axios.get(`/backend/PHP/basket.php`, {
+      axios.get('/backend/PHP/basket.php', {
         params: {
           Operation: 'deleteBasket',
           idProduct: id,
           idUser: userId,
-        },
+        }
       })
       .then(() => axios.get(srcBasket))
-      .then((res) => {
-        dispatch(setCartBasket(res.data))
-      })
+      .then((res) => dispatch(setCartBasket(res.data)))
       .finally(() => {
-        setDeletingProductsBasket(prev => {
+        setDeletingBasket(prev => {
           const newSet = new Set(prev)
           newSet.delete(id)
           return newSet
@@ -122,60 +122,46 @@ const App = () => {
     if (userId !== null) {
       setIsModalOpenAllBasket(false)
       setLoadingDeleteAllBasket(true)
-      axios.get(`/backend/PHP/basket.php`, {
+      
+      axios.get('/backend/PHP/basket.php', {
         params: {
           Operation: 'clearBasket',
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcBasket)
-      })
-      .then((res) => {
-        dispatch(setCartBasket(res.data))
-        setLoadingDeleteAllBasket(false)
-      })
-      .catch(() => {
-        setLoadingDeleteAllBasket(false)
-      })
+      .then(() => axios.get(srcBasket))
+      .then((res) => dispatch(setCartBasket(res.data)))
+      .finally(() => setLoadingDeleteAllBasket(false))
     }
   }, [dispatch, userId])
 
   const increaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount >= 100) return
-      axios.get(`/backend/PHP/basket.php`, {
+      axios.get('/backend/PHP/basket.php', {
         params: {
           Operation: 'increaseBasket',
           idProduct: id,
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcBasket)
-      })
-      .then((res) => {
-        dispatch(setCartBasket(res.data))
-      })
+      .then(() => axios.get(srcBasket))
+      .then((res) => dispatch(setCartBasket(res.data)))
     }
   }, [dispatch, srcBasket])
 
   const decreaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount <= 1) return
-      axios.get(`/backend/PHP/basket.php`, {
+      axios.get('/backend/PHP/basket.php', {
         params: {
           Operation: 'decreaseBasket',
           idProduct: id,
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcBasket)
-      })
-      .then((res) => {
-        dispatch(setCartBasket(res.data))
-      })
+      .then(() => axios.get(srcBasket))
+      .then((res) => dispatch(setCartBasket(res.data)))
     }
   }, [dispatch, srcBasket])
 
@@ -184,12 +170,12 @@ const App = () => {
       let newCount = e.target.value
       if (newCount === '') {
         newCount = '1'
-      } else {
-        let parsedCount = parseInt(newCount, 10)
-        if (isNaN(parsedCount) || parsedCount < 1) return
-        if (parsedCount > 100) parsedCount = 100
       }
-      axios.get(`/backend/PHP/basket.php`, {
+      if (Number(newCount) > 100) {
+        newCount = '100'
+      }
+
+      axios.get('/backend/PHP/basket.php', {
         params: {
           Operation: 'updateCount',
           idProduct: id,
@@ -197,12 +183,8 @@ const App = () => {
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcBasket)
-      })
-      .then((res) => {
-        dispatch(setCartBasket(res.data))
-      })
+      .then(() => axios.get(srcBasket))
+      .then((res) => dispatch(setCartBasket(res.data)))
     }
   }, [dispatch, srcBasket])
 
@@ -210,12 +192,8 @@ const App = () => {
     if (userId !== null) {
       setLoadingBasket(true)
       axios.get(srcBasket)
-        .then((res) => {
-          dispatch(setCartBasket(res.data))
-        })
-        .finally(() => {
-          setLoadingBasket(false)
-        })
+      .then((res) => dispatch(setCartBasket(res.data)))
+      .finally(() => setLoadingBasket(false))
     } else {
       setLoadingBasket(false)
       dispatch(setCartBasket([]))
@@ -223,56 +201,47 @@ const App = () => {
   }, [userId])
 
   const productsBasket = useMemo(() => {
-  return cartBasket.map((productBasket) => {
-    return (
+    return cartBasket.map((productBasket) => (
       <BasketProducts 
-        productBasket = {productBasket} 
-        key = {productBasket.id} 
-        openDeleteModal = {() => showModal(productBasket.id)} 
+        productBasket={productBasket} 
+        key={productBasket.id} 
+        openDeleteModal={() => showModal(productBasket.id)} 
         onChange={handleCountChange}
-        isDeleting={deletingProductsBasket.has(productBasket.id)}
+        isDeleting={deletingBasket.has(productBasket.id)}
       />
-    )
-  })
-  }, [
+    ))}, [
       cartBasket, 
       deleteProductBasket, 
       increaseBasket, 
       decreaseBasket, 
       handleCountChange, 
       showModal,
-      deletingProductsBasket
+      deletingBasket
   ])
 
   //работа с избранными товарами
 
-  const srcFavourites = 
-    `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+  const srcFavourites = `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
 
   const cartFavourites = useSelector((state: RootStore) => state.favourites.cartFavourites)
 
-  const [deletingProductsFavourites, setDeletingProductsFavourites] = 
-    useState<Set<number>>(new Set())
+  const [deletingFavourites, setDeletingFavourites] = useState<Set<number>>(new Set())
 
   const deleteProductFavourites = useCallback((id: number) => {
     if (userId !== null) {
-      setDeletingProductsFavourites(prev => new Set(prev).add(id))
+      setDeletingFavourites(prev => new Set(prev).add(id))
 
-      axios.get(`/backend/PHP/favourites.php`, {
+      axios.get('/backend/PHP/favourites.php', {
         params: {
           Operation: 'deleteFavourites',
           idProduct: id,
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcFavourites)
-      })
-      .then((res) => {
-        dispatch(setCartFavourites(res.data))
-      })
+      .then(() => axios.get(srcFavourites))
+      .then((res) => dispatch(setCartFavourites(res.data)))
       .finally(() => {
-        setDeletingProductsFavourites(prev => {
+        setDeletingFavourites(prev => {
           const newSet = new Set(prev)
           newSet.delete(id)
           return newSet
@@ -285,21 +254,16 @@ const App = () => {
     if (userId !== null) {
       setIsModalOpenAllFav(false)
       setLoadingDeleteAllFav(true)
-      axios.get(`/backend/PHP/favourites.php`, {
+
+      axios.get('/backend/PHP/favourites.php', {
         params: {
           Operation: 'clearFavourites',
           idUser: userId,
         }
       })
-      .then(() => {
-        return axios.get(srcFavourites)
-      })
-      .then((res) => {
-        dispatch(setCartFavourites(res.data))
-        closeModalAllFav()
-        setLoadingDeleteAllFav(false)
-      })
-      .catch(() => {
+      .then(() => axios.get(srcFavourites))
+      .then((res) => dispatch(setCartFavourites(res.data)))
+      .finally(() => {
         setLoadingDeleteAllFav(false)
         closeModalAllFav()
       })
@@ -307,31 +271,25 @@ const App = () => {
   }, [dispatch, userId])
 
   const addInBasketProductFavourites = useCallback(async (id: number): Promise<void> => {
-    if (userId === null) {
-      return
+    if (userId !== null) {
+      await axios.get('/backend/PHP/favourites.php', {
+        params: {
+          Operation: 'addBasket',
+          idProduct: id,
+          idUser: userId,
+        }
+      })
+      const res = await axios.get(srcFavourites)
+      dispatch(setCartFavourites(res.data))
     }
-
-    await axios.get(`/backend/PHP/favourites.php`, {
-      params: {
-        Operation: 'addBasket',
-        idProduct: id,
-        idUser: userId,
-      }
-    })
-    const res = await axios.get(srcFavourites)
-    dispatch(setCartFavourites(res.data))
   }, [dispatch, userId])
 
   useEffect(() => {
     if (userId !== null) {
       setLoadingFavourites(true)
       axios.get(srcFavourites)
-        .then((res) => {
-          dispatch(setCartFavourites(res.data))
-        })
-        .finally(() => {
-          setLoadingFavourites(false)
-        })
+      .then((res) => dispatch(setCartFavourites(res.data)))
+      .finally(() => setLoadingFavourites(false))
     } else {
       setLoadingFavourites(false)
       dispatch(setCartFavourites([]))
@@ -339,25 +297,23 @@ const App = () => {
   }, [userId])
 
   const productsFavourites = useMemo(() => {
-  return cartFavourites.map((productFavourites) => {
-    return (
+    return cartFavourites.map((productFavourites) => (
       <FavouritesProducts 
-        productFavourites = {productFavourites} 
-        key = {productFavourites.id} 
-        deleteProductFavourites = {deleteProductFavourites}
-        addInBasketProductFavourites = {addInBasketProductFavourites}
+        productFavourites={productFavourites} 
+        key={productFavourites.id} 
+        deleteProductFavourites={deleteProductFavourites}
+        addInBasketProductFavourites={addInBasketProductFavourites}
         cartBasket={cartBasket} 
         cartFavourites={cartFavourites}
-        isDeleting={deletingProductsFavourites.has(productFavourites.id)}
+        isDeleting={deletingFavourites.has(productFavourites.id)}
       />
-    )
-  })
+    ))
   }, [
       cartFavourites, 
       deleteProductFavourites, 
       addInBasketProductFavourites, 
       cartBasket,
-      deletingProductsFavourites
+      deletingFavourites
   ])
 
   // обновление избранных товаров без обновления страницы
@@ -366,8 +322,11 @@ const App = () => {
     if (!userId) return
     
     try {
-      await axios.get(`/backend/PHP/favourites.php`, {
-        params: { Operation: 'showBasket', idUser: userId }
+      await axios.get('/backend/PHP/favourites.php', {
+        params: { 
+          Operation: 'showBasket', 
+          idUser: userId,
+        }
       })
       const res = await axios.get(srcFavourites)
       dispatch(setCartFavourites(res.data))
@@ -382,8 +341,11 @@ const App = () => {
       if (!userId) return
       
       try {
-        await axios.get(`/backend/PHP/favourites.php`, {
-          params: { Operation: 'showBasket', idUser: userId }
+        await axios.get('/backend/PHP/favourites.php', {
+          params: { 
+            Operation: 'showBasket', 
+            idUser: userId,
+          }
         })
         const res = await axios.get(srcBasket)
         dispatch(setCartBasket(res.data))
@@ -394,10 +356,9 @@ const App = () => {
 
   //поиск
 
-  const[searchQuery, setSearchQuery] = useState(() => {
-    const savedSearch = sessionStorage.getItem('searchQuery')
-    return savedSearch || ''
-  })
+  const [searchQuery, setSearchQuery] = useState(() => 
+    sessionStorage.getItem('searchQuery') || ''
+  )
 
   useEffect(() => {
     if (searchQuery) {
@@ -413,10 +374,9 @@ const App = () => {
 
   //меню товаров
 
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(() => {
-    const categoryFromUrl = searchParams.get('category')
-    return categoryFromUrl ? parseInt(categoryFromUrl) : 0
-  })
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(() => 
+    Number(searchParams.get('category')) || 0
+  )
 
   const categories = [
       { id: 0, label: 'Все категории' },
@@ -453,9 +413,9 @@ const App = () => {
 
   // сортировка товаров
 
-  const [sortType, setSortType] = useState(() => {
-    return searchParams.get('sort') || 'default'
-  })
+  const [sortType, setSortType] = useState(() => 
+    searchParams.get('sort') || 'default'
+  )
 
   const [currentSort, setCurrentSort] = useState(() => {
     const sortFromUrl = searchParams.get('sort')
@@ -509,8 +469,7 @@ const App = () => {
   //загрузка карточек со всеми параметрами
 
   useEffect(() => {
-    const categoryFromUrl = searchParams.get('category')
-    const categoryId = categoryFromUrl ? parseInt(categoryFromUrl) : 0
+    const categoryId = Number(searchParams.get('category')) || 0
     setSelectedCategory(categoryId)
 
     const sortFromUrl = searchParams.get('sort') || 'default'
@@ -534,9 +493,9 @@ const App = () => {
   const [totalItems, setTotalItems] = useState(0)
 
   const fetchCards = useCallback(async () => {
-  setIsLoading(true)
+    setIsLoading(true)
     try {
-      const response = await axios.get(`/backend/PHP/getCards.php`, {
+      const response = await axios.get('/backend/PHP/getCards.php', {
         params: {
           page: currentPage,
           search: searchQuery,
@@ -552,7 +511,7 @@ const App = () => {
           action6: filters.actions.action6 ? '1' : '0',
           action7: filters.actions.action7 ? '1' : '0',
           action8: filters.actions.action8 ? '1' : '0',
-        },
+        }
       })
       setCards(response.data.items)
       setTotalItems(response.data.total)
@@ -601,75 +560,78 @@ const App = () => {
 
   // мемоизация данных из контекста
 
-  const contextValue = useMemo(() => ({
-    productsFavourites,
-    setSelectedCategory,
-    setCurrentPage,
-    categories,
-    setSearchQuery,
-    handleClearFavBtn,
-    loadingDeleteAllFav,
-    handleClearBasketBtn,
-    loadingDeleteAllBasket,
-    cartFavourites,
-    searchQuery,
-    isLoading,
-    cards,
-    currentPage,
-    setSortType,
-    handleFiltersChange,
-    currentSort,
-    setCurrentSort,
-    fetchCards,
-    totalItems,
-    filters,
-    deleteProductFavourites,
-    addInBasketProductFavourites,
-    cartBasket,
-    selectedCategory,
-    setCards,
-    sortType,
-    setCartBasket,
-    setSearchParams,
-    updateBasketData,
-    updateFavouritesData,
-    setLoadingBasket,
-    setLoadingFavourites
-  }), [
-    productsFavourites,
-    setSelectedCategory,
-    setCurrentPage,
-    categories,
-    setSearchQuery,
-    handleClearFavBtn,
-    loadingDeleteAllFav,
-    handleClearBasketBtn,
-    loadingDeleteAllBasket,
-    cartFavourites,
-    searchQuery,
-    isLoading,
-    cards,
-    currentPage,
-    setSortType,
-    handleFiltersChange,
-    currentSort,
-    setCurrentSort,
-    fetchCards,
-    totalItems,
-    filters,
-    deleteProductFavourites,
-    addInBasketProductFavourites,
-    cartBasket,
-    selectedCategory,
-    setCards,
-    sortType,
-    setCartBasket,
-    setSearchParams, 
-    updateBasketData,
-    updateFavouritesData,
-    setLoadingBasket,
-    setLoadingFavourites
-  ])
+  const contextValue = useMemo(
+    () => ({
+      productsFavourites,
+      setSelectedCategory,
+      setCurrentPage,
+      categories,
+      setSearchQuery,
+      handleClearFavBtn,
+      loadingDeleteAllFav,
+      handleClearBasketBtn,
+      loadingDeleteAllBasket,
+      cartFavourites,
+      searchQuery,
+      isLoading,
+      cards,
+      currentPage,
+      setSortType,
+      handleFiltersChange,
+      currentSort,
+      setCurrentSort,
+      fetchCards,
+      totalItems,
+      filters,
+      deleteProductFavourites,
+      addInBasketProductFavourites,
+      cartBasket,
+      selectedCategory,
+      setCards,
+      sortType,
+      setCartBasket,
+      setSearchParams,
+      updateBasketData,
+      updateFavouritesData,
+      setLoadingBasket,
+      setLoadingFavourites
+    }), 
+    [
+      productsFavourites,
+      setSelectedCategory,
+      setCurrentPage,
+      categories,
+      setSearchQuery,
+      handleClearFavBtn,
+      loadingDeleteAllFav,
+      handleClearBasketBtn,
+      loadingDeleteAllBasket,
+      cartFavourites,
+      searchQuery,
+      isLoading,
+      cards,
+      currentPage,
+      setSortType,
+      handleFiltersChange,
+      currentSort,
+      setCurrentSort,
+      fetchCards,
+      totalItems,
+      filters,
+      deleteProductFavourites,
+      addInBasketProductFavourites,
+      cartBasket,
+      selectedCategory,
+      setCards,
+      sortType,
+      setCartBasket,
+      setSearchParams, 
+      updateBasketData,
+      updateFavouritesData,
+      setLoadingBasket,
+      setLoadingFavourites
+    ]
+  )
 
   
   return (
@@ -716,7 +678,7 @@ const App = () => {
         <Support isOpen={isSupportOpen} onClose={closeSupport} />
         <ConfirmModal
           isOpen={isModalOpen}
-          onConfirm={() => {deleteProductBasket(productIdToDelete)}}
+          onConfirm={handleClearBasketProduct}
           onCancel={closeModal}
           modalId='modal-basket-delete'
           portalId='confirm-modal-basket-delete'
@@ -725,7 +687,7 @@ const App = () => {
         />
         <ConfirmModal
           isOpen={isModalOpenAllBasket}
-          onConfirm={() => {handleClearBasket()}}
+          onConfirm={handleClearBasket}
           onCancel={closeModalAllBasket}
           modalId='modal-basket-delete-all'
           portalId='confirm-modal-basket-delete-all'
@@ -734,7 +696,7 @@ const App = () => {
         />
         <ConfirmModal
           isOpen={isModalOpenAllFav}
-          onConfirm={() => {handleClearFav()}}
+          onConfirm={handleClearFav}
           onCancel={closeModalAllFav}
           modalId='modal-fav-delete-all'
           portalId='confirm-modal-fav-delete-all'

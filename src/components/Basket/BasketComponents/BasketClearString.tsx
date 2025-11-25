@@ -9,7 +9,7 @@ const BasketClearString = () => {
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const {handleClearBasketBtn, loadingDeleteAllBasket} = context
+  const { handleClearBasketBtn, loadingDeleteAllBasket } = context
 
 
   return (

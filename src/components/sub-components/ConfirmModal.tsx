@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type RefObject } from 'react'
 import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
 import type { RootStore } from '../../redux'
@@ -40,7 +40,7 @@ const ModalFooter = ({
 }: {
   onConfirm: () => void
   onCancel: () => void
-  initialFocusRef: React.RefObject<HTMLButtonElement | null>
+  initialFocusRef: RefObject<HTMLButtonElement | null>
 }) => (
   <div className='modal-content__footer'>
     <button 
@@ -75,7 +75,7 @@ const ModalContent = ({
   description: string
   onConfirm: () => void
   onCancel: () => void
-  initialFocusRef: React.RefObject<HTMLButtonElement | null>
+  initialFocusRef: RefObject<HTMLButtonElement | null>
 }) => (
   <div className={`modal-content ${isDarkTheme ? 'dark-theme' : ''}`}>
     <ModalHeader title={title} isDarkTheme={isDarkTheme} />

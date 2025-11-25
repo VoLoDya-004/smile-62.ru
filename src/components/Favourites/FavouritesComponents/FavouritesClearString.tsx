@@ -9,7 +9,7 @@ const FavouritesClearString = () => {
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const {handleClearFavBtn, loadingDeleteAllFav} = context
+  const { handleClearFavBtn, loadingDeleteAllFav } = context
 
 
   return (

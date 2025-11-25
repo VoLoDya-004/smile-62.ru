@@ -8,7 +8,7 @@ interface IFavouritesBoxProps {
 }
 
 
-const FavouritesBox = ({productsFavourites}: IFavouritesBoxProps) => {
+const FavouritesBox = ({ productsFavourites }: IFavouritesBoxProps) => {
 
 
   return (

@@ -5,7 +5,7 @@ import type { RootStore } from '../../redux'
 import type { ICategory } from '../../types/types'
 
 
-interface CategoriesDropdownProps {
+interface ICategoriesDropdownProps {
   toggle: string
   visible: string
   onCategorySelect: () => void
@@ -16,7 +16,7 @@ const CategoriesDropdown = ({
   toggle, 
   visible, 
   onCategorySelect 
-}: CategoriesDropdownProps) => {
+}: ICategoriesDropdownProps) => {
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')

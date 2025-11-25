@@ -4,13 +4,15 @@ interface AdvertisementLabelProps {
 
 
 const AdvertisementLabel = ({ onHover }: AdvertisementLabelProps) => {
+
+  
   return (
     <span
       className='slider__advertisement'
       role='complementary'
       aria-label='Реклама'
-      onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}
+      onPointerEnter={() => onHover(true)}
+      onPointerLeave={() => onHover(false)}
       onFocus={() => onHover(true)}
       onBlur={() => onHover(false)}
       tabIndex={0}
