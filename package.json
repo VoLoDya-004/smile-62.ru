@@ -8,6 +8,7 @@
     "dev": "npm run check-types && vite",
     "build": "npm run check-types && vite build",
     "lint": "eslint .",
+    "lint:style": "stylelint \"**/*.{css,scss,sass,less}\"",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -34,8 +35,12 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.3.0",
+    "prettier": "^3.6.2",
     "sass": "^1.92.1",
     "sass-embedded": "^1.89.2",
+    "stylelint": "^16.26.0",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-config-standard-scss": "^16.0.0",
     "typescript": "^5.9.2",
     "vite": "^7.1.2"
   }

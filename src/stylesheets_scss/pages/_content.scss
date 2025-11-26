@@ -1,16 +1,5 @@
 @use '../forward.scss';
 
-.progress-bar { 
-	position: fixed;
-	margin-top: 72px;
-	z-index: 200;
-	left: 0;
-	top: 0;
-	height: 4px;
-	width: 0%;
-	background: #9814ad;
-}
-
 .setka { 
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

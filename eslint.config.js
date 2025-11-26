@@ -6,7 +6,7 @@ import ts from '@typescript-eslint/eslint-plugin'
 import parser from '@typescript-eslint/parser'
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'node_modules', 'build'] },
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -25,6 +25,8 @@ export default [
       '@typescript-eslint': ts,
     },
     rules: {
+      'no-console': 'warn',
+      'eqeqeq': 'warn',
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       ...ts.configs.recommended.rules,
