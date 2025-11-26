@@ -4,6 +4,8 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import ts from '@typescript-eslint/eslint-plugin'
 import parser from '@typescript-eslint/parser'
+import prettierPlugin from 'eslint-plugin-prettier'
+import prettierConfig from 'eslint-config-prettier'
 
 export default [
   { ignores: ['dist', 'node_modules', 'build'] },
@@ -23,8 +25,12 @@ export default [
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       '@typescript-eslint': ts,
+      prettier: prettierPlugin,
+
     },
+    extends: [prettierConfig],
     rules: {
+      ...prettierPlugin.configs.recommended.rules,
       'no-console': 'warn',
       'eqeqeq': 'warn',
       ...js.configs.recommended.rules,

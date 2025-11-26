@@ -9,7 +9,8 @@
     "build": "npm run check-types && vite build",
     "lint": "eslint .",
     "lint:style": "stylelint \"**/*.{css,scss,sass,less}\"",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier . --write"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -32,6 +33,8 @@
     "@typescript-eslint/parser": "^8.44.0",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.3.0",
