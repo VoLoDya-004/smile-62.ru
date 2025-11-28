@@ -41,7 +41,7 @@ const App = () => {
     }
   }, [])
 
-  // Модалки
+  // Модалки и уведомления
 
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
 
@@ -321,37 +321,29 @@ const App = () => {
   const updateFavouritesData = useCallback(async () => {
     if (!userId) return
     
-    try {
-      await axios.get('/backend/PHP/favourites.php', {
-        params: { 
-          Operation: 'showBasket', 
-          idUser: userId,
-        }
-      })
-      const res = await axios.get(srcFavourites)
-      dispatch(setCartFavourites(res.data))
-    } catch (error) { 
-      console.error('Ошибка обновления избранного:', error)
-    }
+    await axios.get('/backend/PHP/favourites.php', {
+      params: { 
+        Operation: 'showBasket', 
+        idUser: userId,
+      }
+    })
+    const res = await axios.get(srcFavourites)
+    dispatch(setCartFavourites(res.data))
   }, [userId, srcFavourites, dispatch])
     
   // обновление корзины товаров из избранных без обновления страницы
 
   const updateBasketData = useCallback(async () => {
-      if (!userId) return
+    if (!userId) return
       
-      try {
-        await axios.get('/backend/PHP/favourites.php', {
-          params: { 
-            Operation: 'showBasket', 
-            idUser: userId,
-          }
-        })
-        const res = await axios.get(srcBasket)
-        dispatch(setCartBasket(res.data))
-      } catch (error) {
-        console.error('Ошибка обновления корзины:', error)
+    await axios.get('/backend/PHP/favourites.php', {
+      params: { 
+        Operation: 'showBasket', 
+        idUser: userId,
       }
+    })
+    const res = await axios.get(srcBasket)
+    dispatch(setCartBasket(res.data))
   }, [userId, srcBasket, dispatch])
 
   //поиск

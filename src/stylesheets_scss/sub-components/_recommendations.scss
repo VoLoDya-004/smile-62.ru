@@ -15,7 +15,7 @@
 		cursor: default;
 	}
   &__box {
-    padding: 30px 0px;
+    padding: 30px 0;
 	  position: relative;
     background-color: forward.$backColorElem;
     border-radius: 19px;
@@ -23,7 +23,7 @@
 	  align-items: center;
   }
 	&__left-btn {
-	  background-color: rgba(0, 0, 0, 0.5);
+	  background-color: rgb(0 0 0 / 0.5);
 	  border: none;
 	  color: white;
 	  cursor: pointer;
@@ -43,7 +43,7 @@
 	  }
 	}
 	&__right-btn {
-	  background-color: rgba(0, 0, 0, 0.5);
+	  background-color: rgb(0 0 0 / 0.5);
 	  border: none;
 	  color: white;
 	  cursor: pointer;
@@ -78,13 +78,13 @@
   min-width: 260px;
   margin: 0 10px;
   min-height: 350px;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 2px 4px rgb(0 0 0 / 0.1);
   display: flex;
   flex-direction: column;
   border-radius: 10px;
   position: relative;
   transition: 0.2s;
-  background-color: #ffffff;
+  background-color: white;
   user-select: none;
   &__top { 
   	flex: 0 0 220px;
@@ -144,7 +144,7 @@
 	  width: 50%;
   	font-weight: 700;
   	font-size: 0.53em;
-  	color: #000000;
+  	color: black;
   	display: flex;
   	flex-wrap: wrap;
   	padding-left: 10px;
@@ -159,7 +159,7 @@
   &__price-count { 
   	font-weight: 400;
   	font-size: 0.53em;
-  	color: #000000;
+  	color: black;
   	display: flex;
   	flex-wrap: wrap;
     justify-content: end;
@@ -211,7 +211,7 @@
   }
 	@media (hover: hover) and (pointer: fine) {
     &:hover { 
-    	box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+    	box-shadow: 4px 8px 16px rgb(117 14 107 / 0.2);
     }
 	}
 }

@@ -9,10 +9,10 @@ html {
 	&::-webkit-scrollbar {
 		width: 10px;
 		&-thumb { 
-			background: rgba(96, 22, 118, 0.25); 
+			background: rgb(96 22 118 / 0.25); 
 			border-radius: 8px;
 			&:hover { 
-				background: rgba(96, 22, 118, 0.5);
+				background: rgb(96 22 118 / 0.5);
 			}
 			&:active { 
 				background: rgb(96, 22, 118);
@@ -22,11 +22,11 @@ html {
 			background-color: #c5c5c5ac;
 		}
 		&-button:start { 
-			background:  rgb(173, 173, 173) url(/images/icons/arrow_top.png) no-repeat center;
+			background:  rgb(173, 173, 173) url("/images/icons/arrow_top.png") no-repeat center;
 			background-size: contain;
 		}
 		&-button:end {
-			background:  rgb(173, 173, 173) url(/images/icons/arrow_bottom.png) no-repeat center;
+			background:  rgb(173, 173, 173) url("/images/icons/arrow_bottom.png") no-repeat center;
 			background-size: contain;
 		}
 	}
@@ -43,17 +43,17 @@ html {
   }
 }
 
-input[type=text]::-ms-clear { display: none; width : 0; height: 0; }
-input[type=text]::-ms-reveal { display: none; width : 0; height: 0; }
+input[type="text"]::-ms-clear { display: none; width : 0; height: 0; }
+input[type="text"]::-ms-reveal { display: none; width : 0; height: 0; }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration { display: none; }
 
-input::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.6) !important; }
-input:-moz-placeholder { color: rgba(0, 0, 0, 0.6) !important; }
-input::-moz-placeholder { color: rgba(0, 0, 0, 0.6) !important; }
-input:-ms-input-placeholder { color: rgba(0, 0, 0, 0.6) !important; }
+input::-webkit-input-placeholder { color: rgb(0 0 0 / 0.6) !important; }
+input:-moz-placeholder { color: rgb(0 0 0 / 0.6) !important; }
+input::-moz-placeholder { color: rgb(0 0 0 / 0.6) !important; }
+input:-ms-input-placeholder { color: rgb(0 0 0 / 0.6) !important; }
 
 button, input, textarea, select {
   font-family: Arial, sans-serif;
@@ -74,7 +74,7 @@ body.modal-open {
 }
 
 #main {
-	margin: 90px 30px 0px;
+	margin: 90px 30px 0;
   @media (max-width: forward.$breakpoint-md) {
     margin-inline: 15px;
   }
@@ -102,11 +102,11 @@ body.modal-open {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0 0 0 / 0.4);
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: white;
   margin: 15% auto;
   padding: 20px;
   border-radius: 8px;

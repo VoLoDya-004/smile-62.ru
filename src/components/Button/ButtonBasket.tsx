@@ -63,7 +63,7 @@ const ButtonBasket = ({
       await addInBasketProductFavourites(id)
       await updateBasketData()
       showNotification('Добавлено в корзину', 'success')
-    } catch (error) {
+    } catch {
       showNotification('Ошибка', 'error')
     } finally {
       setLoadingBasket(false)

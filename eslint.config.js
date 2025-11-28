@@ -3,9 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import ts from '@typescript-eslint/eslint-plugin'
-import parser from '@typescript-eslint/parser'
-import prettierPlugin from 'eslint-plugin-prettier'
-import prettierConfig from 'eslint-config-prettier'
+import tsParser from '@typescript-eslint/parser'
 
 export default [
   { ignores: ['dist', 'node_modules', 'build'] },
@@ -14,7 +12,7 @@ export default [
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
-      parser,
+      parser: tsParser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -25,18 +23,17 @@ export default [
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       '@typescript-eslint': ts,
-      prettier: prettierPlugin,
-
     },
-    extends: [prettierConfig],
     rules: {
-      ...prettierPlugin.configs.recommended.rules,
-      'no-console': 'warn',
-      'eqeqeq': 'warn',
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       ...ts.configs.recommended.rules,
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-console': 'warn',
+      'eqeqeq': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-hooks/exhaustive-deps': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },

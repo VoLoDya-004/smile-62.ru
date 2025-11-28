@@ -140,7 +140,7 @@ const Cards = () => {
       })
       await addBasket(id)
       showNotification('Добавлено в корзину', 'success')
-    } catch (error) {
+    } catch {
       showNotification('Ошибка', 'error')
     } finally {
       setAddingStatusBasket(prev => ({ ...prev, [id]: false }))
@@ -193,7 +193,7 @@ const Cards = () => {
         await addFav(id)
         showNotification('Добавлено в избранное', 'success')
         updateFavouritesData()
-      } catch (error) {
+      } catch {
         setLocalFavourites(prev => prev.filter(item => item.id_product === id))
         showNotification('Ошибка', 'error')
       } finally {

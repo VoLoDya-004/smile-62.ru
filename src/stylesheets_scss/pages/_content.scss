@@ -15,17 +15,17 @@
 .card { 
 	width: 100%;
 	min-height: 350px;
-	box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: 1px 2px 4px rgb(0 0 0 / 0.1);
 	display: flex;
 	flex-direction: column;
 	border-radius: 10px;
 	position: relative;
 	transition: 0.2s;
-	background-color: #ffffff;
+	background-color: white;
 	user-select: none;
 	@media (hover: hover) and (pointer: fine) {
 		&:hover { 
-			box-shadow: 4px 8px 16px rgba(117, 14, 107, 0.2);
+			box-shadow: 4px 8px 16px rgb(117 14 107 / 0.2);
 		}
 	}
 	&__top { 
@@ -98,7 +98,7 @@
 	&__price-discount { 
 		font-weight: 700;
 		font-size: 1.06em;
-		color: #000000;
+		color: black;
 		display: flex;
 		width: 50%;
 		flex-wrap: wrap;
@@ -182,7 +182,7 @@
 			@media (hover: hover) and (pointer: fine) {
 				&:hover {
 					background-color: rgb(96, 22, 118);
-					color: #fff;
+					color: white;
 				}
 			}
 		}
@@ -192,7 +192,7 @@
 			border: none;
 			&:hover {
 				background-color: rgb(96, 22, 118);
-				color: #fff;
+				color: white;
 			}
 		}
 	}
@@ -229,8 +229,7 @@
 @media (max-width: forward.$breakpoint-sm) {
 	.setka { 
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		row-gap: 10px; 
-		column-gap: 5px;
+    gap: 10px 5px;
 		margin-bottom: 20px;
 		padding: 5px;
 		border-radius: 10px;

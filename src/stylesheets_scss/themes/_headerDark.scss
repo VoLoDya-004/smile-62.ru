@@ -7,7 +7,7 @@
   }
   &__item_passive {
     &.dark-theme {
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgb(0 0 0 / 0.6);
 	  	color: white;
       @media (hover: hover) and (pointer: fine) {
         &:hover {

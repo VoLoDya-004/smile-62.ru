@@ -18,7 +18,7 @@
 	width: auto;
 	display: inline-flex;
 	pointer-events: none;
-	fill: #ffffff;
+	fill: white;
 	height: 72px;
 	&-color {
 		fill: white;
@@ -34,7 +34,7 @@
 		width: 35px;
 		height: 35px;
 		border-radius: 10px;
-		border: 1px solid rgba(255, 255, 255, .4);
+		border: 1px solid rgb(255 255 255 / 0.4);
 		justify-content: center;
 		transition: border-width .3s;
 		transition: border-color .3s;
@@ -65,12 +65,12 @@
 			border-radius: 10px;
 			width: 100%;
 			height: 36px;
-			color: #000000;
+			color: black;
 			padding-left: 13px;
 			font-size: 1em;
 			outline: none;
 			border: 3px solid #d8c4e0;
-			@include forward.autofill-styles(white, #000);
+			@include forward.autofill-styles(white, black);
 		}
 		&-button {
 			border-radius: 10px;
@@ -149,7 +149,7 @@
 	align-items: center;
 	width: 100%;
 	height: 60px;
-	background-color: #ffffff;
+	background-color: white;
 	bottom: 0;
 	position: fixed;
 	z-index: 700;
@@ -176,7 +176,7 @@
 	min-width: 17px;
   height: 17px;
 	text-align: center;
-	color: #fff;
+	color: white;
 	background: #e50000;
 	font: 10px Arial, sans-serif;
 	display: inline-block;
@@ -192,7 +192,7 @@
 		width: 17px;
 		height: 17px;
 		text-align: center;
-		color: #fff;
+		color: white;
 		background: #e50000;
 		font: 10px Arial, sans-serif;
 		position: relative;
@@ -222,10 +222,7 @@
     &::after {
       content: '';
       position: absolute;
-    	top: -2px;
-    	bottom: -2px;
-    	left: -4px;
-    	right: calc(100% - 24px);
+      inset: -2px calc(100% - 24px) -2px -4px;
     }
 		&:hover {
 			background-color: rgb(186 155 194);

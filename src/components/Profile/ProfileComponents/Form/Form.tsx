@@ -44,7 +44,7 @@ const RegisterForm = ({
       } else {
         onNotification(response.data.message, 'error')
       }
-    } catch (error) {
+    } catch {
       onNotification('Ошибка при регистрации', 'error')
     } finally {
       setRegisterData({
@@ -170,7 +170,7 @@ const LoginForm = ({
       } else {
         onNotification(response.data.message, 'error')
       }
-    } catch (error) {
+    } catch {
       onNotification('Ошибка входа', 'error')
     } finally {
       setLoginData({

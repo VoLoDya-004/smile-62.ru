@@ -55,7 +55,7 @@
       font-size: 1em;
       border-radius: 5px;
       margin-top: 5px;
-	    @include forward.autofill-styles(white, #000);
+	    @include forward.autofill-styles(white, black);
       &:focus {
         background-color: #ffffff8f;
       }
@@ -321,7 +321,7 @@
 
   .user-aside {
     width: 100%;
-    margin: 0 0 10px 0;
+    margin: 0 0 10px;
     &__name {
       max-width: 370px;
       white-space: nowrap;

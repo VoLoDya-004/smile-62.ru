@@ -2,7 +2,6 @@
 
 .basket-box {
   width: 100%;
-  margin-bottom: 40px;
   text-align: center;
   margin: 0 auto 20px;
   &__title {
@@ -38,7 +37,7 @@
     font-size: 1.125em;
     line-height: 1.3;
     padding: 20px 0;
-    border-bottom: 2px solid rgba(126, 155, 189, 0.3);
+    border-bottom: 2px solid rgb(126 155 189 / 0.3);
     &-img {
       justify-self: center;
       width: 100%;
@@ -66,6 +65,12 @@
         font-size: 1.125em;
         font-weight: 600;
         line-height: 1.3;
+        -moz-appearance: textfield;
+        appearance: textfield;
+        &::-webkit-inner-spin-button, 
+        &::-webkit-outer-spin-button {
+          appearance: none;
+        }
       }
       &-controls {
         display: flex;
@@ -103,8 +108,7 @@
 }
 
 .basket-box__product > * {
-  align-self: center;
-  justify-self: center;
+  place-self: center;
 }
 
 .count__up {
@@ -119,16 +123,6 @@
   background-color: white;
   user-select: none;
   cursor: pointer;
-}
-
-.basket-box__product-count-input {
-  &::-webkit-inner-spin-button, 
-  &::-webkit-outer-spin-button {
-    appearance: none;
-  }
-
-  -moz-appearance: textfield;
-  appearance: textfield;
 }
 
 .basket-box__product-count-controls img {
@@ -212,7 +206,7 @@
       font-size: 1.25em;
     }
     &-btn {
-      margin: 0px;
+      margin: 0;
     }
     &-checkbox {
       color: grey;
@@ -290,8 +284,7 @@
     &__product {
       grid-template-columns: repeat(6, 1fr);
       grid-auto-rows: minmax(60px, auto);
-      column-gap: 15px;
-      row-gap: 10px;
+      gap: 10px 15px;
       &-img {
         grid-column: 1/3;
       }

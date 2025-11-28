@@ -29,7 +29,7 @@ const Notification = ({ message, type, onClose }: INotification) => {
     top: '80px',
     left: '50%',
     transform: 'translateX(-50%)',
-    zIndex: 9999,
+    zIndex: 999,
     boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
     fontSize: '16px',
     animation: 'slideDown 0.5s ease-out',

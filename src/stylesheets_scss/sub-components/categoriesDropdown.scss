@@ -44,9 +44,9 @@
 	&::-webkit-scrollbar { 
 		width: 7px;
 		&-thumb { 
-			background: rgba(96, 22, 118, 0.25); 
+			background: rgb(96 22 118 / 0.25); 
 			&:hover { 
-				background: rgba(96, 22, 118, 0.5);
+				background: rgb(96 22 118 / 0.5);
 			}
 			&:active { 
 				background: rgb(96, 22, 118);

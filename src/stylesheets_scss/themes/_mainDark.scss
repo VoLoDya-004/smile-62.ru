@@ -7,11 +7,9 @@
   &__sort-title {
     &.dark-theme {
       color: white;
-    }
-    &.dark-theme {
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgb(255 255 255 / 0.5);
         }
       }
     }
@@ -52,7 +50,7 @@
     color: white;
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        color: rgba(255, 255, 255, 0.8);
+        color: rgb(255 255 255 / 0.8);
         background-color: #262f39;
       }
     }
@@ -122,7 +120,7 @@
 
 .card {
   &.dark-theme {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgb(255 255 255 / 0.4);
   }
   &__title {
     @media (hover: hover) and (pointer: fine) {
