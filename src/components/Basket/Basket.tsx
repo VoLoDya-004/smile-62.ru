@@ -1,8 +1,8 @@
 import { useState, useEffect, memo, type JSX } from 'react'
-import BlockEmpty from '../sub-components/BlockEmpty'
-import BasketBox from './BasketComponents/BasketTable/BasketBox'
-import BasketDelivery from './BasketComponents/BasketDelivery/BasketDelivery'
-import Recommendations from '../sub-components/Recommendations'
+import BlockEmpty from '@/components/sub-components/BlockEmpty'
+import BasketBox from '@/components/Basket/BasketComponents/BasketTable/BasketBox'
+import BasketDelivery from '@/components/Basket/BasketComponents/BasketDelivery/BasketDelivery'
+import Recommendations from '@/components/sub-components/Recommendations'
 
 
 interface IBasketProps {

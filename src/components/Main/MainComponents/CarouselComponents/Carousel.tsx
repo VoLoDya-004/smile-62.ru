@@ -1,20 +1,5 @@
-import { 
-  useEffect, 
-  useState, 
-  Children, 
-  cloneElement, 
-  useRef, 
-  useCallback, 
-  isValidElement 
-} from 'react'
-import type { 
-  ReactNode, 
-  ReactElement, 
-  TouchEvent, 
-  CSSProperties, 
-  HTMLProps, 
-  PointerEvent 
-} from 'react'
+import { useEffect, useState, Children, cloneElement, useRef, useCallback, isValidElement } from 'react'
+import type { ReactNode, ReactElement, TouchEvent, CSSProperties, HTMLProps, PointerEvent } from 'react'
 import CarouselContainer from './CarouselContainer'
 import AdvertisementInfo from './Advertisement/AdvertisementInfo'
 

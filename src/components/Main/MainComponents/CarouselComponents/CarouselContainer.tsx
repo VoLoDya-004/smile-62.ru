@@ -1,5 +1,5 @@
 import type { TouchEvent, RefObject, ReactNode, PointerEvent } from 'react'
-import ButtonArrow from '../../../Button/ButtonArrow'
+import ButtonArrow from '@/components/Button/ButtonArrow'
 import AdvertisementLabel from './Advertisement/AdvertisementLabel'
 
 

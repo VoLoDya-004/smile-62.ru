@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { ICartItem } from '../types/types'
+import type { ICartItem } from '@/types/types'
 
 
 interface ITotalState {

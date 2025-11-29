@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import type { RootStore } from '../../../redux'
+import type { RootStore } from '@/redux'
 import FooterTitle from './FooterTitle'
 
 

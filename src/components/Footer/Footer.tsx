@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../redux'
+import type { RootStore } from '@/redux'
 import { memo } from 'react'
 import ContactsFooter from './FooterComponents/ContactsFooter'
 import LinkFooter from './FooterComponents/LinkFooter'

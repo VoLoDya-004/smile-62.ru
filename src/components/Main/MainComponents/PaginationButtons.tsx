@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import ButtonLoad from '../../Button/ButtonLoad'
+import ButtonLoad from '@/components/Button/ButtonLoad'
 
 
 interface PaginationButtonsProps {

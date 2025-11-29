@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { memo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../../../../redux'
+import type { RootStore } from '@/redux'
 import BasketCircleMobile from './BasketCircleMobile'
 
 

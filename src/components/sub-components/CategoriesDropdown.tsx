@@ -1,8 +1,8 @@
 import { memo, useContext } from 'react'
 import { useSelector } from 'react-redux'
-import { Context } from '../../contexts/context'
-import type { RootStore } from '../../redux'
-import type { ICategory } from '../../types/types'
+import { Context } from '@/contexts/context'
+import type { RootStore } from '@/redux'
+import type { ICategory } from '@/types/types'
 
 
 interface ICategoriesDropdownProps {

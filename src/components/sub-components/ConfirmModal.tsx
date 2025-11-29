@@ -1,8 +1,8 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
-import type { RootStore } from '../../redux'
-import { usePortal } from '../../hooks/usePortal'
+import type { RootStore } from '@/redux'
+import { usePortal } from '@/hooks/usePortal'
 
 interface IConfirmModal {
   isOpen: boolean

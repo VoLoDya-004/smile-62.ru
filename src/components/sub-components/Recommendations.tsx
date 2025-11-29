@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, memo, type RefObject } from 'react'
-import type { RootStore } from '../../redux'
+import type { RootStore } from '@/redux'
 import { useSelector } from 'react-redux'
-import type { ICardsRender } from '../../types/types'
+import type { ICardsRender } from '@/types/types'
 import axios from 'axios'
 import ButtonArrow from '../Button/ButtonArrow'
 

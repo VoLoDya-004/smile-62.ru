@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../../../../redux'
+import type { RootStore } from '@/redux'
 
 
 interface IAccordionProps {

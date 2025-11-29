@@ -1,6 +1,6 @@
 import { createContext, type ReactNode, type SetStateAction, type Dispatch } from 'react'
 import { type ActionCreatorWithPayload } from '@reduxjs/toolkit'
-import type { ICartItem, IProduct, ICardsRender } from '../types/types'
+import type { ICartItem, IProduct, ICardsRender } from '@/types/types'
 
 
 interface IFiltersActions {

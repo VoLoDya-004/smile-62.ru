@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
-import type { RootStore } from '../../../../redux'
+import type { RootStore } from '@/redux'
 import { NavLink } from 'react-router-dom'
-import { Context } from '../../../../contexts/context'
+import { Context } from '@/contexts/context'
 import { useContext } from 'react'
-import { logoutUser } from '../../../../redux/UserSlice'
-import Button from '../../../Button/Button'
+import { logoutUser } from '@/redux/UserSlice'
+import Button from '@/components/Button/Button'
 
 
 const ProfileAside = ({ 

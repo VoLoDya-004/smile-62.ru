@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import Button from '../../../Button/Button'
-import type { RootStore } from '../../../../redux'
+import Button from '@/components/Button/Button'
+import type { RootStore } from '@/redux'
 
 
 const OrderSummary = ({ 

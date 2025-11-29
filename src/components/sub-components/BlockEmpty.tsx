@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../redux'
+import type { RootStore } from '@/redux'
 import ButtonMainNav from '../Button/ButtonMainNav'
 
 

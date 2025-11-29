@@ -1,16 +1,9 @@
-import { 
-  useContext, 
-  useState, 
-  useEffect, 
-  memo, 
-  useRef, 
-  type ChangeEvent, 
-  type KeyboardEvent,
-} from 'react'
+import { useContext, useState, useEffect, memo, useRef } from 'react'
+import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Context } from '../../../contexts/context'
+import { Context } from '@/contexts/context'
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../../redux'
+import type { RootStore } from '@/redux'
 
 
 const Search = () => {

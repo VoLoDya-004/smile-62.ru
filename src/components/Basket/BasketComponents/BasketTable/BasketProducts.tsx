@@ -1,8 +1,8 @@
 import { useState, type ChangeEvent, memo } from 'react'
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../../../redux'
-import type { IBasket } from '../../../../types/types'
-import ButtonDeleteBasket from '../../../Button/ButtonDeleteBasket'
+import type { RootStore } from '@/redux'
+import type { IBasket } from '@/types/types'
+import ButtonDeleteBasket from '@/components/Button/ButtonDeleteBasket'
 
 
 interface IBasketProductsProps {

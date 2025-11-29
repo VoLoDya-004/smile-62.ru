@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { memo } from 'react'
-import type { RootStore } from '../../../../redux'
+import type { RootStore } from '@/redux'
 
 
 const BasketHeader = () => {

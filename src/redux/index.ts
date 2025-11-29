@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import basketReducer from './BasketSlice'
-import favouritesReducer from './FavouritesSlice'
-import themeReducer from './ThemeSlice'
-import userReducer from './UserSlice'
+import basketReducer from '@/redux/BasketSlice'
+import favouritesReducer from '@/redux/FavouritesSlice'
+import themeReducer from '@/redux/ThemeSlice'
+import userReducer from '@/redux/UserSlice'
 
 
 export const store = configureStore({

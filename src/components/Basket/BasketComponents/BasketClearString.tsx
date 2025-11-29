@@ -1,7 +1,6 @@
 import { useContext } from 'react'
-import { Context } from '../../../contexts/context'
-import Button from '../../Button/Button'
-
+import { Context } from '@/contexts/context'
+import Button from '@/components/Button/Button'
 
 
 const BasketClearString = () => {

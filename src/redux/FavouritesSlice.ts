@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { IFav } from '../types/types'
+import type { IFav } from '@/types/types'
 
 interface IFavouritesState {
   cartFavourites: IFav[]

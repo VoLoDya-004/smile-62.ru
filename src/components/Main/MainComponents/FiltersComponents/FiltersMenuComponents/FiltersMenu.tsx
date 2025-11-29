@@ -1,10 +1,10 @@
 import { forwardRef, useContext, useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
-import { Context } from '../../../../../contexts/context'
-import type { RootStore } from '../../../../../redux'
+import { Context } from '@/contexts/context'
+import type { RootStore } from '@/redux'
 import Accordion from './Accordion'
-import Button from '../../../../Button/Button'
-import ButtonCross from '../../../../Button/ButtonCross'
+import Button from '@/components/Button/Button'
+import ButtonCross from '@/components/Button/ButtonCross'
 
 interface IFiltersMenuProps {
   handleToggleFilters: () => void

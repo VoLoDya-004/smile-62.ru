@@ -1,12 +1,12 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { memo, useEffect, useState } from 'react'
-import type { RootStore } from '../../../../redux'
+import type { RootStore } from '@/redux'
 import { useSelector, useDispatch } from 'react-redux'
-import { logoutUser } from '../../../../redux/UserSlice'
-import type { INotificationData } from '../../../../types/types'
-import useDeviceType from '../../../../hooks/useDeviceType'
-import Notification from '../../../sub-components/Notification'
-import ProfileMenu from '../../../Profile/ProfileComponents/ProfileMenu/ProfileMenu'
+import { logoutUser } from '@/redux/UserSlice'
+import type { INotificationData } from '@/types/types'
+import useDeviceType from '@/hooks/useDeviceType'
+import Notification from '@/components/sub-components/Notification'
+import ProfileMenu from '@/components/Profile/ProfileComponents/ProfileMenu/ProfileMenu'
 
 
 const NavSection = () => {

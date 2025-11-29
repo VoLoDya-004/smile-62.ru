@@ -1,8 +1,8 @@
 import { useState, memo, useEffect, useCallback, useMemo, useContext, Fragment} from 'react'
 import { useSelector } from 'react-redux'
-import type { RootStore } from '../../redux'
-import type { INotificationData, IFav, IProduct } from '../../types/types'
-import { Context } from '../../contexts/context'
+import type { RootStore } from '@/redux'
+import type { INotificationData, IFav, IProduct } from '@/types/types'
+import { Context } from '@/contexts/context'
 import Notification from '../sub-components/Notification'
 
 

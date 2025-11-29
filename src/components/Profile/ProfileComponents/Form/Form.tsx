@@ -1,12 +1,12 @@
 import { useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '../../../../redux/UserSlice'
-import type { RootStore } from '../../../../redux/index'
-import type { INotificationData, IRegisterData } from '../../../../types/types'
+import { setUser } from '@/redux/UserSlice'
+import type { RootStore } from '@/redux'
+import type { INotificationData, IRegisterData } from '@/types/types'
 import axios from 'axios'
 import FormTitle from './FormTitle'
-import ButtonSubmit from '../../../Button/ButtonSubmit'
-import Notification from '../../../sub-components/Notification'
+import ButtonSubmit from '@/components/Button/ButtonSubmit'
+import Notification from '@/components/sub-components/Notification'
 import FormAccount from './FormAccount'
 
 

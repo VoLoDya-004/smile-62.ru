@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useContext } from 'react'
 import { useSelector } from 'react-redux'
-import { Context } from '../../../../contexts/context'
-import type { RootStore } from '../../../../redux'
-import Button from '../../../Button/Button'
+import { Context } from '@/contexts/context'
+import type { RootStore } from '@/redux'
+import Button from '@/components/Button/Button'
 import SortMenu from './SortMenuComponents/SortMenu'
 import FiltersMenu from './FiltersMenuComponents/FiltersMenu'
 

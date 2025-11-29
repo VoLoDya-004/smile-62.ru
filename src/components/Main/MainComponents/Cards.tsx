@@ -2,12 +2,12 @@ import { useState, useEffect, useContext, useCallback, useMemo, useRef } from 'r
 import { useSelector, useDispatch } from 'react-redux'
 import { memo } from 'react'
 import axios from 'axios'
-import { Context } from '../../../contexts/context'
-import { setCartBasket } from '../../../redux/BasketSlice'
-import { setCartFavourites } from '../../../redux/FavouritesSlice'
-import type { RootStore } from '../../../redux'
-import type { IProduct, INotificationData, ICardsRender } from '../../../types/types'
-import Notification from '../../sub-components/Notification'
+import { Context } from '@/contexts/context'
+import { setCartBasket } from '@/redux/BasketSlice'
+import { setCartFavourites } from '@/redux/FavouritesSlice'
+import type { RootStore } from '@/redux'
+import type { IProduct, INotificationData, ICardsRender } from '@/types/types'
+import Notification from '@/components/sub-components/Notification'
 
 
 interface ICardProps {

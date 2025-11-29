@@ -1,8 +1,8 @@
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { forwardRef, useContext, useEffect, useRef, useState, type KeyboardEvent } from 'react'
-import type { RootStore } from '../../../../../redux'
+import type { RootStore } from '@/redux'
 import { useSearchParams } from 'react-router-dom'
-import { Context } from '../../../../../contexts/context'
+import { Context } from '@/contexts/context'
 
 
 interface ISortMenuProps {

@@ -1,6 +1,6 @@
 import { useState, memo, useContext, useEffect } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { Context } from '../../contexts/context'
+import { Context } from '@/contexts/context'
 import CategoriesDropdown from '../sub-components/CategoriesDropdown'
 
 
