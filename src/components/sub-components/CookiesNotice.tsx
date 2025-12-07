@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 
-
 const CookiesNotice = () => {
   const [showBanner, setShowBanner] = useState(false)
 
@@ -20,7 +19,6 @@ const CookiesNotice = () => {
     return null
   }
   
-
   return (
     <div className='cookies-notice-box'>
       <div className='cookies-notice'>

@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react'
+import { useContext } from 'react'
 import { Context } from '@/contexts/context'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
@@ -7,7 +7,6 @@ import Cards from './MainComponents/Cards'
 import FiltersBlock from './MainComponents/FiltersComponents/FiltersBlock'
 import Breadcrumbs from './MainComponents/Breadcrumbs'
 import PaginationButtons from './MainComponents/PaginationButtons'
-
 
 const Main = () => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -34,7 +33,6 @@ const Main = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
-
 
   return (
     <>
@@ -96,4 +94,4 @@ const Main = () => {
   )
 }
 
-export default memo(Main)
+export default Main

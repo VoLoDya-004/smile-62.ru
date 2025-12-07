@@ -1,11 +1,8 @@
 import { useSelector } from 'react-redux'
-import { memo } from 'react'
 import type { RootStore } from '@/redux'
-
 
 const BasketHeader = () => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-
 
   return (
     <header className={`basket-box__table-header ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -16,4 +13,4 @@ const BasketHeader = () => {
   )
 }
 
-export default memo(BasketHeader)
+export default BasketHeader

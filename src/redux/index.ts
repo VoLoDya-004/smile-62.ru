@@ -4,7 +4,6 @@ import favouritesReducer from '@/redux/FavouritesSlice'
 import themeReducer from '@/redux/ThemeSlice'
 import userReducer from '@/redux/UserSlice'
 
-
 export const store = configureStore({
   reducer: {
     basket: basketReducer,

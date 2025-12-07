@@ -1,12 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-
 interface IUserState {
   userId: number | null
   isAuth: boolean
   userName: string
 }
-
 
 const initialState: IUserState = {
   userId: null,      

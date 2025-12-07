@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { ICartItem } from '@/types/types'
 
-
 interface ITotalState {
   count: number
   price_total: number
@@ -11,7 +10,6 @@ interface IBasketState {
   cartBasket: ICartItem[]
   total: ITotalState  
 }
-
 
 const initialState: IBasketState = {
   cartBasket: [],

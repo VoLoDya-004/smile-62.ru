@@ -1,10 +1,10 @@
+import { memo } from 'react'
+
 interface AdvertisementLabelProps {
   onHover: (show: boolean) => void
 }
 
-
 const AdvertisementLabel = ({ onHover }: AdvertisementLabelProps) => {
-
   
   return (
     <span
@@ -22,4 +22,4 @@ const AdvertisementLabel = ({ onHover }: AdvertisementLabelProps) => {
   )
 }
 
-export default AdvertisementLabel
+export default memo(AdvertisementLabel)

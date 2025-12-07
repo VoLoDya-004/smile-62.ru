@@ -1,15 +1,13 @@
-import { useState, useEffect, memo, type JSX } from 'react'
+import { useState, useEffect, type JSX } from 'react'
 import BlockEmpty from '@/components/sub-components/BlockEmpty'
 import BasketBox from '@/components/Basket/BasketComponents/BasketTable/BasketBox'
 import BasketDelivery from '@/components/Basket/BasketComponents/BasketDelivery/BasketDelivery'
 import Recommendations from '@/components/sub-components/Recommendations'
 
-
 interface IBasketProps {
   productsBasket: JSX.Element[]
   loading: boolean
 }
-
 
 const Basket = ({ productsBasket, loading }: IBasketProps) => {
   const [visible, setVisible] = useState(productsBasket.length > 0)
@@ -28,7 +26,6 @@ const Basket = ({ productsBasket, loading }: IBasketProps) => {
       </>
     )
   }
-
 
   return (
     <>
@@ -49,4 +46,4 @@ const Basket = ({ productsBasket, loading }: IBasketProps) => {
   )
 }
 
-export default memo(Basket)
+export default Basket

@@ -3,10 +3,8 @@ import { NavLink } from 'react-router-dom'
 import type { RootStore } from '@/redux'
 import FooterTitle from './FooterTitle'
 
-
 const SectionsFooter = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-
 
 	return (
 		<nav 

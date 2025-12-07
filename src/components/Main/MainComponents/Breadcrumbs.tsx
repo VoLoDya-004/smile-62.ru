@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 
-
 interface BreadcrumbsProps {
   selectedCategory: number | null
   categories: Array<{ id: number; label: string }>
@@ -12,7 +11,6 @@ interface BreadcrumbsProps {
   fetchCards: () => void
   setSearchParams: (params: URLSearchParams) => void
 }
-
 
 const Breadcrumbs = ({
   selectedCategory,
@@ -63,7 +61,6 @@ const Breadcrumbs = ({
   }
 
   const itemText = pluralize(totalItems, ['товар', 'товара', 'товаров'])
-
 
   return (
     <nav 

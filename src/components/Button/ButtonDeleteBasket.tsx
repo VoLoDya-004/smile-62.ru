@@ -1,14 +1,11 @@
 import { useSelector } from 'react-redux'
-import { memo } from 'react'
 import type { RootStore } from '@/redux'
-
 
 interface IButtonDeleteBasketProps {
   openDeleteModal: (id: number) => void
   id: number
   isPendingDelete: boolean
 }
-
 
 const ButtonDeleteBasket = ({
   openDeleteModal, 
@@ -17,7 +14,6 @@ const ButtonDeleteBasket = ({
 }: IButtonDeleteBasketProps) => {  
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
- 
   return (
     <div className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`}>
       { isPendingDelete ? (
@@ -55,4 +51,4 @@ const ButtonDeleteBasket = ({
   )
 }
 
-export default memo(ButtonDeleteBasket)
+export default ButtonDeleteBasket

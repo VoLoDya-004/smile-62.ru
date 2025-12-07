@@ -1,14 +1,12 @@
-import { useState, useEffect, memo, type JSX } from 'react'
+import { useState, useEffect, type JSX } from 'react'
 import BlockEmpty from '../sub-components/BlockEmpty'
 import FavouritesBox from './FavouritesComponents/FavouritesTable/FavouritesBox'
 import Recommendations from '../sub-components/Recommendations'
-
 
 interface IFavouritesProps {
   productsFavourites: JSX.Element[]
   loading: boolean
 }
-
 
 const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
   const [visible, setVisible] = useState(false)
@@ -28,7 +26,6 @@ const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
     )
   }
     
-    
   return (
     <>
       {!visible &&
@@ -43,4 +40,4 @@ const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
   )
 }
 
-export default memo(Favourites)
+export default Favourites

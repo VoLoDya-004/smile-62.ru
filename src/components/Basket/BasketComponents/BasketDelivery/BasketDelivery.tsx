@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import Button from '@/components/Button/Button'
 import type { RootStore } from '@/redux'
 
-
 const OrderSummary = ({ 
   isDarkTheme, 
   totalBasket 
@@ -12,7 +11,6 @@ const OrderSummary = ({
   totalBasket: { count: number; price_total: number }
 }) => {
   const priceFormatter = new Intl.NumberFormat('ru-RU')
-
 
   return (
     <section className={`basket-delivery__order ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -47,7 +45,6 @@ const OrderSummary = ({
     </section>
   )
 }
-
 
 const CitySelection = ({ 
   isDarkTheme, 
@@ -90,7 +87,6 @@ const CitySelection = ({
     { value: 'sochi', label: 'Сочи' },
   ]
 
-
   return (
     <section className={`basket-delivery__city ${isDarkTheme ? 'dark-theme' : ''}`}>
       <label htmlFor='city-select'>
@@ -114,7 +110,6 @@ const CitySelection = ({
   )
 }
 
-
 const BasketDelivery = () => {
   const totalBasket = useSelector((state: RootStore) => state.basket.total)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -124,7 +119,6 @@ const BasketDelivery = () => {
   const handleCityChange = (selectedCity: string) => {
     setCity(selectedCity)
   }
-
 
   return (
     <>

@@ -1,11 +1,9 @@
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 
-
 const LinkFooter = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-		
 	return (
 		<div 
 			className='footer__link'
@@ -17,6 +15,7 @@ const LinkFooter = () => {
 					href='https://vk.com/' 
 					target='_blank'
 					aria-label='Наша страница в ВКонтакте'
+          rel='noopener noreferrer'
 				>
 					<svg 
 						className='footer__link-item-vk-svg'
@@ -41,6 +40,7 @@ const LinkFooter = () => {
 					href='http://web.telegram.org/' 
 					target='_blank'
 					aria-label='Наш Telegram канал'
+          rel='noopener noreferrer'
 				>
 					<svg 
 						className='footer__link-item-tg-svg' 
@@ -58,6 +58,7 @@ const LinkFooter = () => {
 					href='https://ok.ru/'
 					target='_blank'
 					aria-label='Мы в Одноклассниках'
+          rel='noopener noreferrer'
 				>
 					<svg 
 						className='footer__link-item-ok-svg' 
@@ -95,6 +96,7 @@ const LinkFooter = () => {
 					href='youtube.com'
 					target='_blank'
 					aria-label='Наш Youtube канал'
+          rel='noopener noreferrer'
 				>
 					<svg 
 						className='footer__link-item-youtube-svg' 

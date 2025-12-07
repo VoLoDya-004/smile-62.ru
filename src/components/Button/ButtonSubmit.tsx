@@ -1,6 +1,5 @@
 import type { PointerEventHandler, ReactNode } from 'react'
 
-
 interface IButtonSubmitProps {
   id?: string
   className?: string
@@ -8,9 +7,7 @@ interface IButtonSubmitProps {
   children: ReactNode
 }
 
-
 const ButtonSubmit = ({ children, id, className, onClick }: IButtonSubmitProps) => {
-
 
   return (
 	  <button 

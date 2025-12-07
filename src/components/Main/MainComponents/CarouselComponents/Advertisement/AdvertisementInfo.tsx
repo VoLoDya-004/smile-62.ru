@@ -1,9 +1,10 @@
+import { memo } from 'react'
+
 interface AdvertisementInfoProps {
   show: boolean
 }
 
 const AdvertisementInfo = ({ show }: AdvertisementInfoProps) => {
-
   
   return (
     <div 
@@ -17,4 +18,4 @@ const AdvertisementInfo = ({ show }: AdvertisementInfoProps) => {
   )
 }
 
-export default AdvertisementInfo
+export default memo(AdvertisementInfo)

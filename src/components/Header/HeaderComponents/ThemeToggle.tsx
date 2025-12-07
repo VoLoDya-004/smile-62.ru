@@ -1,15 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsDarkTheme } from '@/redux/ThemeSlice'
-import { memo } from 'react'
 import useDeviceType from '@/hooks/useDeviceType'
 import type { RootStore } from '@/redux'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 
-
 const ThemeToggle = () => {
   const dispatch = useDispatch()
-
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
   
   const toggleTheme = () => {
@@ -17,7 +14,6 @@ const ThemeToggle = () => {
   }
 
   const { isMobile } = useDeviceType()
-
 
   return (
     <Tippy 
@@ -42,7 +38,7 @@ const ThemeToggle = () => {
   )
 }
 
-export default memo(ThemeToggle)
+export default ThemeToggle
 
 
 

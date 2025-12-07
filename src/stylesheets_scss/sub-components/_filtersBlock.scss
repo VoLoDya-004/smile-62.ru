@@ -79,7 +79,7 @@
       flex-wrap: nowrap;
       flex-shrink: 0;
       width: auto;
-      padding-left: 5px;
+      padding: 10px 5px;
       margin-right: 20px;
       color: blue;
       cursor: pointer;
@@ -88,11 +88,6 @@
       border: none;
       background-color: inherit;
       font-size: 1em;
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 12px calc(100% - 240px) 12px 15px;
-      }
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           color: rgb(96, 22, 118);
@@ -312,16 +307,12 @@ input[name="sortOptions"] {
     height: auto;
     flex-wrap: wrap;
     border-radius: 10px;
+    gap: 20px;
     &__sort {
       padding: 0 10px;
       min-width: 100%;
       &-title {
         width: auto;
-        &::after {
-          content: '';
-          position: absolute;
-          inset: 3px calc(100% - 191px) 56px 8px;
-        }
       }
     }
     &__filter {
@@ -373,7 +364,7 @@ input[name="sortOptions"] {
       }
     }
     &__filter {
-      padding: 3px;
+      padding: 0 3px 10px;
     }
   }
 

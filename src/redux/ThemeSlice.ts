@@ -1,10 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-
 interface IThemeState {
   isDarkTheme: boolean
 }
-
 
 const initialState: IThemeState = {
   isDarkTheme: localStorage.getItem('theme') === 'dark-theme' ? true : false,

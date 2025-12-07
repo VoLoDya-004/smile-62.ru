@@ -9,7 +9,6 @@ import ButtonSubmit from '@/components/Button/ButtonSubmit'
 import Notification from '@/components/sub-components/Notification'
 import FormAccount from './FormAccount'
 
-
 const RegisterForm = ({ 
 	isDarkTheme, 
   onNotification 
@@ -55,7 +54,6 @@ const RegisterForm = ({
       })
     }
   }
-
 
   return (
     <form 
@@ -137,7 +135,6 @@ const RegisterForm = ({
   )
 }
 
-
 const LoginForm = ({ 
   isDarkTheme, 
   onNotification,
@@ -179,7 +176,6 @@ const LoginForm = ({
       })
     }
   }
-
 
   return (
     <form 
@@ -229,7 +225,6 @@ const LoginForm = ({
   )
 }
 
-
 const Form = () => {
   const dispatch = useDispatch()
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
@@ -277,7 +272,6 @@ const Form = () => {
       sessionStorage.removeItem('showLogoutNotification')
     }
   }, [isAuth])
-
 
   return (
 		<>

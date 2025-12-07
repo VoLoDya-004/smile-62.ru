@@ -1,9 +1,8 @@
-import { memo } from 'react'
+import { useEffect, useState } from 'react'
 import type { IFav, IBasket } from '@/types/types'
 import ButtonDeleteFavourites from '@/components/Button/ButtonDeleteFavourites'
 import ButtonBasket from '@/components/Button/ButtonBasket'
 
-    
 interface IFavouritesProductsProps {
   productFavourites: IFav
   deleteProductFavourites: (id: number) => void
@@ -12,7 +11,6 @@ interface IFavouritesProductsProps {
   cartFavourites: IFav[]
   isDeleting: boolean
 }
-
 
 const FavouritesProducts = ({
   productFavourites, 
@@ -23,22 +21,54 @@ const FavouritesProducts = ({
   isDeleting
 }: IFavouritesProductsProps) => {
   const { id, nazvanie, image, price_total } = productFavourites
-
   const priceFormatter = new Intl.NumberFormat('ru-RU')
 
+  const [hasAvif, setHasAvif] = useState(true)
+
+  useEffect(() => {
+    const img = new Image()
+    const handleLoad = () => setHasAvif(true)
+    const handleError = () => setHasAvif(false)
+    
+    img.addEventListener('load', handleLoad)
+    img.addEventListener('error', handleError)
+    img.src = `/images/tovar/${image}.avif`
+
+    return () => {
+      img.removeEventListener('load', handleLoad)
+      img.removeEventListener('error', handleError)
+      img.src = ''
+    }
+  }, [image])
 
   return (
     <article 
       className='favourites-box__product'
       aria-label={`Избранный товар ${nazvanie}`}
     >
-      <div className='favourites-box__product-img'>
-        <img 
-          className='favourites-box__product-img' 
-          src={image} 
-          alt='Товар' 
-        />
-      </div>
+      {hasAvif ? (
+        <picture className='favourites-box__product-img'>
+          <source 
+            srcSet={`/images/tovar/${image}.avif`} 
+            type='image/avif' 
+          />
+          <img 
+            className='favourites-box__product-img'
+            loading='lazy'
+            decoding='async'
+            src={`/images/tovar/${image}.png`}
+            alt='Товар'
+          />
+        </picture>
+      ) : (
+        <div className='favourites-box__product-img'>
+          <img 
+            className='favourites-box__product-img'
+            src={`/images/tovar/${image}.png`}
+            alt='Товар'
+          />
+        </div>
+      )}
       <div className='favourites-box__product-title'>
         {nazvanie}
       </div>
@@ -61,4 +91,4 @@ const FavouritesProducts = ({
   )
 }
 
-export default memo(FavouritesProducts)
+export default FavouritesProducts

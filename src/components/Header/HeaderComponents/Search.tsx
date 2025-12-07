@@ -1,10 +1,9 @@
-import { useContext, useState, useEffect, memo, useRef } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Context } from '@/contexts/context'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
-
 
 const Search = () => {
   const context = useContext(Context)
@@ -96,7 +95,6 @@ const Search = () => {
     }
   }, [])
 
-
   return (
     <div className='search'>
       <div className='search__line'>
@@ -139,4 +137,4 @@ const Search = () => {
   )
 }
 
-export default memo(Search)
+export default Search

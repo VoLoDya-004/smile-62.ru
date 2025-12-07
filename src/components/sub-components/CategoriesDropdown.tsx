@@ -1,16 +1,14 @@
-import { memo, useContext } from 'react'
+import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { Context } from '@/contexts/context'
 import type { RootStore } from '@/redux'
 import type { ICategory } from '@/types/types'
 
-
 interface ICategoriesDropdownProps {
-  toggle: string
-  visible: string
+  toggle: boolean
+  visible: boolean
   onCategorySelect: () => void
 }
-
 
 const CategoriesDropdown = ({ 
   toggle, 
@@ -51,18 +49,22 @@ const CategoriesDropdown = ({
     onCategorySelect()
   }
 
-
   return (
     <aside 
-      className={isDarkTheme ? `${toggle} dark-theme` : toggle}
-      aria-hidden={visible === 'display-block' ? 'false' : 'true'}
+      className={
+        isDarkTheme ? 
+        `${toggle ? 'categories-dropdown' : ''} dark-theme` : 
+        toggle ? 'categories-dropdown' : ''
+      }
+      aria-hidden={visible ? 'false' : 'true'}
       aria-label='Список категории товаров'
     >
       {categories.map((cat: ICategory) => (
         <button
           key={cat.id}
           className={`
-            categories-dropdown__item ${visible} 
+            categories-dropdown__item 
+            ${visible ? 'display-block' : 'display-none'} 
             ${selectedCategory === cat.id ? 
               'categories-dropdown__item_active' : 
               'categories-dropdown__item_passive'
@@ -71,7 +73,7 @@ const CategoriesDropdown = ({
           `}
           id={cat.label}
           onClick={() => handleCategorySelect(cat.id)}
-          tabIndex={visible === 'display-block' ? 0 : -1} 
+          tabIndex={visible ? 0 : -1} 
         >
           {cat.label}
         </button>
@@ -80,4 +82,4 @@ const CategoriesDropdown = ({
   )
 }
 
-export default memo(CategoriesDropdown)
+export default CategoriesDropdown

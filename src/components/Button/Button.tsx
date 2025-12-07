@@ -1,6 +1,5 @@
 import type { CSSProperties, PointerEventHandler, ReactNode } from 'react'
 
-
 interface IButtonProps {
   id?: string
   className?: string
@@ -9,9 +8,7 @@ interface IButtonProps {
   style?: CSSProperties
 }
 
-
 const Button = ({ children, id, className, onClick, style }: IButtonProps) => {
-
 
   return (
 	  <button 

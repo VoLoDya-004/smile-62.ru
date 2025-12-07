@@ -1,17 +1,12 @@
-import { memo } from 'react'
-
-
 interface ButtonChatProps {
   onOpen: () => void
 }
-
 
 const ButtonChat = ({ onOpen }: ButtonChatProps) => {
   const modalOpen = () => {
     onOpen()
     document.body.classList.add('modal-open')
   }
-
 
   return (
     <button 
@@ -48,4 +43,4 @@ const ButtonChat = ({ onOpen }: ButtonChatProps) => {
   )
 }
 
-export default memo(ButtonChat)
+export default ButtonChat

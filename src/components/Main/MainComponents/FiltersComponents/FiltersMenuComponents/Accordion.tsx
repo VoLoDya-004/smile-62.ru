@@ -2,12 +2,10 @@ import { useState, type ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 
-
 interface IAccordionProps {
   title: string
   children: ReactNode
 }
-
 
 const Accordion = ({ title, children }: IAccordionProps) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -17,7 +15,6 @@ const Accordion = ({ title, children }: IAccordionProps) => {
   const toggle = () => {
     setIsOpen(!isOpen)
   }
-
 
   return (
     <div className='accordion'>

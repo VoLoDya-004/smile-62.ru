@@ -6,7 +6,6 @@ import { useContext } from 'react'
 import { logoutUser } from '@/redux/UserSlice'
 import Button from '@/components/Button/Button'
 
-
 const ProfileAside = ({ 
 	isDarkTheme, 
   userName, 
@@ -16,7 +15,6 @@ const ProfileAside = ({
   userName: string
   onLogout: () => void
 }) => {
-
 
   return (
     <section 
@@ -35,7 +33,6 @@ const ProfileAside = ({
   )
 }
 
-
 const FavoritesBlock = ({ 
   isDarkTheme, 
   favoritesCount,
@@ -45,7 +42,6 @@ const FavoritesBlock = ({
   favoritesCount: number
   itemText: string
 }) => {
-
 
   return (
   	<section className={`profile-fav ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -87,7 +83,6 @@ const FavoritesBlock = ({
   )
 }
 
-
 const BasketBlock = ({ 
   isDarkTheme, 
   basketCount,
@@ -97,7 +92,6 @@ const BasketBlock = ({
   basketCount: number
   itemText: string
 }) => {
-
 
   return (
     <section className={`profile-basket ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -150,7 +144,6 @@ function pluralize(number: number, words: string[]) {
   ]
 }
 
-
 const FormAccount = () => {
   const context = useContext(Context)
   if (!context) {
@@ -171,7 +164,6 @@ const FormAccount = () => {
 
   const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
   const itemTextFav = pluralize(productsFavourites.length, ['товар', 'товара', 'товаров'])
-
 
   return (
     <>

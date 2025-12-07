@@ -3,7 +3,6 @@ import type { ReactNode, ReactElement, TouchEvent, CSSProperties, HTMLProps, Poi
 import CarouselContainer from './CarouselContainer'
 import AdvertisementInfo from './Advertisement/AdvertisementInfo'
 
-
 interface StyledElementProps extends HTMLProps<HTMLElement> {
 	style: CSSProperties
 }
@@ -11,7 +10,6 @@ interface StyledElementProps extends HTMLProps<HTMLElement> {
 interface ICarouselProps {
   children: ReactNode
 }
-
 
 const Carousel = ({ children }: ICarouselProps) => {
 	const [pages, setPages] = useState<ReactNode[]>([])
@@ -31,7 +29,6 @@ const Carousel = ({ children }: ICarouselProps) => {
   	  }
   	}
   	updateWidth()
-
   	window.addEventListener('resize', updateWidth)
   	return () => window.removeEventListener('resize', updateWidth)
   }, [])
@@ -54,7 +51,7 @@ const Carousel = ({ children }: ICarouselProps) => {
     )
   }, [children])
 
-  const handleLeftArrow = () => {
+  const handleLeftArrow = useCallback(() => {
     setCurrentIndex(prevIndex => {
       const newIndex = prevIndex - 1
 
@@ -65,9 +62,9 @@ const Carousel = ({ children }: ICarouselProps) => {
       setIsAnimating(true)
       return newIndex
     })
-  }
+  }, [pages])
 
-  const handleRightArrow = () => {
+  const handleRightArrow = useCallback(() => {
     setCurrentIndex(prevIndex => {
       const newIndex = prevIndex + 1
 
@@ -78,7 +75,7 @@ const Carousel = ({ children }: ICarouselProps) => {
       setIsAnimating(true)
       return newIndex
     })
-  }
+  }, [pages])
 
   const handleTouchStart = (e: TouchEvent<HTMLDivElement> | PointerEvent<HTMLDivElement>) => {
     isSwiping.current = true
@@ -121,7 +118,6 @@ const Carousel = ({ children }: ICarouselProps) => {
 
   const offsetX = -currentIndex * containerWidth
 
-
 	return (
 	  <aside aria-label='Рекламный баннер'>
 	    <CarouselContainer
@@ -145,6 +141,12 @@ const Carousel = ({ children }: ICarouselProps) => {
 }
 
 export default Carousel
+
+
+
+
+
+
 
 
 

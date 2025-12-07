@@ -1,13 +1,10 @@
-import { memo } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux/index'
 import Form from './ProfileComponents/Form/Form'
 import Recommendations from '../sub-components/Recommendations'
 
-
 const Profile = () => {
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
-
 
   return (
     <>
@@ -19,6 +16,6 @@ const Profile = () => {
   )
 }
 
-export default memo(Profile)
+export default Profile
 
 

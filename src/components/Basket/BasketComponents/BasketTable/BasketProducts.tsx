@@ -1,9 +1,10 @@
-import { useState, type ChangeEvent, memo } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import type { IBasket } from '@/types/types'
 import ButtonDeleteBasket from '@/components/Button/ButtonDeleteBasket'
-
+import BasketIncreaseSVG from '@/components/Icons/BasketIncreaseSVG'
+import BasketDecreaseSVG from '@/components/Icons/BasketDecreaseSVG'
 
 interface IBasketProductsProps {
   productBasket: IBasket
@@ -13,7 +14,6 @@ interface IBasketProductsProps {
 }
 
 const priceFormatter = new Intl.NumberFormat('ru-RU')
-
 
 const BasketProducts = ({
   productBasket, 
@@ -59,26 +59,57 @@ const BasketProducts = ({
       } else if (newCount > 100) {
         newCount = 100
       }
-
       setLocalCount(newCount)
     }
-
     onChange(e, id)
   }
 
+  const [hasAvif, setHasAvif] = useState(true)
+
+  useEffect(() => {
+    const img = new Image()
+    const handleLoad = () => setHasAvif(true)
+    const handleError = () => setHasAvif(false)
+
+    img.addEventListener('load', handleLoad)
+    img.addEventListener('error', handleError)
+    img.src = `/images/tovar/${image}.avif`
+
+    return () => {
+      img.removeEventListener('load', handleLoad)
+      img.removeEventListener('error', handleError)
+      img.src = ''
+    }
+  }, [image])
 
   return (       
     <article 
       className='basket-box__product'
       aria-label={`Товар ${nazvanie} в корзине`}
     >
-      <div className='basket-box__product-img'>
-        <img 
-          className='basket-box__product-img'
-          src={image} 
-          alt='Товар'
-        />
-      </div>
+      {hasAvif ? (
+        <picture className='basket-box__product-img'>
+          <source 
+            srcSet={`/images/tovar/${image}.avif`} 
+            type='image/avif' 
+          />
+          <img 
+            className='basket-box__product-img'
+            loading='lazy'
+            decoding='async'
+            src={`/images/tovar/${image}.png`}
+            alt='Товар'
+          />
+        </picture>
+      ) : (
+        <div className='basket-box__product-img'>
+          <img 
+            className='basket-box__product-img'
+            src={`/images/tovar/${image}.png`}
+            alt='Товар'
+          />
+        </div>
+      )}
       <div className='basket-box__product-title'>{nazvanie}</div>
       <div className='basket-box__product-count'>
         <div 
@@ -104,18 +135,7 @@ const BasketProducts = ({
             type='button'
             className={`count__up count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
           >
-            <svg 
-              width='14'
-              height='8'
-              viewBox='0 0 14 8'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path 
-                className='count-svg' 
-                d='M13 7L7 1L1 7' 
-              />
-            </svg>
+            <BasketIncreaseSVG />
           </button>
           <button
             onClick={handleDecrease}
@@ -123,18 +143,7 @@ const BasketProducts = ({
             type='button'
             className={`count__down count-svg-hover ${isDarkTheme ? 'dark-theme' : ''}`}
           >
-            <svg 
-              width='14'
-              height='8'
-              viewBox='0 0 14 8'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path 
-                className='count-svg' 
-                d='M1 1L7 7L13 1' 
-              />
-            </svg>
+            <BasketDecreaseSVG />
           </button>
         </div>
       </div>
@@ -150,4 +159,4 @@ const BasketProducts = ({
   )
 }
 
-export default memo(BasketProducts)
+export default BasketProducts

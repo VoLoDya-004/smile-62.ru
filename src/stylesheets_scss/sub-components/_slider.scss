@@ -24,16 +24,16 @@
 	margin-bottom: 10px;
 	position: relative;
 	&:hover .slider__btn-left, 
-    &:hover .slider__btn-right, 
-    &:focus .slider__btn-left,
-    &:focus .slider__btn-right {
+  &:hover .slider__btn-right, 
+  &:focus .slider__btn-left,
+  &:focus .slider__btn-right {
 		opacity: 1;
 	}
 	&__window {
 		position: relative;
 		height: 100%;
 		width: 100%;
-		border-radius: 50px;
+		border-radius: 40px;
 		overflow: hidden;
 	}
 	&__item {
@@ -42,16 +42,19 @@
 		pointer-events: none;
 	}
 	&__advertisement {
+    display: flex;
+    align-items: center;
+    height: 24px;
 		position: absolute;
 		right: 25px;
-		bottom: 20px;
+		bottom: 10px;
 		color: white;
 		padding: 0 10px;
 		background-color: rgb(0 0 0 / 0.4);
 		backdrop-filter: blur(2px);
 		user-select: none;
 		border-radius: 20px;
-		line-height: 1.5;
+    font-size: 0.93em;
 		&::after {
 			content: url("/images/icons/description_advertisement.svg");
 			padding-left: 5px;
@@ -64,7 +67,7 @@
 			color: white;
 			border-radius: 10px;
 			position: absolute;
-			top: 325px;
+			top: 335px;
 			right: 35px;
 			opacity: 0;
 			transition: opacity .3s ease;
@@ -136,8 +139,11 @@
 @media (max-width: forward.$breakpoint-md) {
 	.slider {
 		height: 230px;
+    &__window {
+      border-radius: 15px;
+    }
 		&__advertisement {
-			right: 35px;
+			right: 10px;
 			pointer-events: none;
 			&-description {
 				display: none;
@@ -146,11 +152,9 @@
 				}
 			}
 		}
-		&__btn-left {
-			opacity: 1;
-		}
-		&__btn-right {
-			opacity: 1;
+		&__btn-left,
+    &__btn-right {
+			display: none;
 		}
 	}
 }
@@ -160,13 +164,6 @@
 		height: 170px;
 		&__advertisement {
 			bottom: 5px;
-			font-size: 0.93em;
-		}
-		&__btn-left {
-			left: 15px;
-		}
-		&__btn-right {
-			right: 15px;
 		}
 	}
 }

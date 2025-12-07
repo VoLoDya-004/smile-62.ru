@@ -7,7 +7,7 @@ import  { setCartBasket } from './redux/BasketSlice'
 import { setIsDarkTheme } from './redux/ThemeSlice'
 import { setCartFavourites } from './redux/FavouritesSlice'
 import type { RootStore } from './redux'
-import type { IFilters, ICardsRender } from './types/types' 
+import type { IFilters, ICardsRender, INotificationData } from './types/types' 
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -23,7 +23,7 @@ import Profile from './components/Profile/Profile'
 import Basket from './components/Basket/Basket'
 import Support from './components/sub-components/Support'
 import ConfirmModal from './components/sub-components/ConfirmModal'
-
+import Notification from './components/sub-components/Notification'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -81,6 +81,22 @@ const App = () => {
     showModalAllFav()
   }, [showModalAllFav])
 
+  const [notification, setNotification] = useState<INotificationData | null>(null)
+
+  const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+    setNotification({ message, type })
+  }
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null)
+      }, 1000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [notification])
+
   //работа с корзиной
 
   const srcBasket = `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
@@ -108,6 +124,7 @@ const App = () => {
       })
       .then(() => axios.get(srcBasket))
       .then((res) => dispatch(setCartBasket(res.data)))
+      .catch(() => showNotification('Ошибка', 'error'))
       .finally(() => {
         setDeletingBasket(prev => {
           const newSet = new Set(prev)
@@ -131,6 +148,7 @@ const App = () => {
       })
       .then(() => axios.get(srcBasket))
       .then((res) => dispatch(setCartBasket(res.data)))
+      .catch(() => showNotification('Ошибка', 'error'))
       .finally(() => setLoadingDeleteAllBasket(false))
     }
   }, [dispatch, userId])
@@ -185,6 +203,7 @@ const App = () => {
       })
       .then(() => axios.get(srcBasket))
       .then((res) => dispatch(setCartBasket(res.data)))
+      .catch(() => showNotification('Ошибка', 'error'))
     }
   }, [dispatch, srcBasket])
 
@@ -240,6 +259,7 @@ const App = () => {
       })
       .then(() => axios.get(srcFavourites))
       .then((res) => dispatch(setCartFavourites(res.data)))
+      .catch(() => showNotification('Ошибка', 'error'))
       .finally(() => {
         setDeletingFavourites(prev => {
           const newSet = new Set(prev)
@@ -263,6 +283,7 @@ const App = () => {
       })
       .then(() => axios.get(srcFavourites))
       .then((res) => dispatch(setCartFavourites(res.data)))
+      .catch(() => showNotification('Ошибка', 'error'))
       .finally(() => {
         setLoadingDeleteAllFav(false)
         closeModalAllFav()
@@ -463,7 +484,6 @@ const App = () => {
   useEffect(() => {
     const categoryId = Number(searchParams.get('category')) || 0
     setSelectedCategory(categoryId)
-
     const sortFromUrl = searchParams.get('sort') || 'default'
     setSortType(sortFromUrl)
 
@@ -486,6 +506,7 @@ const App = () => {
 
   const fetchCards = useCallback(async () => {
     setIsLoading(true)
+
     try {
       const response = await axios.get('/backend/PHP/getCards.php', {
         params: {
@@ -507,7 +528,11 @@ const App = () => {
       })
       setCards(response.data.items)
       setTotalItems(response.data.total)
-    } finally {
+    }
+    catch {
+      showNotification('Ошибка', 'error')
+    }
+    finally {
       setIsLoading(false)
     }
   }, [currentPage, searchQuery, selectedCategory, sortType, filters])
@@ -528,8 +553,8 @@ const App = () => {
   useEffect(() => {
     const themeColor = isDarkTheme ? '#121212' : '#ffffff'
     const statusBarStyle = isDarkTheme ? 'black-translucent' : 'default'
-    
     let metaThemeColor = document.querySelector('meta[name="theme-color"]')
+
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', themeColor)
     } else {
@@ -540,6 +565,7 @@ const App = () => {
     }
     
     let metaApple = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
+
     if (metaApple) {
       metaApple.setAttribute('content', statusBarStyle)
     } else {
@@ -625,7 +651,6 @@ const App = () => {
     ]
   )
 
-  
   return (
     <>
       <Context.Provider value={contextValue}>
@@ -664,6 +689,13 @@ const App = () => {
             />                   
           </Routes>
         </main>
+        {notification && (
+          <Notification 
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(null)}
+          />
+        )}
         <ProgressBar /> 
         <ButtonScroll />
         <ButtonChat onOpen={openSupport} />

@@ -2,7 +2,6 @@ import type { TouchEvent, RefObject, ReactNode, PointerEvent } from 'react'
 import ButtonArrow from '@/components/Button/ButtonArrow'
 import AdvertisementLabel from './Advertisement/AdvertisementLabel'
 
-
 interface CarouselContainerProps {
   onLeftArrowClick: () => void
   onRightArrowClick: () => void
@@ -16,7 +15,6 @@ interface CarouselContainerProps {
   onAdvertisementHover: (show: boolean) => void
 }
 
-
 const CarouselContainer = ({
   onLeftArrowClick,
   onRightArrowClick,
@@ -29,7 +27,6 @@ const CarouselContainer = ({
   pages,
   onAdvertisementHover,
 }: CarouselContainerProps) => {
-
 
   return (
     <div className='slider' aria-label='Слайдер'>
@@ -66,3 +63,4 @@ const CarouselContainer = ({
 }
 
 export default CarouselContainer
+

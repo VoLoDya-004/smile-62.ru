@@ -1,6 +1,5 @@
-import { useState, memo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ButtonArrow from './ButtonArrow'
-
 
 const ButtonScroll = () => {
   const [visible, setVisible] = useState(false)
@@ -23,7 +22,6 @@ const ButtonScroll = () => {
     return () => window.removeEventListener('scroll', toggleVisible)
   }, [])
 
-    
   return (
     <ButtonArrow 
       onClick={scrollToTop} 
@@ -34,4 +32,4 @@ const ButtonScroll = () => {
   )
 }
 
-export default memo(ButtonScroll)
+export default ButtonScroll

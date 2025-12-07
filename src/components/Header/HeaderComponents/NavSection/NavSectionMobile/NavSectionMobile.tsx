@@ -1,9 +1,8 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import BasketCircleMobile from './BasketCircleMobile'
-
 
 const NavSectionMobile = () => {  
   const location = useLocation()    
@@ -13,7 +12,6 @@ const NavSectionMobile = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [location]) 
-
 
   return (
     <nav 
@@ -130,4 +128,4 @@ const NavSectionMobile = () => {
   )
 }
 
-export default memo(NavSectionMobile)
+export default NavSectionMobile

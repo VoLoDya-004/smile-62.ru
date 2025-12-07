@@ -2,7 +2,6 @@ import { createContext, type ReactNode, type SetStateAction, type Dispatch } fro
 import { type ActionCreatorWithPayload } from '@reduxjs/toolkit'
 import type { ICartItem, IProduct, ICardsRender } from '@/types/types'
 
-
 interface IFiltersActions {
   action1: boolean
   action2: boolean

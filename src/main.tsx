@@ -6,7 +6,6 @@ import { store } from './redux'
 import 'normalize.css'
 import './stylesheets_scss/styles.scss'
 
-
 const container = document.getElementById('root')
 
 if (!container) {

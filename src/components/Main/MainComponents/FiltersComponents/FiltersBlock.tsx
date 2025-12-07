@@ -6,7 +6,6 @@ import Button from '@/components/Button/Button'
 import SortMenu from './SortMenuComponents/SortMenu'
 import FiltersMenu from './FiltersMenuComponents/FiltersMenu'
 
-
 const FiltersBlock = () => {
   const context = useContext(Context)
   if (!context) {
@@ -156,7 +155,6 @@ const FiltersBlock = () => {
       return () => document.removeEventListener('keydown', handleTabKey)
     }
   }, [visibleFilters])
-
 
   return (
     <>

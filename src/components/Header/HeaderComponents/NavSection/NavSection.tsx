@@ -1,13 +1,12 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { RootStore } from '@/redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '@/redux/UserSlice'
 import type { INotificationData } from '@/types/types'
 import useDeviceType from '@/hooks/useDeviceType'
 import Notification from '@/components/sub-components/Notification'
-import ProfileMenu from '@/components/Profile/ProfileComponents/ProfileMenu/ProfileMenu'
-
+import ProfileMenu from './ProfileMenu'
 
 const NavSection = () => {
 	const { isMobile } = useDeviceType()
@@ -63,7 +62,6 @@ const NavSection = () => {
 		window.scrollTo(0, 0)
 	}, [])
 
-
 	return (
 		<nav
 			className='header-nav'
@@ -108,6 +106,12 @@ const NavSection = () => {
 					className='header-nav__item'
 					onPointerEnter={handlePointerEnter}
 					onPointerLeave={handlePointerLeave}
+          onFocus={() => setShowProfileMenu(true)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) {
+              setShowProfileMenu(false)
+            }
+          }}
 				>
 					<NavLink
 						to='/profile'
@@ -148,4 +152,4 @@ const NavSection = () => {
 	)
 }
 
-export default memo(NavSection)
+export default NavSection

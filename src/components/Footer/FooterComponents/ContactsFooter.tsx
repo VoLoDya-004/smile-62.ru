@@ -2,11 +2,9 @@ import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import FooterTitle from './FooterTitle'
 
-
 const ContactsFooter = () => {
 	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 	
-
   return (
     <div className='footer__contact'>
 		  <FooterTitle>Контакты</FooterTitle>

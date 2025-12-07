@@ -1,5 +1,4 @@
-import { memo, type ReactNode } from 'react'
-
+import { type ReactNode } from 'react'
 
 interface IButtonLoadProps {
   onClick: () => void
@@ -8,10 +7,8 @@ interface IButtonLoadProps {
   className: string
 }
 
-
 const ButtonLoad = ({ onClick, children, id, className }: IButtonLoadProps) => {
 
-    
   return (
     <button 
       type='button'
@@ -24,4 +21,4 @@ const ButtonLoad = ({ onClick, children, id, className }: IButtonLoadProps) => {
   )
 }
 
-export default memo(ButtonLoad)
+export default ButtonLoad

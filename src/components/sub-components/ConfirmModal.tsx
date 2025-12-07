@@ -14,7 +14,6 @@ interface IConfirmModal {
   description: string
 }
 
-
 const ModalHeader = ({ 
   title, 
   isDarkTheme 
@@ -27,11 +26,9 @@ const ModalHeader = ({
   </h3>
 )
 
-
 const ModalBody = ({ description }: { description: string }) => (
   <p className='modal-content__description'>{description}</p>
 )
-
 
 const ModalFooter = ({
   onConfirm,
@@ -61,7 +58,6 @@ const ModalFooter = ({
   </div>
 )
 
-
 const ModalContent = ({
   isDarkTheme,
   title,
@@ -87,7 +83,6 @@ const ModalContent = ({
     />
   </div>
 )
-
 
 const ConfirmModal = ({
   isOpen,
@@ -149,7 +144,6 @@ const ConfirmModal = ({
   if (!portalElement || !isOpen) {
     return null
   }
-
 
   return createPortal(
     <div 

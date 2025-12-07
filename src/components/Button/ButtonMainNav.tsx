@@ -1,13 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 
-
 const ButtonMainNav = () => {
   const navigate = useNavigate()
 
   const handleClick = () => {
     navigate('/')
   }
-    
     
   return (
     <button 

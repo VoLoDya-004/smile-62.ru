@@ -10,7 +10,6 @@ interface IFiltersMenuProps {
   handleToggleFilters: () => void
 }
 
-
 const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFilters }, ref) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
@@ -114,7 +113,6 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
     handleToggleFilters()
   }
 
-
   return (
     <section 
       ref={ref} 
@@ -133,7 +131,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='Без акции'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action1'
               checked={actions.action1}
@@ -145,7 +143,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='Акция 1-10%'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action2'
               checked={actions.action2}
@@ -157,7 +155,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='Акция 10-20%'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action3'
               checked={actions.action3}
@@ -169,7 +167,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='Акция больше 20%'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action4'
               checked={actions.action4}
@@ -213,7 +211,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='Меньше 15 тысяч рублей'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action5'
               checked={actions.action5}
@@ -228,7 +226,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='От 15 тысяч до 50 тысяч рублей'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox' 
               name='action6'
               checked={actions.action6}
@@ -243,7 +241,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='От 50 тысяч до 100 тысяч рублей'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action7'
               checked={actions.action7}
@@ -258,7 +256,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <label aria-label='Больше 100 тысяч рублей'>
           <div className={`accordion__item ${isDarkTheme ? 'dark-theme' : ''}`}>
             <input 
-              className='margin-checkbox'
+              className='margin-checkbox cursor-pointer'
               type='checkbox'
               name='action8'
               checked={actions.action8}

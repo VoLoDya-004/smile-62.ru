@@ -46,11 +46,6 @@
   height: 36px;
   padding: 0;
   transition: .2s;
-  &-svg {
-    display: flex;
-    user-select: none;
-    width: 20px;
-  }
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       background-color: red;

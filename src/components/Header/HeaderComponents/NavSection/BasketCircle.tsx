@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 
-
 const BasketCircle = () => {
   const totalBasket = useSelector((state: RootStore) => state.basket.total)
 
@@ -11,7 +10,6 @@ const BasketCircle = () => {
   useEffect(() => {
     setIsVisible(totalBasket.count > 0)
   }, [totalBasket])
-
 
   return (
     <>  

@@ -6,9 +6,7 @@ import NavSection from './HeaderComponents/NavSection/NavSection'
 import NavSectionMobile from './HeaderComponents/NavSection/NavSectionMobile/NavSectionMobile'
 import BasketCircle from './HeaderComponents/NavSection/BasketCircle'
 
-
 const Header = () => {
-
     
   return (
     <header id='header'aria-label='Шапка сайта'>

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-
+import { memo } from 'react'
 
 interface ButtonArrowProps {
   onClick: () => void
@@ -8,10 +8,8 @@ interface ButtonArrowProps {
   style?: CSSProperties
 }
 
-
 const ButtonArrow = ({ className, onClick, ariaLabel, style }: ButtonArrowProps) => {
     
-
   return (
     <button 
       type='button' 
@@ -32,4 +30,4 @@ const ButtonArrow = ({ className, onClick, ariaLabel, style }: ButtonArrowProps)
   )
 }
 
-export default ButtonArrow
+export default memo(ButtonArrow)

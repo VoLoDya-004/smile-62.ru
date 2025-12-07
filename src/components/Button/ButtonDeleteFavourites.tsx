@@ -1,7 +1,5 @@
 import { useSelector } from 'react-redux'
-import { memo } from 'react'
 import type { RootStore } from '@/redux'
-
 
 interface IButtonDeleteFavouritesProps {
   deleteProductFavourites: (id: number) => void
@@ -9,14 +7,12 @@ interface IButtonDeleteFavouritesProps {
   isPendingDelete: boolean
 }
 
-
 const ButtonDeleteFavourites = ({
   deleteProductFavourites, 
   id,
   isPendingDelete
 }: IButtonDeleteFavouritesProps) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-
 
   return (
     <div className={`basket-box__product-controls ${isDarkTheme ? 'dark-theme' : ''}`}>
@@ -53,4 +49,4 @@ const ButtonDeleteFavourites = ({
   )
 }
 
-export default memo(ButtonDeleteFavourites)
+export default ButtonDeleteFavourites

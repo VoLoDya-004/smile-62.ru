@@ -1,17 +1,14 @@
-import { memo, type JSX } from 'react'
+import { type JSX } from 'react'
 import BasketHeader from './BasketHeader'
 import BasketFooter from './BasketFooter'
 import BasketClearString from '../BasketClearString'
-
 
 interface IBasketBoxProps {
   productsBasket: JSX.Element[]
 }
 
-
 const BasketBox = ({ productsBasket }: IBasketBoxProps) => {
 
-    
   return (
     <section className='basket-box'>
       <BasketClearString />
@@ -24,4 +21,4 @@ const BasketBox = ({ productsBasket }: IBasketBoxProps) => {
   )
 }
 
-export default memo(BasketBox)
+export default BasketBox

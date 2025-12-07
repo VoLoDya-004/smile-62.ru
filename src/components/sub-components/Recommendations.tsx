@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, memo, type RefObject } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import type { RootStore } from '@/redux'
 import { useSelector } from 'react-redux'
 import type { ICardsRender } from '@/types/types'
@@ -9,13 +9,30 @@ interface IRecommendationsProductProps {
   card: ICardsRender
 }
 
-const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => {
+const RecommendationsProduct = ({ card }: IRecommendationsProductProps) => {
   const sale = Math.round(100 * ((card.price - card.price_sale) / card.price))
   const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
   const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
+  const [hasAvif, setHasAvif] = useState(true)
+
+  useEffect(() => {
+    const img = new Image()
+    const handleLoad = () => setHasAvif(true)
+    const handleError = () => setHasAvif(false)
+
+    img.addEventListener('load', handleLoad)
+    img.addEventListener('error', handleError)
+    img.src = `/images/tovar/${card.image}.avif`
+
+    return () => {
+    img.removeEventListener('load', handleLoad)
+    img.removeEventListener('error', handleError)
+    img.src = ''
+    }
+  }, [card.image])
 
   return (
     <article 
@@ -24,9 +41,29 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
       className={`recommendation-card ${isDarkTheme ? 'dark-theme' : ''}`}
     >
       <div className='recommendation-card__top'>
-        <div className='recommendation-card__image'>
-          <img src={card.image} alt='Товар' loading='lazy' />
-        </div>
+        {hasAvif ? (
+          <picture className='recommendation-card__image'>
+            <source 
+              srcSet={`/images/tovar/${card.image}.avif`} 
+              type='image/avif' 
+            />
+            <img 
+              loading='lazy'
+              decoding='async'
+              src={`/images/tovar/${card.image}.png`}
+              alt='Товар'
+            />
+          </picture>
+        ) : (
+          <div className='recommendation-card__image'>
+            <img 
+              loading='lazy'
+              decoding='async'
+              src={`/images/tovar/${card.image}.png`}
+              alt='Товар'
+            />
+          </div>
+        )}
         {sale !== 0 && <div className='recommendation-card__label'>-{sale}%</div>}
         {sale >= 20 && <div className='recommendation-card__sale'>выгодно</div>}
       </div>
@@ -67,7 +104,7 @@ const RecommendationsProduct = memo(({ card }: IRecommendationsProductProps) => 
       </div>
     </article>
   )
-})
+}
 
 const RecommendationsLoading = () => (
   <>
@@ -76,11 +113,9 @@ const RecommendationsLoading = () => (
   </>
 )
 
-
 const RecommendationsEmpty = () => (
   <h2 className='recommendation-loading'>Пока что рекомендации пусты</h2>
 )
-
 
 const RecommendationsContainer = ({ 
   cards, 
@@ -128,7 +163,6 @@ const RecommendationsContainer = ({
     </div>
   </div>
 )
-
 
 const Recommendations = () => {
   const scrollAmount = 500
@@ -219,7 +253,6 @@ const Recommendations = () => {
   }
 
   const handlePointerLeave = stopDragging
-
   const handlePointerUp = stopDragging
 
   const handlePointerMove = (e: PointerEvent) => {
@@ -238,7 +271,6 @@ const Recommendations = () => {
     onPointerMove: handlePointerMove,
     style: { scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' } as const
   }
-
 
   return (
     <section className='recommendation'>

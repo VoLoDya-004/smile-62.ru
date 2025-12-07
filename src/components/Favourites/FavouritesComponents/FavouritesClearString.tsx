@@ -2,15 +2,12 @@ import { useContext } from 'react'
 import { Context } from '@/contexts/context'
 import Button from '@/components/Button/Button'
 
-
-
 const FavouritesClearString = () => {
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
   const { handleClearFavBtn, loadingDeleteAllFav } = context
-
 
   return (
     <section className='clear-string'>

@@ -1,12 +1,12 @@
+import { usePortal } from '@/hooks/usePortal'
 import { useEffect, type CSSProperties } from 'react'
-
+import { createPortal } from 'react-dom'
 
 interface INotification {
   message: string
   type: 'success' | 'error'
   onClose: () => void
 }
-
 
 const Notification = ({ message, type, onClose }: INotification) => {
   useEffect(() => {
@@ -56,11 +56,17 @@ const Notification = ({ message, type, onClose }: INotification) => {
     }
   }, [])
 
+  const portalElement = usePortal('notification', true)
 
-  return (
+  if (!portalElement) {
+    return null
+  }
+
+  return createPortal(
     <div style={styles} role='alert'>
       {message}
-    </div>
+    </div>,
+    portalElement
   )
 }
 

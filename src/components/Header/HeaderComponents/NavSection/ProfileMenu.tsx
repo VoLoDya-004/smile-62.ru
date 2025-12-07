@@ -1,6 +1,4 @@
-import { memo } from 'react'
 import Button from '@/components/Button/Button'
-
 
 interface ProfileMenuProps {
 	isAuth: boolean
@@ -11,8 +9,7 @@ interface ProfileMenuProps {
 	onLogin: () => void
 }
 
-
-const ProfileMenu = memo(({
+const ProfileMenu = ({
 	isAuth,
 	userName,
 	isDarkTheme,
@@ -23,7 +20,6 @@ const ProfileMenu = memo(({
 	const name = isAuth ? `Имя: ${userName || 'Пользователь'}` : 'Войдите в аккаунт'
 	const ButtonText = isAuth ? 'Выйти' : 'Войти'
 
-    
 	return (
 		<aside 
 			className={`profile-dropdown ${isDarkTheme ? 'dark-theme' : ''}`}
@@ -45,6 +41,6 @@ const ProfileMenu = memo(({
 			</Button>
 		</aside>
 	)
-})
+}
 
 export default ProfileMenu

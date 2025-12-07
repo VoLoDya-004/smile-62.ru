@@ -1,8 +1,9 @@
-import { useState, memo, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Context } from '@/contexts/context'
 import CategoriesDropdown from '../sub-components/CategoriesDropdown'
-
+import CrossSVG from '../Icons/CrossSVG'
+import MenuSVG from '../Icons/MenuSVG'
 
 const ButtonCategories = () => {
   const context = useContext(Context)
@@ -11,9 +12,8 @@ const ButtonCategories = () => {
   }
   const { setSelectedCategory } = context
 
-  const [toggle, setToggle] = useState<string>('')
-  const [image, setImage] = useState<string>('/images/icons/nav.png')
-  const [visible, setVisible] = useState<string>('display-none')
+  const [toggle, setToggle] = useState<boolean>(false)
+  const [visible, setVisible] = useState<boolean>(false)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -33,17 +33,15 @@ const ButtonCategories = () => {
   }, [searchParams, setSelectedCategory])
 
   const closeCategoriesDropdown = () => {
-    setToggle('')
-    setImage('/images/icons/nav.png')
-    setVisible('display-none')
+    setToggle(false)
+    setVisible(false)
     document.getElementById('blackout')?.classList.remove('blackout')
     document.body.classList.remove('modal-open')
   }
 
   const showCategoriesDropdown = () => {
-    setToggle('categories-dropdown')
-    setImage('/images/icons/cross.png')
-    setVisible('display-block')
+    setToggle(true)
+    setVisible(true)
     document.getElementById('blackout')?.classList.add('blackout')
     document.body.classList.add('modal-open')
   }
@@ -52,10 +50,10 @@ const ButtonCategories = () => {
     if (location.pathname !== '/') {
       navigate('/')
     }
-    if (toggle === '') {
-      showCategoriesDropdown()
-    } else {
+    if (toggle) {
       closeCategoriesDropdown()
+    } else {
+      showCategoriesDropdown()
     }
   }
 
@@ -79,7 +77,7 @@ const ButtonCategories = () => {
   }, [])
 
   useEffect(() => {
-    if (toggle === 'categories-dropdown') {
+    if (toggle) {
       const handleTabKey = (e: KeyboardEvent) => {
         if (e.key === 'Tab') {
           const categoriesDropdown = document.querySelector('.categories-dropdown') as HTMLElement
@@ -137,7 +135,6 @@ const ButtonCategories = () => {
     }
   }, [toggle])
 
-
   return (
     <>
       <div className='categories'>
@@ -146,16 +143,12 @@ const ButtonCategories = () => {
           className='categories__button' 
           data-js-categories-button
           onClick={nav} 
-          aria-label={visible === 'display-block' ? 
+          aria-label={visible ? 
             'Закрыть меню категорий товаров' : 
             'Открыть меню категорий товаров'
           }
         >
-          <img 
-            src={image} 
-            alt='Категории товаров'
-            className='categories__img'
-          />
+          {visible ? <CrossSVG /> : <MenuSVG />}
         </button>
       </div>   
       <CategoriesDropdown 
@@ -167,7 +160,7 @@ const ButtonCategories = () => {
   )
 }
 
-export default memo(ButtonCategories)
+export default ButtonCategories
 
 
 

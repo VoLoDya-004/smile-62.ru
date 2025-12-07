@@ -10,7 +10,6 @@ interface SupportProps {
   onClose: () => void
 }
 
-
 const SupportHeader = ({ 
   isDarkTheme, 
   onClose 
@@ -146,7 +145,6 @@ const Support = ({ isOpen, onClose }: SupportProps) => {
   if (!portalElement || !isOpen) {
     return null
   }
-
 
   return createPortal(
     <section 

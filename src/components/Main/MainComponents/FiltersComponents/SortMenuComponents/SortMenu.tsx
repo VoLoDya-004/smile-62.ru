@@ -4,12 +4,10 @@ import type { RootStore } from '@/redux'
 import { useSearchParams } from 'react-router-dom'
 import { Context } from '@/contexts/context'
 
-
 interface ISortMenuProps {
   onSelect: (sortOption: string) => void
   onClose: () => void
 }
-
 
 const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClose }, ref) => {
   const context = useContext(Context)
@@ -58,7 +56,6 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
     firstRadioRef.current?.focus()
   }, [])
     
-
   return (
     <form 
       className={`sort-menu ${isDarkTheme ? 'dark-theme' : ''}`} 
@@ -72,6 +69,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
         ref={firstRadioRef}
       >
         <input 
+          className='cursor-pointer'
           checked={selectedOption === 'default'}
           name='sortOptions'
           type='radio'
@@ -88,6 +86,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
         onKeyDown={(e) => handleKeyDown(e, 'cheap')}
       >
         <input 
+          className='cursor-pointer'
           checked={selectedOption === 'cheap'}
           type='radio'
           id='sort-menu-cheap' 
@@ -104,6 +103,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
         onKeyDown={(e) => handleKeyDown(e, 'expensive')}
       >
         <input 
+          className='cursor-pointer'
           checked={selectedOption === 'expensive'}
           name='sortOptions' 
           type='radio'
@@ -120,6 +120,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
         onKeyDown={(e) => handleKeyDown(e, 'discount')}
       >
         <input 
+          className='cursor-pointer'
           checked={selectedOption === 'discount'}
           type='radio'
           id='sort-menu-discount'

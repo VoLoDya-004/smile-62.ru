@@ -1,6 +1,4 @@
-import { memo } from 'react'
 import ButtonLoad from '@/components/Button/ButtonLoad'
-
 
 interface PaginationButtonsProps {
   currentPage: number
@@ -10,15 +8,13 @@ interface PaginationButtonsProps {
   onPageChange: (page: number) => void
 }
 
-
-const PaginationButtons = memo(function PaginationButtons({
+const PaginationButtons = ({
   currentPage,
   isDarkTheme,
   isBackDisabled,
   isForwardDisabled,
   onPageChange
-}: PaginationButtonsProps) {
-
+}: PaginationButtonsProps) => {
 
   return (
     <section className='pagination-box'>
@@ -64,6 +60,6 @@ const PaginationButtons = memo(function PaginationButtons({
       </div>
     </section>
   )
-})
+}
 
 export default PaginationButtons

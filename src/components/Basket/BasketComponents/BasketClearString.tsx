@@ -2,14 +2,12 @@ import { useContext } from 'react'
 import { Context } from '@/contexts/context'
 import Button from '@/components/Button/Button'
 
-
 const BasketClearString = () => {
   const context = useContext(Context)
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
   const { handleClearBasketBtn, loadingDeleteAllBasket } = context
-
 
   return (
     <section className='clear-string'>

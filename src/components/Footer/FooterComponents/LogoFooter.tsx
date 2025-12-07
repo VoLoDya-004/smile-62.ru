@@ -1,9 +1,7 @@
 import { NavLink } from 'react-router-dom'
 
-
 const LogoFooter = () => {
 
-    
   return (
     <NavLink 
       to='/' 

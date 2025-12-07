@@ -1,10 +1,7 @@
 import { NavLink } from 'react-router-dom'
-import { memo } from 'react'
-
 
 const LogoHeader = () => {
     
-
   return (
     <NavLink 
       to='/'
@@ -85,4 +82,4 @@ const LogoHeader = () => {
   )
 }
 
-export default memo(LogoHeader)
+export default LogoHeader

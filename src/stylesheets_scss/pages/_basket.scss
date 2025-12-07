@@ -54,12 +54,14 @@
         height: 30px;
         background-color: #EAEFF2;
         border-radius: 3px;
+        padding-inline: 2px;
       }
       &-input {
         border: none;
         outline: none;
         max-width: 100%;
-        padding: 4px 0;
+        padding: 0;
+        height: 100%;
         background-color: transparent;
         text-align: center;
         font-size: 1.125em;
