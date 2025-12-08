@@ -13,6 +13,7 @@ interface CarouselContainerProps {
   isAnimating: boolean
   pages: ReactNode[]
   onAdvertisementHover: (show: boolean) => void
+  showChildren: boolean
 }
 
 const CarouselContainer = ({
@@ -26,6 +27,7 @@ const CarouselContainer = ({
   isAnimating,
   pages,
   onAdvertisementHover,
+  showChildren
 }: CarouselContainerProps) => {
 
   return (
@@ -57,7 +59,7 @@ const CarouselContainer = ({
         ariaLabel='Следующий слайд'
         className='slider__btn-right'
       />             
-      <AdvertisementLabel onHover={onAdvertisementHover} />
+      <AdvertisementLabel onHover={onAdvertisementHover} showChildren={showChildren} />
     </div>
   )
 }

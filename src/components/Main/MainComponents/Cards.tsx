@@ -4,9 +4,8 @@ import { Context } from '@/contexts/context'
 import { setCartBasket } from '@/redux/BasketSlice'
 import { setCartFavourites } from '@/redux/FavouritesSlice'
 import type { RootStore } from '@/redux'
-import type { IProduct, INotificationData, ICardsRender } from '@/types/types'
+import type { IProduct, ICardsRender } from '@/types/types'
 import axios from 'axios'
-import Notification from '@/components/sub-components/Notification'
 import CardsHeartIcon from '@/components/Icons/CardsHeartIcon'
 
 interface ICardProps {
@@ -39,7 +38,8 @@ const Cards = () => {
     currentPage,
     updateFavouritesData,
     setLoadingBasket,
-    setLoadingFavourites
+    setLoadingFavourites,
+    showNotification
   } = context
     
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
@@ -51,23 +51,8 @@ const Cards = () => {
   const [localBasket, setLocalBasket] = useState<IProduct[]>([])
   const [addingStatusBasket, setAddingStatusBasket] = useState<Record<number, boolean>>({})
   const [addingStatusFav, setAddingStatusFav] = useState<Record<number, boolean>>({})
-  const [notification, setNotification] = useState<INotificationData | null>(null)
 
   const scrollPositionRef = useRef(0)
-
-  const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-    setNotification({ message, type })
-  }
-
-  useEffect(() => {
-    if (notification) {
-      const timer = setTimeout(() => {
-        setNotification(null)
-      }, 1000)
-
-      return () => clearTimeout(timer)
-    }
-  }, [notification])
 
   useEffect(() => {
     setLocalFavourites(cartFavourites)
@@ -93,7 +78,7 @@ const Cards = () => {
 
   useEffect(() => {
     restoreScrollPosition()
-  }, [pendingIdBasket, pendingIdFav, notification])
+  }, [pendingIdBasket, pendingIdFav])
   
   const addBasket = useCallback(async (idProduct: number) => {
     const exists = memoizedBasket.some(item => item.id === idProduct)
@@ -336,10 +321,7 @@ const Cards = () => {
                   }
                 `}
                 id={`card_${card.id}`}
-                onClick={() => {
-                  handleAddBasket(card.id)
-                }}
-              >
+                onClick={() => handleAddBasket(card.id)}>
                 {addingStatusBasket[card.id] && !isInBasket ? 'Добавление' : isInBasket ? 
                   'В корзине' : 'В корзину'
                 }
@@ -370,11 +352,9 @@ const Cards = () => {
                   }
                 `}
                 id={`card_${card.id}`}
-                onClick={() => {
-                  handleAddBasket(card.id) 
-                }}
-              >
-                {addingStatusBasket[card.id] && !isInBasket ? 'Добавление' : isInBasket ? 
+                onClick={() => handleAddBasket(card.id)}>
+                {addingStatusBasket[card.id] && !isInBasket ? 
+                  'Добавление' : isInBasket ? 
                   'В корзине' : 'В корзину'
                 }
               </button>
@@ -399,13 +379,6 @@ const Cards = () => {
             <h2 className='centered-heading'>Товары отсутствуют</h2>
           ) : (
             <>
-            {notification && (
-              <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={() => setNotification(null)}
-              />
-            )}
               <section className={`setka ${isDarkTheme ? 'dark-theme' : ''}`}>
                 {cards.map((card) => (
                   <Card 

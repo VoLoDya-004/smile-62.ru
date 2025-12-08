@@ -22,8 +22,8 @@ import Favourites from './components/Favourites/Favourites'
 import Profile from './components/Profile/Profile'
 import Basket from './components/Basket/Basket'
 import Support from './components/sub-components/Support'
-import ConfirmModal from './components/sub-components/ConfirmModal'
 import Notification from './components/sub-components/Notification'
+import ModalContainer from './components/Modals/ModalContainer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -42,6 +42,18 @@ const App = () => {
   }, [])
 
   // Модалки и уведомления
+
+  const [isModalAdvertisementOpen, setIsModalAdvertisementOpen] = useState(false)
+
+  const closeModalAdvertisement = () => {
+    setIsModalAdvertisementOpen(false)
+    document.body.classList.remove('modal-open')
+  }
+
+  const OpenModalAdvertisement = () => {
+    setIsModalAdvertisementOpen(true)
+    document.body.classList.add('modal-open')
+  }
 
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
 
@@ -91,7 +103,7 @@ const App = () => {
     if (notification) {
       const timer = setTimeout(() => {
         setNotification(null)
-      }, 1000)
+      }, 3000)
 
       return () => clearTimeout(timer)
     }
@@ -612,7 +624,9 @@ const App = () => {
       updateBasketData,
       updateFavouritesData,
       setLoadingBasket,
-      setLoadingFavourites
+      setLoadingFavourites,
+      OpenModalAdvertisement,
+      showNotification
     }), 
     [
       productsFavourites,
@@ -647,7 +661,9 @@ const App = () => {
       updateBasketData,
       updateFavouritesData,
       setLoadingBasket,
-      setLoadingFavourites
+      setLoadingFavourites,
+      OpenModalAdvertisement,
+      showNotification
     ]
   )
 
@@ -700,32 +716,18 @@ const App = () => {
         <ButtonScroll />
         <ButtonChat onOpen={openSupport} />
         <Support isOpen={isSupportOpen} onClose={closeSupport} />
-        <ConfirmModal
-          isOpen={isModalOpen}
-          onConfirm={handleClearBasketProduct}
-          onCancel={closeModal}
-          modalId='modal-basket-delete'
-          portalId='confirm-modal-basket-delete'
-          title='Удаление товара'
-          description='Удалить выбранный товар? Отменить действие будет невозможно.'
-        />
-        <ConfirmModal
-          isOpen={isModalOpenAllBasket}
-          onConfirm={handleClearBasket}
-          onCancel={closeModalAllBasket}
-          modalId='modal-basket-delete-all'
-          portalId='confirm-modal-basket-delete-all'
-          title='Удаление корзины'
-          description='Удалить все товары из корзины? Отменить действие будет невозможно.'
-        />
-        <ConfirmModal
-          isOpen={isModalOpenAllFav}
-          onConfirm={handleClearFav}
-          onCancel={closeModalAllFav}
-          modalId='modal-fav-delete-all'
-          portalId='confirm-modal-fav-delete-all'
-          title='Удаление избранного'
-          description='Удалить все товары из избранного? Отменить действие будет невозможно.'
+        <ModalContainer 
+          isModalAdvertisementOpen={isModalAdvertisementOpen}
+          isModalOpen={isModalOpen}
+          isModalOpenAllBasket={isModalOpenAllBasket}
+          isModalOpenAllFav={isModalOpenAllFav}
+          handleClearBasketProduct={handleClearBasketProduct}
+          handleClearBasket={handleClearBasket}
+          handleClearFav={handleClearFav}
+          closeModalAdvertisement={closeModalAdvertisement}
+          closeModal={closeModal}
+          closeModalAllBasket={closeModalAllBasket}
+          closeModalAllFav={closeModalAllFav}
         />
         <CookiesNotice />
         <Footer />      

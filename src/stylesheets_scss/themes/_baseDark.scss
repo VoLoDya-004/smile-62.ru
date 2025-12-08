@@ -5,7 +5,7 @@ body.dark-theme {
   color: white;
 }      
 
-.modal-content {
+.modal-delete-content {
   &.dark-theme {
     background-color: black;
   }
@@ -13,5 +13,11 @@ body.dark-theme {
     &.dark-theme {
       background-color: #121212;
     }
+  }
+}
+
+.modal-advertisement {
+  &.dark-theme {
+    background-color: black;
   }
 }

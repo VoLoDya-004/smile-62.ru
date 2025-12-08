@@ -55,26 +55,27 @@
 		user-select: none;
 		border-radius: 20px;
     font-size: 0.93em;
+    z-index: 100;
 		&::after {
 			content: url("/images/icons/description_advertisement.svg");
 			padding-left: 5px;
 		}
 		&-description {
-			display: flex;
-			padding: 5px;
+			padding: 5px 10px;
 			font-size: 0.75em;
 			background-color: black;
 			color: white;
 			border-radius: 10px;
 			position: absolute;
-			top: 335px;
-			right: 35px;
+			transform: translateX(-50%);
+      left: 50%;
+      top: 27px;
 			opacity: 0;
 			transition: opacity .3s ease;
 			user-select: none;
-			z-index: 100;
 			pointer-events: none;
 			line-height: 1.5;
+      width: 130px;
 			&.show {
 				opacity: 1;
 			}
@@ -144,7 +145,6 @@
     }
 		&__advertisement {
 			right: 10px;
-			pointer-events: none;
 			&-description {
 				display: none;
 				&.show {

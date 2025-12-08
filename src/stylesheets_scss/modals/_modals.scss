@@ -1,0 +1,94 @@
+@use '@/stylesheets_scss/forward.scss';		
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.blackout {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 72px;
+	background-color: #0000008f;
+	z-index: 400;
+	transition: .3s;
+}
+
+.modal-window {
+  display: block;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0 0 0 / 0.4);
+}
+
+.modal-delete-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  line-height: 1.5;
+	@media (max-width: forward.$breakpoint-xs) {
+		width: 250px;
+	}
+  &__title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: forward.$backColorElem;
+    padding: 20px;
+    margin: 0;
+    position: relative;
+    left: -20px;
+    top: -23px;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.25em;
+    user-select: none;
+  }
+  &__description {
+    text-align: center;
+    margin-top: 0;
+	@media (max-width: forward.$breakpoint-xs) {
+		font-size: 0.84em;
+	}
+  }
+  &__footer {
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    user-select: none;
+  }
+}
+
+.modal-advertisement {
+  box-sizing: border-box;
+  background-color: white;
+  margin: 15% auto;
+  padding: 0 10px;
+  border-radius: 8px;
+  line-height: 1.5;
+  width: 300px;
+  &__content {
+    font-size: 0.81em;
+    padding: 12px 0;
+    line-height: 1.5;
+    border-bottom: 2px solid #e8e8f0;
+  }
+  &__button {
+    padding: 12px 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    text-transform: uppercase;
+    color: #9814ad;
+    font-weight: 600;
+    font-size: 0.81em;
+  }
+}

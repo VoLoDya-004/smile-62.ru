@@ -9,11 +9,13 @@ import Button from '@/components/Button/Button'
 const ProfileAside = ({ 
 	isDarkTheme, 
   userName, 
-  onLogout 
+  onLogout,
+  handleTopUpWallet
 }: { 
   isDarkTheme: boolean
   userName: string
   onLogout: () => void
+  handleTopUpWallet: () => void
 }) => {
 
   return (
@@ -23,7 +25,7 @@ const ProfileAside = ({
     >
       <div className='user-aside__name'>{userName || 'Пользователь'}</div>
       <div className='user-aside__sum'>Баланс: 0 &#x20bd;</div>
-      <Button className='button-violet'>
+      <Button onClick={handleTopUpWallet} className='button-violet'>
         Пополнить
       </Button>
       <Button onClick={onLogout} className='button-violet'>
@@ -149,7 +151,7 @@ const FormAccount = () => {
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const { productsFavourites } = context
+  const { productsFavourites, showNotification } = context
 
   const dispatch = useDispatch()
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -162,6 +164,10 @@ const FormAccount = () => {
     dispatch(logoutUser())
   }
 
+  const handleTopUpWallet = () => {
+    showNotification('Фунционал в разработке', 'error')
+  }
+
   const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
   const itemTextFav = pluralize(productsFavourites.length, ['товар', 'товара', 'товаров'])
 
@@ -171,6 +177,7 @@ const FormAccount = () => {
         isDarkTheme={isDarkTheme}
         userName={userName}
         onLogout={handleLogout}
+        handleTopUpWallet={handleTopUpWallet}
       />
       <section className='container-profile'>
         <FavoritesBlock 

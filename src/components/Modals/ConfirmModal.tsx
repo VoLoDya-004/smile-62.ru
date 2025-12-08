@@ -21,13 +21,13 @@ const ModalHeader = ({
   title: string
   isDarkTheme: boolean 
 }) => (
-  <h3 className={`modal-content__title ${isDarkTheme ? 'dark-theme' : ''}`}>
+  <h3 className={`modal-delete-content__title ${isDarkTheme ? 'dark-theme' : ''}`}>
     {title}
   </h3>
 )
 
 const ModalBody = ({ description }: { description: string }) => (
-  <p className='modal-content__description'>{description}</p>
+  <p className='modal-delete-content__description'>{description}</p>
 )
 
 const ModalFooter = ({
@@ -39,7 +39,7 @@ const ModalFooter = ({
   onCancel: () => void
   initialFocusRef: RefObject<HTMLButtonElement | null>
 }) => (
-  <div className='modal-content__footer'>
+  <div className='modal-delete-content__footer'>
     <button 
       ref={initialFocusRef}
       type='button'
@@ -73,7 +73,7 @@ const ModalContent = ({
   onCancel: () => void
   initialFocusRef: RefObject<HTMLButtonElement | null>
 }) => (
-  <div className={`modal-content ${isDarkTheme ? 'dark-theme' : ''}`}>
+  <div className={`modal-delete-content ${isDarkTheme ? 'dark-theme' : ''}`}>
     <ModalHeader title={title} isDarkTheme={isDarkTheme} />
     <ModalBody description={description} />
     <ModalFooter 

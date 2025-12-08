@@ -1,16 +1,25 @@
-import { memo } from 'react'
+import { Context } from '@/contexts/context'
+import { memo, useContext } from 'react'
+import AdvertisementInfo from './AdvertisementInfo'
 
 interface AdvertisementLabelProps {
   onHover: (show: boolean) => void
+  showChildren: boolean
 }
 
-const AdvertisementLabel = ({ onHover }: AdvertisementLabelProps) => {
+const AdvertisementLabel = ({ onHover, showChildren }: AdvertisementLabelProps) => {
+  const context = useContext(Context)
+  if (!context) {
+    throw new Error('Context must be used within a Provider')
+  }
+  const { OpenModalAdvertisement } = context
   
   return (
-    <span
+    <div
       className='slider__advertisement'
       role='complementary'
       aria-label='Реклама'
+      onClick={OpenModalAdvertisement}
       onPointerEnter={() => onHover(true)}
       onPointerLeave={() => onHover(false)}
       onFocus={() => onHover(true)}
@@ -18,7 +27,8 @@ const AdvertisementLabel = ({ onHover }: AdvertisementLabelProps) => {
       tabIndex={0}
     >
       Реклама
-    </span>
+      <AdvertisementInfo show={showChildren} />
+    </div>
   )
 }
 

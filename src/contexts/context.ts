@@ -53,6 +53,8 @@ interface IAppContextType {
   updateFavouritesData: () => Promise<void>
   setLoadingBasket: (loading: boolean) => void
   setLoadingFavourites: (loading: boolean) => void
+  OpenModalAdvertisement: () => void
+  showNotification: (message: string, type: 'success' | 'error') => void
 }
 
 export const Context = createContext<IAppContextType | undefined>(undefined)

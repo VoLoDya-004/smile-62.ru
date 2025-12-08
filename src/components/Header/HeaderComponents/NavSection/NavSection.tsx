@@ -1,15 +1,20 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import type { RootStore } from '@/redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '@/redux/UserSlice'
-import type { INotificationData } from '@/types/types'
+import { Context } from '@/contexts/context'
 import useDeviceType from '@/hooks/useDeviceType'
-import Notification from '@/components/sub-components/Notification'
 import ProfileMenu from './ProfileMenu'
 
 const NavSection = () => {
 	const { isMobile } = useDeviceType()
+
+  const context = useContext(Context)
+  if (!context) {
+    throw new Error('Context must be used within a Provider')
+  }
+  const { showNotification } = context
 
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
@@ -21,21 +26,6 @@ const NavSection = () => {
 	const isActiveProfile = location.pathname === '/profile'
 
 	const [showProfileMenu, setShowProfileMenu] = useState(false)
-	const [notification, setNotification] = useState<INotificationData | null>(null)
-
-	const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-		setNotification({ message, type })
-	}
-
-	useEffect(() => {
-		if (notification) {
-			const timer = setTimeout(() => {
-				setNotification(null)
-			}, 3000)
-
-			return () => clearTimeout(timer)
-		}
-	}, [notification])
 
 	const handlePointerEnter = () => {
 		if (isMobile) return
@@ -67,13 +57,6 @@ const NavSection = () => {
 			className='header-nav'
 			aria-label='Навигация по сайту'
 		>
-			{notification && (
-				<Notification
-					message={notification.message}
-					type={notification.type}
-					onClose={() => setNotification(null)}
-				/>
-			)}
 			<ul
 				className='header-nav__list'
 				aria-label='Навигация по сайту'

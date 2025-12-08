@@ -1,7 +1,6 @@
 import { useEffect, useState, Children, cloneElement, useRef, useCallback, isValidElement } from 'react'
 import type { ReactNode, ReactElement, TouchEvent, CSSProperties, HTMLProps, PointerEvent } from 'react'
 import CarouselContainer from './CarouselContainer'
-import AdvertisementInfo from './Advertisement/AdvertisementInfo'
 
 interface StyledElementProps extends HTMLProps<HTMLElement> {
 	style: CSSProperties
@@ -134,8 +133,8 @@ const Carousel = ({ children }: ICarouselProps) => {
 	      isAnimating={isAnimating}
 	      pages={pages}
 	      onAdvertisementHover={setShowChildren}
+        showChildren={showChildren}
 	    />
-	    <AdvertisementInfo show={showChildren} />
 	  </aside>
 	)
 }

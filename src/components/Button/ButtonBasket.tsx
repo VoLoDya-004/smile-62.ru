@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback, useMemo, useContext, Fragment} from 'react'
+import { useState, useCallback, useMemo, useContext, Fragment} from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
-import type { INotificationData, IFav, IProduct } from '@/types/types'
+import type { IFav, IProduct } from '@/types/types'
 import { Context } from '@/contexts/context'
-import Notification from '../sub-components/Notification'
 import BasketAddIcon from '../Icons/BasketAddIcon'
 
 interface IButtonBasketProps {
@@ -24,9 +23,8 @@ const ButtonBasket = ({
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
-  const { updateBasketData, setLoadingBasket } = context
+  const { updateBasketData, setLoadingBasket, showNotification } = context
 
-  const [notification, setNotification] = useState<INotificationData | null>(null)
   const [addingStatus, setAddingStatus] = useState<Record<number, boolean>>({})
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -35,20 +33,6 @@ const ButtonBasket = ({
     () => new Set(cartBasket.map(item => Number(item.id_product))), 
     [cartBasket]
   )
-
-	const showNotification = useCallback((message: string, type: 'success' | 'error' = 'success') => {
-		setNotification({ message, type })
-	}, [])
-
-  useEffect(() => {
-    if (notification) {
-      const timer = setTimeout(() => {
-        setNotification(null)
-      }, 1000)  
-
-      return () => clearTimeout(timer)
-    }
-  }, [notification])
 
   const handleAddInBasketProductFavourites = useCallback(async (id: number) => {
     if (addingStatus[id] || basketProductIds.has(id)) {
@@ -82,13 +66,6 @@ const ButtonBasket = ({
 
   return (
     <>
-      {notification && (
-        <Notification
-        	message={notification.message}
-        	type={notification.type}
-        	onClose={() => setNotification(null)}
-        />
-      )}
       {filterCards.map((card) => {
         const isBasket = basketProductIds.has(Number(card.id))
         const isLoading = addingStatus[card.id]

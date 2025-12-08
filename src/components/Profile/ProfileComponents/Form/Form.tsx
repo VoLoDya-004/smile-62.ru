@@ -1,12 +1,12 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useContext, useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser } from '@/redux/UserSlice'
 import type { RootStore } from '@/redux'
-import type { INotificationData, IRegisterData } from '@/types/types'
+import type { IRegisterData } from '@/types/types'
+import { Context } from '@/contexts/context'
 import axios from 'axios'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/components/Button/ButtonSubmit'
-import Notification from '@/components/sub-components/Notification'
 import FormAccount from './FormAccount'
 
 const RegisterForm = ({ 
@@ -230,21 +230,11 @@ const Form = () => {
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-  const [notification, setNotification] = useState<INotificationData | null>(null)
-
-  const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
-    setNotification({ message, type })
+  const context = useContext(Context)
+  if (!context) {
+    throw new Error('Context must be used within a Provider')
   }
-
-  useEffect(() => {
-  	if (notification) {
-  	  const timer = setTimeout(() => {
-  	  	setNotification(null)
-  	  }, 3000)
-
-  	  return () => clearTimeout(timer)
-  	}
-  }, [notification])
+  const { showNotification } = context
 
   const handleLoginSuccess = (userData: { id_user: number; name: string }) => {
     dispatch(setUser({ userId: userData.id_user, userName: userData.name, isAuth: true }))
@@ -268,20 +258,13 @@ const Form = () => {
 
   useEffect(() => {
 	  if (sessionStorage.getItem('showLogoutNotification')) {
-      setNotification({ message: 'Вы вышли из аккаунта', type: 'success' })
+      showNotification('Вы вышли из аккаунта', 'success')
       sessionStorage.removeItem('showLogoutNotification')
     }
   }, [isAuth])
 
   return (
 		<>
-  	  {notification && (
-  	    <Notification
-  	      message={notification.message}
-  	      type={notification.type}
-  	      onClose={() => setNotification(null)}
-  	    />
-  	  )}
   	  {!isAuth ? (
   	    <>
   	      <RegisterForm 

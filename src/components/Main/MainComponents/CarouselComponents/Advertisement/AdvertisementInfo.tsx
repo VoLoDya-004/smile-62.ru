@@ -11,9 +11,9 @@ const AdvertisementInfo = ({ show }: AdvertisementInfoProps) => {
       className={`slider__advertisement-description ${show ? 'show' : ''}`}
       role='contentinfo'
     >
-      ООО "что-там"<br />
-      ИНН 777777777<br />
-      здесь еще что-нибудь
+      <p className='margin-null'>OOO "AAAAA"</p>
+      <p className='margin-null'>ИНН 1111111111</p>
+      <p className='margin-null'>ЕРИД sohs873huc</p>
     </div>
   )
 }
