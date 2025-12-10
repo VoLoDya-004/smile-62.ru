@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useDeviceType = () => {
+export const useDeviceType = () => {
   const [isMobile, setIsMobile] = useState(false)
   
   useEffect(() => {
@@ -21,5 +21,3 @@ const useDeviceType = () => {
   
   return { isMobile, isDesktop: !isMobile }
 }
-
-export default useDeviceType

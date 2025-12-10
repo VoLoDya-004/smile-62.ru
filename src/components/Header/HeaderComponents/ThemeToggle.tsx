@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsDarkTheme } from '@/redux/ThemeSlice'
-import useDeviceType from '@/hooks/useDeviceType'
+import { useDeviceType } from '@/hooks'
 import type { RootStore } from '@/redux'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'

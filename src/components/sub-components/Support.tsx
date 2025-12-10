@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
 import type { RootStore } from '@/redux'
-import { usePortal } from '@/hooks/usePortal'
+import { usePortal } from '@/hooks/shared/usePortal'
 import { useEffect } from 'react'
 import ButtonCross from '../Button/ButtonCross'
 

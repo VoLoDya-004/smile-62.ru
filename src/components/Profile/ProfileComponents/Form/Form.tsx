@@ -157,7 +157,7 @@ const LoginForm = ({
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        API_URLS.REGISTER,
+        API_URLS.LOGIN,
         loginData,
         {
           headers: {

@@ -4,7 +4,7 @@ import type { RootStore } from '@/redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '@/redux/UserSlice'
 import { Context } from '@/contexts/context'
-import useDeviceType from '@/hooks/useDeviceType'
+import { useDeviceType } from '@/hooks'
 import ProfileMenu from './ProfileMenu'
 
 const NavSection = () => {

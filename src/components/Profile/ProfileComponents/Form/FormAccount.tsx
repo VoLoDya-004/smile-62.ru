@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Context } from '@/contexts/context'
 import { useContext } from 'react'
 import { logoutUser } from '@/redux/UserSlice'
+import { pluralize } from '@/utils/pluralize'
 import Button from '@/components/Button/Button'
 
 const ProfileAside = ({ 
@@ -137,13 +138,6 @@ const BasketBlock = ({
       </div>
     </section>
   )
-}
-
-function pluralize(number: number, words: string[]) {
-  const cases = [2, 0, 1, 1, 1, 2]
-  return words[
-    (number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]
-  ]
 }
 
 const FormAccount = () => {

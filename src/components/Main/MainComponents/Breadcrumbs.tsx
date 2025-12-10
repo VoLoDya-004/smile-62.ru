@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
+import { pluralize } from '@/utils/pluralize'
 
 interface BreadcrumbsProps {
   selectedCategory: number | null
@@ -51,13 +52,6 @@ const Breadcrumbs = ({
       setCurrentPage(1)
       fetchCards()         
     }
-  }
-
-  function pluralize(number: number, words: string[]) {
-    const cases = [2, 0, 1, 1, 1, 2]
-    return words[
-      (number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]
-    ]
   }
 
   const itemText = pluralize(totalItems, ['товар', 'товара', 'товаров'])
