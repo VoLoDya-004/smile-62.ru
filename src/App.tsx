@@ -8,6 +8,8 @@ import { setIsDarkTheme } from './redux/ThemeSlice'
 import { setCartFavourites } from './redux/FavouritesSlice'
 import type { RootStore } from './redux'
 import type { IFilters, ICardsRender, INotificationData } from './types/types' 
+import { CATEGORIES } from './constants/categories'
+import { API_URLS } from './constants/urls'
 import axios from 'axios'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -111,7 +113,7 @@ const App = () => {
 
   //работа с корзиной
 
-  const srcBasket = `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
+  const srcBasket = `${API_URLS.BASKET}?idUser=${userId}&Operation=showBasket`
 
   const [loadingDeleteAllBasket, setLoadingDeleteAllBasket] = useState(false)
   const [loadingDeleteAllFav, setLoadingDeleteAllFav] = useState(false)
@@ -127,7 +129,7 @@ const App = () => {
       setIsModalOpen(false)
       setDeletingBasket(prev => new Set(prev).add(id))
 
-      axios.get('/backend/PHP/basket.php', {
+      axios.get(API_URLS.BASKET, {
         params: {
           Operation: 'deleteBasket',
           idProduct: id,
@@ -152,7 +154,7 @@ const App = () => {
       setIsModalOpenAllBasket(false)
       setLoadingDeleteAllBasket(true)
       
-      axios.get('/backend/PHP/basket.php', {
+      axios.get(API_URLS.BASKET, {
         params: {
           Operation: 'clearBasket',
           idUser: userId,
@@ -168,7 +170,7 @@ const App = () => {
   const increaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount >= 100) return
-      axios.get('/backend/PHP/basket.php', {
+      axios.get(API_URLS.BASKET, {
         params: {
           Operation: 'increaseBasket',
           idProduct: id,
@@ -183,7 +185,7 @@ const App = () => {
   const decreaseBasket = useCallback((id: number, currentCount: number) => {
     if (userId !== null) {
       if (currentCount <= 1) return
-      axios.get('/backend/PHP/basket.php', {
+      axios.get(API_URLS.BASKET, {
         params: {
           Operation: 'decreaseBasket',
           idProduct: id,
@@ -205,7 +207,7 @@ const App = () => {
         newCount = '100'
       }
 
-      axios.get('/backend/PHP/basket.php', {
+      axios.get(API_URLS.BASKET, {
         params: {
           Operation: 'updateCount',
           idProduct: id,
@@ -252,7 +254,7 @@ const App = () => {
 
   //работа с избранными товарами
 
-  const srcFavourites = `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+  const srcFavourites = `${API_URLS.FAVOURITES}?idUser=${userId}&Operation=showFavourites`
 
   const cartFavourites = useSelector((state: RootStore) => state.favourites.cartFavourites)
 
@@ -262,7 +264,7 @@ const App = () => {
     if (userId !== null) {
       setDeletingFavourites(prev => new Set(prev).add(id))
 
-      axios.get('/backend/PHP/favourites.php', {
+      axios.get(API_URLS.FAVOURITES, {
         params: {
           Operation: 'deleteFavourites',
           idProduct: id,
@@ -287,7 +289,7 @@ const App = () => {
       setIsModalOpenAllFav(false)
       setLoadingDeleteAllFav(true)
 
-      axios.get('/backend/PHP/favourites.php', {
+      axios.get(API_URLS.FAVOURITES, {
         params: {
           Operation: 'clearFavourites',
           idUser: userId,
@@ -305,7 +307,7 @@ const App = () => {
 
   const addInBasketProductFavourites = useCallback(async (id: number): Promise<void> => {
     if (userId !== null) {
-      await axios.get('/backend/PHP/favourites.php', {
+      await axios.get(API_URLS.FAVOURITES, {
         params: {
           Operation: 'addBasket',
           idProduct: id,
@@ -354,7 +356,7 @@ const App = () => {
   const updateFavouritesData = useCallback(async () => {
     if (!userId) return
     
-    await axios.get('/backend/PHP/favourites.php', {
+    await axios.get(API_URLS.FAVOURITES, {
       params: { 
         Operation: 'showBasket', 
         idUser: userId,
@@ -369,7 +371,7 @@ const App = () => {
   const updateBasketData = useCallback(async () => {
     if (!userId) return
       
-    await axios.get('/backend/PHP/favourites.php', {
+    await axios.get(API_URLS.FAVOURITES, {
       params: { 
         Operation: 'showBasket', 
         idUser: userId,
@@ -402,34 +404,6 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(() => 
     Number(searchParams.get('category')) || 0
   )
-
-  const categories = [
-      { id: 0, label: 'Все категории' },
-      { id: 1, label: 'Ноутбуки' },
-      { id: 2, label: 'Смартфоны' },
-      { id: 3, label: 'Планшеты' },
-      { id: 4, label: 'Телевизоры' },
-      { id: 5, label: 'Компьютеры' },
-      { id: 6, label: 'Красота и здоровье' },
-      { id: 7, label: 'Техника для кухни' },
-      { id: 8, label: 'Аудиотехника' },
-      { id: 9, label: 'Фото и видео' },
-      { id: 10, label: 'Аксессуары' },
-      { id: 11, label: 'Сад и огород' },
-      { id: 12, label: 'Офис' },
-      { id: 13, label: 'Умные устройства' },
-      { id: 14, label: 'Автотовары' },
-      { id: 15, label: 'Сетевое оборудование' },
-      { id: 16, label: 'Кабели и адаптеры' },
-      { id: 17, label: 'Электронные книги' },
-      { id: 18, label: 'Климатическая техника' },
-      { id: 19, label: 'Техника для творчества' },
-      { id: 20, label: 'Отдых и развлечения' },
-      { id: 21, label: 'VR-гарнитуры' },
-      { id: 22, label: 'Устройства для безопасности' },
-      { id: 23, label: 'Техника для ремонта' },
-      { id: 24, label: 'Техника для дома' },
-  ]
 
   // карточки на главной
 
@@ -520,7 +494,7 @@ const App = () => {
     setIsLoading(true)
 
     try {
-      const response = await axios.get('/backend/PHP/getCards.php', {
+      const response = await axios.get(API_URLS.CARDS, {
         params: {
           page: currentPage,
           search: searchQuery,
@@ -595,7 +569,7 @@ const App = () => {
       productsFavourites,
       setSelectedCategory,
       setCurrentPage,
-      categories,
+      CATEGORIES,
       setSearchQuery,
       handleClearFavBtn,
       loadingDeleteAllFav,
@@ -632,7 +606,7 @@ const App = () => {
       productsFavourites,
       setSelectedCategory,
       setCurrentPage,
-      categories,
+      CATEGORIES,
       setSearchQuery,
       handleClearFavBtn,
       loadingDeleteAllFav,

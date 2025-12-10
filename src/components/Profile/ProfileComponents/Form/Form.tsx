@@ -4,6 +4,7 @@ import { setUser } from '@/redux/UserSlice'
 import type { RootStore } from '@/redux'
 import type { IRegisterData } from '@/types/types'
 import { Context } from '@/contexts/context'
+import { API_URLS } from '@/constants/urls'
 import axios from 'axios'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/components/Button/ButtonSubmit'
@@ -30,11 +31,14 @@ const RegisterForm = ({
   const handleRegister = async () => {
     try {
       const response = await axios.post(
-        '/backend/PHP/register.php?Operation=register',
+        API_URLS.REGISTER,
         registerData,
         {
           headers: {
             'Content-Type': 'application/json'
+          },
+          params: {
+            Operation: 'register'
           }
         }
       )
@@ -153,11 +157,14 @@ const LoginForm = ({
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        '/backend/PHP/login.php?Operation=login',
+        API_URLS.REGISTER,
         loginData,
         {
           headers: {
             'Content-Type': 'application/json'
+          },
+          params: {
+            Operation: 'login'
           }
         }
       )

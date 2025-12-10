@@ -5,6 +5,7 @@ import { setCartBasket } from '@/redux/BasketSlice'
 import { setCartFavourites } from '@/redux/FavouritesSlice'
 import type { RootStore } from '@/redux'
 import type { IProduct, ICardsRender } from '@/types/types'
+import { API_URLS } from '@/constants/urls'
 import axios from 'axios'
 import CardsHeartIcon from '@/components/Icons/CardsHeartIcon'
 
@@ -24,10 +25,10 @@ const Cards = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const srcBasket = `/backend/PHP/basket.php?idUser=${userId}&Operation=showBasket`
-  const srcFavourites = `/backend/PHP/favourites.php?idUser=${userId}&Operation=showFavourites`
+  const srcBasket = `${API_URLS.BASKET}?idUser=${userId}&Operation=showBasket`
+  const srcFavourites = `${API_URLS.FAVOURITES}?idUser=${userId}&Operation=showFavourites`
 
-  const context = useContext(Context)
+  const context = useContext(Context) 
   if (!context) {
     throw new Error('Context must be used within a Provider')
   }
@@ -85,7 +86,7 @@ const Cards = () => {
 
     if (!exists) {
       setLoadingBasket(true)
-      await axios.get('/backend/PHP/basket.php', {
+      await axios.get(API_URLS.BASKET, {
         params: {
           Operation: 'addBasket',
           idProduct: idProduct,
@@ -135,7 +136,7 @@ const Cards = () => {
 
     if (!exists) {
       setLoadingFavourites(true)
-      await axios.get('/backend/PHP/favourites.php', {
+      await axios.get(API_URLS.FAVOURITES, {
         params: {
           Operation: 'addFavourites',
           idProduct: idProduct,

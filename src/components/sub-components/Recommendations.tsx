@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type RefObject } from 'react'
 import type { RootStore } from '@/redux'
 import { useSelector } from 'react-redux'
 import type { ICardsRender } from '@/types/types'
+import { API_URLS } from '@/constants/urls'
 import axios from 'axios'
 import ButtonArrow from '../Button/ButtonArrow'
 
@@ -207,7 +208,7 @@ const Recommendations = () => {
     setIsLoading(true)
 
     try {
-      const response = await axios.get('/backend/PHP/sort.php', {
+      const response = await axios.get(API_URLS.SORT, {
         params: {
           Operation: 'showCards',
           idUser: userId ?? 0,

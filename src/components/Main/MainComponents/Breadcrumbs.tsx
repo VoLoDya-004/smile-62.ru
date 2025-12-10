@@ -4,7 +4,7 @@ import type { RootStore } from '@/redux'
 
 interface BreadcrumbsProps {
   selectedCategory: number | null
-  categories: Array<{ id: number; label: string }>
+  CATEGORIES: Array<{ id: number; label: string }>
   totalItems: number
   setSelectedCategory: (category: number) => void
   setCurrentPage: (page: number) => void
@@ -14,7 +14,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs = ({
   selectedCategory,
-  categories,
+  CATEGORIES,
   totalItems,
   setSelectedCategory,
   setCurrentPage,
@@ -27,7 +27,7 @@ const Breadcrumbs = ({
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    categories.filter(cat => {
+    CATEGORIES.filter(cat => {
       if (cat.id === selectedCategory) {
         setCategoriesName(cat.label)
       }
@@ -37,7 +37,7 @@ const Breadcrumbs = ({
     } else {
       setVisible(true)
     }
-  }, [selectedCategory, categories])
+  }, [selectedCategory, CATEGORIES])
 
   const allCategoriesBtn = () => {
     if (selectedCategory !== 0) {

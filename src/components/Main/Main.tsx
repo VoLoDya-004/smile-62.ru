@@ -18,7 +18,7 @@ const Main = () => {
   const {
     setCurrentPage, 
     selectedCategory, 
-    categories,
+    CATEGORIES,
     fetchCards, 
     setSelectedCategory, 
     totalItems, 
@@ -72,7 +72,7 @@ const Main = () => {
       </Carousel>
       <Breadcrumbs
         selectedCategory={selectedCategory}
-        categories={categories}
+        CATEGORIES={CATEGORIES}
         totalItems={totalItems}
         setSelectedCategory={setSelectedCategory}
         setCurrentPage={setCurrentPage}

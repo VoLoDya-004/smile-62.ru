@@ -9,11 +9,6 @@
 	transition-timing-function: ease-in-out;
 }
 
-.slider__item img {
-	width: calc(100% - 0.4px);
-	object-fit: cover;
-}
-
 .slider {
 	user-select: none;
 	display: flex;
@@ -40,6 +35,10 @@
 		display: flex;
 		user-select: none;
 		pointer-events: none;
+    & img {
+	    width: calc(100% - 0.4px);
+	    object-fit: cover;
+    }
 	}
 	&__advertisement {
     display: flex;

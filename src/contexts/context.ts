@@ -23,7 +23,7 @@ interface IAppContextType {
   productsFavourites: ReactNode[]
   setSelectedCategory: (id: number) => void
   setCurrentPage: (page: number) => void
-  categories: {id: number, label: string}[]
+  CATEGORIES: {id: number, label: string}[]
   setSearchQuery: (query: string) => void
   handleClearFavBtn: () => void
   loadingDeleteAllFav: boolean

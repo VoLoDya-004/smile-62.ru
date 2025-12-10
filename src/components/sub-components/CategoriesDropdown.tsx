@@ -22,7 +22,7 @@ const CategoriesDropdown = ({
   const { 
     setSelectedCategory, 
     setCurrentPage,  
-    categories, 
+    CATEGORIES, 
     selectedCategory,
     setSearchParams
   } = context
@@ -59,7 +59,7 @@ const CategoriesDropdown = ({
       aria-hidden={visible ? 'false' : 'true'}
       aria-label='Список категории товаров'
     >
-      {categories.map((cat: ICategory) => (
+      {CATEGORIES.map((cat: ICategory) => (
         <button
           key={cat.id}
           className={`
