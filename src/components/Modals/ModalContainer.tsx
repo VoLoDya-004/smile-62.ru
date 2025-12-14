@@ -1,18 +1,19 @@
-import AdvertisementModal from "./AdvertisementModal"
-import ConfirmModal from "./ConfirmModal"
+import AdvertisementModal from './AdvertisementModal'
+import ConfirmModal from './ConfirmModal'
 
 interface IModalContainerProps {
   isModalAdvertisementOpen: boolean
   isModalOpen: boolean
   isModalOpenAllBasket: boolean
   isModalOpenAllFav: boolean
-  handleClearBasketProduct: () => void
+  handleClearBasketProduct: (id: number | null) => void
   handleClearBasket: () => void
   handleClearFav: () => void
   closeModalAdvertisement: () => void
   closeModal: () => void
   closeModalAllBasket: () => void
   closeModalAllFav: () => void
+  productIdToDelete: number | null
 }
 
 const ModalContainer = ({ 
@@ -26,12 +27,16 @@ const ModalContainer = ({
   closeModalAdvertisement,
   closeModal,
   closeModalAllBasket,
-  closeModalAllFav
+  closeModalAllFav,
+  productIdToDelete,
 }: IModalContainerProps) => (
   <>
     <ConfirmModal
       isOpen={isModalOpen}
-      onConfirm={handleClearBasketProduct}
+      onConfirm={() => {
+        handleClearBasketProduct(productIdToDelete)
+        closeModal()
+      }}
       onCancel={closeModal}
       modalId='modal-basket-delete'
       portalId='confirm-modal-basket-delete'
@@ -40,7 +45,10 @@ const ModalContainer = ({
     />
     <ConfirmModal
       isOpen={isModalOpenAllBasket}
-      onConfirm={handleClearBasket}
+      onConfirm={() => {
+        handleClearBasket()
+        closeModalAllBasket()
+      }}
       onCancel={closeModalAllBasket}
       modalId='modal-basket-delete-all'
       portalId='confirm-modal-basket-delete-all'
@@ -49,7 +57,10 @@ const ModalContainer = ({
     />
     <ConfirmModal
       isOpen={isModalOpenAllFav}
-      onConfirm={handleClearFav}
+      onConfirm={() => {
+        handleClearFav()
+        closeModalAllFav()
+      }}
       onCancel={closeModalAllFav}
       modalId='modal-fav-delete-all'
       portalId='confirm-modal-fav-delete-all'

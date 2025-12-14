@@ -1,4 +1,4 @@
-import CrossSVG from "../Icons/CrossSVG"
+import CrossSVG from '../Icons/CrossSVG'
 
 interface IButtonCrossProps {
   id?: string

@@ -1,4 +1,4 @@
-import { useState, useEffect, type JSX } from 'react'
+import { type JSX } from 'react'
 import BlockEmpty from '../sub-components/BlockEmpty'
 import FavouritesBox from './FavouritesComponents/FavouritesTable/FavouritesBox'
 import Recommendations from '../sub-components/Recommendations'
@@ -9,14 +9,6 @@ interface IFavouritesProps {
 }
 
 const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    if (!loading) {
-      setVisible(productsFavourites.length > 0)
-    }
-  }, [productsFavourites, loading])
-
   if (loading) {
     return (
       <>
@@ -25,16 +17,18 @@ const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
       </>
     )
   }
+
+  const hasFavourites = productsFavourites.length > 0
     
   return (
     <>
-      {!visible &&
+      {!hasFavourites &&
         <BlockEmpty 
           textUp={'В избранных пока пусто'} 
           textDown={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
         />
       }
-      {visible && <FavouritesBox productsFavourites={productsFavourites} />}
+      {hasFavourites && <FavouritesBox productsFavourites={productsFavourites} />}
       <Recommendations />
     </>
   )

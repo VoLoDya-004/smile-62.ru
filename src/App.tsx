@@ -36,11 +36,12 @@ const App = () => {
     openSupport,
     closeSupport,
     closeModalAllBasket,
-    handleClearBasketBtn,
     showModal,
     closeModal,
     closeModalAllFav,
+    handleClearBasketBtn,
     handleClearFavBtn,
+    productIdToDelete,
   } = useModals()
 
   const {
@@ -48,7 +49,6 @@ const App = () => {
     loadingDeleteAllBasket,
     loadingBasket,
     deletingBasket,
-    handleClearBasketProduct,
     handleCountChange,
     decreaseBasket,
     increaseBasket,
@@ -131,8 +131,6 @@ const App = () => {
     setCards,
     setSearchParams,
   } = useProducts()
-
-  // мемоизация данных из контекста
 
   const contextValue = useMemo(
     () => ({
@@ -265,13 +263,14 @@ const App = () => {
           isModalOpen={isModalOpen}
           isModalOpenAllBasket={isModalOpenAllBasket}
           isModalOpenAllFav={isModalOpenAllFav}
-          handleClearBasketProduct={handleClearBasketProduct}
+          handleClearBasketProduct={deleteProductBasket}
           handleClearBasket={handleClearBasket}
           handleClearFav={handleClearFav}
           closeModalAdvertisement={closeModalAdvertisement}
           closeModal={closeModal}
           closeModalAllBasket={closeModalAllBasket}
           closeModalAllFav={closeModalAllFav}
+          productIdToDelete={productIdToDelete}
         />
         <CookiesNotice />
         <Footer />      

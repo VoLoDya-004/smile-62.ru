@@ -1,9 +1,9 @@
-import { API_URLS } from "@/constants/urls"
-import type { ICardsRender, IFilters } from "@/types/types"
-import { useCallback, useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
-import { useNotification } from "./useNotification"
-import axios from "axios"
+import { API_URLS } from '@/constants/urls'
+import type { ICardsRender, IFilters } from '@/types/types'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useNotification } from './useNotification'
+import axios from 'axios'
 
 export const useProducts = () => {
   const { showNotification } = useNotification()

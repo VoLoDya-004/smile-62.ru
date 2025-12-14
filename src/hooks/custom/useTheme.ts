@@ -1,7 +1,7 @@
-import type { RootStore } from "@/redux"
-import { setIsDarkTheme } from "@/redux/ThemeSlice"
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import type { RootStore } from '@/redux'
+import { setIsDarkTheme } from '@/redux/ThemeSlice'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const useTheme = () => {
   const dispatch = useDispatch()

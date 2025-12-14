@@ -1,19 +1,20 @@
 import { API_URLS } from '@/constants/urls'
 import type { RootStore } from '@/redux'
-import { useCallback, useEffect, useState, type ChangeEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification, useModals } from '../index'
-import { setCartBasket } from '@/redux/BasketSlice'
-import axios from 'axios'
+import { BasketService } from '@/services/basketService'
 
 
 export const useBasket = () => {
   const { showNotification } = useNotification()
-  const { setIsModalOpen, setIsModalOpenAllBasket, productIdToDelete } = useModals()
+  const { setIsModalOpen } = useModals()
 
   const dispatch = useDispatch()
   const userId = useSelector((state: RootStore) => state.user.userId)
   const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
+
+  const basketService = useMemo(() => new BasketService(dispatch), [dispatch])
 
   const srcBasket = `${API_URLS.BASKET}?idUser=${userId}&Operation=showBasket`
 
@@ -21,80 +22,52 @@ export const useBasket = () => {
   const [loadingBasket, setLoadingBasket] = useState(true)
   const [deletingBasket, setDeletingBasket] = useState<Set<number>>(new Set())
 
-  const deleteProductBasket = useCallback((id: number | null) => {
+  const deleteProductBasket = useCallback(async (id: number | null) => {
     if (id && userId !== null) {
       setIsModalOpen(false)
       setDeletingBasket(prev => new Set(prev).add(id))
 
-      axios.get(API_URLS.BASKET, {
-        params: {
-          Operation: 'deleteBasket',
-          idProduct: id,
-          idUser: userId,
-        }
-      })
-      .then(() => axios.get(srcBasket))
-      .then((res) => dispatch(setCartBasket(res.data)))
-      .catch(() => showNotification('Ошибка', 'error'))
-      .finally(() => {
+      try {
+      await basketService.removeFromBasket(userId, id)
+      } catch {
+        showNotification('Ошибка', 'error')
+      } finally {
         setDeletingBasket(prev => {
           const newSet = new Set(prev)
           newSet.delete(id)
           return newSet
         })
-      })
+      }
     }
-  }, [dispatch, userId, srcBasket])
+  }, [basketService, userId, showNotification, setIsModalOpen])
 
-  const handleClearBasket = useCallback(() => {
+  const handleClearBasket = useCallback(async () => {
     if (userId !== null) {
-      setIsModalOpenAllBasket(false)
       setLoadingDeleteAllBasket(true)
-      
-      axios.get(API_URLS.BASKET, {
-        params: {
-          Operation: 'clearBasket',
-          idUser: userId,
-        }
-      })
-      .then(() => axios.get(srcBasket))
-      .then((res) => dispatch(setCartBasket(res.data)))
-      .catch(() => showNotification('Ошибка', 'error'))
-      .finally(() => setLoadingDeleteAllBasket(false))
-    }
-  }, [dispatch, userId])
 
-  const increaseBasket = useCallback((id: number, currentCount: number) => {
-    if (userId !== null) {
-      if (currentCount >= 100) return
-      axios.get(API_URLS.BASKET, {
-        params: {
-          Operation: 'increaseBasket',
-          idProduct: id,
-          idUser: userId,
-        }
-      })
-      .then(() => axios.get(srcBasket))
-      .then((res) => dispatch(setCartBasket(res.data)))
+      try {
+        await basketService.clearBasket(userId)
+      } catch {
+        showNotification('Ошибка', 'error')
+      } finally {
+        setLoadingDeleteAllBasket(false)
+      }
     }
-  }, [dispatch, srcBasket])
+  }, [userId, basketService, showNotification])
 
-  const decreaseBasket = useCallback((id: number, currentCount: number) => {
-    if (userId !== null) {
-      if (currentCount <= 1) return
-      axios.get(API_URLS.BASKET, {
-        params: {
-          Operation: 'decreaseBasket',
-          idProduct: id,
-          idUser: userId,
-        }
-      })
-      .then(() => axios.get(srcBasket))
-      .then((res) => dispatch(setCartBasket(res.data)))
+  const increaseBasket = useCallback(async (id: number, currentCount: number) => {
+    if (userId !== null && currentCount < 100) {
+      await basketService.increaseBasket(userId, id)
     }
-  }, [dispatch, srcBasket])
+  }, [userId, basketService, showNotification])
 
-  const handleCountChange = useCallback((e: ChangeEvent<HTMLInputElement>, id: number) => {
+  const decreaseBasket = useCallback(async (id: number, currentCount: number) => {
+    if (userId !== null && currentCount > 1) {
+      await basketService.decreaseBasket(userId, id)
+    }
+  }, [userId, basketService, showNotification])
+
+  const handleCountChange = useCallback(async (e: ChangeEvent<HTMLInputElement>, id: number) => {
     if (userId !== null) {
       let newCount = e.target.value
       if (newCount === '') {
@@ -104,47 +77,33 @@ export const useBasket = () => {
         newCount = '100'
       }
 
-      axios.get(API_URLS.BASKET, {
-        params: {
-          Operation: 'updateCount',
-          idProduct: id,
-          count: newCount,
-          idUser: userId,
-        }
-      })
-      .then(() => axios.get(srcBasket))
-      .then((res) => dispatch(setCartBasket(res.data)))
-      .catch(() => showNotification('Ошибка', 'error'))
+      try {
+        await basketService.updateBasketCount(userId, id, Number(newCount))
+      } catch {
+        showNotification('Ошибка', 'error')
+      }
     }
-  }, [dispatch, srcBasket])
-
-  const handleClearBasketProduct = useCallback(() => {
-    deleteProductBasket(productIdToDelete)
-  }, [productIdToDelete])
+  }, [userId, basketService, showNotification])
 
   const updateBasketData = useCallback(async () => {
-    if (!userId) return
-      
-    await axios.get(API_URLS.FAVOURITES, {
-      params: { 
-        Operation: 'showBasket', 
-        idUser: userId,
-      }
-    })
-    const res = await axios.get(srcBasket)
-    dispatch(setCartBasket(res.data))
-  }, [userId, srcBasket, dispatch])
+    if (userId !== null) {
+      await basketService.refreshBasket(userId)
+    }
+  }, [userId, basketService, showNotification])
+
+  const loadBasket = useCallback(async () => {
+    setLoadingBasket(true)
+    try {
+      await basketService.loadBasket(userId)
+    } catch {
+      showNotification('Ошибка', 'error')
+    } finally {
+      setLoadingBasket(false)
+    }
+  }, [userId, basketService, showNotification])
 
   useEffect(() => {
-    if (userId !== null) {
-      setLoadingBasket(true)
-      axios.get(srcBasket)
-      .then((res) => dispatch(setCartBasket(res.data)))
-      .finally(() => setLoadingBasket(false))
-    } else {
-      setLoadingBasket(false)
-      dispatch(setCartBasket([]))
-    }
+    loadBasket()
   }, [userId])
 
   return {
@@ -153,7 +112,6 @@ export const useBasket = () => {
     loadingDeleteAllBasket,
     loadingBasket,
     deletingBasket,
-    handleClearBasketProduct,
     handleCountChange,
     decreaseBasket,
     increaseBasket,
