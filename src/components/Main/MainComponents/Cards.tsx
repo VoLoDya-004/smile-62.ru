@@ -1,12 +1,10 @@
 import { useState, useEffect, useContext, useCallback, useMemo, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Context } from '@/contexts/context'
-import { setCartBasket } from '@/redux/BasketSlice'
-import { setCartFavourites } from '@/redux/FavouritesSlice'
 import type { RootStore } from '@/redux'
 import type { IProduct, ICardsRender } from '@/types/types'
-import { API_URLS } from '@/constants/urls'
-import axios from 'axios'
+import { BasketService } from '@/services/basketService'
+import { FavouritesService } from '@/services/favouritesService'
 import CardsHeartIcon from '@/components/Icons/CardsHeartIcon'
 
 interface ICardProps {
@@ -25,9 +23,6 @@ const Cards = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const srcBasket = `${API_URLS.BASKET}?idUser=${userId}&Operation=showBasket`
-  const srcFavourites = `${API_URLS.FAVOURITES}?idUser=${userId}&Operation=showFavourites`
-
   const context = useContext(Context) 
   if (!context) {
     throw new Error('Context must be used within a Provider')
@@ -42,6 +37,9 @@ const Cards = () => {
     setLoadingFavourites,
     showNotification
   } = context
+
+  const basketService = useMemo(() => new BasketService(dispatch), [])
+  const favouritesService = useMemo(() => new FavouritesService(dispatch), [])
     
   const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
   const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
@@ -80,21 +78,13 @@ const Cards = () => {
   useEffect(() => {
     restoreScrollPosition()
   }, [pendingIdBasket, pendingIdFav])
-  
+
   const addBasket = useCallback(async (idProduct: number) => {
     const exists = memoizedBasket.some(item => item.id === idProduct)
 
     if (!exists) {
       setLoadingBasket(true)
-      await axios.get(API_URLS.BASKET, {
-        params: {
-          Operation: 'addBasket',
-          idProduct: idProduct,
-          idUser: userId,
-        }
-      })
-      const res = await axios.get(srcBasket)
-      dispatch(setCartBasket(res.data))
+      await basketService.addBasket(idProduct, userId)
       setLoadingBasket(false)
     }
   }, [cartBasket, userId])
@@ -130,21 +120,13 @@ const Cards = () => {
       setPendingIdBasket(null)
     }
   }, [localBasket, pendingIdBasket, isAuth, addingStatusBasket, addBasket])
-  
+
   const addFav = useCallback(async (idProduct: number) => {
     const exists = memoizedFavourites.some(item => item.id === idProduct)
 
     if (!exists) {
       setLoadingFavourites(true)
-      await axios.get(API_URLS.FAVOURITES, {
-        params: {
-          Operation: 'addFavourites',
-          idProduct: idProduct,
-          idUser: userId,
-        },
-      })
-      const res = await axios.get(srcFavourites)
-      dispatch(setCartFavourites(res.data))
+      await favouritesService.addFavourites(idProduct, userId)
       setLoadingFavourites(false)
     }
   }, [cartFavourites, userId])

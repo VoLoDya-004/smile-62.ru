@@ -56,4 +56,12 @@ export class FavouritesService {
       return res.data
     }
   }
+
+  async addFavourites(idProduct: number, userId: number | null) {
+    if (userId) {
+      const res = await favouritesApi.addFavourites(idProduct, userId)
+      this.dispatch(setCartFavourites(res.data))
+      return res.data
+    }
+  }
 }

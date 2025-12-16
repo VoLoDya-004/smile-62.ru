@@ -2,7 +2,7 @@ import { API_URLS } from '@/constants/urls'
 import axios from 'axios'
 
 export const favouritesApi = {
-  getFavourites: (userId: number) =>
+  getFavourites: (userId: number | null) =>
     axios
       .get(API_URLS.FAVOURITES, {
         params: {
@@ -60,4 +60,15 @@ export const favouritesApi = {
         }
       })
       .then(() => favouritesApi.getFavourites(userId)),
+
+  addFavourites: (idProduct: number, userId: number | null) =>
+    axios
+      .get(API_URLS.FAVOURITES, {
+        params: {
+          Operation: 'addFavourites',
+          idProduct: idProduct,
+          idUser: userId,
+        }
+      })
+      .then(() => favouritesApi.getFavourites(userId))
 }

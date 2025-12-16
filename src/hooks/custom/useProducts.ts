@@ -1,12 +1,13 @@
-import { API_URLS } from '@/constants/urls'
 import type { ICardsRender, IFilters } from '@/types/types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useNotification } from './useNotification'
-import axios from 'axios'
+import { ProductsService } from '@/services/productsService'
 
 export const useProducts = () => {
   const { showNotification } = useNotification()
+
+  const productsService = useMemo(() => new ProductsService(), [])
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -76,26 +77,18 @@ export const useProducts = () => {
     setIsLoading(true)
 
     try {
-      const response = await axios.get(API_URLS.CARDS, {
-        params: {
-          page: currentPage,
-          search: searchQuery,
-          idCategory: selectedCategory === 0 ? null : selectedCategory,
-          sortType: sortType,
-          minPrice: filters.minPrice,
-          maxPrice: filters.maxPrice,
-          action1: filters.actions.action1 ? '1' : '0',
-          action2: filters.actions.action2 ? '1' : '0',
-          action3: filters.actions.action3 ? '1' : '0',
-          action4: filters.actions.action4 ? '1' : '0',
-          action5: filters.actions.action5 ? '1' : '0',
-          action6: filters.actions.action6 ? '1' : '0',
-          action7: filters.actions.action7 ? '1' : '0',
-          action8: filters.actions.action8 ? '1' : '0',
-        }
+      const response = await productsService.loadProducts({
+        page: currentPage,
+        searchQuery,
+        selectedCategory,
+        sortType,
+        filters
       })
-      setCards(response.data.items)
-      setTotalItems(response.data.total)
+
+      if (response.success) {
+        setCards(response.cards)
+        setTotalItems(response.total)
+      }
     }
     catch {
       showNotification('Ошибка', 'error')
@@ -103,7 +96,7 @@ export const useProducts = () => {
     finally {
       setIsLoading(false)
     }
-  }, [currentPage, searchQuery, selectedCategory, sortType, filters])
+  }, [currentPage, searchQuery, selectedCategory, sortType, filters, productsService])
 
   useEffect(() => {
     if (searchQuery) {
@@ -118,6 +111,7 @@ export const useProducts = () => {
   useEffect(() => {
     const categoryId = Number(searchParams.get('category')) || 0
     setSelectedCategory(categoryId)
+
     const sortFromUrl = searchParams.get('sort') || 'default'
     setSortType(sortFromUrl)
 

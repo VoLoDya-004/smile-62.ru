@@ -72,4 +72,12 @@ export class BasketService {
       return res.data
     }
   }
+
+  async addBasket(idProduct: number, userId: number | null) {
+    if (userId) {
+      const res = await basketApi.addBasket(idProduct, userId)
+      this.dispatch(setCartBasket(res.data))
+      return res.data
+    }
+  }
 }

@@ -2,7 +2,7 @@ import { API_URLS } from '@/constants/urls'
 import axios from 'axios'
 
 export const basketApi = {
-  getBasket: (userId: number) => 
+  getBasket: (userId: number | null) => 
     axios
       .get(API_URLS.BASKET, {
         params: {
@@ -83,4 +83,15 @@ export const basketApi = {
         }
       })
       .then(() => basketApi.getBasket(userId)),
+
+  addBasket: (idProduct: number, userId: number | null) =>
+    axios
+      .get(API_URLS.BASKET, {
+        params: {
+          Operation: 'addBasket',
+          idProduct: idProduct,
+          idUser: userId,
+        }
+      })
+      .then(() => basketApi.getBasket(userId))
 }

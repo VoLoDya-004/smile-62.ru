@@ -1,14 +1,12 @@
 import { useContext, useEffect, useState, type ChangeEvent } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '@/redux/UserSlice'
+import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import type { IRegisterData } from '@/types/types'
 import { Context } from '@/contexts/context'
-import { API_URLS } from '@/constants/urls'
-import axios from 'axios'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/components/Button/ButtonSubmit'
 import FormAccount from './FormAccount'
+import { useAuth } from '@/hooks'
 
 const RegisterForm = ({ 
 	isDarkTheme, 
@@ -28,28 +26,11 @@ const RegisterForm = ({
     setRegisterData({ ...registerData, [e.target.name]: e.target.value })
   }
 
-  const handleRegister = async () => {
-    try {
-      const response = await axios.post(
-        API_URLS.REGISTER,
-        registerData,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          params: {
-            Operation: 'register'
-          }
-        }
-      )
-      if (response.data.success) {
-        onNotification(response.data.message, 'success')
-      } else {
-        onNotification(response.data.message, 'error')
-      }
-    } catch {
-      onNotification('Ошибка при регистрации', 'error')
-    } finally {
+  const { handleRegister } = useAuth()
+
+  const handleSubmit = async () => {
+    const res = await handleRegister({ registerData, onNotification })
+    if (res) {
       setRegisterData({
         name: '',
         email: '',
@@ -65,7 +46,7 @@ const RegisterForm = ({
       className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
       onSubmit={(e) => {
         e.preventDefault()
-        handleRegister()
+        handleSubmit()
       }}
       aria-label='Регистрация'
     >
@@ -154,33 +135,17 @@ const LoginForm = ({
   	setLoginData({ ...loginData, [e.target.name]: e.target.value })
   }
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(
-        API_URLS.LOGIN,
-        loginData,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          params: {
-            Operation: 'login'
-          }
-        }
-      )
-      if (response.data.success) {
-        onLoginSuccess({ id_user: response.data.id_user, name: response.data.name })
-        onNotification('Вы успешно вошли', 'success')
-      } else {
-        onNotification(response.data.message, 'error')
-      }
-    } catch {
-      onNotification('Ошибка входа', 'error')
-    } finally {
-      setLoginData({
-      	email: '',
-      	password: '',
-      })
+  const { handleLogin } = useAuth()
+
+  const handleSubmit = async () => {
+    const res = await handleLogin({
+      email: loginData.email, 
+      password: loginData.password, 
+      onNotification, 
+      onLoginSuccess
+    })
+    if (res) {
+      setLoginData({ email: '', password: '' })
     }
   }
 
@@ -190,7 +155,7 @@ const LoginForm = ({
       className={`form__registration ${isDarkTheme ? 'dark-theme' : ''}`}
       onSubmit={(e) => { 
         e.preventDefault() 
-        handleLogin() 
+        handleSubmit() 
       }}
       aria-label='Вход'
     >
@@ -233,7 +198,6 @@ const LoginForm = ({
 }
 
 const Form = () => {
-  const dispatch = useDispatch()
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
@@ -243,25 +207,7 @@ const Form = () => {
   }
   const { showNotification } = context
 
-  const handleLoginSuccess = (userData: { id_user: number; name: string }) => {
-    dispatch(setUser({ userId: userData.id_user, userName: userData.name, isAuth: true }))
-    localStorage.setItem('auth', JSON.stringify({
-      isAuth: true,
-      userName: userData.name,
-      userId: userData.id_user,
-    }))
-  }
-
-  useEffect(() => {
-    const storedAuth = localStorage.getItem('auth')
-
-    if (storedAuth) {
-      const { isAuth, userName, userId } = JSON.parse(storedAuth)
-      if (isAuth) {
-        dispatch(setUser({ userId, userName, isAuth }))
-      }
-    }
-  }, [dispatch])
+  const { handleLoginSuccess } = useAuth()
 
   useEffect(() => {
 	  if (sessionStorage.getItem('showLogoutNotification')) {

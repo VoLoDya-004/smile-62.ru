@@ -2,9 +2,8 @@ import { useEffect, useRef, useState, type RefObject } from 'react'
 import type { RootStore } from '@/redux'
 import { useSelector } from 'react-redux'
 import type { ICardsRender } from '@/types/types'
-import { API_URLS } from '@/constants/urls'
-import axios from 'axios'
 import ButtonArrow from '../Button/ButtonArrow'
+import { useRecommendations } from '@/hooks/custom/useRecommendations'
 
 interface IRecommendationsProductProps {
   card: ICardsRender
@@ -168,8 +167,6 @@ const RecommendationsContainer = ({
 const Recommendations = () => {
   const scrollAmount = 500
 
-  const [cards, setCards] = useState<ICardsRender[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [startX, setStartX] = useState<number>(0)
   const [scrollLeft, setScrollLeft] = useState<number>(0)
@@ -180,7 +177,8 @@ const Recommendations = () => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-  const userId = useSelector((state: RootStore) => state.user.userId)
+
+  const { cards, loadCards, isLoading } = useRecommendations()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -203,22 +201,6 @@ const Recommendations = () => {
   useEffect(() => {
     loadCards()      
   }, [])
-
-  async function loadCards() {
-    setIsLoading(true)
-
-    try {
-      const response = await axios.get(API_URLS.SORT, {
-        params: {
-          Operation: 'showCards',
-          idUser: userId ?? 0,
-        }
-      })
-      setCards(response.data)
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const scrollLeftBtn = () => {
     if (containerRef.current) {
