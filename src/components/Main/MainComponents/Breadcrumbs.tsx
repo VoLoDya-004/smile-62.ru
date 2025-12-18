@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import { pluralize } from '@/utils/pluralize'
+import { CATEGORIES } from '@/constants/categories'
 
 interface BreadcrumbsProps {
   selectedCategory: number | null
-  CATEGORIES: Array<{ id: number; label: string }>
   totalItems: number
   setSelectedCategory: (category: number) => void
   setCurrentPage: (page: number) => void
@@ -15,7 +15,6 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs = ({
   selectedCategory,
-  CATEGORIES,
   totalItems,
   setSelectedCategory,
   setCurrentPage,

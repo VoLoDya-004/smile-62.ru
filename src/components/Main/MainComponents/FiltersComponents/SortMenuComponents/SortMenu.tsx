@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
-import { forwardRef, useContext, useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { forwardRef, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { RootStore } from '@/redux'
 import { useSearchParams } from 'react-router-dom'
-import { Context } from '@/contexts/context'
+import { useProductsContext } from '@/contexts/ProductsContext'
 
 interface ISortMenuProps {
   onSelect: (sortOption: string) => void
@@ -10,12 +10,7 @@ interface ISortMenuProps {
 }
 
 const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClose }, ref) => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-
-  const { setSearchParams } = context
+  const { setSearchParams } = useProductsContext()
 
   const [searchParams] = useSearchParams()
 

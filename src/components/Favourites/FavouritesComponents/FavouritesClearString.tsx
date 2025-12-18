@@ -1,13 +1,11 @@
-import { useContext } from 'react'
-import { Context } from '@/contexts/context'
+import { useUIContextModals } from '@/contexts/UIContext'
+import { useFavouritesContext } from '@/contexts/FavouritesContext'
 import Button from '@/components/Button/Button'
 
 const FavouritesClearString = () => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { handleClearFavBtn, loadingDeleteAllFav } = context
+  const { loadingDeleteAllFav } = useFavouritesContext()
+
+  const { handleClearFavBtn } = useUIContextModals()
 
   return (
     <section className='clear-string'>

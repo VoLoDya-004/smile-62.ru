@@ -1,8 +1,9 @@
-import { useState, useCallback, useMemo, useContext, Fragment} from 'react'
+import { useState, useCallback, useMemo, Fragment} from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import type { IFav, IProduct } from '@/types/types'
-import { Context } from '@/contexts/context'
+import { useUIContextNotification } from '@/contexts/UIContext'
+import { useBasketContext } from '@/contexts/BasketContext'
 import BasketAddIcon from '../Icons/BasketAddIcon'
 
 interface IButtonBasketProps {
@@ -19,11 +20,9 @@ const ButtonBasket = ({
   cartFavourites, 
   cartBasket 
 }: IButtonBasketProps) => {  
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { updateBasketData, setLoadingBasket, showNotification } = context
+  const { updateBasketData, setLoadingBasket } = useBasketContext()
+
+  const { showNotification } = useUIContextNotification()
 
   const [addingStatus, setAddingStatus] = useState<Record<number, boolean>>({})
 

@@ -1,14 +1,17 @@
-import { type JSX } from 'react'
+import { type ReactNode } from 'react'
 import BlockEmpty from '../sub-components/BlockEmpty'
 import FavouritesBox from './FavouritesComponents/FavouritesTable/FavouritesBox'
 import Recommendations from '../sub-components/Recommendations'
+import { useFavouritesContext } from '@/contexts/FavouritesContext'
 
 interface IFavouritesProps {
-  productsFavourites: JSX.Element[]
   loading: boolean
+  children: ReactNode
 }
 
-const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
+const Favourites = ({ loading, children }: IFavouritesProps) => {
+  const { cartFavourites } = useFavouritesContext()
+
   if (loading) {
     return (
       <>
@@ -18,7 +21,7 @@ const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
     )
   }
 
-  const hasFavourites = productsFavourites.length > 0
+  const hasFavourites = cartFavourites.length > 0
     
   return (
     <>
@@ -28,7 +31,7 @@ const Favourites = ({ productsFavourites, loading }: IFavouritesProps) => {
           textDown={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
         />
       }
-      {hasFavourites && <FavouritesBox productsFavourites={productsFavourites} />}
+      {hasFavourites && <FavouritesBox>{children}</FavouritesBox>}
       <Recommendations />
     </>
   )

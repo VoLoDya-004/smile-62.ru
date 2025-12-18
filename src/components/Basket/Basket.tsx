@@ -1,15 +1,18 @@
-import { type JSX } from 'react'
+import { type ReactNode } from 'react'
+import { useBasketContext } from '@/contexts/BasketContext'
 import BlockEmpty from '@/components/sub-components/BlockEmpty'
 import BasketBox from '@/components/Basket/BasketComponents/BasketTable/BasketBox'
 import BasketDelivery from '@/components/Basket/BasketComponents/BasketDelivery/BasketDelivery'
 import Recommendations from '@/components/sub-components/Recommendations'
 
 interface IBasketProps {
-  productsBasket: JSX.Element[]
+  children: ReactNode
   loading: boolean
 }
 
-const Basket = ({ productsBasket, loading }: IBasketProps) => {
+const Basket = ({ children, loading }: IBasketProps) => {
+  const { cartBasket } = useBasketContext()
+
   if (loading) {
     return (
       <>
@@ -19,7 +22,7 @@ const Basket = ({ productsBasket, loading }: IBasketProps) => {
     )
   }
 
-  const hasBasket = productsBasket.length > 0
+  const hasBasket = cartBasket.length > 0
 
   return (
     <>
@@ -31,7 +34,7 @@ const Basket = ({ productsBasket, loading }: IBasketProps) => {
       }
       {hasBasket &&
         <>
-          <BasketBox productsBasket={productsBasket} />
+          <BasketBox>{children}</BasketBox>
           <BasketDelivery />
         </>
       }

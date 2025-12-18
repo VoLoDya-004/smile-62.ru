@@ -1,8 +1,8 @@
-import { useContext } from 'react'
 import { useSelector } from 'react-redux'
-import { Context } from '@/contexts/context'
 import type { RootStore } from '@/redux'
 import type { ICategory } from '@/types/types'
+import { useProductsContext } from '@/contexts/ProductsContext'
+import { CATEGORIES } from '@/constants/categories'
 
 interface ICategoriesDropdownProps {
   toggle: boolean
@@ -15,17 +15,12 @@ const CategoriesDropdown = ({
   visible, 
   onCategorySelect 
 }: ICategoriesDropdownProps) => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
   const { 
     setSelectedCategory, 
     setCurrentPage,  
-    CATEGORIES, 
     selectedCategory,
     setSearchParams
-  } = context
+  } = useProductsContext()
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 

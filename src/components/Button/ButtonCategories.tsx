@@ -1,16 +1,12 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { Context } from '@/contexts/context'
+import { useProductsContext } from '@/contexts/ProductsContext'
 import CategoriesDropdown from '../sub-components/CategoriesDropdown'
 import CrossSVG from '../Icons/CrossSVG'
 import MenuSVG from '../Icons/MenuSVG'
 
 const ButtonCategories = () => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { setSelectedCategory } = context
+  const { setSelectedCategory } = useProductsContext()
 
   const [toggle, setToggle] = useState<boolean>(false)
   const [visible, setVisible] = useState<boolean>(false)

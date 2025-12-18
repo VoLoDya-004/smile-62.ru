@@ -1,6 +1,6 @@
-import { forwardRef, useContext, useEffect, useState, type ChangeEvent } from 'react'
+import { forwardRef, useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
-import { Context } from '@/contexts/context'
+import { useProductsContext } from '@/contexts/ProductsContext'
 import type { RootStore } from '@/redux'
 import Accordion from './Accordion'
 import Button from '@/components/Button/Button'
@@ -13,11 +13,7 @@ interface IFiltersMenuProps {
 const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFilters }, ref) => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { handleFiltersChange, filters, setCurrentPage } = context
+  const { handleFiltersChange, filters, setCurrentPage } = useProductsContext()
 
   const [actions, setActions] = useState({
     action1: false,

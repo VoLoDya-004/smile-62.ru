@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import { NavLink } from 'react-router-dom'
-import { Context } from '@/contexts/context'
-import { useContext } from 'react'
 import { logoutUser } from '@/redux/UserSlice'
 import { pluralize } from '@/utils/pluralize'
+import { useUIContextNotification } from '@/contexts/UIContext'
+import { useFavouritesContext } from '@/contexts/FavouritesContext'
 import Button from '@/components/Button/Button'
 
 const ProfileAside = ({ 
@@ -141,11 +141,8 @@ const BasketBlock = ({
 }
 
 const FormAccount = () => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { productsFavourites, showNotification } = context
+  const { cartFavourites } = useFavouritesContext()
+  const { showNotification } = useUIContextNotification()
 
   const dispatch = useDispatch()
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
@@ -163,7 +160,7 @@ const FormAccount = () => {
   }
 
   const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
-  const itemTextFav = pluralize(productsFavourites.length, ['товар', 'товара', 'товаров'])
+  const itemTextFav = pluralize(cartFavourites.length, ['товар', 'товара', 'товаров'])
 
   return (
     <>
@@ -176,7 +173,7 @@ const FormAccount = () => {
       <section className='container-profile'>
         <FavoritesBlock 
           isDarkTheme={isDarkTheme}
-          favoritesCount={productsFavourites.length}
+          favoritesCount={cartFavourites.length}
           itemText={itemTextFav}
         />
         <BasketBlock 

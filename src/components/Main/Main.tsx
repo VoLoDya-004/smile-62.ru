@@ -1,6 +1,5 @@
-import { useContext } from 'react'
-import { Context } from '@/contexts/context'
 import { useSelector } from 'react-redux'
+import { useProductsContext } from '@/contexts/ProductsContext'
 import type { RootStore } from '@/redux'
 import Carousel from './MainComponents/CarouselComponents/Carousel'
 import Cards from './MainComponents/Cards'
@@ -11,21 +10,16 @@ import PaginationButtons from './MainComponents/PaginationButtons'
 const Main = () => {
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
   const {
     setCurrentPage, 
     selectedCategory, 
-    CATEGORIES,
     fetchCards, 
     setSelectedCategory, 
     totalItems, 
     setSearchParams,
     currentPage,
     cards
-  } = context
+  } = useProductsContext()
 
   const isBackDisabled = currentPage === 1
   const isForwardDisabled = cards.length < 40 
@@ -72,7 +66,6 @@ const Main = () => {
       </Carousel>
       <Breadcrumbs
         selectedCategory={selectedCategory}
-        CATEGORIES={CATEGORIES}
         totalItems={totalItems}
         setSelectedCategory={setSelectedCategory}
         setCurrentPage={setCurrentPage}

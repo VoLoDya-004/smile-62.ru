@@ -1,20 +1,20 @@
-import { type JSX } from 'react'
+import { type ReactNode } from 'react'
 import BasketHeader from './BasketHeader'
 import BasketFooter from './BasketFooter'
 import BasketClearString from '../BasketClearString'
 
 interface IBasketBoxProps {
-  productsBasket: JSX.Element[]
+  children: ReactNode
 }
 
-const BasketBox = ({ productsBasket }: IBasketBoxProps) => {
+const BasketBox = ({ children }: IBasketBoxProps) => {
 
   return (
     <section className='basket-box'>
       <BasketClearString />
       <section className='basket-box__table'>
         <BasketHeader />
-        {productsBasket}
+        {children}
         <BasketFooter />
       </section>
     </section>

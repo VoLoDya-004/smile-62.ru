@@ -1,13 +1,10 @@
-import { useContext } from 'react'
-import { Context } from '@/contexts/context'
+import { useBasketContext } from '@/contexts/BasketContext'
+import { useUIContextModals } from '@/contexts/UIContext'
 import Button from '@/components/Button/Button'
 
 const BasketClearString = () => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { handleClearBasketBtn, loadingDeleteAllBasket } = context
+  const { loadingDeleteAllBasket } = useBasketContext()
+  const { handleClearBasketBtn } = useUIContextModals()
 
   return (
     <section className='clear-string'>

@@ -1,20 +1,16 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { RootStore } from '@/redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '@/redux/UserSlice'
-import { Context } from '@/contexts/context'
+import { useUIContextNotification } from '@/contexts/UIContext'
 import { useDeviceType } from '@/hooks'
 import ProfileMenu from './ProfileMenu'
 
 const NavSection = () => {
 	const { isMobile } = useDeviceType()
 
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { showNotification } = context
+  const { showNotification } = useUIContextNotification()
 
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)

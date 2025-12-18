@@ -1,23 +1,19 @@
-import { useEffect, useRef, useState, useContext } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Context } from '@/contexts/context'
 import type { RootStore } from '@/redux'
+import { useProductsContext } from '@/contexts/ProductsContext'
 import Button from '@/components/Button/Button'
 import SortMenu from './SortMenuComponents/SortMenu'
 import FiltersMenu from './FiltersMenuComponents/FiltersMenu'
 
 const FiltersBlock = () => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
   const {
     setSortType, 
     setCurrentPage, 
     handleFiltersChange, 
     currentSort, 
     setCurrentSort, 
-  } = context
+  } = useProductsContext()
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 

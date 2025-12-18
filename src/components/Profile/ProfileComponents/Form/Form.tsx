@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
 import type { IRegisterData } from '@/types/types'
-import { Context } from '@/contexts/context'
+import { useAuth } from '@/hooks'
+import { useUIContextNotification } from '@/contexts/UIContext'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/components/Button/ButtonSubmit'
 import FormAccount from './FormAccount'
-import { useAuth } from '@/hooks'
 
 const RegisterForm = ({ 
 	isDarkTheme, 
@@ -201,11 +201,7 @@ const Form = () => {
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { showNotification } = context
+  const { showNotification } = useUIContextNotification()
 
   const { handleLoginSuccess } = useAuth()
 

@@ -1,19 +1,19 @@
-import { type JSX } from 'react'
+import { type ReactNode } from 'react'
 import FavouritesHeader from './FavouritesHeader'
 import FavouritesClearString from '../FavouritesClearString'
 
 interface IFavouritesBoxProps {
-  productsFavourites: JSX.Element[]
+  children: ReactNode
 }
 
-const FavouritesBox = ({ productsFavourites }: IFavouritesBoxProps) => {
+const FavouritesBox = ({ children }: IFavouritesBoxProps) => {
 
   return (
     <section className='favourites-box'>
       <FavouritesClearString />
       <section className='favourites-box__table'>
         <FavouritesHeader />
-        {productsFavourites}
+        {children}
       </section>
     </section>
   )

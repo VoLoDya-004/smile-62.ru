@@ -1,16 +1,12 @@
-import { useContext, useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Context } from '@/contexts/context'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/redux'
+import { useProductsContext } from '@/contexts/ProductsContext'
 
 const Search = () => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { setCurrentPage, setSearchQuery, searchQuery } = context
+  const { setCurrentPage, setSearchQuery, searchQuery } = useProductsContext()
 
   const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
   const navigate = useNavigate()

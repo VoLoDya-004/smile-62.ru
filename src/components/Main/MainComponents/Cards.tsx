@@ -1,11 +1,14 @@
-import { useState, useEffect, useContext, useCallback, useMemo, useRef } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Context } from '@/contexts/context'
 import type { RootStore } from '@/redux'
 import type { IProduct, ICardsRender } from '@/types/types'
 import { BasketService } from '@/services/basketService'
 import { FavouritesService } from '@/services/favouritesService'
+import { useUIContextNotification } from '@/contexts/UIContext'
+import { useProductsContext } from '@/contexts/ProductsContext'
+import { useFavouritesContext } from '@/contexts/FavouritesContext'
 import CardsHeartIcon from '@/components/Icons/CardsHeartIcon'
+import { useBasketContext } from '@/contexts/BasketContext'
 
 interface ICardProps {
   card: ICardsRender
@@ -23,20 +26,11 @@ const Cards = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const context = useContext(Context) 
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { 
-    searchQuery,
-    isLoading, 
-    cards, 
-    currentPage,
-    updateFavouritesData,
-    setLoadingBasket,
-    setLoadingFavourites,
-    showNotification
-  } = context
+  const { setLoadingBasket } = useBasketContext()
+  const { setLoadingFavourites, updateFavouritesData } = useFavouritesContext()
+  const { searchQuery, isLoading, cards, currentPage } = useProductsContext()
+
+  const { showNotification } = useUIContextNotification()
 
   const basketService = useMemo(() => new BasketService(dispatch), [])
   const favouritesService = useMemo(() => new FavouritesService(dispatch), [])

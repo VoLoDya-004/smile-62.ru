@@ -1,5 +1,5 @@
-import { Context } from '@/contexts/context'
-import { memo, useContext } from 'react'
+import { memo } from 'react'
+import { useUIContextModals } from '@/contexts/UIContext'
 import AdvertisementInfo from './AdvertisementInfo'
 
 interface AdvertisementLabelProps {
@@ -8,11 +8,7 @@ interface AdvertisementLabelProps {
 }
 
 const AdvertisementLabel = ({ onHover, showChildren }: AdvertisementLabelProps) => {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error('Context must be used within a Provider')
-  }
-  const { OpenModalAdvertisement } = context
+  const { OpenModalAdvertisement } = useUIContextModals()
   
   return (
     <div
