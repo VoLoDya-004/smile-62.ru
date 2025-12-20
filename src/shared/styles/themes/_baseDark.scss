@@ -1,0 +1,23 @@
+@use '../forward.scss';
+
+body.dark-theme {
+	background-color: #121212;
+  color: white;
+}      
+
+.modal-delete-content {
+  &.dark-theme {
+    background-color: black;
+  }
+  &__title {
+    &.dark-theme {
+      background-color: #121212;
+    }
+  }
+}
+
+.modal-advertisement {
+  &.dark-theme {
+    background-color: black;
+  }
+}

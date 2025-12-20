@@ -1,24 +1,24 @@
 import { Routes, Route } from 'react-router-dom'
-import { useTheme, useAuth } from './hooks/index'
-import { UIProvider, useUIContextModals, useUIContextNotification } from './contexts/UIContext'
-import { ProductsProvider } from './contexts/ProductsContext'
-import { FavouritesProvider, useFavouritesContext } from './contexts/FavouritesContext'
-import { BasketProvider, useBasketContext } from './contexts/BasketContext'
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-import ProgressBar from './components/sub-components/ProgressBar'
-import ButtonScroll from './components/Button/ButtonScroll'
-import ButtonChat from './components/Button/ButtonChat'
-import CookiesNotice from './components/sub-components/CookiesNotice'
-import Main from './components/Main/Main'
-import Favourites from './components/Favourites/Favourites'
-import Profile from './components/Profile/Profile'
-import Basket from './components/Basket/Basket'
-import Support from './components/sub-components/Support'
-import Notification from './components/sub-components/Notification'
-import ModalContainer from './components/Modals/ModalContainer'
-import FavouritesList from './components/Favourites/FavouritesList'
-import BasketList from './components/Basket/BasketList'
+import { useTheme, useAuth } from './shared/hooks/index'
+import { UIProvider, useUIContextModals, useUIContextNotification } from './shared/contexts/UIContext'
+import { ProductsProvider } from './features/layout/products/contexts/ProductsContext'
+import { FavouritesProvider, useFavouritesContext } from './features/favourites/contexts/FavouritesContext'
+import { BasketProvider, useBasketContext } from './features/basket/contexts/BasketContext'
+import Header from './features/layout/header/components/Header'
+import Footer from './features/layout/footer/components/Footer'
+import ProgressBar from './features/layout/header/components/headerComponents/ProgressBar'
+import ButtonScroll from './shared/ui/buttons/ButtonScroll'
+import ButtonChat from './shared/ui/buttons/ButtonChat'
+import CookiesNotice from './shared/widgets/CookiesNotice'
+import Main from './features/layout/products/components/Main'
+import Favourites from './features/favourites/components/Favourites'
+import Profile from './features/profile/components/Profile'
+import Basket from './features/basket/components/Basket'
+import Support from './shared/widgets/Support'
+import Notification from './shared/widgets/Notification'
+import ModalContainer from './shared/widgets/modals/ModalContainer'
+import FavouritesList from './features/favourites/components/favouritesComponents/FavouritesList'
+import BasketList from './features/basket/components/basketComponents/BasketList'
 
 const AppContent = () => {
   const {
@@ -35,7 +35,7 @@ const AppContent = () => {
     closeModalAllFav,
     productIdToDelete,
   } = useUIContextModals()
-  
+
   const { notification, setNotification, } = useUIContextNotification()
   const { loadingFavourites, handleClearFav } = useFavouritesContext()
   const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasketContext()
@@ -45,33 +45,15 @@ const AppContent = () => {
       <Header />
       <main id='main'>  
         <Routes>
-          <Route 
-            path='/' 
-            element={
-              <Main />
-            } 
-          />                
+          <Route path='/' element={<Main />} />                
           <Route 
             path='/favourites' 
-            element={
-              <Favourites loading={loadingFavourites}>
-                <FavouritesList />
-              </Favourites>
-            } 
+            element={<Favourites loading={loadingFavourites}><FavouritesList /></Favourites>} 
           />                   
-          <Route 
-            path='/profile' 
-            element={
-              <Profile />
-            } 
-          />                   
+          <Route path='/profile' element={<Profile />} />                   
           <Route 
             path='/basket' 
-            element={
-              <Basket loading={loadingBasket}>
-                <BasketList />
-              </Basket>
-            } 
+            element={<Basket loading={loadingBasket}><BasketList /></Basket>} 
           />                   
         </Routes>
       </main>

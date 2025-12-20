@@ -1,0 +1,79 @@
+@use '../forward.scss';	
+
+.categories-dropdown { 
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: white;
+	color: black;
+	width: clamp(384px, 25vw, 500px);
+	height: calc(100dvh - 86px);
+	z-index: 500;
+	position: absolute;
+	top: 72px;
+	padding: 7px 0;
+	margin-bottom: 100px;
+	overflow-y: scroll;
+	border: none;
+	&__item {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 35px;
+		width: 95%;
+		cursor: pointer;
+		border: none;
+		background-color: inherit;
+		font-size: 1em;
+		margin: 1px 0;
+		&_active {
+			background-color: forward.$buttonColor;
+			border-radius: 10px;
+			color: #9814ad;
+			transition: background-color .1s;
+		}
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: forward.$buttonColor;
+				border-radius: 10px;
+				color: #9814ad;
+				transition: background-color .1s;
+			}
+		}
+	}
+	&::-webkit-scrollbar { 
+		width: 7px;
+		&-thumb { 
+			background: rgb(96 22 118 / 0.25); 
+			&:hover { 
+				background: rgb(96 22 118 / 0.5);
+			}
+			&:active { 
+				background: rgb(96, 22, 118);
+			}
+		}
+		&-track { 
+			background-color: #c5c5c5ac;
+		}
+	}
+}
+
+@media (max-width: forward.$breakpoint-md) {
+	.categories-dropdown { 
+		width: 45vw;
+		height: calc(100dvh - 146px);
+	}
+}   
+
+@media (max-width: forward.$breakpoint-sm) {
+	.categories-dropdown { 
+		width: 60vw;
+		width: max(50vw, 347px);
+	}
+}                                                                       
+
+@media (max-width: forward.$breakpoint-xs) {
+	.categories-dropdown { 
+		width: 100vw;
+	}
+}       

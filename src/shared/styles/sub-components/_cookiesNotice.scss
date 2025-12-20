@@ -1,0 +1,61 @@
+@use '../forward.scss';
+
+.cookies-notice-box {
+  user-select: none;
+}					
+
+.cookies-notice {
+  position: fixed;
+  left: 5px;
+  bottom: 75px;
+  background-color: black;
+  color: white;
+  padding-left: 10px;
+  text-align: center;
+  border-radius: 20px;
+  z-index: 900;
+  &__btn {
+    margin: 10px;
+    padding: 5px 15px;
+    border: none;
+    background-color: wheat;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: rgb(243, 211, 152);
+      }
+    }
+  }
+}
+
+@media (max-width: forward.$breakpoint-md) {
+  .cookies-notice-box {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cookies-notice {
+    bottom: 135px;
+  }
+}   
+
+@media (max-width: forward.$breakpoint-sm) {
+  .cookies-notice {
+    bottom: 120px;
+    font-size: 0.75em;
+  }
+}                                                                       
+
+@media (max-width: forward.$breakpoint-xs) {
+  .cookies-notice {
+    margin-right: 5px;
+    padding: 5px 0 5px 5px;
+    border-radius: 10px;
+    &__btn {
+      margin: 5px;
+    }
+  }
+}      
