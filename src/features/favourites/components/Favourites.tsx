@@ -1,8 +1,8 @@
 import { type ReactNode } from 'react'
-import BlockEmpty from '../../../shared/widgets/BlockEmpty'
-import FavouritesBox from './favouritesComponents/favouritesTable/FavouritesBox'
-import Recommendations from '@/shared/widgets/Recommendations'
 import { useFavouritesContext } from '@/features/favourites/contexts/FavouritesContext'
+import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
+import FavouritesBox from './favouritesComponents/FavouritesBox'
+import Recommendations from '@/shared/widgets/recommendations/Recommendations'
 
 interface IFavouritesProps {
   loading: boolean

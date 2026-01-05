@@ -1,13 +1,18 @@
 import { NavLink } from 'react-router-dom'
+import styles from '../Header.module.scss'
 
 const LogoHeader = () => {
+  const {
+    'logo__header': logo,
+    'logo__header-color': logoColor
+  } = styles
     
   return (
     <NavLink 
       to='/'
       aria-label='Перейти на главную страницу'
     >
-      <div className='logo__header'>
+      <div className={logo}>
         <svg 
           version='1.0'
           xmlns='http://www.w3.org/2000/svg'
@@ -20,7 +25,7 @@ const LogoHeader = () => {
           </metadata>
           <g 
             transform='translate(0.000000,540.000000) scale(0.100000,-0.100000)'
-            className='logo__header-color' 
+            className={logoColor}
             stroke='none'
           >
           <path d='M6675 4509 c-295 -31 -587 -163 -789 -357 -122 -118 -234 -298 -265

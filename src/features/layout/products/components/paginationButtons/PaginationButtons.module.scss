@@ -1,0 +1,88 @@
+@use '@/shared/styles/abstracts' as *;
+
+.pagination-box {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.pagination-back {
+	display: flex;
+	width: 100%;
+	justify-content: end;
+	margin-right: 3%;
+}
+
+.pagination-forward {
+	display: flex;
+	width: 100%;
+	justify-content: start;
+	margin-left: 3%;
+}
+
+.pagination__button-back {
+	width: 200px;
+	height: 40px;
+	border-radius: 10px;
+	font-weight: 400;
+	font-size: 1.06em;
+	border: none;
+	transition: .2s;
+	&_active {
+		background-color: var(--pagination-active-bg);
+    color: var(--pagination-active-text);
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: var(--pagination-active-hover-bg);
+			}
+		}
+	}
+	&_disabled {
+		background-color: var(--pagination-disabled-bg);
+		color: var(--pagination-disabled-text);
+		cursor: default;
+		&:hover {
+			background-color: var(--pagination-disabled-hover-bg);
+		}
+	}
+  @media (max-width: $breakpoint-sm) {
+		width: 170px;
+		height: 35px;
+  }
+  @media (max-width: $breakpoint-xs) {
+		width: 80%;
+  }
+}
+
+.pagination__button-forward {
+	width: 200px;
+	height: 40px;
+	border-radius: 10px;
+	font-weight: 400;
+	font-size: 1.06em;
+	border: none;
+	transition: .2s;
+	&_active {
+		background-color: var(--pagination-active-bg);
+    color: var(--pagination-active-text);		
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: var(--pagination-active-hover-bg);
+			}
+		}
+	}
+	&_disabled {
+		background-color: var(--pagination-disabled-bg);
+		color: var(--pagination-disabled-text);
+		cursor: default;
+		&:hover {
+			background-color: var(--pagination-disabled-hover-bg);
+		}
+	}
+  @media (max-width: $breakpoint-sm) {
+		width: 170px;
+		height: 35px;
+  }
+  @media (max-width: $breakpoint-xs) {
+		width: 80%;
+  }
+}

@@ -1,0 +1,79 @@
+@use '@/shared/styles/abstracts' as *;
+
+.breadcrumbs {
+  margin-bottom: 8px;
+}		
+
+.categories-name {
+  color: grey;
+	display: inline-block;
+	font-size: 1.56em;
+	font-weight: 600;
+  &-slash {
+    display: inline-block;
+    margin: 0 8px;
+    user-select: none;
+  }
+  &-main {
+	  box-sizing: border-box;
+	  display: inline-block;
+    font-family: $fontSegoe;
+	  font-size: 1.56em;
+	  font-weight: 600;
+	  cursor: pointer;
+	  color: gray;
+    border: none;
+	  border-bottom: 2px solid transparent;
+    user-select: none;
+    background: none;
+    padding: 0;
+    padding-bottom: 2px;
+    &.passive {
+	    box-sizing: border-box;
+	    color: gray;
+	    cursor: default;
+      user-select: none;
+	    &:hover {
+	    	color: var(--categories-passive-hover-text);
+	    	border-bottom: 2px solid transparent;
+	    }
+    }
+    @media (hover: hover) and (pointer: fine) {
+	    &:hover {
+	    	color: var(--categories-hover-text);
+	    	border-bottom: 2px solid var(--categories-hover-border);
+	    }
+    }
+  }
+}
+
+.count-products {
+  color: gray;
+  font-size: 1.25em;
+  display: inline-block;
+  margin: 0 0.25em;
+}
+
+@media (max-width: $breakpoint-sm) {
+  .categories-name,
+  .categories-name-main {font-size: 0.93em; }
+
+  .count-products { font-size: 0.81em; }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .breadcrumbs {
+    margin-inline: 5px;
+    margin-bottom: 8px;
+  }
+
+  .categories-name,
+  .categories-name-main {
+    margin: 0;
+  	font-size: 0.81em;
+  }
+    
+  .count-products {
+    font-size: 0.75em;
+  }
+}

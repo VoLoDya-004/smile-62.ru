@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
+import styles from '../NavSection.module.scss'
 
 const BasketCircleMobile = () => {
   const totalBasket = useSelector((state: RootStore) => state.basket.total)
@@ -17,7 +18,7 @@ const BasketCircleMobile = () => {
     <>
       {isVisibleCircle && (
         <span
-          className='circle-mobile'
+          className={styles['circle-mobile']}
           style={{marginTop: totalBasket.count > 0 ? '-17px' : '0px'}}
         >
           {totalBasket.count}

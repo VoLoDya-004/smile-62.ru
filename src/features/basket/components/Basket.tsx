@@ -1,10 +1,9 @@
 import { type ReactNode } from 'react'
 import { useBasketContext } from '@/features/basket/contexts/BasketContext'
-import BlockEmpty from '@/shared/widgets/BlockEmpty'
-import BasketBox from './basketComponents/basketTable/BasketBox'
-import BasketDelivery from './basketComponents/basketDelivery/BasketDelivery'
-import Recommendations from '@/shared/widgets/Recommendations'
-
+import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
+import BasketBox from './basketComponents/BasketBox'
+import Delivery from './delivery/Delivery'
+import Recommendations from '@/shared/widgets/recommendations/Recommendations'
 interface IBasketProps {
   children: ReactNode
   loading: boolean
@@ -35,7 +34,7 @@ const Basket = ({ children, loading }: IBasketProps) => {
       {hasBasket &&
         <>
           <BasketBox>{children}</BasketBox>
-          <BasketDelivery />
+          <Delivery />
         </>
       }
       <Recommendations />

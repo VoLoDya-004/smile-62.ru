@@ -1,6 +1,6 @@
 import { useBasketContext } from '@/features/basket/contexts/BasketContext'
 import { useUIContextModals } from '@/shared/contexts/UIContext'
-import BasketProducts from './basketTable/BasketProducts'
+import BasketProducts from './BasketProducts'
 
 const BasketList = () => {
   const { cartBasket, handleCountChange, deletingBasket } = useBasketContext()

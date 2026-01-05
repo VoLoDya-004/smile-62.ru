@@ -1,0 +1,24 @@
+html::-webkit-scrollbar {
+	width: 10px;
+	&-thumb { 
+		background: rgb(96 22 118 / 0.25); 
+		border-radius: 8px;
+		&:hover { 
+			background: rgb(96 22 118 / 0.5);
+		}
+		&:active { 
+			background: rgb(96, 22, 118);
+		}
+	}
+	&-track { 
+		background-color: #c5c5c5ac;
+	}
+	&-button:start { 
+		background:  rgb(173, 173, 173) url("/images/icons/arrow_top.png") no-repeat center;
+		background-size: contain;
+	}
+	&-button:end {
+		background:  rgb(173, 173, 173) url("/images/icons/arrow_bottom.png") no-repeat center;
+		background-size: contain;
+	}
+}

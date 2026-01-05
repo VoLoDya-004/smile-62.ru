@@ -1,14 +1,24 @@
 import { useState, useEffect, useRef } from 'react'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import { useUIContextModals } from '@/shared/contexts/UIContext'
 import { useProductsContext } from '@/features/layout/products/contexts/ProductsContext'
+import styles from '../Header.module.scss'
 
 const Search = () => {
-  const { setCurrentPage, setSearchQuery, searchQuery } = useProductsContext()
+  const { 
+    search, 
+    'search__line': searchLine,
+    'search__clear': searchClear,
+    'search__line-clear': searchLineClear,
+    'search__line-button': searchLineButton,
+    'search__line-button-img': searchLineButtonImg,
+    'search__line-input': searchLineInput
+  } = styles
 
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const { setCurrentPage, setSearchQuery, searchQuery } = useProductsContext()
+  const { setIsSearchProductOpen } = useUIContextModals()
+
   const navigate = useNavigate()
   const location = useLocation()
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -31,18 +41,6 @@ const Search = () => {
     }
   }
 
-  const handleModal = (action: 'open' | 'close') => {
-    const blackout = document.getElementById('blackout')
-
-    if (action === 'open') {
-      blackout?.classList.add('blackout')
-      document.body.classList.add('modal-open')
-    } else {
-      blackout?.classList.remove('blackout')
-      document.body.classList.remove('modal-open')
-    }
-  }
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
   }
@@ -57,7 +55,7 @@ const Search = () => {
   const handleSearchClick = () => {
     setCurrentPage(1)
     setSearchQuery(searchTerm)
-    handleModal('close')
+    setIsSearchProductOpen(false)
     
     if (searchTerm.length === 0) {
       searchInputRef.current?.focus()
@@ -74,26 +72,12 @@ const Search = () => {
     }
   }
 
-  useEffect(() => {
-    const searchInput = searchInputRef.current
-    
-    if (!searchInput) return
-
-    const handleFocus = () => handleModal('open')
-    const handleBlur = () => handleModal('close')
-
-    searchInput.addEventListener('focus', handleFocus)
-    searchInput.addEventListener('blur', handleBlur)
-
-    return () => {
-      searchInput.removeEventListener('focus', handleFocus)
-      searchInput.removeEventListener('blur', handleBlur)
-    }
-  }, [])
+  const handleFocus = () => setIsSearchProductOpen(true)
+  const handleBlur = () => setIsSearchProductOpen(false)
 
   return (
-    <div className='search'>
-      <div className='search__line'>
+    <div className={search}>
+      <div className={searchLine}>
         <input
           ref={searchInputRef}
           type='search'
@@ -102,28 +86,30 @@ const Search = () => {
           value={searchTerm}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          className={`search__line-input ${isDarkTheme ? 'dark-theme' : ''}`}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          className={searchLineInput}
           aria-label='Строка поиска'
           spellCheck='false'
         />
         {searchTerm && (
           <button
             type='button'
-            className='search__line-clear'
+            className={searchLineClear}
             onClick={handleClearClick}
             aria-label='Очистить поле поиска'
           >
-            <span className='search__clear'>✕</span>
+            <span className={searchClear}>✕</span>
           </button>
         )}
         <button 
           type='button'
-          className='search__line-button'
+          className={searchLineButton}
           onClick={handleSearchClick}
           aria-label='Поиск'
         >
           <img
-            className='search__line-button-img'
+            className={searchLineButtonImg}
             src='/images/icons/search.png'
             alt='Поиск'
           />

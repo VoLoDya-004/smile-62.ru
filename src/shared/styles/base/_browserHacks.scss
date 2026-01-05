@@ -1,0 +1,10 @@
+@supports (-webkit-touch-callout: none) {
+  body {
+    color: black;
+  }
+  
+  button, a, input, textarea, select {
+    color: black;
+    -webkit-text-fill-color: inherit;
+  }
+}

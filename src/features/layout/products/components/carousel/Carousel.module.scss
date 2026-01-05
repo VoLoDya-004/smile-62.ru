@@ -1,0 +1,117 @@
+@use '@/shared/styles/abstracts' as *;
+
+.all-pages-container {
+	display: flex;
+	height: 100%;
+	transition: translate;
+	transition-property: transform;
+	transition-duration: 300ms;
+	transition-timing-function: ease-in-out;
+}
+
+.slider {
+	display: flex;
+	align-items: center; 
+	justify-content: center;
+	height: 250px;
+	width: 100%;
+	margin-bottom: 10px;
+	position: relative;
+	&:hover .slider__btn-left, 
+  &:hover .slider__btn-right, 
+  &:focus .slider__btn-left,
+  &:focus .slider__btn-right {
+		opacity: 1;
+	}
+	&__window {
+		position: relative;
+		height: 100%;
+		width: 100%;
+		border-radius: 40px;
+		overflow: hidden;
+	}
+	&__item {
+		display: flex;
+		user-select: none;
+		pointer-events: none;
+    & img {
+	    width: calc(100% - 0.4px);
+	    object-fit: cover;
+    }
+	}
+	&__btn-left {
+		@include flex-center;
+		opacity: 0;
+		background-color: rgb(0 0 0 / 0.662);
+		width: 36px;
+		aspect-ratio: 1;
+		border: none;
+		border-radius: 50%;
+		transform: rotate(-90deg);
+		transition: .3s;
+		cursor: pointer;
+		position: absolute;
+		left: 25px;
+		z-index: 100;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover,
+      &:focus-visible {
+				background-color: black;
+        opacity: 1;
+			}
+		}
+	}
+	&__btn-right {
+		@include flex-center;
+		opacity: 0;
+		background-color: rgb(0 0 0 / 0.662);
+		width: 36px;
+		aspect-ratio: 1;
+		border: none;
+		cursor: pointer;
+		border-radius: 50%;
+		transform: rotate(90deg);
+		transition: .3s;
+		position: absolute;
+		right: 25px;
+		z-index: 100;
+		@media (hover: hover) and (pointer: fine) {
+			&:hover,
+      &:focus-visible {
+				background-color: black;
+        opacity: 1;
+			}
+		}
+	}
+	&__btn-svg {
+		fill: none;
+		width: 24px;
+		height: 24px;
+		&-path {
+			fill: white;
+			fill-rule: evenodd;
+			clip-rule: evenodd;
+		}
+	}
+}
+
+@media (max-width: $breakpoint-md) {
+	.slider {
+		height: 230px;
+    &__window {
+      border-radius: 15px;
+    }
+		&__btn-left,
+    &__btn-right {
+			display: none;
+		}
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.slider { height: 170px; }
+}
+
+@media (max-width: $breakpoint-xs) {
+	.slider { height: 130px; }
+}

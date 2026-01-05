@@ -1,18 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
-import { setIsDarkTheme } from '@/shared/store/slices/ThemeSlice'
-import { useDeviceType } from '@/shared/hooks'
+import { useDeviceType, useTheme } from '@/shared/hooks'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
+import styles from '../Header.module.scss'
 
 const ThemeToggle = () => {
-  const dispatch = useDispatch()
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-  
-  const toggleTheme = () => {
-    dispatch(setIsDarkTheme(!isDarkTheme))
-  }
+  const {
+    'theme-toggle__button': button,
+    'theme-toggle__img': img
+  } = styles
 
+  const { toggleTheme } = useTheme()
   const { isMobile } = useDeviceType()
 
   return (
@@ -24,14 +21,14 @@ const ThemeToggle = () => {
     >
       <button 
         type='button'
-        className='theme-toggle__button' 
+        className={button}
         onClick={toggleTheme}
         aria-label='Смена темы'
       >
         <img 
           src='/images/icons/theme.png' 
           alt='Смена темы'
-          className='theme-toggle__img' 
+          className={img}
         />
       </button>
     </Tippy>

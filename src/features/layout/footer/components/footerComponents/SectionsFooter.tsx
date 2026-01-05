@@ -1,50 +1,35 @@
-import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import type { RootStore } from '@/shared/store'
 import FooterTitle from './FooterTitle'
+import styles from '../Footer.module.scss'
 
 const SectionsFooter = () => {
-	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const {
+    'footer__section': section,
+    'footer__section-item': sectionItem,
+    'footer__section-item-style': sectionItemStyle
+  } = styles
 
 	return (
-		<nav 
-			className='footer__section'
-			aria-label='Навигация по разделам сайта'
-		>
+		<nav className={section} aria-label='Навигация по разделам сайта'>
 			<FooterTitle>Разделы</FooterTitle>
-			<ul 
-				className='margin-null' 
-				aria-label='Навигация по разделам сайта'
-			>
-				<li className='footer__section-item'>
-					<NavLink 
-						to='/'
-						className={`footer__section-item-style ${isDarkTheme ? 'dark-theme' : ''}`}
-					>
+			<ul className='margin-null' aria-label='Навигация по разделам сайта'>
+				<li className={sectionItem}>
+					<NavLink to='/' className={sectionItemStyle}>
 						Главная
 					</NavLink>			
 				</li>
-				<li className='footer__section-item'>
-					<NavLink 
-						to='/favourites' 
-						className={`footer__section-item-style ${isDarkTheme ? 'dark-theme' : ''}`}
-					>
+				<li className={sectionItem}>
+					<NavLink to='/favourites' className={sectionItemStyle}>
 						Избранное
 					</NavLink>
 				</li>
-				<li className='footer__section-item'>
-					<NavLink 
-						to='/profile' 
-						className={`footer__section-item-style ${isDarkTheme ? 'dark-theme' : ''}`}
-					>
+				<li className={sectionItem}>
+					<NavLink to='/profile' className={sectionItemStyle}>
 						Профиль
 					</NavLink>
 				</li>
-				<li className='footer__section-item'>
-					<NavLink 
-						to='/basket'
-						className={`footer__section-item-style ${isDarkTheme ? 'dark-theme' : ''}`}
-					>
+				<li className={sectionItem}>
+					<NavLink to='/basket'className={sectionItemStyle}>
 						Корзина
 					</NavLink>
 				</li>

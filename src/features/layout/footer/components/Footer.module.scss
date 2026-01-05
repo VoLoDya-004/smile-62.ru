@@ -1,0 +1,264 @@
+@use '@/shared/styles/abstracts' as *;
+
+.footer {
+	display: grid;
+	grid-template-columns: 1fr repeat(4, auto);
+	margin-top: auto; 
+	background-color: var(--back-color-elem);
+	height: 240px;
+	font-family: $fontSegoe;
+	&__logo {
+		display: inline-flex;
+		pointer-events: none;
+		user-select: none;
+    &-wrapper {
+      user-select: none;
+    }
+		&-img {
+			width: 240px;
+		}
+	}
+	&__section {
+		display: inline-flex;
+		flex-direction: column;
+		padding-top: 30px;
+		margin-right: 40px;
+		&-item { 
+			margin-block: 10px;
+			display: flex;
+			color: #868695;
+			text-decoration: none;
+			transition: color .3s;
+			user-select: none;
+			&-style { 
+				color: #868695;
+				text-decoration: none;
+				transition: color .3s;
+				width: 80px;
+				@media (hover: hover) and (pointer: fine) {
+					&:hover { 
+						color: var(--footer-hover-text);
+					}
+				}
+			}
+		}
+	}
+	&__contact {
+		display: inline-flex;
+		flex-direction: column;
+		padding-top: 30px;
+		&-item { 
+			text-decoration: none;
+			margin-block: 10px;
+			display: flex;
+			color: #868695;
+			text-wrap: nowrap;
+			&-hover {
+				@media (hover: hover) and (pointer: fine) {
+					&:hover { 
+						transition: .2s;
+						color: var(--footer-hover-text);
+					}
+				}
+			}
+		}
+	}
+	&__title {
+		font-size: 1em;
+		margin-bottom: 15px;
+		font-weight: 800;
+		display: flex;
+		color: rgb(0, 0, 0);
+		cursor: default;
+		&-section {
+			padding-left: 40px;
+		}
+	}
+	&__link {
+		display: flex;
+		justify-content: end;
+		margin-left: 40px;
+		gap: 8px;
+		align-items: end;
+		margin-bottom: 20px;
+		&-item { 
+			background-color: var(--footer-link-bg);
+			border-radius: 9px;
+			&-vk {
+				@include flex-center;
+				height: 34px;
+				width: 34px;
+				transition: background-color .3s;
+				&-svg {
+					fill: #868695;
+					transition: .3s;
+					padding: 11px 7px;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: #07f;
+						}
+					}
+				}
+			}
+			&-tg {
+				@include flex-center;
+				height: 34px;
+				width: 34px;
+				transition: background-color .3s;
+				&-svg {
+					fill: #868695;
+					transition: .3s;
+					padding: 9px 7px;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: #3490ec;
+						}
+					}
+				}
+			}
+			&-ok {
+				@include flex-center;
+				height: 34px;
+				width: 34px;
+				transition: background-color .3s;
+				&-svg {
+					fill: #868695;
+					transition: .3s;
+					padding: 8px 11px;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: #ff7701;
+						}
+					}
+				}
+			}
+			&-youtube {
+				@include flex-center;
+				height: 34px;
+				width: 34px;
+				transition: background-color .3s;
+				&-svg {
+					fill: #868695;
+					transition: .3s;
+					padding: 10px 7px;
+					@media (hover: hover) and (pointer: fine) {
+						&:hover {
+							fill: red;
+						}
+					}
+				}
+			}
+		}
+	}
+} 
+
+.copyright { 
+	@include flex-end;
+	text-wrap: nowrap;
+	margin: 0 10px 5px 40px;
+	color: #868695;
+}
+
+@media (max-width: $breakpoint-md) {	
+	.footer {
+		margin-bottom: 60px;
+		grid-template-columns: repeat(4, auto);
+		&__logo-wrapper {
+			display: none;
+		}
+		&__section {
+			display: inline-flex;
+			margin: 0;
+			margin-left: 40px;
+		}
+		&__contact {
+			display: inline-flex;
+			padding-top: 30px;
+		}
+		&__link {
+			margin-left: auto;
+		}
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.footer {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		height: 330px;
+		& ul,
+		& h2 {
+			padding-left: 10px;
+		}
+		&__section {
+			margin-left: 30px;
+		}
+		&__contact {
+			margin-right: 10px;
+		}
+		&__link {
+			justify-content: start;
+			margin: 0 10px 60px 30px;
+		}
+	}
+	
+	.copyright { 
+		display: flex;
+    align-items: end;
+		margin: 17px 10px 60px;
+	}
+}
+
+@media (max-width: $breakpoint-xs) {
+	.footer {
+		grid-template-columns: repeat(2, 1fr);
+		height: 310px;
+		&__section {
+			font-size: 0.81em;
+			margin-left: 0;
+			width: min-content;
+		}
+		&__contact {
+			font-size: 0.81em;
+			margin-left: -40px;
+		}
+		&__link {
+			margin-left: 10px;
+			&-item { 
+				&-vk {
+					height: 30px;
+					width: 30px;
+					&-svg {
+						padding: 9px 5px;
+					}
+				}
+				&-tg {
+					height: 30px;
+					width: 30px;
+					&-svg {
+						padding: 7px 5px;
+					}
+				}
+				&-ok {
+					height: 30px;
+					width: 30px;
+					&-svg {
+						padding: 6px 9px;
+					}
+				}
+				&-youtube {
+					height: 30px;
+					width: 30px;
+					&-svg {
+						padding: 8px 5px;
+					}
+				}
+			}
+		}
+	}
+	
+	.copyright { 
+		margin-top: 15px;
+		font-size: 0.81em;
+	}
+}

@@ -1,22 +1,37 @@
-import type { RootStore } from '@/shared/store'
-import { setIsDarkTheme } from '@/shared/store/slices/ThemeSlice'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 
 export const useTheme = () => {
-  const dispatch = useDispatch()
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    if (saved) return saved === 'dark'
+  })
+
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme
+    setIsDarkTheme(newTheme)
+
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.removeAttribute('data-theme')
+      localStorage.setItem('theme', 'light')
+    }
+  }
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme')
-    dispatch(setIsDarkTheme(theme === 'dark-theme'))
-  }, [dispatch])
+    if (isDarkTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark')
+    } else {
+      document.documentElement.removeAttribute('data-theme')
+    }
+  }, [])
 
   useEffect(() => {
     const themeColor = isDarkTheme ? '#121212' : '#ffffff'
     const statusBarStyle = isDarkTheme ? 'black-translucent' : 'default'
-    let metaThemeColor = document.querySelector('meta[name="theme-color"]')
 
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]')
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', themeColor)
     } else {
@@ -27,7 +42,6 @@ export const useTheme = () => {
     }
     
     let metaApple = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
-
     if (metaApple) {
       metaApple.setAttribute('content', statusBarStyle)
     } else {
@@ -37,4 +51,6 @@ export const useTheme = () => {
       document.head.appendChild(metaApple)
     } 
   }, [isDarkTheme])
+
+  return { toggleTheme }
 }

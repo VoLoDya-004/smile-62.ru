@@ -1,5 +1,4 @@
-import type { RootStore } from "@/shared/store"
-import { useSelector } from 'react-redux'
+import styles from './Modals.module.scss'
 
 interface IAdvertisementModalProps {
   isOpen: boolean
@@ -7,28 +6,26 @@ interface IAdvertisementModalProps {
 }
 
 const AdvertisementModal = ({ isOpen, closeModalAdvertisement }: IAdvertisementModalProps) => {
+  const {
+    'modal-advertisement': modal,
+    'modal-window': modalWindow,
+    'modal-advertisement__content': modalContent,
+    'modal-advertisement__button': modalButton
+  } = styles
+
   if (!isOpen) {
     return null
   }
 
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-
   return (
-    <div 
-      className='modal-window'
-      role='alertdialog'
-      aria-modal='true'
-    >
-      <div className={`modal-advertisement ${isDarkTheme ? 'dark-theme' : ''}`}>
-        <div className='modal-advertisement__content'>
+    <div className={modalWindow} role='alertdialog' aria-modal='true'>
+      <div className={modal}>
+        <div className={modalContent}>
           <p className='margin-null'>OOO "AAAAA"</p>
           <p className='margin-null'>ИНН 1111111111</p>
           <p className='margin-null'>ЕРИД sohs873huc</p>
         </div>
-        <button 
-          onClick={closeModalAdvertisement}
-          className='modal-advertisement__button'
-        >
+        <button onClick={closeModalAdvertisement} className={modalButton}>
           Закрыть
         </button>
       </div>

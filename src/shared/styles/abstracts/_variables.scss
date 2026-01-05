@@ -1,7 +1,277 @@
-$backColorElem: #eaeff2;
-$backColorElemDark: rgb(234 239 242 / 28%);
-$buttonColor: rgb(216 196 224);
+// ============================================
+// SCSS ПЕРЕМЕННЫЕ
+// ============================================
 $breakpoint-md: 1000px;
 $breakpoint-sm: 768px;
 $breakpoint-xs: 425px;
+$buttonColor: rgb(216 196 224);
 $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+
+// ============================================
+// CSS ПЕРЕМЕННЫЕ (ТЕМЫ)
+// ============================================
+:root {
+  //основные
+  --back-color-elem: #eaeff2;
+  --bg-body: white;
+  --text-body: black;
+
+  //модалки
+  --bg-modal-delete: white;
+  --bg-confirm-cancel-button: white;
+  --text-confirm-cancel-button: black;
+  --color-border-confirm-cancel-button: black;
+  --bg-modal-delete-title: #eaeff2;
+  --bg-modal-advertisement: white;
+
+  //корзина
+  --basket-controls-bg: white;
+  --basket-header-bg: #eaeff2;
+  --basket-footer-bg: #eaeff2;
+  --basket-count-bg: #eaeff2;
+  --basket-input-text: black;
+  --basket-order-bg: white;
+  --basket-rules-text: black;
+  --basket-city-bg: white;
+  --basket-select-bg: #eaeff2;
+  --basket-select-text: black;
+  --basket-border-color: rgb(126 155 189 / 0.3);
+  
+  //доставка
+  --delivery-bg: #eaeff2;
+  --delivery-text: black;
+
+  //футер
+  --footer-hover-text: rgb(96, 22, 118);
+  --footer-link-bg: white;
+
+  //меню категорий товаров
+  --dropdown-bg: white;
+  --dropdown-text: black;
+
+  //строка поиска товаров
+  --search-input-bg: white;
+  --search-input-text: black;
+  --search-autofill-bg: white;
+  --search-autofill-text: black;
+
+  //навигация для мобилок
+  --header-mobile-bg: white;
+
+  //выпадающее меню профиля в шапке
+  --profile-dropdown-bg: rgb(236, 220, 233);
+  --profile-dropdown-text: black;
+  --profile-title-text: black; 
+
+  //избранное
+  --favourites-header: #eaeff2;
+  --favourites-border-color: rgb(126 155 189 / 0.3);
+
+  //профиль
+  --form-bg: #eaeff2;
+  --form-item-bg: white;
+  --form-item-text: black;
+  --form-item-border: black;
+  --form-item-focus-bg: #ffffff8f;
+  --form-autofill-bg: white;
+  --form-autofill-text: black;
+  --profile-bg: #eaeff2;
+  --profile-text: black;
+  --profile-title-text: black;
+  --profile-title-hover: rgb(96, 22, 118);
+
+  //панель фильтров
+  --filters-bg: #eaeff2;
+  --filters-sort-title-text: blue;
+  --filters-sort-title-hover-text: rgb(96, 22, 118);
+
+  //сортировка товаров
+  --sort-bg: rgb(236 220 233);
+  --sort-option-hover-text: rgb(216 196 224);
+
+  //фильтры товаров
+  --filter-menu-bg: white;
+  --filter-menu-title-text: black;
+  --filter-menu-title-bg: #eaeff2;
+
+  //аккордеон в фильтрах
+  --accordion-header-bg: white;
+  --accordion-header-text: black;
+  --accordion-header-hover-bg: rgb(216 196 224);
+  --accordion-header-hover-text: rgb(96, 22, 118);
+  --accordion-item-text: black;
+  --accordion-item-bg: white;
+  --accordion-item-hover-bg: rgb(216 196 224);
+  --accordion-item-hover-text: rgb(96, 22, 118);
+  --accordion-price-bg: white;
+  --accordion-content-border: rgb(126 155 189 / 30%);
+  --accordion-input-text: black;
+  --accordion-input-bg: #eaeff2;
+
+  //хлебные крошки
+  --categories-hover-text: black;
+  --categories-hover-border: black;
+  --categories-passive-hover-text: gray;
+
+  //карточки товаров
+  --grid-bg: #eaeff2;
+  --card-bg: white;
+  --card-title-hover: rgb(96, 22, 118);
+
+  //пагинация товаров
+  --pagination-active-bg: #c8c8c8;
+  --pagination-active-text: black;
+  --pagination-active-hover-bg: #9c9c9c;
+  --pagination-disabled-bg: #ececec;
+  --pagination-disabled-text: #00000063;
+  --pagination-disabled-hover-bg: #ececec;
+
+  //рекомендации
+  --recommendation-bg: #eaeff2;
+  --recommendation-card-bg: white;
+  --recommendation-card-title-hover: rgb(96, 22, 118);
+
+  //панель пустой корзины и избранного
+  --empty-block-bg: #eaeff2;
+
+  //чат поддержки
+  --support-header-bg: #eaeff2;
+  --support-main-bg: white;
+  --support-footer-bg: #eaeff2;
+  --support-message-bg: white;
+  --support-message-text: black;
+}
+
+[data-theme="dark"] {
+  //основные
+  --back-color-elem: rgb(234 239 242 / 28%);
+  --bg-body: #121212;
+  --text-body: white;
+
+  //модалки
+  --bg-modal-delete: black;
+  --bg-confirm-cancel-button: #121212;
+  --text-confirm-cancel-button: white;
+  --color-border-confirm-cancel-button: white;
+  --bg-modal-delete-title: #121212;
+  --bg-modal-advertisement: black;
+
+  //корзина
+  --basket-controls-bg: #121212;
+  --basket-header-bg: black;
+  --basket-footer-bg: black;
+  --basket-count-bg: black;
+  --basket-input-text: white;
+  --basket-order-bg: black;
+  --basket-rules-text: white;
+  --basket-city-bg: black;
+  --basket-select-bg: rgb(149, 150, 150);
+  --basket-select-text: black;
+  --basket-border-color: black;
+  
+  //доставка
+  --delivery-bg: rgb(234 239 242 / 28%);
+  --delivery-text: white;
+
+  //футер
+  --footer-hover-text: white;
+  --footer-link-bg: black;
+
+  //меню категорий товаров
+  --dropdown-bg: black;
+  --dropdown-text: white;
+
+  //строка поиска товаров
+  --search-input-bg: #4e5050;
+  --search-input-text: white;
+  --search-autofill-bg: #8a7d8f;
+  --search-autofill-text: white;
+  --search-autofill-caret: white;
+
+  //навигация для мобилок
+  --header-mobile-bg: black;
+
+  //выпадающее меню профиля в шапке
+  --profile-dropdown-bg: black;
+  --profile-dropdown-text: white;
+  --profile-title-text: white;
+
+  //избранное
+  --favourites-header: black;
+  --favourites-border-color: black;
+
+  //Профиль
+  --form-bg: rgb(234 239 242 / 28%);
+  --form-item-bg: #0000005e;
+  --form-item-text: white;
+  --form-item-border: gray;
+  --form-item-focus-bg: #0000002f;
+  --form-autofill-bg: #313333;
+  --form-autofill-text: white;
+  --form-autofill-caret: white;
+  --profile-bg: rgb(234 239 242 / 28%);
+  --profile-text: white;
+  --profile-title-text: white;
+  --profile-title-hover: rgb(255 255 255 / 50%);
+
+  //панель фильтров
+  --filters-bg: rgb(234 239 242 / 28%);
+  --filters-sort-title-text: white;
+  --filters-sort-title-hover-text: rgb(255 255 255 / 50%);
+
+  //сортировка товаров
+  --sort-bg: black;
+  --sort-option-hover-text: #414343;
+
+  //фильтры товаров
+  --filter-menu-bg: black;
+  --filter-menu-title-text: white;
+  --filter-menu-title-bg: rgb(234 239 242 / 28%);
+
+  //аккордеон в фильтрах
+  --accordion-header-bg: black;
+  --accordion-header-text: white;
+  --accordion-header-hover-bg: #262f39;
+  --accordion-header-hover-text: rgb(255 255 255 / 80%);
+  --accordion-item-text: white;
+  --accordion-item-bg: black;
+  --accordion-item-hover-bg: #262f39;
+  --accordion-item-hover-text: white;
+  --accordion-price-bg: black;
+  --accordion-content-border: #262f39;
+  --accordion-input-text: white;
+  --accordion-input-bg: #414343;
+
+  //хлебные крошки
+  --categories-hover-text: white;
+  --categories-hover-border: white;
+  --categories-passive-hover-text: #808080;
+
+  //карточки товаров
+  --grid-bg: rgb(234 239 242 / 28%);
+  --card-bg: rgb(255 255 255 / 40%);
+  --card-title-hover: white;
+
+  //пагинация товаров
+  --pagination-active-bg: #4e5050;
+  --pagination-active-text: white;
+  --pagination-active-hover-bg: #4e5050a0;
+  --pagination-disabled-bg: #a2a2a2;
+  --pagination-disabled-text: rgb(78, 78, 78);
+  --pagination-disabled-hover-bg: #a2a2a2;
+
+  //рекомендации
+  --recommendation-bg: rgb(234 239 242 / 28%);
+  --recommendation-card-bg: rgb(255 255 255 / 0.4);
+  --recommendation-card-title-hover: white;
+
+  //панель пустой корзины и избранного
+  --empty-block-bg: rgb(234 239 242 / 28%);
+
+  //чат поддержки
+  --support-header-bg: black;
+  --support-main-bg: rgb(0 0 0 / 0.7);
+  --support-footer-bg: black;
+  --support-message-bg: rgb(46, 46, 46);
+  --support-message-text: white;
+}

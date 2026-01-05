@@ -7,9 +7,13 @@ export const useModals = () => {
   const [isSupportOpen, setIsSupportOpen] = useState(false)
   const [isModalOpenAllBasket, setIsModalOpenAllBasket] = useState(false)
   const [isModalOpenAllFav, setIsModalOpenAllFav] = useState(false)
+  const [isCategoriesProductOpen, setIsCategoriesProductOpen] = useState(false)
+  const [isFiltersProductOpen, setIsFiltersProductOpen] = useState(false)
+  const [isSearchProductOpen, setIsSearchProductOpen] = useState(false)
 
   const openSupport = useCallback(() => {
     setIsSupportOpen(true)
+    document.body.classList.add('modal-open')
   }, [])
 
   const OpenModalAdvertisement = () => {
@@ -20,30 +24,37 @@ export const useModals = () => {
   const showModal = useCallback((id: number) => {
     setProductIdToDelete(id)
     setIsModalOpen(true)
+    document.body.classList.add('modal-open')
   }, [setIsModalOpen, setProductIdToDelete])
 
   const showModalAllBasket = useCallback(() => {
     setIsModalOpenAllBasket(true)
+    document.body.classList.add('modal-open')
   }, [])
 
   const showModalAllFav = useCallback(() => {
     setIsModalOpenAllFav(true)
+    document.body.classList.add('modal-open')
   }, [setIsModalOpenAllFav])
 
   const closeSupport = useCallback(() => {
     setIsSupportOpen(false)
+    document.body.classList.remove('modal-open')
   }, [])
 
   const closeModalAllBasket = useCallback(() => {
     setIsModalOpenAllBasket(false)
+    document.body.classList.remove('modal-open')
   }, [])
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
+    document.body.classList.remove('modal-open')
   }, [setIsModalOpen, setProductIdToDelete])
 
   const closeModalAllFav = useCallback(() => {
     setIsModalOpenAllFav(false)
+    document.body.classList.remove('modal-open')
   }, [setIsModalOpenAllFav])
 
   const closeModalAdvertisement = () => {
@@ -79,5 +90,11 @@ export const useModals = () => {
     setIsModalOpenAllFav,
     handleClearFavBtn,
     handleClearBasketBtn,
+    isCategoriesProductOpen, 
+    setIsCategoriesProductOpen,
+    isFiltersProductOpen, 
+    setIsFiltersProductOpen,
+    isSearchProductOpen, 
+    setIsSearchProductOpen
   }
 }

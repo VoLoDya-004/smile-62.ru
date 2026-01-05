@@ -1,0 +1,24 @@
+@use '../abstracts' as *;
+
+.svg-btn-fill-none {
+  fill: none;
+  width: 24px;
+  height: 24px;
+}
+
+.clip-rule-evenodd {
+  clip-rule: evenodd;
+}
+
+.fill-clip-rule {
+	@include fill-clip-rule (evenodd, evenodd);
+}
+
+.fill-red {
+  fill: red;
+}
+
+.white-fill-clip {
+  fill: white;
+  @include fill-clip-rule (evenodd, evenodd);
+}

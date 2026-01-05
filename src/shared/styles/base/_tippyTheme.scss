@@ -1,0 +1,8 @@
+.tippy-box[data-theme~='lilac'] { 
+	background-color: rgb(140, 43, 185);
+	color: white;
+}
+	
+.tippy-box[data-theme~='lilac'][data-placement^='left'] > .tippy-arrow::before {
+	border-left-color: rgb(140, 43, 185);
+}

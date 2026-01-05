@@ -1,31 +1,7 @@
-@use './base/main';
-@use './base/fonts';
-
-@use './pages/header';
-@use './pages/content';
-@use './pages/footer';
-@use './pages/profile';
-@use './pages/basket';
-@use './pages/favourites';
-
-@use './sub-components/support';
-@use './sub-components/cookiesNotice';
-@use './sub-components/spinner';
-@use './sub-components/clearString';
-@use './sub-components/recommendations';
-@use './sub-components/filtersBlock';
-@use './sub-components/blockEmpty';
-@use './sub-components/slider';
-@use './sub-components/categoriesDropdown';
-@use './sub-components/progressBar';
-
-@use './modals/modals';
-
-@use './themes/index';
-
-@use './buttons/buttons';
-
-@use './utils/utils';
+@use './base';
+@use './components';
+@use './layout';
+@use './utilities';
 
 
 

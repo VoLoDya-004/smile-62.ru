@@ -1,52 +1,36 @@
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import { cx } from '@/shared/utils/classnames'
 import FooterTitle from './FooterTitle'
+import styles from '../Footer.module.scss'
 
 const ContactsFooter = () => {
-	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const {
+    'footer__contact': contact,
+    'footer__contact-item': contactItem,
+    'footer__contact-item-hover': contactItemHover
+  } = styles
 	
   return (
-    <div className='footer__contact'>
+    <div className={contact}>
 		  <FooterTitle>Контакты</FooterTitle>
-		  <ul 
-		  	className='margin-null' 
-		  	aria-label='Контактная информация'
-		  >
-		  	<li 
-		  		className='footer__contact-item' 
-		  		aria-label='Наш адрес'
-		  	>
+		  <ul className='margin-null' aria-label='Контактная информация'>
+		  	<li className={contactItem} aria-label='Наш адрес'>
 		  		Адрес:&nbsp;
 		  		<address>г. Рязань</address>
 		  	</li>
-		  	<li 
-		  		className='footer__contact-item'
-		  		aria-label='Наш телефон'
-		  	>
+		  	<li className={contactItem} aria-label='Наш телефон'>
 		  		Телефон:&nbsp;
 		  		<a 
 		  			href='tel:77777777777'
-		  			className={`
-		  				footer__contact-item-hover 
-		  				${isDarkTheme ? 'dark-theme' : ''} 
-		  				link-null
-		  			`}
+		  			className={cx(contactItemHover, 'link-null')}
 		  		>
 		  			77777777777
 		  		</a>
 		  	</li>
-		  	<li 
-		  		className='footer__contact-item'
-		  		aria-label='Наша электронная почта'
-		  	>
+		  	<li className={contactItem} aria-label='Наша электронная почта'>
 		  		E-mail:&nbsp;
 		  		<a 
 		  			href='mailto:smile@yandex.ru'
-		  			className={`
-		  				footer__contact-item-hover 
-		  				${isDarkTheme ? 'dark-theme' : ''} 
-		  				link-null
-		  			`}
+		  			className={cx(contactItemHover, 'link-null')}
 		  		>
 		  			smile@yandex.ru
 		  		</a>

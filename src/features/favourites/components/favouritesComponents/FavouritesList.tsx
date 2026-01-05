@@ -1,6 +1,6 @@
 import { useFavouritesContext } from '@/features/favourites/contexts/FavouritesContext'
 import { useBasket } from '@/shared/hooks'
-import FavouritesProducts from './favouritesTable/FavouritesProducts'
+import FavouritesProducts from './FavouritesProducts'
 
 const FavouritesList = () => {
   const { 

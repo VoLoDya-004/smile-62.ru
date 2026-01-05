@@ -9,16 +9,17 @@ import Footer from './features/layout/footer/components/Footer'
 import ProgressBar from './features/layout/header/components/headerComponents/ProgressBar'
 import ButtonScroll from './shared/ui/buttons/ButtonScroll'
 import ButtonChat from './shared/ui/buttons/ButtonChat'
-import CookiesNotice from './shared/widgets/CookiesNotice'
+import CookiesNotice from './shared/widgets/cookiesNotice/CookiesNotice'
 import Main from './features/layout/products/components/Main'
 import Favourites from './features/favourites/components/Favourites'
 import Profile from './features/profile/components/Profile'
 import Basket from './features/basket/components/Basket'
-import Support from './shared/widgets/Support'
+import Support from './shared/widgets/support/Support'
 import Notification from './shared/widgets/Notification'
 import ModalContainer from './shared/widgets/modals/ModalContainer'
 import FavouritesList from './features/favourites/components/favouritesComponents/FavouritesList'
 import BasketList from './features/basket/components/basketComponents/BasketList'
+import Backdrop from './shared/ui/backdrop/Backdrop'
 
 const AppContent = () => {
   const {
@@ -34,16 +35,21 @@ const AppContent = () => {
     closeModalAllBasket,
     closeModalAllFav,
     productIdToDelete,
+    isCategoriesProductOpen,
+    isFiltersProductOpen,
+    isSearchProductOpen
   } = useUIContextModals()
 
   const { notification, setNotification, } = useUIContextNotification()
   const { loadingFavourites, handleClearFav } = useFavouritesContext()
   const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasketContext()
 
+  const shouldShowBackdrop = isCategoriesProductOpen || isFiltersProductOpen || isSearchProductOpen
+
   return (
     <>
       <Header />
-      <main id='main'>  
+      <main id='main' className='main'>  
         <Routes>
           <Route path='/' element={<Main />} />                
           <Route 
@@ -82,6 +88,7 @@ const AppContent = () => {
         closeModalAllFav={closeModalAllFav}
         productIdToDelete={productIdToDelete}
       />
+      <Backdrop isActive={shouldShowBackdrop} />
       <CookiesNotice />
       <Footer />      
     </>

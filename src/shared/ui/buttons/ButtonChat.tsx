@@ -3,16 +3,12 @@ interface ButtonChatProps {
 }
 
 const ButtonChat = ({ onOpen }: ButtonChatProps) => {
-  const modalOpen = () => {
-    onOpen()
-    document.body.classList.add('modal-open')
-  }
 
   return (
     <button 
       type='button'
       className='chat-button' 
-      onClick={modalOpen}
+      onClick={() => onOpen()}
       aria-label='Чат поддержки'
     >
       <svg 

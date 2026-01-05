@@ -1,8 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react'
-import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
-import type { RootStore } from '@/shared/store'
 import { usePortal } from '@/shared/hooks'
+import styles from './Modals.module.scss'
 
 interface IConfirmModal {
   isOpen: boolean
@@ -14,20 +13,12 @@ interface IConfirmModal {
   description: string
 }
 
-const ModalHeader = ({ 
-  title, 
-  isDarkTheme 
-}: { 
-  title: string
-  isDarkTheme: boolean 
-}) => (
-  <h3 className={`modal-delete-content__title ${isDarkTheme ? 'dark-theme' : ''}`}>
-    {title}
-  </h3>
+const ModalHeader = ({ title }: { title: string }) => (
+  <h3 className={styles['modal-delete-content__title']}>{title}</h3>
 )
 
 const ModalBody = ({ description }: { description: string }) => (
-  <p className='modal-delete-content__description'>{description}</p>
+  <p className={styles['modal-delete-content__description']}>{description}</p>
 )
 
 const ModalFooter = ({
@@ -39,7 +30,7 @@ const ModalFooter = ({
   onCancel: () => void
   initialFocusRef: RefObject<HTMLButtonElement | null>
 }) => (
-  <div className='modal-delete-content__footer'>
+  <div className={styles['modal-delete-content__footer']}>
     <button 
       ref={initialFocusRef}
       type='button'
@@ -59,30 +50,32 @@ const ModalFooter = ({
 )
 
 const ModalContent = ({
-  isDarkTheme,
   title,
   description,
   onConfirm,
   onCancel,
   initialFocusRef
 }: {
-  isDarkTheme: boolean
   title: string
   description: string
   onConfirm: () => void
   onCancel: () => void
   initialFocusRef: RefObject<HTMLButtonElement | null>
-}) => (
-  <div className={`modal-delete-content ${isDarkTheme ? 'dark-theme' : ''}`}>
-    <ModalHeader title={title} isDarkTheme={isDarkTheme} />
-    <ModalBody description={description} />
-    <ModalFooter 
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-      initialFocusRef={initialFocusRef}
-    />
-  </div>
-)
+}) => {
+  const { 'modal-delete-content': modalContent } = styles
+
+  return (
+    <div className={modalContent}>
+      <ModalHeader title={title} />
+      <ModalBody description={description} />
+      <ModalFooter 
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        initialFocusRef={initialFocusRef}
+      />
+    </div>
+  )
+}
 
 const ConfirmModal = ({
   isOpen,
@@ -93,7 +86,6 @@ const ConfirmModal = ({
   title,
   description
 }: IConfirmModal) => {
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
   const portalElement = usePortal(portalId, isOpen)
   const btnYesRef = useRef<HTMLButtonElement>(null)
 
@@ -121,13 +113,11 @@ const ConfirmModal = ({
       })
       window.addEventListener('click', handleClickOutside)
       window.addEventListener('keydown', handleKeyDown)
-      document.body.classList.add('modal-open')
     } else {
       const allChildren = Array.from(document.body.children)
       allChildren.forEach(child => {
         child.removeAttribute('inert')
       })
-      document.body.classList.remove('modal-open')
     }
 
     return () => {
@@ -148,12 +138,11 @@ const ConfirmModal = ({
   return createPortal(
     <div 
       id={modalId} 
-      className='modal-window'
+      className={styles['modal-window']}
       role='alertdialog'
       aria-modal='true'
     >
       <ModalContent 
-        isDarkTheme={isDarkTheme}
         title={title}
         description={description}
         onConfirm={onConfirm}

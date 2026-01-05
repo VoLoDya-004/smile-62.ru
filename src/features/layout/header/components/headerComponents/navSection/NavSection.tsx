@@ -4,10 +4,20 @@ import type { RootStore } from '@/shared/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '@/shared/store/slices/UserSlice'
 import { useUIContextNotification } from '@/shared/contexts/UIContext'
+import { cx } from '@/shared/utils/classnames'
 import { useDeviceType } from '@/shared/hooks'
 import ProfileMenu from './ProfileMenu'
+import styles from './NavSection.module.scss'
 
 const NavSection = () => {
+  const {
+    'header-nav': nav,
+    'header-nav__list': navList,
+    'header-nav__item': navItem,
+    'header-nav__line': navLine,
+    'header-nav__item-style': navItemStyle
+  } = styles
+
 	const { isMobile } = useDeviceType()
 
   const { showNotification } = useUIContextNotification()
@@ -15,7 +25,6 @@ const NavSection = () => {
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 	const userName = useSelector((state: RootStore) => state.user.userName)
-	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -50,39 +59,41 @@ const NavSection = () => {
 
 	return (
 		<nav
-			className='header-nav'
+			className={nav}
 			aria-label='Навигация по сайту'
 		>
 			<ul
-				className='header-nav__list'
+				className={navList}
 				aria-label='Навигация по сайту'
 			>
-				<li className='header-nav__item'>
+				<li className={navItem}>
 					<NavLink
 						to='/'
 						className={({ isActive }) =>
-							(isActive ? 
-								'header-nav__line header-nav__item-style' : 
-								'header-nav__item-style'
-							)}
+							cx(
+                navItemStyle, 
+                isActive && navLine
+              )
+            }
 					>
 						Главная
 					</NavLink>
 				</li>
-				<li className='header-nav__item'>
+				<li className={navItem}>
 					<NavLink
 						to='/favourites'
 						className={({ isActive }) =>
-							(isActive ? 
-								'header-nav__line header-nav__item-style' : 
-								'header-nav__item-style'
-						)}
+							cx(
+                navItemStyle, 
+                isActive && navLine
+              )
+            }
 					>
 						Избранное
 					</NavLink>
 				</li>
 				<li
-					className='header-nav__item'
+					className={navItem}
 					onPointerEnter={handlePointerEnter}
 					onPointerLeave={handlePointerLeave}
           onFocus={() => setShowProfileMenu(true)}
@@ -95,10 +106,11 @@ const NavSection = () => {
 					<NavLink
 						to='/profile'
 						className={({ isActive }) =>
-							(isActive ? 
-								'header-nav__line header-nav__item-style' : 
-								'header-nav__item-style'
-							)}
+							cx(
+                navItemStyle, 
+                isActive && navLine
+              )
+            }
 						aria-label='Профиль'
 					>
 						Профиль
@@ -107,21 +119,21 @@ const NavSection = () => {
 						<ProfileMenu
 							isAuth={isAuth}
 							userName={userName}
-							isDarkTheme={isDarkTheme}
 							isActiveProfile={isActiveProfile}
 							onLogout={handleLogout}
 							onLogin={handleLogin}
 						/>
 					)}
 				</li>
-				<li className='header-nav__item'>
+				<li className={navItem}>
 					<NavLink
 						to='/basket'
 						className={({ isActive }) =>
-							(isActive ? 
-								'header-nav__line header-nav__item-style' : 
-								'header-nav__item-style'
-							)}
+							cx(
+                navItemStyle, 
+                isActive && navLine
+              )
+            }
 					>
 						Корзина
 					</NavLink>

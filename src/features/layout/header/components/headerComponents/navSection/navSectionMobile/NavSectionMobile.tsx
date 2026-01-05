@@ -1,32 +1,31 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import { cx } from '@/shared/utils/classnames'
 import BasketCircleMobile from './BasketCircleMobile'
+import styles from '../NavSection.module.scss'
 
 const NavSectionMobile = () => {  
-  const location = useLocation()    
+  const {
+    'header-nav-mobile': nav,
+    'header-nav-mobile__item': navItem,
+    'header-nav-mobile__item_active': navItemActive,
+    'header-nav-mobile__item_passiv': navItemPassiv
+  } = styles
 
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const location = useLocation()    
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [location]) 
 
   return (
-    <nav 
-      className={`header-nav-mobile ${isDarkTheme ? 'dark-theme' : ''}`}
-      aria-label='Навигация по сайту'
-    >
+    <nav className={nav} aria-label='Навигация по сайту'>
       <NavLink 
         to='/' 
-        className={({ isActive }) => (isActive ?  
-          'header-nav-mobile__item_active' : 
-          'header-nav-mobile__item_passiv'
-        )}
+        className={({ isActive }) => cx(isActive ? navItemActive : navItemPassiv)}
         aria-label='Главная'
       > 
-        <div className='header-nav-mobile__item'>
+        <div className={navItem}>
           <svg 
             xmlns='http://www.w3.org/2000/svg'
             width='20'
@@ -46,13 +45,10 @@ const NavSectionMobile = () => {
       </NavLink>
       <NavLink 
         to='/favourites' 
-        className={({ isActive }) => (isActive ? 
-          'header-nav-mobile__item_active' : 
-          'header-nav-mobile__item_passiv'
-        )}
+        className={({ isActive }) => cx(isActive ? navItemActive : navItemPassiv)}
         aria-label='Избранное'
       >
-        <div className='header-nav-mobile__item'>
+        <div className={navItem}>
           <svg 
             xmlns='http://www.w3.org/2000/svg' 
             width='21'
@@ -72,13 +68,10 @@ const NavSectionMobile = () => {
       </NavLink>
       <NavLink 
         to='/profile' 
-        className={({ isActive }) => (isActive ? 
-          'header-nav-mobile__item_active' : 
-          'header-nav-mobile__item_passiv'
-        )}
+        className={({ isActive }) => cx(isActive ? navItemActive : navItemPassiv)}
         aria-label='Профиль'
       >
-        <div className='header-nav-mobile__item'>
+        <div className={navItem}>
           <svg 
             xmlns='http://www.w3.org/2000/svg' 
             width='20' 
@@ -98,14 +91,11 @@ const NavSectionMobile = () => {
       </NavLink>
       <NavLink 
         to='/basket'
-        className={({ isActive }) => (isActive ? 
-          'header-nav-mobile__item_active' : 
-          'header-nav-mobile__item_passiv'
-        )}
+        className={({ isActive }) => cx(isActive ? navItemActive : navItemPassiv)}
         aria-label='Корзина'
       > 
         <BasketCircleMobile />
-        <div className='header-nav-mobile__item'>
+        <div className={navItem}>
           <svg 
             width='17'
             height='16'

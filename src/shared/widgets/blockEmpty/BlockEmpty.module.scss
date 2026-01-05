@@ -1,0 +1,27 @@
+@use '@/shared/styles/abstracts' as *;		
+
+.block-empty {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  border-radius: 19px;
+  background-color: var(--empty-block-bg);
+  &__str-bottom {
+    display: flex;
+    text-align: center;
+    margin-top: -15px;
+  }
+  @media (max-width: $breakpoint-sm) {
+    &__str-up {
+      font-size: 0.84em;
+    }
+    &__str-bottom {
+      padding: 0 10px;
+      font-size: 0.84em;
+    }
+  }
+}

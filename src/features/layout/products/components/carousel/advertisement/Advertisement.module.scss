@@ -1,0 +1,59 @@
+@use '@/shared/styles/abstracts' as *;
+
+.advertisement {
+  display: flex;
+  align-items: center;
+  height: 24px;
+	position: absolute;
+	right: 25px;
+	bottom: 10px;
+	color: white;
+	padding: 0 10px;
+	background-color: rgb(0 0 0 / 0.4);
+	backdrop-filter: blur(2px);
+	user-select: none;
+	border-radius: 20px;
+  font-size: 0.93em;
+  z-index: 100;
+	&::after {
+		content: url("/images/icons/description_advertisement.svg");
+		padding-left: 5px;
+	}
+	&-description {
+		padding: 5px 10px;
+		font-size: 0.75em;
+		background-color: black;
+		color: white;
+		border-radius: 10px;
+		position: absolute;
+		transform: translateX(-50%);
+    left: 50%;
+    top: 27px;
+		opacity: 0;
+		transition: opacity .3s ease;
+		user-select: none;
+		pointer-events: none;
+		line-height: 1.5;
+    width: 130px;
+		&.show {
+			opacity: 1;
+		}
+	}
+}
+
+
+@media (max-width: $breakpoint-md) {
+  .advertisement {
+	  right: 10px;
+	  &-description {
+	  	display: none;
+	  	&.show {
+	  		display: none;
+	  	}
+	  }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+	.advertisement { bottom: 5px; }
+}

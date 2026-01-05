@@ -1,0 +1,98 @@
+@use '@/shared/styles/abstracts' as *;
+
+.filters-block {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  background-color: var(--filters-bg);
+  margin-bottom: 10px;
+  border-radius: 15px;
+  position: relative;
+  &__sort {
+    box-sizing: border-box;
+    text-wrap: nowrap;
+    padding: 0 20px;
+    cursor: default;
+    width: 28%;
+    max-width: 288px;
+    &-title {
+      display: inline-flex;
+      align-items: end;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
+      width: auto;
+      padding: 10px 5px;
+      margin-right: 20px;
+      color: var(--filters-sort-title-text);
+      cursor: pointer;
+      user-select: none;
+      transition: .2s;
+      border: none;
+      background-color: inherit;
+      font-size: 1em;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          color: var(--filters-sort-title-hover-text);
+        }
+      }
+    }
+    &-triangle-padding {
+      user-select: none;
+      padding-left: 3px;
+    }
+  }
+  &__filter {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+    flex: 1;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .filters-block__sort {
+    width: 35%;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .filters-block {
+    flex-direction: column;
+    height: auto;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    gap: 20px;
+    &__sort {
+      padding: 0 10px;
+      min-width: 100%;
+      &-title {
+        width: auto;
+      }
+    }
+    &__filter {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .filters-block {
+    border-radius: 5px;
+    &__sort {
+      padding: 0 3px;
+      &-title::after {
+        bottom: 51px;
+        left: 2px;
+        right: calc(100% - 182px);
+      }
+    }
+    &__filter {
+      padding: 0 3px 10px;
+    }
+  }
+}

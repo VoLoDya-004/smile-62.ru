@@ -1,15 +1,12 @@
-import { useSelector } from 'react-redux'
 import { useProductsContext } from '../contexts/ProductsContext'
-import type { RootStore } from '@/shared/store'
-import Carousel from './mainComponents/carouselComponents/Carousel'
-import Cards from './mainComponents/Cards'
-import FiltersBlock from './mainComponents/filtersComponents/FiltersBlock'
-import Breadcrumbs from './mainComponents/Breadcrumbs'
-import PaginationButtons from './mainComponents/PaginationButtons'
+import Carousel from './carousel/Carousel'
+import Cards from './cards/Cards'
+import FiltersBlock from './filters/FiltersBlock'
+import Breadcrumbs from './breadcrumbs/Breadcrumbs'
+import PaginationButtons from './paginationButtons/PaginationButtons'
+import styles from './carousel/Carousel.module.scss'
 
 const Main = () => {
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
-
   const {
     setCurrentPage, 
     selectedCategory, 
@@ -33,7 +30,7 @@ const Main = () => {
       <h1 className='visually-hidden'>Интернет-магазин Smile</h1>
       <Carousel>
         <article 
-          className='slider__item'
+          className={styles.slider__item}
           aria-label='Первый слайд'
         >
           <img 
@@ -44,7 +41,7 @@ const Main = () => {
           />
         </article>
         <article 
-          className='slider__item'
+          className={styles.slider__item}
           aria-label='Второй слайд'
         >
           <img 
@@ -54,7 +51,7 @@ const Main = () => {
           />
         </article>
         <article 
-          className='slider__item'
+          className={styles.slider__item}
           aria-label='Третий слайд'
         >
           <img 
@@ -77,7 +74,6 @@ const Main = () => {
       {cards.length > 0 && 
         <PaginationButtons
           currentPage={currentPage}
-          isDarkTheme={isDarkTheme}
           isBackDisabled={isBackDisabled}
           isForwardDisabled={isForwardDisabled}
           onPageChange={handlePageChange}

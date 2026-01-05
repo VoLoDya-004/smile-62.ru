@@ -1,24 +1,31 @@
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import styles from '../Footer.module.scss'
 
 const LinkFooter = () => {
-	const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
+  const {
+    'footer__link': link,
+    'footer__link-item': linkItem,
+    'footer__link-item-vk': linkItemVk,
+    'footer__link-item-vk-svg': linkItemVkSvg,
+    'footer__link-item-tg': linkItemTg,
+    'footer__link-item-tg-svg': linkItemTgSvg,
+    'footer__link-item-ok': linkItemOk,
+    'footer__link-item-ok-svg': linkItemOkSvg,
+    'footer__link-item-youtube': linkItemYoutube,
+    'footer__link-item-youtube-svg': linkItemYoutubeSvg,
+  } = styles
 
 	return (
-		<div 
-			className='footer__link'
-			aria-label='Социальные сети компании'
-		>
-			<div className={`footer__link-item ${isDarkTheme ? 'dark-theme' : ''}`}>
+		<div className={link} aria-label='Социальные сети компании'>
+			<div className={linkItem}>
 				<a 
-					className='footer__link-item-vk' 
+					className={linkItemVk}
 					href='https://vk.com/' 
 					target='_blank'
 					aria-label='Наша страница в ВКонтакте'
           rel='noopener noreferrer'
 				>
 					<svg 
-						className='footer__link-item-vk-svg'
+						className={linkItemVkSvg}
 						xmlns='http://www.w3.org/2000/svg'
 						width='20'
 						height='12'
@@ -34,16 +41,16 @@ const LinkFooter = () => {
 					</svg>
 				</a>
 			</div>
-			<div className={`footer__link-item ${isDarkTheme ? 'dark-theme' : ''}`}>
+			<div className={linkItem}>
 				<a 
-					className='footer__link-item-tg' 
+					className={linkItemTg}
 					href='http://web.telegram.org/' 
 					target='_blank'
 					aria-label='Наш Telegram канал'
           rel='noopener noreferrer'
 				>
 					<svg 
-						className='footer__link-item-tg-svg' 
+						className={linkItemTgSvg} 
 						xmlns='http://www.w3.org/2000/svg' 
 						width='20' 
 						height='16'
@@ -52,16 +59,16 @@ const LinkFooter = () => {
 					</svg>
 				</a>
 			</div>
-			<div className={`footer__link-item ${isDarkTheme ? 'dark-theme' : ''}`}>
+			<div className={linkItem}>
 				<a 
-					className='footer__link-item-ok' 
+					className={linkItemOk}
 					href='https://ok.ru/'
 					target='_blank'
 					aria-label='Мы в Одноклассниках'
           rel='noopener noreferrer'
 				>
 					<svg 
-						className='footer__link-item-ok-svg' 
+						className={linkItemOkSvg}
 						xmlns='http://www.w3.org/2000/svg' 
 						width='12' 
 						height='18'
@@ -90,16 +97,16 @@ const LinkFooter = () => {
 					</svg>
 				</a>
 			</div>
-			<div className={`footer__link-item ${isDarkTheme ? 'dark-theme' : ''}`}>
+			<div className={linkItem}>
 				<a 
-					className='footer__link-item-youtube'
+					className={linkItemYoutube}
 					href='youtube.com'
 					target='_blank'
 					aria-label='Наш Youtube канал'
           rel='noopener noreferrer'
 				>
 					<svg 
-						className='footer__link-item-youtube-svg' 
+						className={linkItemYoutubeSvg}
 						xmlns='http://www.w3.org/2000/svg'
 						width='20' 
 						height='14'

@@ -1,6 +1,4 @@
 import { useState, useCallback, useMemo, Fragment} from 'react'
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
 import type { IFav } from '@/features/favourites/types/favouritesTypes'
 import { useUIContextNotification } from '@/shared/contexts/UIContext'
 import { useBasketContext } from '@/features/basket/contexts/BasketContext'
@@ -26,8 +24,6 @@ const ButtonBasket = ({
   const { showNotification } = useUIContextNotification()
 
   const [addingStatus, setAddingStatus] = useState<Record<number, boolean>>({})
-
-  const isDarkTheme = useSelector((state: RootStore) => state.theme.isDarkTheme)
 
   const basketProductIds = useMemo(
     () => new Set(cartBasket.map(item => Number(item.id_product))), 
@@ -73,20 +69,11 @@ const ButtonBasket = ({
         return (
           <Fragment key={card.id}>
             {productFavourites.id === card.id && (
-              <div  
-                id={String(card.id)} 
-                className={`
-                  basket-box__product-controls 
-                  ${isDarkTheme ? 'dark-theme' : ''}
-                `}
-              >
+              <div id={String(card.id)} className='button-product-controls'>
                 <button
                   type='button'
                   disabled={isBasket || isLoading}
-                  className={`
-                    basket-box__product-controls 
-                    ${isDarkTheme ? 'dark-theme' : ''}
-                  `}
+                  className='button-product-controls'
                   onClick={() => handleAddInBasketProductFavourites(card.id)}
                 >
                   <span className='visually-hidden'>
@@ -95,11 +82,7 @@ const ButtonBasket = ({
                       'Добавить избранный товар в корзину'
                     }
                   </span>
-                    <BasketAddIcon
-                      isBasket={isBasket}
-                      isLoading={isLoading}
-                      isDarkTheme={isDarkTheme}
-                    />
+                  <BasketAddIcon isBasket={isBasket} isLoading={isLoading} />
                 </button>
               </div>
             )}

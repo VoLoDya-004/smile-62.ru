@@ -1,26 +1,22 @@
 interface IBasketAddIconProps {
   isBasket: boolean
   isLoading: boolean
-  isDarkTheme: boolean
 }
 
-const BasketAddIcon = ({ isBasket, isLoading, isDarkTheme }: IBasketAddIconProps) => {
+const BasketAddIcon = ({ isBasket, isLoading }: IBasketAddIconProps) => {
 
   return (
     <svg 
       width='25'
       height='24' 
-      className='basket-svg-block'
+      className='button-product-controls-svg'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
         className={`
           ${isBasket || isLoading ? 
-            'basket-svg_active' : 
-            'basket-svg_passive'
-          } ${isDarkTheme ? 
-            'dark-theme' : 
-            ''
+            'button-product-controls-svg_active' : 
+            'button-product-controls-svg_passive'
           }
         `} 
         d='M2.925.488a.833.833 0 0 0-1.517.691l4.295 

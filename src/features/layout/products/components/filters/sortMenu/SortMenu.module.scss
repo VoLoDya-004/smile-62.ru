@@ -1,0 +1,48 @@
+@use '@/shared/styles/abstracts' as *;
+
+.sort-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 43px;
+  left: -20px;
+  width: 288.66px;
+  background-color: var(--sort-bg);
+  border-radius: 15px;
+  height: auto;
+  z-index: 200;
+}
+
+.sort-option {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+  transition: .1s;
+  cursor: pointer;
+  &:first-child {
+    border-radius: 15px 15px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 15px 15px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: var(--sort-option-hover-text);
+    }
+  }
+}
+
+input[name="sortOptions"] {
+  margin-top: 3px;
+}
+
+@media (max-width: $breakpoint-md) {
+  .sort-menu { left: -10px; }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .sort-menu {
+    top: 23px;
+    left: 5px;
+  }
+}
