@@ -1,5 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react'
-import { useFavourites } from '../hooks/useFavourites'
+import { createContext, useContext } from 'react'
 import type { IFav } from '../types/favouritesTypes'
 
 interface IFavouritesContextType {
@@ -14,25 +13,7 @@ interface IFavouritesContextType {
   updateFavouritesData: () => Promise<void>
 }
 
-const FavouritesContext = createContext<IFavouritesContextType | undefined>(undefined)
-
-export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
-  const favourites = useFavourites()
-
-  const value = {
-    cartFavourites: favourites.cartFavourites,
-    loadingFavourites: favourites.loadingFavourites,
-    loadingDeleteAllFav: favourites.loadingDeleteAllFav,
-    deletingFavourites: favourites.deletingFavourites,
-    handleClearFav: favourites.handleClearFav,
-    deleteProductFavourites: favourites.deleteProductFavourites,
-    addInBasketProductFavourites: favourites.addInBasketProductFavourites,
-    setLoadingFavourites: favourites.setLoadingFavourites,
-    updateFavouritesData: favourites.updateFavouritesData,
-  }
-
-  return <FavouritesContext.Provider value={value}>{children}</FavouritesContext.Provider>
-}
+export const FavouritesContext = createContext<IFavouritesContextType | undefined>(undefined)
 
 export const useFavouritesContext = () => {
   const context = useContext(FavouritesContext)

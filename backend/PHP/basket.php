@@ -1,8 +1,21 @@
 <?php
-require_once "./cors.php";
-require_once "./auth.php";
+require_once "./config/cors.php";
+require_once "./config/db.php";
 
-if (isset($_GET['Operation'])) {
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'GET') {
+    $params = $_GET;
+} elseif ($method === 'POST') {
+    $input = file_get_contents('php://input');
+    $params = json_decode($input, true);
+} elseif ($method === 'DELETE' || $method === 'PATCH') {
+    $input = file_get_contents('php://input');
+    $params = json_decode($input, true);
+    $params = array_merge($params, $_GET);
+}
+
+if (isset($params['Operation'])) {
     $connect = mysqli_connect($hostname, $username, $password, $dbName);
     if (!$connect) {
         die("Ошибка подключения к БД: " . mysqli_connect_error());
@@ -12,11 +25,12 @@ if (isset($_GET['Operation'])) {
     ("<p>Не могу выбрать базу данных: ".mysqli_error($connect).". Ошибка в строке ".__LINE__."</p>");
 
     $query = "";
+    $operation = $params['Operation'];
 
-    if ($_GET['Operation'] == 'addBasket'){
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $idUser = $_GET['idUser'];
+    if ($operation == 'addBasket'){
+        if (isset($params['idProduct'])) {
+            $idProduct = $params['idProduct'];
+            $idUser = $params['idUser'];
 
             $checkQuery = "SELECT id FROM basket WHERE id_user = $idUser AND id_product = $idProduct";
             $checkResult = mysqli_query($connect, $checkQuery);
@@ -27,54 +41,54 @@ if (isset($_GET['Operation'])) {
         }
     }
 
-    if ($_GET['Operation'] == 'showBasket'){ 
-        if (isset($_GET['idUser'])) {
-            $idUser = $_GET['idUser'];
+    if ($operation == 'showBasket'){ 
+        if (isset($params['idUser'])) {
+            $idUser = $params['idUser'];
             $query = 
                 "SELECT * FROM tovar INNER JOIN basket ON tovar.id = basket.id_product WHERE 
                 basket.id_user = $idUser";
         }
     }
 
-    if ($_GET['Operation'] == 'deleteBasket'){
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $userId = $_GET['idUser'];
+    if ($operation == 'deleteBasket'){
+        if (isset($params['idProduct'])) {
+            $idProduct = $params['idProduct'];
+            $userId = $params['idUser'];
             $query = "DELETE FROM basket WHERE id=$idProduct and id_user = $userId";
         }
     }
 
-    if ($_GET['Operation'] == 'increaseBasket'){
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $userId = $_GET['idUser'];
+    if ($operation == 'increaseBasket'){
+        if (isset($params['idProduct'])) {
+            $idProduct = $params['idProduct'];
+            $userId = $params['idUser'];
             $query = 
                 "UPDATE basket SET count = count + 1 WHERE id=$idProduct and id_user = $userId";
         }
     }
 
-    if ($_GET['Operation'] == 'decreaseBasket'){ 
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $userId = $_GET['idUser'];
+    if ($operation == 'decreaseBasket'){ 
+        if (isset($params['idProduct'])) {
+            $idProduct = $params['idProduct'];
+            $userId = $params['idUser'];
             $query = 
                 "UPDATE basket SET count = count - 1 WHERE id=$idProduct and id_user = $userId";
         }
     }
 
-    if ($_GET['Operation'] == 'updateCount'){
-        if (isset($_GET['idProduct'])) {
-            $idProduct = $_GET['idProduct'];
-            $userId = $_GET['idUser'];
-            $newCount  = $_GET['count'];
+    if ($operation == 'updateCount'){
+        if (isset($params['idProduct'])) {
+            $idProduct = $params['idProduct'];
+            $userId = $params['idUser'];
+            $newCount  = $params['count'];
             $query = 
                 "UPDATE basket SET count = $newCount WHERE id=$idProduct and id_user = $userId";
         }
     }
 
-    if ($_GET['Operation'] == 'clearBasket'){ 
-        if (isset($_GET['idUser'])) {
-            $userId = $_GET['idUser'];
+    if ($operation == 'clearBasket'){ 
+        if (isset($params['idUser'])) {
+            $userId = $params['idUser'];
             $query = "DELETE FROM basket WHERE id_user = $userId";
         }
     }
@@ -82,18 +96,25 @@ if (isset($_GET['Operation'])) {
     if (!empty($query)) {
         $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
 
-        $myArray = array();
-        while($row = mysqli_fetch_assoc($result)) {
-            array_push($myArray, $row);
+        if ($operation == 'showBasket') {
+            $myArray = array();
+            while($row = mysqli_fetch_assoc($result)) {
+                array_push($myArray, $row);
+            }
+            header('Content-Type: application/json');
+            echo json_encode($myArray);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
         }
-
-        header('Content-Type: application/json');
-        echo json_encode($myArray);
     } else {
         header('Content-Type: application/json');
-        echo json_encode([]);
+        echo json_encode(['success' => false, 'message' => 'No query generated']);
     }
     
     mysqli_close($connect);
+} else {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'No operation specified']);
 }
 ?>

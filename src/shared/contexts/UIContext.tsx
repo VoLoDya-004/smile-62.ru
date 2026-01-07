@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react'
+import { createContext, useContext } from 'react'
 import { useNotification, useModals } from '../hooks/index'
 
 interface IUIContextType {
@@ -6,19 +6,7 @@ interface IUIContextType {
   modals: ReturnType<typeof useModals>
 }
 
-const UIContext = createContext<IUIContextType | undefined>(undefined)
-
-export const UIProvider = ({ children }: { children: ReactNode }) => {
-  const notification = useNotification()
-  const modals = useModals()
-
-  const value = {
-    notification: notification,
-    modals: modals
-  }
-
-  return <UIContext.Provider value={value}>{children}</UIContext.Provider>
-}
+export const UIContext = createContext<IUIContextType | undefined>(undefined)
 
 const useUIContext = () => {
   const context = useContext(UIContext)

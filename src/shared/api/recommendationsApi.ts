@@ -2,14 +2,12 @@ import { COMMON_API_URLS } from '@/shared/constants/apiConstants'
 import axios from 'axios'
 
 export const recommendationsApi = {
-  getRecommendations: async (userId: number | null) => {
-    const idUser = userId ?? 0
+  getRecommendations: async () => {
 
     try {
-      const res = await axios.get(COMMON_API_URLS.SORT, {
+      const res = await axios.get(COMMON_API_URLS.RECOMMENDATIONS, {
         params: {
-          Operation: 'showCards',
-          idUser: idUser,
+          Operation: 'showRecommendations',
         }
       })
       return ({

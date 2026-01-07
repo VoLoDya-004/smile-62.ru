@@ -1,6 +1,6 @@
 <?php
-require_once "./cors.php";
-require_once "./auth.php";
+require_once "./config/cors.php";
+require_once "./config/db.php";
 
 if (isset($_GET['Operation'])) {
     $connect = mysqli_connect($hostname, $username, $password, $dbName);
@@ -14,19 +14,8 @@ if (isset($_GET['Operation'])) {
     $operation = $_GET['Operation'];
     $myArray = array();
 
-    if ($operation == 'showCards') { 
-        if (isset($_GET['idUser'])) {
-            $query = "SELECT * FROM tovar";
-        }
-    }
-
-    if ($operation == 'getCategoryProducts') {
-        if (isset($_GET['idCategory'])) {
-            $idCategory = $_GET['idCategory']; 
-            $query = "SELECT * FROM tovar WHERE id_category = $idCategory";
-        } else {
-            $query = "SELECT * FROM tovar WHERE 1=0";
-        }
+    if ($operation == 'showRecommendations') { 
+        $query = "SELECT * FROM tovar";
     }
  
     if ($query != "") {

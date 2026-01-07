@@ -5,13 +5,13 @@ import axios from 'axios'
 export const authApi = {
   register: (registerData: IRegisterData) => 
     axios
-      .post(AUTH_API_URLS.REGISTER, registerData, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        params: {
+      .post(AUTH_API_URLS.AUTH, {
+          ...registerData,
           Operation: 'register'
-        }
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
       })
       .then((res) => ({
         success: res.data.success,
@@ -24,12 +24,12 @@ export const authApi = {
 
   login: (loginData: { email: string; password: string }) =>
     axios
-      .post(AUTH_API_URLS.LOGIN, loginData, {
+      .post(AUTH_API_URLS.AUTH, {
+          ...loginData,
+          Operation: 'login'
+        }, {
           headers: {
             'Content-Type': 'application/json'
-          },
-          params: {
-            Operation: 'login'
           }
       })
       .then((res) => ({

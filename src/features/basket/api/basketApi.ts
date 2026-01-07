@@ -21,8 +21,8 @@ export const basketApi = {
 
   deleteFromBasket: (userId: number, productId: number) => 
     axios
-      .get(API_URLS_BASKET, {
-        params: {
+      .delete(API_URLS_BASKET, {
+        data: {
           Operation: 'deleteBasket',
           idProduct: productId,
           idUser: userId,
@@ -32,8 +32,8 @@ export const basketApi = {
 
   clearBasket: (userId: number) => 
     axios
-      .get(API_URLS_BASKET, {
-        params: {
+      .delete(API_URLS_BASKET, {
+        data: {
           Operation: 'clearBasket',
           idUser: userId,
         }
@@ -42,35 +42,29 @@ export const basketApi = {
 
   increaseBasket: (userId: number, productId: number) =>
     axios
-      .get(API_URLS_BASKET, {
-        params: {
-          Operation: 'increaseBasket',
-          idProduct: productId,
-          idUser: userId,
-        }
+      .patch(API_URLS_BASKET, {
+        Operation: 'increaseBasket',
+        idProduct: productId,
+        idUser: userId,
       })
       .then(() => basketApi.getBasket(userId)),
 
   decreaseBasket: (userId: number, productId: number) =>
     axios
-      .get(API_URLS_BASKET, {
-        params: {
-          Operation: 'decreaseBasket',
-          idProduct: productId,
-          idUser: userId,
-        }
+      .patch(API_URLS_BASKET, {
+        Operation: 'decreaseBasket',
+        idProduct: productId,
+        idUser: userId,
       })
       .then(() => basketApi.getBasket(userId)),
 
   updateBasketCount: (userId: number, productId: number, count: number) => 
     axios
-      .get(API_URLS_BASKET, {
-        params: {
-          Operation: 'updateCount',
-          idProduct: productId,
-          count: count,
-          idUser: userId,
-        }
+      .patch(API_URLS_BASKET, {
+        Operation: 'updateCount',
+        idProduct: productId,
+        count: count,
+        idUser: userId,
       })
       .then(() => basketApi.getBasket(userId)),
 
@@ -86,12 +80,10 @@ export const basketApi = {
 
   addBasket: (idProduct: number, userId: number | null) =>
     axios
-      .get(API_URLS_BASKET, {
-        params: {
-          Operation: 'addBasket',
-          idProduct: idProduct,
-          idUser: userId,
-        }
+      .post(API_URLS_BASKET, {
+        Operation: 'addBasket',
+        idProduct: idProduct,
+        idUser: userId,
       })
       .then(() => basketApi.getBasket(userId))
 }

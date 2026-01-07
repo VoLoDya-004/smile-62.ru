@@ -21,8 +21,8 @@ export const favouritesApi = {
 
   deleteFromFavourites: (userId: number, productId: number) =>
     axios
-      .get(API_URLS_FAVOURITES, {
-        params: {
+      .delete(API_URLS_FAVOURITES, {
+        data: {
           Operation: 'deleteFavourites',
           idProduct: productId,
           idUser: userId,
@@ -32,8 +32,8 @@ export const favouritesApi = {
 
   clearFavourites: (userId: number) => 
     axios
-      .get(API_URLS_FAVOURITES, {
-        params: {
+      .delete(API_URLS_FAVOURITES, {
+        data: {
           Operation: 'clearFavourites',
           idUser: userId,
         }
@@ -42,12 +42,10 @@ export const favouritesApi = {
 
   addToBasketFromFavourites: (userId: number, productId: number) =>
     axios
-      .get(API_URLS_FAVOURITES, {
-        params: {
-          Operation: 'addBasket',
-          idProduct: productId,
-          idUser: userId,
-        }
+      .post(API_URLS_FAVOURITES, {
+        Operation: 'addBasket',
+        idProduct: productId,
+        idUser: userId,
       })
       .then(() => favouritesApi.getFavourites(userId)),
 
@@ -63,12 +61,10 @@ export const favouritesApi = {
 
   addFavourites: (idProduct: number, userId: number | null) =>
     axios
-      .get(API_URLS_FAVOURITES, {
-        params: {
-          Operation: 'addFavourites',
-          idProduct: idProduct,
-          idUser: userId,
-        }
+      .post(API_URLS_FAVOURITES, {
+        Operation: 'addFavourites',
+        idProduct: idProduct,
+        idUser: userId,
       })
       .then(() => favouritesApi.getFavourites(userId))
 }

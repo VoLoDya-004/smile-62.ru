@@ -1,14 +1,9 @@
 import { useProducts } from "../hooks/useProducts"
-import { createContext, useContext, type ReactNode } from 'react'
+import { createContext, useContext } from 'react'
 
 type TProductsContextType = ReturnType<typeof useProducts>
 
-const ProductsContext = createContext<TProductsContextType | undefined>(undefined)
-
-export const ProductsProvider = ({ children }: { children: ReactNode }) => {
-  const products = useProducts()
-  return <ProductsContext.Provider value={products}>{children}</ProductsContext.Provider>
-}
+export const ProductsContext = createContext<TProductsContextType | undefined>(undefined)
 
 export const useProductsContext = () => {
   const context = useContext(ProductsContext)

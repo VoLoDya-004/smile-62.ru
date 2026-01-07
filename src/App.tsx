@@ -1,9 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 import { useTheme, useAuth } from './shared/hooks/index'
-import { UIProvider, useUIContextModals, useUIContextNotification } from './shared/contexts/UIContext'
-import { ProductsProvider } from './features/layout/products/contexts/ProductsContext'
-import { FavouritesProvider, useFavouritesContext } from './features/favourites/contexts/FavouritesContext'
-import { BasketProvider, useBasketContext } from './features/basket/contexts/BasketContext'
+import { useUIContextModals, useUIContextNotification } from './shared/contexts/UIContext'
+import { useFavouritesContext } from './features/favourites/contexts/FavouritesContext'
+import { useBasketContext } from './features/basket/contexts/BasketContext'
 import Header from './features/layout/header/components/Header'
 import Footer from './features/layout/footer/components/Footer'
 import ProgressBar from './features/layout/header/components/headerComponents/ProgressBar'
@@ -21,7 +20,10 @@ import FavouritesList from './features/favourites/components/favouritesComponent
 import BasketList from './features/basket/components/basketComponents/BasketList'
 import Backdrop from './shared/ui/backdrop/Backdrop'
 
-const AppContent = () => {
+const App = () => {
+  useAuth()
+  useTheme()
+
   const {
     openSupport,
     isSupportOpen,
@@ -92,23 +94,6 @@ const AppContent = () => {
       <CookiesNotice />
       <Footer />      
     </>
-  )
-}
-
-const App = () => {
-  useAuth()
-  useTheme()
-
-  return (
-    <UIProvider>
-      <ProductsProvider>
-        <FavouritesProvider>
-          <BasketProvider>
-            <AppContent />
-          </BasketProvider>
-        </FavouritesProvider>
-      </ProductsProvider>
-    </UIProvider>
   )
 }
 
