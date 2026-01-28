@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState, type ReactNode } from 'react'
 
 export const QueryProvider = ({ children }: { children: ReactNode }) => {
@@ -9,10 +10,12 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
           queries: {
             staleTime: 60 * 1000,
             gcTime: 5 * 60 * 1000,
-            retry: 1,
+            retry: 2,
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
             refetchOnWindowFocus: false,
             refetchOnMount: true, 
-            refetchOnReconnect: true
+            refetchOnReconnect: true,
+            structuralSharing: true, 
           },
           mutations: {
             retry: 0,
@@ -24,6 +27,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition='bottom-left' />
     </QueryClientProvider>
   )
 }

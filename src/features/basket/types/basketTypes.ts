@@ -4,11 +4,10 @@ export interface IBasket {
   image?: string
   count?: number
   price_total?: number
-  id_product?: number 
+  id_product: number
 }
 
-export interface ICartItem {
-  id: number
+export interface IBasketTotal {
   count: number
   price_total: number
 }

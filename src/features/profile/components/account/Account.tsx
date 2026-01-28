@@ -1,23 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { NavLink } from 'react-router-dom'
-import { logoutUser } from '@/shared/store/slices/UserSlice'
 import { pluralize } from '@/shared/utils/pluralize'
-import { useUIContextNotification } from '@/shared/contexts/UIContext'
-import { useFavouritesContext } from '@/features/favourites/contexts/FavouritesContext'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
+import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
+import { useFavourites } from '@/features/favourites/hooks/useFavourites'
+import { useBasket } from '@/features/basket/hooks/useBasket'
+import type { IBasket, IBasketTotal } from '@/features/basket/types/basketTypes'
 import Button from '@/shared/ui/buttons/Button'
 import styles from './Account.module.scss'
 
-const ProfileAside = ({ 
-  userName, 
-  onLogout,
-  handleTopUpWallet
-}: { 
+interface IProfileAsideProps {
   userName: string
   onLogout: () => void
   handleTopUpWallet: () => void
-}) => {
+}
+
+interface IBasketBlockProps {
+  basketCount: number
+  itemText: string
+}
+
+const ProfileAside = ({ userName, onLogout, handleTopUpWallet }: IProfileAsideProps) => {
   const {
     'user-aside': aside,
     'user-aside__name': asideName,
@@ -38,13 +43,12 @@ const ProfileAside = ({
   )
 }
 
-const FavoritesBlock = ({ 
-  favoritesCount,
-  itemText 
-}: { 
+interface IFavoritesBlockProps {
   favoritesCount: number
   itemText: string
-}) => {
+}
+
+const FavoritesBlock = ({ favoritesCount, itemText }: IFavoritesBlockProps) => {
   const {
     'profile-fav': profileFav,
     'profile-fav__block': profileFavBlock,
@@ -91,13 +95,7 @@ const FavoritesBlock = ({
   )
 }
 
-const BasketBlock = ({ 
-  basketCount,
-  itemText 
-}: { 
-  basketCount: number
-  itemText: string
-}) => {
+const BasketBlock = ({ basketCount, itemText }: IBasketBlockProps) => {
   const {
     'profile-basket': profileBasket,
     'profile-basket__block': profileBasketBlock,
@@ -151,24 +149,26 @@ const BasketBlock = ({
 const Account = () => {
   const { 'container-profile': container } = styles
 
-  const { cartFavourites } = useFavouritesContext()
+  const { cartFavourites } = useFavourites()
+  let { cartBasket } = useBasket()
   const { showNotification } = useUIContextNotification()
+  const { handleLogout } = useAuth()
 
-  const dispatch = useDispatch()
   const userName = useSelector((state: RootStore) => state.user.userName)
-  const totalBasket = useSelector((state: RootStore) => state.basket.total)
 
-  const handleLogout = () => {
-    sessionStorage.setItem('showLogoutNotification', 'true')
-    localStorage.removeItem('auth')
-    dispatch(logoutUser())
-  }
+  cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
+
+  const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
+    const count = Number(item.count)
+    acc.count += (isNaN(count) || count <= 0) ? 0 : count
+    return acc
+  }, { count: 0 })
 
   const handleTopUpWallet = () => {
     showNotification('Фунционал в разработке', 'error')
   }
 
-  const itemTextBasket = pluralize(totalBasket.count, ['товар', 'товара', 'товаров'])
+  const itemTextBasket = pluralize(total.count, ['товар', 'товара', 'товаров'])
   const itemTextFav = pluralize(cartFavourites.length, ['товар', 'товара', 'товаров'])
 
   return (
@@ -180,7 +180,7 @@ const Account = () => {
       />
       <section className={container}>
         <FavoritesBlock favoritesCount={cartFavourites.length} itemText={itemTextFav} />
-        <BasketBlock basketCount={totalBasket.count} itemText={itemTextBasket} />
+        <BasketBlock basketCount={total.count} itemText={itemTextBasket} />
       </section>
     </>
   )

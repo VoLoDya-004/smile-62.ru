@@ -1,8 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import { useTheme, useAuth } from './shared/hooks/index'
-import { useUIContextModals, useUIContextNotification } from './shared/contexts/UIContext'
-import { useFavouritesContext } from './features/favourites/contexts/FavouritesContext'
-import { useBasketContext } from './features/basket/contexts/BasketContext'
+import { useTheme } from './shared/hooks/index'
+import { useAuth } from './features/profile/hooks/useAuth'
+import { useFavourites } from './features/favourites/hooks/useFavourites'
+import { useBasket } from './features/basket/hooks/useBasket'
+import { useUIContextModals, useUIContextNotification } from './shared/providers/UIProvider'
 import Header from './features/layout/header/components/Header'
 import Footer from './features/layout/footer/components/Footer'
 import ProgressBar from './features/layout/header/components/headerComponents/ProgressBar'
@@ -43,8 +44,8 @@ const App = () => {
   } = useUIContextModals()
 
   const { notification, setNotification, } = useUIContextNotification()
-  const { loadingFavourites, handleClearFav } = useFavouritesContext()
-  const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasketContext()
+  const { loadingFavourites, handleClearFav } = useFavourites()
+  const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasket()
 
   const shouldShowBackdrop = isCategoriesProductOpen || isFiltersProductOpen || isSearchProductOpen
 

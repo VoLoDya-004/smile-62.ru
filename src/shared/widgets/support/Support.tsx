@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom'
 import { usePortal } from '@/shared/hooks'
 import { cx } from '@/shared/utils/classnames'
 import { useEffect, useRef, type FormEvent } from 'react'
-import { useUIContextNotification } from '@/shared/contexts/UIContext'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import ButtonCross from '@/shared/ui/buttons/ButtonCross'
 import styles from './Support.module.scss'
 

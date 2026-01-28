@@ -1,9 +1,8 @@
 interface IBasketAddIconProps {
   isBasket: boolean
-  isLoading: boolean
 }
 
-const BasketAddIcon = ({ isBasket, isLoading }: IBasketAddIconProps) => {
+const BasketAddIcon = ({ isBasket }: IBasketAddIconProps) => {
 
   return (
     <svg 
@@ -14,7 +13,7 @@ const BasketAddIcon = ({ isBasket, isLoading }: IBasketAddIconProps) => {
     >
       <path
         className={`
-          ${isBasket || isLoading ? 
+          ${isBasket ? 
             'button-product-controls-svg_active' : 
             'button-product-controls-svg_passive'
           }

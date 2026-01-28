@@ -1,62 +1,32 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
-import { BasketService } from '@/features/basket/services/basketService'
-import { FavouritesService } from '@/features/favourites/services/favouritesService'
-import { useUIContextNotification } from '@/shared/contexts/UIContext'
-import { useFavouritesContext } from '@/features/favourites/contexts/FavouritesContext'
-import { useBasketContext } from '@/features/basket/contexts/BasketContext'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { IBasket } from '@/features/basket/types/basketTypes'
 import type { IFav } from '@/features/favourites/types/favouritesTypes'
 import type { ICardsRender } from '../../types/mainTypes'
-import { useProductsContext } from '../../contexts/ProductsContext'
-import CardsHeartIcon from '@/shared/ui/icons/CardsHeartIcon'
+import { useProductsContext } from '../../providers/ProductsProvider'
 import { cx } from '@/shared/utils/classnames'
+import { useFavourites } from '@/features/favourites/hooks/useFavourites'
+import CardsHeartIcon from '@/shared/ui/icons/CardsHeartIcon'
 import styles from './Cards.module.scss'
+import { useBasket } from '@/features/basket/hooks/useBasket'
 
 interface ICardProps {
   card: ICardsRender
-  localFavourites: IFav[]
-  localBasket: IBasket[]
+  cartFavourites: IFav[]
   cartBasket: IBasket[]
 }
 
 const Cards = () => {
-  const dispatch = useDispatch()
-  const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
-  const cartFavourites = useSelector((state: RootStore) => state.favourites.cartFavourites)
-  const userId = useSelector((state: RootStore) => state.user.userId)
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const { setLoadingBasket } = useBasketContext()
-  const { setLoadingFavourites, updateFavouritesData } = useFavouritesContext()
+  const { cartBasket, addBasket, loadingAddBasket } = useBasket()
   const { searchQuery, isLoading, cards, currentPage } = useProductsContext()
-
+  const { addFavourites, loadingAddFavourites, cartFavourites } = useFavourites()
   const { showNotification } = useUIContextNotification()
 
-  const basketService = useMemo(() => new BasketService(dispatch), [])
-  const favouritesService = useMemo(() => new FavouritesService(dispatch), [])
-    
-  const memoizedFavourites = useMemo(() => cartFavourites, [cartFavourites])
-  const memoizedBasket = useMemo(() => cartBasket, [cartBasket])
-
-  const [pendingIdBasket, setPendingIdBasket] = useState<number | null>(null)
-  const [pendingIdFav, setPendingIdFav] = useState<number | null>(null)
-  const [localFavourites, setLocalFavourites] = useState<IFav[]>([])
-  const [localBasket, setLocalBasket] = useState<IBasket[]>([])
-  const [addingStatusBasket, setAddingStatusBasket] = useState<Record<number, boolean>>({})
-  const [addingStatusFav, setAddingStatusFav] = useState<Record<number, boolean>>({})
-
   const scrollPositionRef = useRef(0)
-
-  useEffect(() => {
-    setLocalFavourites(cartFavourites)
-  }, [cartFavourites])
-
-  useEffect(() => {
-    setLocalBasket(cartBasket)
-  }, [cartBasket])
-
   const autoScrollRef = useRef(false)
 
   useEffect(() => {
@@ -73,96 +43,43 @@ const Cards = () => {
 
   useEffect(() => {
     restoreScrollPosition()
-  }, [pendingIdBasket, pendingIdFav])
+  }, [])
 
-  const addBasket = useCallback(async (idProduct: number) => {
-    const exists = memoizedBasket.some(item => item.id === idProduct)
-
-    if (!exists) {
-      setLoadingBasket(true)
-      await basketService.addBasket(idProduct, userId)
-      setLoadingBasket(false)
-    }
-  }, [cartBasket, userId])
-
-  const handleAddBasket = useCallback(async (id: number) => {
-    if (addingStatusBasket[id]) return
-    
+  const handleAddBasket = useCallback((id: number) => {
+    if (loadingAddBasket.has(id)) return
     saveScrollPosition()
     if (!isAuth) {
       showNotification('Войдите в аккаунт', 'error')
       return
     }
-
-    if (localBasket.some(item => item.id_product === id) || pendingIdBasket === id) {
+    if (cartBasket.some((item: IBasket) => item.id === id) || loadingAddBasket.has(id)) {
       showNotification('Уже в корзине', 'error')
       return
     }
-
-    setAddingStatusBasket(prev => ({ ...prev, [id]: true }))
-    setPendingIdBasket(id)
-
     try {
-      await addBasket(id)
-      setLocalBasket(prev => {
-        if (prev.some(item => item.id_product === id)) return prev
-        return [...prev, { id_product: id, id: id }]
-      })
-      showNotification('Добавлено в корзину', 'success')
+      addBasket(id)
     } catch {
       showNotification('Ошибка', 'error')
-    } finally {
-      setAddingStatusBasket(prev => ({ ...prev, [id]: false }))
-      setPendingIdBasket(null)
     }
-  }, [localBasket, pendingIdBasket, isAuth, addingStatusBasket, addBasket])
+  }, [cartBasket, isAuth, loadingAddBasket, addBasket])
 
-  const addFav = useCallback(async (idProduct: number) => {
-    const exists = memoizedFavourites.some(item => item.id === idProduct)
-
-    if (!exists) {
-      setLoadingFavourites(true)
-      await favouritesService.addFavourites(idProduct, userId)
-      setLoadingFavourites(false)
-    }
-  }, [cartFavourites, userId])
-
-  const handleAddFav = useCallback(async (id: number) => {
+  const handleAddFav = useCallback((id: number) => {
+    if (loadingAddFavourites.has(id)) return
     saveScrollPosition()
-
-    if (localFavourites.some(item => item.id === id)) {
-      showNotification('Уже в избранных', 'error')
+    if (!isAuth) {
+      showNotification('Войдите в аккаунт', 'error')
       return
-    } else {
-      if (addingStatusFav[id] || pendingIdFav === id) {
-        return
-      }
-
-      if (!isAuth) {
-        showNotification('Войдите в аккаунт', 'error')
-        return
-      }
-
-      setAddingStatusFav(prev => ({ ...prev, [id]: true }))
-      setPendingIdFav(id)
-
-      try {
-        await addFav(id)
-        setLocalFavourites(prev => {
-          if (prev.some(item => item.id_product === id)) return prev
-          return [...prev, { id_product: id, id: id }]
-        })
-        showNotification('Добавлено в избранное', 'success')
-        updateFavouritesData()
-      } catch {
-        setLocalFavourites(prev => prev.filter(item => item.id_product === id))
-        showNotification('Ошибка', 'error')
-      } finally {
-        setAddingStatusFav(prev => ({ ...prev, [id]: false }))
-        setPendingIdFav(null)
-      }
     }
-  }, [localFavourites, pendingIdFav, isAuth, addingStatusFav, addFav])
+    if (cartFavourites.some((item: IFav) => item.id === id) || loadingAddFavourites.has(id)) {
+      showNotification('Уже в избранном', 'error')
+      return
+    }
+    try {
+      addFavourites(id)
+    } catch {
+      showNotification('Ошибка', 'error')
+    }
+  }, [isAuth, cartFavourites, loadingAddFavourites, addFavourites])
 
   useEffect(() => {
     const toUp = () => {
@@ -217,16 +134,16 @@ const Cards = () => {
       'card__price-discount-title': productPriceDiscountTitle
     } = styles
 
-    const { card, localFavourites, localBasket, cartBasket } = props
+    const { card, cartFavourites, cartBasket } = props
 
     const sale = Math.round(100 * ((card.price - card.price_sale) / card.price))
     const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
     const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
-    const isInFav = cartFavourites.some(item => item.id_product === card.id)
-    const isInLocalFav = localFavourites.some(item => item.id === card.id)
+    const isInFavourites = cartFavourites.some(item => item.id_product === card.id)
+    const isAddingFavourites = loadingAddFavourites.has(card.id)
     const isInBasket = cartBasket.some(item => item.id_product === card.id)
-    const isInLocalBasket = localBasket.some(item => item.id_product === card.id)
+    const isAddingBasket = loadingAddBasket.has(card.id)
 
     const [hasAvif, setHasAvif] = useState(true)
 
@@ -252,20 +169,19 @@ const Cards = () => {
           <div id={`card__heart_${card.id}`} className={productHeart}>
             <button
               type='button'
+              disabled={isInFavourites || isAddingFavourites}
               onClick={() => handleAddFav(card.id)}
-              disabled={addingStatusFav[card.id]}
               className='button-reset'
             >
               <span className='visually-hidden'>
-                  {isInFav ? 
-                    'Товар уже в избранном' : 
-                    'Добавить в избранное'
-                  }
+                {isInFavourites ? 
+                  'Товар уже в избранном' : 
+                  'Добавить в избранное'
+                }
               </span>
               <CardsHeartIcon
-                addingStatusFav={addingStatusFav}
-                isInLocalFav={isInLocalFav}
-                card={card}
+                isInFavourites={isInFavourites}
+                addingStatusFav={isAddingFavourites}
               />
             </button>
           </div>
@@ -307,17 +223,19 @@ const Cards = () => {
               </div>
               <button
                 type='button'
+                disabled={isAddingBasket || isInBasket}
                 className={
                   cx(
                     productButton,
-                    isInLocalBasket || !isInLocalBasket && addingStatusBasket[card.id] ?
+                    isInBasket || !isInBasket && isAddingBasket ?
                     productButtonDisabled :
                     productButtonActive
                   )
                 }
                 id={`card_${card.id}`}
                 onClick={() => handleAddBasket(card.id)}>
-                {addingStatusBasket[card.id] && !isInBasket ? 'Добавление' : isInBasket ? 
+                {isAddingBasket && !isInBasket ? 
+                  'Добавление' : isInBasket ? 
                   'В корзине' : 'В корзину'
                 }
               </button>
@@ -339,17 +257,18 @@ const Cards = () => {
               </div> 
               <button
                 type='button'
+                disabled={isAddingBasket || isInBasket}
                 className={
                   cx(
                     productButton,
-                    isInLocalBasket || !isInLocalBasket && addingStatusBasket[card.id] ?
+                    isInBasket || !isInBasket && isAddingBasket ?
                     productButtonDisabled :
                     productButtonActive
                   )
                 }
                 id={`card_${card.id}`}
                 onClick={() => handleAddBasket(card.id)}>
-                {addingStatusBasket[card.id] && !isInBasket ? 
+                {isAddingBasket && !isInBasket ? 
                   'Добавление' : isInBasket ? 
                   'В корзине' : 'В корзину'
                 }
@@ -380,8 +299,7 @@ const Cards = () => {
                   <Card 
                     key={card.id}
                     card={card}
-                    localFavourites={localFavourites}
-                    localBasket={localBasket}
+                    cartFavourites={cartFavourites}
                     cartBasket={cartBasket}
                   />
                 ))}

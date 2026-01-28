@@ -1,4 +1,4 @@
-import ButtonMainNav from '@/shared/ui/buttons/ButtonMainNav'
+import ButtonBlockEmpty from '@/shared/ui/buttons/ButtonBlockEmpty'
 import styles from './BlockEmpty.module.scss'
 
 interface IBlockEmptyProps {
@@ -17,7 +17,7 @@ const BlockEmpty = ({ textUp, textDown }: IBlockEmptyProps) => {
     <div className={blockEmpty}>
       <b className={blockEmptyUp}>{textUp}</b>
       <div className={blockEmptyDown}>{textDown}</div>
-      <ButtonMainNav />
+      <ButtonBlockEmpty />
     </div>
   )
 }

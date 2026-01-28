@@ -27,3 +27,20 @@ export interface ICardsRender {
   price_total?: number
   discount?: number
 }
+
+export interface IFetchProductsApiParams {
+  page: number
+  search?: string
+  idCategory?: number | null
+  sortType?: string
+  minPrice?: number | null
+  maxPrice?: number | null
+  action1?: string
+  action2?: string
+  action3?: string
+  action4?: string
+  action5?: string
+  action6?: string
+  action7?: string
+  action8?: string
+}

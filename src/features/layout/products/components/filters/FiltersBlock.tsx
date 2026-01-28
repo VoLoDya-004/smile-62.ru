@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { useProductsContext } from '../../contexts/ProductsContext'
-import { useUIContextModals } from '@/shared/contexts/UIContext'
+import { useProductsContext } from '../../providers/ProductsProvider'
+import { useUIContextModals } from '@/shared/providers/UIProvider'
 import Button from '@/shared/ui/buttons/Button'
 import SortMenu from './sortMenu/SortMenu'
 import FiltersMenu from './filtersMenu/FiltersMenu'
@@ -15,13 +15,7 @@ const FiltersBlock = () => {
     'filters-block__filter': filtersBlockFilter
   } = styles
 
-  const {
-    setSortType, 
-    setCurrentPage, 
-    handleFiltersChange, 
-    currentSort, 
-    setCurrentSort, 
-  } = useProductsContext()
+  const { setSortType, handleFiltersChange, currentSort, setCurrentSort } = useProductsContext()
   const { setIsFiltersProductOpen } = useUIContextModals()
 
   const [visibleSort, setVisibleSort] = useState(false)
@@ -45,7 +39,6 @@ const FiltersBlock = () => {
   }
 
   const handleSortSelect = (sortOption: string) => {
-    setCurrentPage(1)
     setSortType(sortOption)
     setCurrentSort(
       sortOption === 'default' ? 'По умолчанию' :
@@ -60,7 +53,6 @@ const FiltersBlock = () => {
   }
 
   const handleResetFilters = () => {
-    setCurrentPage(1)
     handleFiltersChange({
       minPrice: null,
       maxPrice: null,

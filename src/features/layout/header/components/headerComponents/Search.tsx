@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useUIContextModals } from '@/shared/contexts/UIContext'
-import { useProductsContext } from '@/features/layout/products/contexts/ProductsContext'
+import { useUIContextModals } from '@/shared/providers/UIProvider'
+import { useProductsContext } from '@/features/layout/products/providers/ProductsProvider'
 import styles from '../Header.module.scss'
 
 const Search = () => {
@@ -16,7 +16,7 @@ const Search = () => {
     'search__line-input': searchLineInput
   } = styles
 
-  const { setCurrentPage, setSearchQuery, searchQuery } = useProductsContext()
+  const { setSearchQuery, searchQuery } = useProductsContext()
   const { setIsSearchProductOpen } = useUIContextModals()
 
   const navigate = useNavigate()
@@ -35,12 +35,6 @@ const Search = () => {
     }
   }
 
-  const scrollToTop = () => {
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
   }
@@ -49,11 +43,9 @@ const Search = () => {
     setSearchTerm('')
     setSearchQuery('')
     navigateToHome()
-    scrollToTop()
   }
 
   const handleSearchClick = () => {
-    setCurrentPage(1)
     setSearchQuery(searchTerm)
     setIsSearchProductOpen(false)
     
@@ -62,7 +54,6 @@ const Search = () => {
     }
     
     navigateToHome()
-    scrollToTop()
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

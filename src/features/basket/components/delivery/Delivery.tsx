@@ -1,16 +1,13 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
-import { useUIContextNotification } from '@/shared/contexts/UIContext'
+import { useBasket } from '../../hooks/useBasket'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
+import { formatPrice } from '@/shared/utils/formatters'
+import type { IBasket, IBasketTotal } from '../../types/basketTypes'
 import Button from '@/shared/ui/buttons/Button'
 import styles from './Delivery.module.scss'
 
-const OrderSummary = ({ 
-  totalBasket 
-}: { 
-  totalBasket: { count: number; price_total: number }
-}) => {
+const OrderSummary = () => {
   const {
     'delivery__order': order,
     'delivery__order-count': orderCount,
@@ -21,20 +18,31 @@ const OrderSummary = ({
   } = styles
 
   const { showNotification } = useUIContextNotification()
+  let { cartBasket } = useBasket()
+
+  cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
 
   const handleOrderProducts = () => {
     showNotification('Фунционал в разработке', 'error')
   }
 
-  const priceFormatter = new Intl.NumberFormat('ru-RU')
+  const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
+    const count = Number(item.count)
+    const price_total = Number(item.price_total) || 0
+
+    acc.count += (isNaN(count) || count <= 0) ? 0 : count
+    acc.price_total += price_total * count
+
+    return acc
+  }, { count: 0, price_total: 0 })
 
   return (
     <section className={order}>
       <div className={orderCount}>
-        <b>Всего товаров:</b> {totalBasket.count} шт.
+        <b>Всего товаров:</b> {total.count} шт.
       </div>
       <div className={orderPrice}>
-        <b>Итого:</b> {priceFormatter.format(totalBasket.price_total)} &#x20bd;
+        <b>Итого:</b> {formatPrice(total.price_total)} &#x20bd;
       </div>
       <div className={orderButton}>
         <Button className='button-violet' onClick={handleOrderProducts}>Заказать</Button>
@@ -133,8 +141,6 @@ const Delivery = () => {
     'delivery__label': label
   } = styles
 
-  const totalBasket = useSelector((state: RootStore) => state.basket.total)
-
   const [city, setCity] = useState('')
 
   const handleCityChange = (selectedCity: string) => {
@@ -145,7 +151,7 @@ const Delivery = () => {
     <>
       <h2 className={label}>Доставка</h2>
       <section className={sectionDelivery}>
-        <OrderSummary totalBasket={totalBasket} />
+        <OrderSummary />
         <CitySelection city={city} onCityChange={handleCityChange} />
       </section>
     </>

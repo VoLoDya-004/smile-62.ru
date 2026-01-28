@@ -1,28 +1,15 @@
-import type { ICardsRender } from '@/features/layout/products/types/mainTypes'
-import { useMemo, useState } from 'react'
-import { RecommendationsService } from '@/shared/services/recommendationsService'
+import { useQuery } from '@tanstack/react-query'
+import { recommendationsApi } from '@/shared/api/recommendationsApi'
 
 export const useRecommendations = () => {
-  const recommendationsService = useMemo(() => new RecommendationsService(), [])
-
-  const [cards, setCards] = useState<ICardsRender[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  async function loadCards() {
-    setIsLoading(true)
-
-    try {
-      const res = await recommendationsService.loadRecomendations()
-      setCards(res.data)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const recommendationsQuery = useQuery({
+    queryKey: ['recommendations'],
+    queryFn: () => recommendationsApi.getRecommendations()
+  })
 
   return {
-    cards,
-    isLoading,
-    loadCards,
-    setCards,
+    cards: recommendationsQuery.data || [],
+    isLoading: recommendationsQuery.isPending
   }
 }
+

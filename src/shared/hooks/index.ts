@@ -1,10 +1,7 @@
-export { useProducts } from '@/features/layout/products/hooks/useProducts'
-export { useFavourites } from '@/features/favourites/hooks/useFavourites'
-export { useBasket } from '@/features/basket/hooks/useBasket'
 export { useModals } from './custom/useModals'
 export { useNotification } from './custom/useNotification'
 export { useTheme } from './custom/useTheme'
-export { useAuth } from '../../features/profile/hooks/useAuth'
+export { useRecommendations } from './custom/useRecommendations'
 
 export { usePortal } from './shared/usePortal'
 export { useDeviceType } from './shared/useDeviceType'

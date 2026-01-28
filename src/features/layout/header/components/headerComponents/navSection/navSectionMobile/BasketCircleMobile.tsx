@@ -1,27 +1,35 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import { useBasket } from '@/features/basket/hooks/useBasket'
+import type { IBasket, IBasketTotal } from '@/features/basket/types/basketTypes'
 import styles from '../NavSection.module.scss'
 
 const BasketCircleMobile = () => {
-  const totalBasket = useSelector((state: RootStore) => state.basket.total)
+  let { cartBasket } = useBasket()
 
-  const [isVisibleCircle, setIsVisibleCircle] = useState(totalBasket.count > 0)
+  cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
+
+  const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
+    const count = Number(item.count)
+    acc.count += (isNaN(count) || count <= 0) ? 0 : count
+    return acc
+  }, { count: 0 })
+
+  const [isVisibleCircle, setIsVisibleCircle] = useState(total.count > 0)
 
   useEffect(() => {
-    if (totalBasket && typeof totalBasket.count === 'number') {
-      setIsVisibleCircle(totalBasket.count > 0)
+    if (total && typeof total.count === 'number') {
+      setIsVisibleCircle(total.count > 0)
     }
-  }, [totalBasket])
+  }, [total])
 
   return (
     <>
       {isVisibleCircle && (
         <span
           className={styles['circle-mobile']}
-          style={{marginTop: totalBasket.count > 0 ? '-17px' : '0px'}}
+          style={{marginTop: total.count > 0 ? '-17px' : '0px'}}
         >
-          {totalBasket.count}
+          {total.count}
         </span>
       )}
     </>

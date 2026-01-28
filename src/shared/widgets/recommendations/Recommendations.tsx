@@ -1,15 +1,12 @@
-import { useEffect, useRef, useState, type RefObject } from 'react'
-import { useRecommendations } from '@/shared/hooks/custom/useRecommendations'
+import { useEffect, useRef, useState, type PointerEvent, type RefObject } from 'react'
+import { useRecommendations } from '@/shared/hooks'
 import type { ICardsRender } from '@/features/layout/products/types/mainTypes'
+import type { IScrollHandlers } from './types/recommendationsTypes'
 import { cx } from '@/shared/utils/classnames'
 import ButtonArrow from '@/shared/ui/buttons/ButtonArrow'
 import styles from './Recommendations.module.scss'
 
-interface IRecommendationsProductProps {
-  card: ICardsRender
-}
-
-const RecommendationsProduct = ({ card }: IRecommendationsProductProps) => {
+const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   const {
     'recommendation-card': product,
     'recommendation-card__top': productTop,
@@ -144,7 +141,7 @@ const RecommendationsContainer = ({
 }: {
   cards: ICardsRender[]
   containerRef: RefObject<HTMLDivElement | null>
-  scrollHandlers: any
+  scrollHandlers: IScrollHandlers
   showLeftButton: boolean
   showRightButton: boolean
   scrollLeftBtn: () => void
@@ -204,7 +201,7 @@ const Recommendations = () => {
 
   const containerRef = useRef<HTMLDivElement | null>(null)
   
-  const { cards, loadCards, isLoading } = useRecommendations()
+  const { cards, isLoading } = useRecommendations()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -223,10 +220,6 @@ const Recommendations = () => {
       return () => container.removeEventListener('scroll', handleScroll)
     }
   }, [cards])
-
-  useEffect(() => {
-    loadCards()      
-  }, [])
 
   const scrollLeftBtn = () => {
     if (containerRef.current) {

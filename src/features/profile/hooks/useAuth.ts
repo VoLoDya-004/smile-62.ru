@@ -1,25 +1,15 @@
-import { setUser } from '@/shared/store/slices/UserSlice'
-import { AuthService } from '../services/authService'
-import type { IRegisterData } from '../types/profileTypes'
-import { useEffect, useMemo } from 'react'
+import { logoutUser, setUser } from '@/shared/store/slices/UserSlice'
+import type { ILoginData, IRegisterData } from '../types/profileTypes'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-
-interface IRegisterParams {
-  registerData: IRegisterData
-  onNotification: (message: string, type: 'success' | 'error') => void
-}
-
-interface ILoginParams {
-  email: string
-  password: string
-  onNotification: (message: string, type: 'success' | 'error') => void
-  onLoginSuccess: (userData: { id_user: number; name: string }) => void
-}
+import { useMutation } from '@tanstack/react-query'
+import { authApi } from '../api/authApi'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
 
 export const useAuth = () => {
   const dispatch = useDispatch()
 
-  const authService = useMemo(() => new AuthService(), [])
+  const { showNotification } = useUIContextNotification()
 
   useEffect(() => {
     const storedAuth = localStorage.getItem('auth')
@@ -31,49 +21,63 @@ export const useAuth = () => {
     }
   }, [dispatch])
 
-  const handleRegister = async ({ registerData, onNotification }: IRegisterParams) => {
-    try {
-      const response = await authService.register(registerData)
-      if (response.success) {
-        onNotification(response.message, 'success')
-      } else {
-        onNotification(response.message, 'error')
+  const registerMutation = useMutation({
+    mutationFn: (registerData: IRegisterData) => {
+      return authApi.register(registerData)
+    }
+  })
+
+  const loginMutation = useMutation({
+    mutationFn: (loginData: ILoginData) => {
+      return authApi.login(loginData)
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        dispatch(setUser({
+          userId: data.id_user,
+          userName: data.name,
+          isAuth: true
+        }))
+        localStorage.setItem('auth', JSON.stringify({
+          isAuth: true,
+          userName: data.name,
+          userId: data.id_user
+        }))
       }
-      return response.success || false
+    }
+  })
+
+  const handleRegister = async ({ registerData }: { registerData: IRegisterData }) => {
+    try {
+      const response = await registerMutation.mutateAsync(registerData)
+      showNotification(response.message, response.success ? 'success' : 'error')
+      return response.success
     } catch {
-      onNotification('Ошибка при регистрации', 'error')
+      showNotification('Ошибка при регистрации', 'error')
       return false
     }
   }
 
-  const handleLogin = async ({ email, password, onNotification, onLoginSuccess }: ILoginParams) => {
+  const handleLogin = async ({ email, password }: ILoginData) => {
     try {
-      const response = await authService.login(email, password)
-      if (response.success) {
-        onLoginSuccess({ id_user: response.id_user, name: response.name })
-        onNotification('Вы успешно вошли', 'success')
-      } else {
-        onNotification(response.message, 'error')
-      }
-      return response.success || false
+      const response = await loginMutation.mutateAsync({ email, password })
+      showNotification(response.message, response.success ? 'success' : 'error')
+      return response.success
     } catch {
-      onNotification('Ошибка входа', 'error')
+      showNotification('Ошибка входа', 'error')
       return false
     }
   }
 
-  const handleLoginSuccess = (userData: { id_user: number; name: string }) => {
-    dispatch(setUser({ userId: userData.id_user, userName: userData.name, isAuth: true }))
-    localStorage.setItem('auth', JSON.stringify({
-      isAuth: true,
-      userName: userData.name,
-      userId: userData.id_user,
-    }))
+  const handleLogout = () => {
+    dispatch(logoutUser())
+    localStorage.removeItem('auth')
+    showNotification('Вы вышли из аккаунта', 'success')
   }
 
   return {
     handleRegister,
     handleLogin,
-    handleLoginSuccess
+    handleLogout
   }
 }

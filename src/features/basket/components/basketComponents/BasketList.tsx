@@ -1,21 +1,22 @@
-import { useBasketContext } from '@/features/basket/contexts/BasketContext'
-import { useUIContextModals } from '@/shared/contexts/UIContext'
+import { useUIContextModals } from '@/shared/providers/UIProvider'
+import { useBasket } from '../../hooks/useBasket'
+import type { IBasket } from '../../types/basketTypes'
 import BasketProducts from './BasketProducts'
 
 const BasketList = () => {
-  const { cartBasket, handleCountChange, deletingBasket } = useBasketContext()
-
+  const { cartBasket, handleCountChange, decreaseBasket, increaseBasket } = useBasket()
   const { showModal } = useUIContextModals()
 
   return (
     <>
-      {cartBasket.map((productBasket) => (
+      {cartBasket.map((productBasket: IBasket) => (
         <BasketProducts 
           productBasket={productBasket} 
           key={productBasket.id} 
           openDeleteModal={() => showModal(productBasket.id)} 
           onChange={handleCountChange}
-          isDeleting={deletingBasket.has(productBasket.id)}
+          decreaseBasket={decreaseBasket}
+          increaseBasket={increaseBasket}
         />
       ))}
     </>

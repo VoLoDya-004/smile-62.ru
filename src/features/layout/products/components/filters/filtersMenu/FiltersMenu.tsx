@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState, type ChangeEvent } from 'react'
-import { useProductsContext } from '@/features/layout/products/contexts/ProductsContext'
+import { useProductsContext } from '@/features/layout/products/providers/ProductsProvider'
 import Accordion from './Accordion'
 import Button from '@/shared/ui/buttons/Button'
 import ButtonCross from '@/shared/ui/buttons/ButtonCross'
@@ -21,7 +21,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
     'accordion__btn': accordionButton,
   } = styles
 
-  const { handleFiltersChange, filters, setCurrentPage } = useProductsContext()
+  const { handleFiltersChange, filters } = useProductsContext()
 
   const [actions, setActions] = useState({
     action1: false,
@@ -89,7 +89,6 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
   }
 
   const handleApplyFilters = () => {
-    setCurrentPage(1)
     handleFiltersChange({
       minPrice: minPrice !== '' ? parseFloat(minPrice) : null,
       maxPrice: maxPrice !== '' ? parseFloat(maxPrice) : null,
@@ -99,7 +98,6 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
   }
 
   const handleResetFilters = () => {
-    setCurrentPage(1)
     handleFiltersChange({
       minPrice: null,
       maxPrice: null,

@@ -1,17 +1,8 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { usePortal } from '@/shared/hooks'
+import type { IConfirmModal } from './types/modalsTypes'
 import styles from './Modals.module.scss'
-
-interface IConfirmModal {
-  isOpen: boolean
-  onConfirm: () => void
-  onCancel: () => void
-  modalId: string
-  portalId: string
-  title: string
-  description: string
-}
 
 const ModalHeader = ({ title }: { title: string }) => (
   <h3 className={styles['modal-delete-content__title']}>{title}</h3>

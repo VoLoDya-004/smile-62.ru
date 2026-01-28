@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 import type { ICategory } from '../../types/mainTypes'
-import { useProductsContext } from '../../contexts/ProductsContext'
+import { useProductsContext } from '../../providers/ProductsProvider'
 import { CATEGORIES } from '../../constants/categories'
 import { cx } from '@/shared/utils/classnames'
 import styles from './CategoriesDropdown.module.scss'
@@ -23,12 +23,7 @@ const CategoriesDropdown = forwardRef<HTMLElement, ICategoriesDropdownProps>(({
     'categories-dropdown__item_passive': categoriesDropdownItemPassive
   } = styles
 
-  const { 
-    setSelectedCategory, 
-    setCurrentPage,  
-    selectedCategory,
-    setSearchParams
-  } = useProductsContext()
+  const { setSelectedCategory, selectedCategory, setSearchParams } = useProductsContext()
 
   const handleCategorySelect = (id: number) => {
     if (selectedCategory === id) {
@@ -44,8 +39,6 @@ const CategoriesDropdown = forwardRef<HTMLElement, ICategoriesDropdownProps>(({
     }
 
     setSearchParams(newSearchParams)
-
-    setCurrentPage(1)
     setSelectedCategory(id)
     onCategorySelect()
   }

@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import { useBasket } from '@/features/basket/hooks/useBasket'
+import type { IBasket, IBasketTotal } from '@/features/basket/types/basketTypes'
 import styles from './NavSection.module.scss'
 
 const BasketCircle = () => {
-  const totalBasket = useSelector((state: RootStore) => state.basket.total)
+  let { cartBasket } = useBasket()
 
-  const [isVisible, setIsVisible] = useState(totalBasket.count > 0)
+  cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
+
+  const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
+    const count = Number(item.count)
+    acc.count += (isNaN(count) || count <= 0) ? 0 : count
+    return acc
+  }, { count: 0 })
+
+  const [isVisible, setIsVisible] = useState(total.count > 0)
 
   useEffect(() => {
-    setIsVisible(totalBasket.count > 0)
-  }, [totalBasket])
+    setIsVisible(total.count > 0)
+  }, [total])
 
   return (
     <>  
       {isVisible && 
         <span className={styles.circle}>
-          {totalBasket.count}
+          {total.count}
         </span>
       }
     </>

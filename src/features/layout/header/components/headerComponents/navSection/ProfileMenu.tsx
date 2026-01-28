@@ -28,9 +28,7 @@ const ProfileMenu = ({
 		<aside 
 			className={profileDropdown}
 			aria-label='Меню профиля'
-			style={{
-				top: isActiveProfile ? '55px' : ''
-			}}
+			style={{ top: isActiveProfile ? '55px' : '' }}
 		>
 			<div className={profileDropdownTitle}>
 				{name}

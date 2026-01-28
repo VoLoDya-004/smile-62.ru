@@ -1,89 +1,73 @@
 import axios from 'axios'
-import { API_URLS_BASKET } from '../constants/apiConstants'
+
+const API_URLS_BASKET = '/backend/PHP/basket.php'
 
 export const basketApi = {
-  getBasket: (userId: number | null) => 
-    axios
-      .get(API_URLS_BASKET, {
-        params: {
-          Operation: 'showBasket',
-          idUser: userId,
-        }
-      })
-      .then((res) => ({
-        success: true,
-        data: res.data,
-      }))
-      .catch(() => ({
-        success: false,
-        data: [],
-      })),
+  getBasket: async (userId: number | null) => {
+    const res = await axios.get(API_URLS_BASKET, {
+      params: {
+        Operation: 'showBasket',
+        idUser: userId
+      }
+    })
+    return res.data
+  },
 
-  deleteFromBasket: (userId: number, productId: number) => 
-    axios
-      .delete(API_URLS_BASKET, {
-        data: {
-          Operation: 'deleteBasket',
-          idProduct: productId,
-          idUser: userId,
-        }
-      })
-      .then(() => basketApi.getBasket(userId)),
-
-  clearBasket: (userId: number) => 
-    axios
-      .delete(API_URLS_BASKET, {
-        data: {
-          Operation: 'clearBasket',
-          idUser: userId,
-        }
-      })
-      .then(() => basketApi.getBasket(userId)),
-
-  increaseBasket: (userId: number, productId: number) =>
-    axios
-      .patch(API_URLS_BASKET, {
-        Operation: 'increaseBasket',
+  deleteFromBasket: async (userId: number, productId: number) => {
+    await axios.delete(API_URLS_BASKET, {
+      data: {
+        Operation: 'deleteBasket',
         idProduct: productId,
-        idUser: userId,
-      })
-      .then(() => basketApi.getBasket(userId)),
+        idUser: userId
+      }
+    })
+    return basketApi.getBasket(userId)
+  },
 
-  decreaseBasket: (userId: number, productId: number) =>
-    axios
-      .patch(API_URLS_BASKET, {
-        Operation: 'decreaseBasket',
-        idProduct: productId,
-        idUser: userId,
-      })
-      .then(() => basketApi.getBasket(userId)),
+  clearBasket: async (userId: number) => {
+    await axios.delete(API_URLS_BASKET, {
+      data: {
+        Operation: 'clearBasket',
+        idUser: userId
+      }
+    })
+    return basketApi.getBasket(userId)
+  },
 
-  updateBasketCount: (userId: number, productId: number, count: number) => 
-    axios
-      .patch(API_URLS_BASKET, {
-        Operation: 'updateCount',
-        idProduct: productId,
-        count: count,
-        idUser: userId,
-      })
-      .then(() => basketApi.getBasket(userId)),
+  increaseBasket: async (userId: number, productId: number) => {
+    await axios.patch(API_URLS_BASKET, {
+      Operation: 'increaseBasket',
+      idProduct: productId,
+      idUser: userId,
+    })
+    return basketApi.getBasket(userId)
+  },
 
-  refreshBasket: (userId: number) =>
-    axios
-      .get(API_URLS_BASKET, {
-        params: {
-          Operation: 'showBasket',
-          idUser: userId,
-        }
-      })
-      .then(() => basketApi.getBasket(userId)),
+  decreaseBasket: async (userId: number, productId: number) => {
+    await axios.patch(API_URLS_BASKET, {
+      Operation: 'decreaseBasket',
+      idProduct: productId,
+      idUser: userId,
+    })
+    return basketApi.getBasket(userId)
+  },
 
-  addBasket: (idProduct: number, userId: number | null) =>
-    axios
-      .post(API_URLS_BASKET, {
-        Operation: 'addBasket',
-        idProduct: idProduct,
-        idUser: userId,
-      })
-      .then(() => basketApi.getBasket(userId))
+  updateBasketCount: async (userId: number, productId: number, count: number) => {
+    await axios.patch(API_URLS_BASKET, {
+      Operation: 'updateCount',
+      idProduct: productId,
+      count: count,
+      idUser: userId,
+    })
+    return basketApi.getBasket(userId)
+  },
+
+  addBasket: async (idProduct: number, userId: number | null) => {
+    await axios.post(API_URLS_BASKET, {
+      Operation: 'addBasket',
+      idProduct: idProduct,
+      idUser: userId,
+    })
+    return basketApi.getBasket(userId)
+  }
 }

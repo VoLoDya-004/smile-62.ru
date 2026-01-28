@@ -1,5 +1,7 @@
-import { type ReactNode } from 'react'
-import { useBasketContext } from '@/features/basket/contexts/BasketContext'
+import { useEffect, useState, type ReactNode } from 'react'
+import type { RootStore } from '@/shared/store'
+import { useBasket } from '../hooks/useBasket'
+import { useSelector } from 'react-redux'
 import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
 import BasketBox from './basketComponents/BasketBox'
 import Delivery from './delivery/Delivery'
@@ -10,9 +12,24 @@ interface IBasketProps {
 }
 
 const Basket = ({ children, loading }: IBasketProps) => {
-  const { cartBasket } = useBasketContext()
+  const { cartBasket } = useBasket()
 
-  if (loading) {
+  const isAuth = useSelector((state: RootStore) => state.user.isAuth)
+
+  const [textUpButton, setTextUpButton] = useState('')
+  const [textDownButton, setTextDownButton] = useState('')
+
+  useEffect(() => {
+    if (isAuth) {
+      setTextUpButton('В корзине пока пусто')
+      setTextDownButton('Загляните на главную — собрали там товары, которые могут вам понравиться')
+    } else {
+      setTextUpButton('Войдите в аккаунт')
+      setTextDownButton('Для просмотра корзины необходимо войти в аккаунт')
+    }
+  }, [isAuth])
+
+  if (loading && isAuth) {
     return (
       <>
         <h2 className='centered-heading'>Загрузка товаров...</h2>
@@ -25,12 +42,7 @@ const Basket = ({ children, loading }: IBasketProps) => {
 
   return (
     <>
-      {!hasBasket &&
-        <BlockEmpty 
-          textUp={'В корзине пока пусто'} 
-          textDown={'Загляните на главную — собрали там товары, которые могут вам понравиться'} 
-        />
-      }
+      {!hasBasket && <BlockEmpty textUp={textUpButton} textDown={textDownButton} /> }
       {hasBasket &&
         <>
           <BasketBox>{children}</BasketBox>

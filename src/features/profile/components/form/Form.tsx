@@ -1,20 +1,15 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import type { IRegisterData } from '../../types/profileTypes'
-import { useAuth } from '@/shared/hooks'
+import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
-import { useUIContextNotification } from '@/shared/contexts/UIContext'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/shared/ui/buttons/ButtonSubmit'
 import Account from '../account/Account'
 import styles from './Form.module.scss'
 
-const RegisterForm = ({ 
-  onNotification 
-}: { 
-  onNotification: (message: string, type: 'success' | 'error') => void 
-}) => {
+const RegisterForm = () => {
   const {
     'form__registration': registration,
     'form-margin-top': formMargin,
@@ -36,7 +31,7 @@ const RegisterForm = ({
   const { handleRegister } = useAuth()
 
   const handleSubmit = async () => {
-    const res = await handleRegister({ registerData, onNotification })
+    const res = await handleRegister({ registerData })
     if (res) {
       setRegisterData({
         name: '',
@@ -120,20 +115,12 @@ const RegisterForm = ({
           />
         </label>
       </p>
-      <ButtonSubmit className='button-violet'>
-        Зарегистрироваться
-      </ButtonSubmit>
+      <ButtonSubmit className='button-violet'>Зарегистрироваться</ButtonSubmit>
     </form>
   )
 }
 
-const LoginForm = ({ 
-  onNotification,
-  onLoginSuccess 
-}: { 
-  onNotification: (message: string, type: 'success' | 'error') => void
-  onLoginSuccess: (userData: { id_user: number; name: string }) => void 
-}) => {
+const LoginForm = () => {
   const {
     'form__registration': registration,
     'form-margin-top': formMargin,
@@ -150,12 +137,7 @@ const LoginForm = ({
   const { handleLogin } = useAuth()
 
   const handleSubmit = async () => {
-    const res = await handleLogin({
-      email: loginData.email, 
-      password: loginData.password, 
-      onNotification, 
-      onLoginSuccess
-    })
+    const res = await handleLogin({ email: loginData.email, password: loginData.password })
     if (res) {
       setLoginData({ email: '', password: '' })
     }
@@ -202,9 +184,7 @@ const LoginForm = ({
           />
         </label>
       </p>
-      <ButtonSubmit className='button-violet margin-top-auto'>
-        Войти
-      </ButtonSubmit>
+      <ButtonSubmit className='button-violet margin-top-auto'>Войти</ButtonSubmit>
     </form>
   )
 }
@@ -217,23 +197,12 @@ const Form = () => {
 
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const { showNotification } = useUIContextNotification()
-
-  const { handleLoginSuccess } = useAuth()
-
-  useEffect(() => {
-	  if (sessionStorage.getItem('showLogoutNotification')) {
-      showNotification('Вы вышли из аккаунта', 'success')
-      sessionStorage.removeItem('showLogoutNotification')
-    }
-  }, [isAuth])
-
   return (
 		<section className={cx(form, isAuth && noWrap)}>
   	  {!isAuth ? (
   	    <>
-  	      <RegisterForm onNotification={showNotification} />
-  	      <LoginForm onNotification={showNotification} onLoginSuccess={handleLoginSuccess} />
+  	      <RegisterForm />
+  	      <LoginForm />
   	    </>
   	  ) : (
   	    <Account />

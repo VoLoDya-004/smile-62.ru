@@ -1,27 +1,11 @@
 import { useEffect, useState } from 'react'
 import type { IFav } from '@/features/favourites/types/favouritesTypes'
-import type { IBasket } from '@/features/basket/types/basketTypes'
+import { formatPrice } from '@/shared/utils/formatters'
 import ButtonDeleteFavourites from '@/shared/ui/buttons/ButtonDeleteFavourites'
 import ButtonBasket from '@/shared/ui/buttons/ButtonBasket'
 import styles from './Favourites.module.scss'
 
-interface IFavouritesProductsProps {
-  productFavourites: IFav
-  deleteProductFavourites: (id: number) => void
-  cartBasket: IBasket[]
-  addInBasketProductFavourites: (id: number) => Promise<void>
-  cartFavourites: IFav[]
-  isDeleting: boolean
-}
-
-const FavouritesProducts = ({
-  productFavourites, 
-  deleteProductFavourites, 
-  cartBasket,
-  addInBasketProductFavourites, 
-  cartFavourites, 
-  isDeleting
-}: IFavouritesProductsProps) => {
+const FavouritesProducts = ({ productFavourites }: { productFavourites :IFav }) => {
   const {
     'favourites-box__product': product,
     'favourites-box__product-img': productImage,
@@ -29,8 +13,7 @@ const FavouritesProducts = ({
     'favourites-box__product-price': productPrice
   } = styles
 
-  const { id, nazvanie, image, price_total } = productFavourites
-  const priceFormatter = new Intl.NumberFormat('ru-RU')
+  const { id, nazvanie, image, price_total, id_product } = productFavourites
 
   const [hasAvif, setHasAvif] = useState(true)
 
@@ -79,20 +62,13 @@ const FavouritesProducts = ({
         {nazvanie}
       </div>
       <div className={productPrice}>
-        {priceFormatter.format(price_total ?? 0)} руб.
+        {formatPrice(price_total ?? 0)} руб.
       </div>           
       <ButtonBasket 
-        cartFavourites={cartFavourites} 
         productFavourites={productFavourites} 
-        addInBasketProductFavourites={addInBasketProductFavourites} 
         id={id} 
-        cartBasket={cartBasket} 
       />
-      <ButtonDeleteFavourites 
-        deleteProductFavourites={deleteProductFavourites} 
-        id={id} 
-        isPendingDelete={isDeleting}
-      />
+      <ButtonDeleteFavourites id={id_product} />
     </article> 
   )
 }

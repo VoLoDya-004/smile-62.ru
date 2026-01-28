@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux'
-import type { RootStore } from '@/shared/store'
+import { formatPrice } from '@/shared/utils/formatters'
+import { useBasket } from '../../hooks/useBasket'
+import type { IBasket, IBasketTotal } from '../../types/basketTypes'
 import styles from './Basket.module.scss'
 
 const BasketFooter = () => {
@@ -8,17 +9,27 @@ const BasketFooter = () => {
     'basket-box__footer-title': boxFooterTitle
   } = styles
 
-  const priceFormatter = new Intl.NumberFormat('ru-RU')
+  let { cartBasket } = useBasket()
 
-  const totalBasket = useSelector((state: RootStore) => state.basket.total)
+  cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
+
+  const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
+    const count = Number(item.count)
+    const price_total = Number(item.price_total) || 0
+
+    acc.count += (isNaN(count) || count <= 0) ? 0 : count
+    acc.price_total += price_total * count
+
+    return acc
+  }, { count: 0, price_total: 0 })
 
   return (                          
     <div className={boxFooter}>
       <div className={boxFooterTitle}>
-        {totalBasket.count} шт.
+        {total.count} шт.
       </div>
       <div>
-        {priceFormatter.format(totalBasket.price_total)}  руб.
+        {formatPrice(total.price_total)} руб.
       </div>
     </div>
   )

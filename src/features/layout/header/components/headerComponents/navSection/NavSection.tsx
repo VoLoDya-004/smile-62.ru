@@ -1,13 +1,13 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import type { RootStore } from '@/shared/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { logoutUser } from '@/shared/store/slices/UserSlice'
-import { useUIContextNotification } from '@/shared/contexts/UIContext'
+import { useSelector } from 'react-redux'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import { cx } from '@/shared/utils/classnames'
 import { useDeviceType } from '@/shared/hooks'
 import ProfileMenu from './ProfileMenu'
 import styles from './NavSection.module.scss'
+import { useAuth } from '@/features/profile/hooks/useAuth'
 
 const NavSection = () => {
   const {
@@ -19,10 +19,9 @@ const NavSection = () => {
   } = styles
 
 	const { isMobile } = useDeviceType()
-
+  const { handleLogout } = useAuth()
   const { showNotification } = useUIContextNotification()
 
-	const dispatch = useDispatch()
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 	const userName = useSelector((state: RootStore) => state.user.userName)
 
@@ -41,16 +40,11 @@ const NavSection = () => {
 		setShowProfileMenu(false)
 	}
 
-	const handleLogout = () => {
-		dispatch(logoutUser())
-		showNotification('Вы вышли из аккаунта', 'success')
-		localStorage.removeItem('auth')
-	}
-
 	const handleLogin = () => {
-		if (location.pathname === '/profile') return
+		if (location.pathname !== '/profile') {
+      navigate('/profile')
+    }
 		showNotification('Войдите или зарегистрируйтесь', 'success')
-		navigate('/profile')
 	}
 
 	useEffect(() => {

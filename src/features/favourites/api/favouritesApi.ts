@@ -2,69 +2,52 @@ import { API_URLS_FAVOURITES } from '../constants/apiConstants'
 import axios from 'axios'
 
 export const favouritesApi = {
-  getFavourites: (userId: number | null) =>
-    axios
-      .get(API_URLS_FAVOURITES, {
-        params: {
-          Operation: 'showFavourites',
-          idUser: userId,
-        }
-      })
-      .then((res) => ({
-        success: true,
-        data: res.data,
-      }))
-      .catch(() => ({
-        success: false,
-        data: [],
-      })),
+  getFavourites: async (userId: number | null) => {
+    const res = await axios.get(API_URLS_FAVOURITES, {
+      params: {
+        Operation: 'showFavourites',
+        idUser: userId
+      }
+    })
+    return res.data
+  },
 
-  deleteFromFavourites: (userId: number, productId: number) =>
-    axios
-      .delete(API_URLS_FAVOURITES, {
-        data: {
-          Operation: 'deleteFavourites',
-          idProduct: productId,
-          idUser: userId,
-        }
-      })
-      .then(() => favouritesApi.getFavourites(userId)),
-
-  clearFavourites: (userId: number) => 
-    axios
-      .delete(API_URLS_FAVOURITES, {
-        data: {
-          Operation: 'clearFavourites',
-          idUser: userId,
-        }
-      })
-      .then(() => favouritesApi.getFavourites(userId)),
-
-  addToBasketFromFavourites: (userId: number, productId: number) =>
-    axios
-      .post(API_URLS_FAVOURITES, {
-        Operation: 'addBasket',
+  deleteFromFavourites: async (userId: number, productId: number) => {
+    await axios.delete(API_URLS_FAVOURITES, {
+      data: {
+        Operation: 'deleteFavourites',
         idProduct: productId,
-        idUser: userId,
-      })
-      .then(() => favouritesApi.getFavourites(userId)),
+        idUser: userId
+      }
+    })
+    return favouritesApi.getFavourites(userId)
+  },
 
-  refreshFavourites: (userId: number) =>
-    axios
-      .get(API_URLS_FAVOURITES, {
-        params: {
-          Operation: 'showFavourites',
-          idUser: userId,
-        }
-      })
-      .then(() => favouritesApi.getFavourites(userId)),
+  clearFavourites: async (userId: number) => {
+    await axios.delete(API_URLS_FAVOURITES, {
+      data: {
+        Operation: 'clearFavourites',
+        idUser: userId
+      }
+    })
+    return favouritesApi.getFavourites(userId)
+  },
 
-  addFavourites: (idProduct: number, userId: number | null) =>
-    axios
-      .post(API_URLS_FAVOURITES, {
-        Operation: 'addFavourites',
-        idProduct: idProduct,
-        idUser: userId,
-      })
-      .then(() => favouritesApi.getFavourites(userId))
+  addToBasketFromFavourites: async (userId: number, productId: number) => {
+    await axios.post(API_URLS_FAVOURITES, {
+      Operation: 'addBasket',
+      idProduct: productId,
+      idUser: userId
+    })
+    return favouritesApi.getFavourites(userId)
+  },
+
+  addFavourites: async (idProduct: number, userId: number | null) => {
+    await axios.post(API_URLS_FAVOURITES, {
+      Operation: 'addFavourites',
+      idProduct: idProduct,
+      idUser: userId
+    })
+    return favouritesApi.getFavourites(userId)
+  }
 }

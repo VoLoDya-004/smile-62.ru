@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { useUIContextModals } from '@/shared/contexts/UIContext'
+import { useUIContextModals } from '@/shared/providers/UIProvider'
 import AdvertisementInfo from './AdvertisementInfo'
 import styles from './Advertisement.module.scss'
 

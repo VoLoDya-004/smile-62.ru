@@ -1,5 +1,6 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type KeyboardEvent } from 'react'
 import type { IBasket } from '@/features/basket/types/basketTypes'
+import { formatPrice } from '@/shared/utils/formatters'
 import { cx } from '@/shared/utils/classnames'
 import ButtonDeleteBasket from '@/shared/ui/buttons/ButtonDeleteBasket'
 import BasketIncreaseSVG from '@/shared/ui/icons/BasketIncreaseSVG'
@@ -10,16 +11,16 @@ interface IBasketProductsProps {
   productBasket: IBasket
   openDeleteModal: (id: number) => void
   onChange: (e: ChangeEvent<HTMLInputElement>, id: number) => void
-  isDeleting: boolean
+  decreaseBasket: (id: number, currentCount: number) => void
+  increaseBasket: (id: number, currentCount: number) => void
 }
-
-const priceFormatter = new Intl.NumberFormat('ru-RU')
 
 const BasketProducts = ({
   productBasket, 
   openDeleteModal, 
   onChange, 
-  isDeleting
+  decreaseBasket,
+  increaseBasket
 }: IBasketProductsProps) => {
   const {
     'basket-box__product': product,
@@ -37,24 +38,35 @@ const BasketProducts = ({
 
   const { id, nazvanie, image, count, price_total } = productBasket
 
-  const [localCount, setLocalCount] = useState<string | number>(count ?? 0)
+  const [inputValue, setInputValue] = useState<string | number>(count ?? 0)
+
+  useEffect(() => {
+    setInputValue(count ?? 0)
+  }, [count])
 
   const handleIncrease = () => {
-    const newCount = Math.min(+localCount + 1, 100)
-    setLocalCount(newCount)
-    onChange({ target: { value: newCount.toString() } } as ChangeEvent<HTMLInputElement>, id)
+    if (count) {
+      increaseBasket(id, +count)
+    }
   }
 
   const handleDecrease = () => {
-    const newCount = Math.max(+localCount - 1, 1)
-    setLocalCount(newCount)
-    onChange({ target: { value: newCount.toString() } } as ChangeEvent<HTMLInputElement>, id)
+    if (count) {
+      decreaseBasket(id, +count)
+    }
   }
 
   const handleBlur = () => {
-    if (localCount === '') {
-      setLocalCount(1)
+    if (inputValue === '') {
+      setInputValue(1)
       onChange({ target: { value: '1' } } as ChangeEvent<HTMLInputElement>, id)
+    }
+  }
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleBlur()
+      e.currentTarget.blur()
     }
   }
 
@@ -62,7 +74,7 @@ const BasketProducts = ({
     const value = e.target.value
 
     if (value === '') {
-      setLocalCount('')
+      setInputValue('')
     } else {
       let newCount = parseInt(value)
 
@@ -71,7 +83,7 @@ const BasketProducts = ({
       } else if (newCount > 100) {
         newCount = 100
       }
-      setLocalCount(newCount)
+      setInputValue(newCount)
     }
     onChange(e, id)
   }
@@ -125,13 +137,14 @@ const BasketProducts = ({
           <input
             onChange={handleInputChange}
             onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
             aria-label='Поле для смены количества товара в корзине'
             className={productCountInput}
             type='number'
             name='basketCount'
             min='1'
             max='100'
-            value={localCount}
+            value={inputValue}
           />
         </div>
         <div className={productCountControls}>
@@ -154,13 +167,9 @@ const BasketProducts = ({
         </div>
       </div>
       <div className={productPrice}>
-        {priceFormatter.format(price_total ?? 0 * Number(localCount))} руб.
+        {formatPrice((price_total ?? 0) * Number(count))} руб.
       </div>
-      <ButtonDeleteBasket 
-        openDeleteModal={openDeleteModal} 
-        id={id}
-        isPendingDelete={isDeleting}
-      />
+      <ButtonDeleteBasket openDeleteModal={openDeleteModal} id={id} />
     </article>
   )
 }

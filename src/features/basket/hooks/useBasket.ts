@@ -1,123 +1,178 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { basketApi } from '../api/basketApi'
+import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
-import { useCallback, useEffect, useMemo, useState, type ChangeEvent } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNotification, useModals } from '@/shared/hooks'
-import { BasketService } from '../services/basketService'
-import { API_URLS_BASKET } from '../constants/apiConstants'
-
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
+import type { IBasket } from '../types/basketTypes'
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
 
 export const useBasket = () => {
-  const { showNotification } = useNotification()
-  const { setIsModalOpen } = useModals()
-
-  const dispatch = useDispatch()
+  const { showNotification } = useUIContextNotification()
+  const queryClient = useQueryClient()
   const userId = useSelector((state: RootStore) => state.user.userId)
-  const cartBasket = useSelector((state: RootStore) => state.basket.cartBasket)
 
-  const basketService = useMemo(() => new BasketService(dispatch), [dispatch])
+  const [addingIds, setAddingIds] = useState<Set<number>>(new Set())
 
-  const srcBasket = `${API_URLS_BASKET}?idUser=${userId}&Operation=showBasket`
+  const basketQuery = useQuery({
+    queryKey: ['basket', userId],
+    queryFn: () => basketApi.getBasket(userId),
+    enabled: !!userId
+  })
 
-  const [loadingDeleteAllBasket, setLoadingDeleteAllBasket] = useState(false)
-  const [loadingBasket, setLoadingBasket] = useState(true)
-  const [deletingBasket, setDeletingBasket] = useState<Set<number>>(new Set())
-
-  const deleteProductBasket = useCallback(async (id: number | null) => {
-    if (id && userId !== null) {
-      setIsModalOpen(false)
-      setDeletingBasket(prev => new Set(prev).add(id))
-
-      try {
-      await basketService.removeFromBasket(userId, id)
-      } catch {
-        showNotification('Ошибка', 'error')
-      } finally {
-        setDeletingBasket(prev => {
-          const newSet = new Set(prev)
-          newSet.delete(id)
-          return newSet
-        })
+  const deleteMutation = useMutation({
+    mutationFn: (productId: number) => {
+      if (!userId) throw new Error('No user ID')
+      return basketApi.deleteFromBasket(userId, productId)
+    },
+    onMutate: async (productId) => {
+      await queryClient.cancelQueries({ queryKey: ['basket', userId] })
+      const previousBasket = queryClient.getQueryData(['basket', userId])
+      queryClient.setQueryData(['basket', userId], 
+        (old: IBasket[]) => old?.filter(item => item.id !== productId) || []
+      )   
+      setAddingIds(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(productId)
+        return newSet
+      })
+      return { previousBasket }
+    },
+    onSuccess: () => {
+      showNotification('Товар удален из корзины', 'success')
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousBasket) {
+        queryClient.setQueryData(['basket', userId], context.previousBasket)
       }
+      showNotification('Ошибка при удалении товара', 'error')
     }
-  }, [basketService, userId, showNotification, setIsModalOpen])
+  })
 
-  const handleClearBasket = useCallback(async () => {
-    if (userId !== null) {
-      setLoadingDeleteAllBasket(true)
-
-      try {
-        await basketService.clearBasket(userId)
-      } catch {
-        showNotification('Ошибка', 'error')
-      } finally {
-        setLoadingDeleteAllBasket(false)
+  const clearBasketMutation = useMutation({
+    mutationFn: () => {
+      if (!userId) throw new Error('No user ID')
+      return basketApi.clearBasket(userId)
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['basket', userId] })
+      const previousBasket = queryClient.getQueryData(['basket', userId])
+      queryClient.setQueryData(['basket', userId], [])
+      setAddingIds(new Set())
+      return { previousBasket }
+    },
+    onSuccess: () => {
+      showNotification('Корзина очищена', 'success')
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousBasket) {
+        queryClient.setQueryData(['basket', userId], context.previousBasket)
       }
+      showNotification('Ошибка при очистке корзины', 'error')
     }
-  }, [userId, basketService, showNotification])
+  })
 
-  const increaseBasket = useCallback(async (id: number, currentCount: number) => {
-    if (userId !== null && currentCount < 100) {
-      await basketService.increaseBasket(userId, id)
-    }
-  }, [userId, basketService, showNotification])
-
-  const decreaseBasket = useCallback(async (id: number, currentCount: number) => {
-    if (userId !== null && currentCount > 1) {
-      await basketService.decreaseBasket(userId, id)
-    }
-  }, [userId, basketService, showNotification])
-
-  const handleCountChange = useCallback(async (e: ChangeEvent<HTMLInputElement>, id: number) => {
-    if (userId !== null) {
-      let newCount = e.target.value
-      if (newCount === '') {
-        newCount = '1'
+  const updateCountMutation = useMutation({
+    mutationFn: ({ productId, count }: { productId: number; count: number }) => {
+      if (!userId) throw new Error('No user ID')
+      return basketApi.updateBasketCount(userId, productId, count)
+    },
+    onMutate: async ({ productId, count }) => {
+      await queryClient.cancelQueries({ queryKey: ['basket', userId] })
+      const previousBasket = queryClient.getQueryData(['basket', userId])
+      queryClient.setQueryData(['basket', userId], (old: IBasket[]) => 
+        old?.map(item => 
+          item.id === productId 
+            ? { ...item, count: count}
+            : item
+        ) || []
+      )
+      return { previousBasket }
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousBasket) {
+        queryClient.setQueryData(['basket', userId], context.previousBasket)
       }
-      if (Number(newCount) > 100) {
-        newCount = '100'
-      }
-
-      try {
-        await basketService.updateBasketCount(userId, id, Number(newCount))
-      } catch {
-        showNotification('Ошибка', 'error')
-      }
+      showNotification('Ошибка при изменении количества', 'error')
     }
-  }, [userId, basketService, showNotification])
+  })
 
-  const updateBasketData = useCallback(async () => {
-    if (userId !== null) {
-      await basketService.refreshBasket(userId)
+  const addBasketMutation = useMutation({
+    mutationFn: (productId: number) => {
+      if (!userId) throw new Error('No user ID')
+      return basketApi.addBasket(productId, userId)
+    },
+    onMutate: async (productId) => {
+      setAddingIds(prev => new Set(prev).add(productId))
+      await queryClient.cancelQueries({ queryKey: ['basket', userId] })
+      const previousBasket = queryClient.getQueryData<IBasket[]>(['basket', userId])    
+      return { previousBasket }
+    },
+    onSuccess: (updatedBasket) => {
+      queryClient.setQueryData(['basket', userId], updatedBasket)
+      showNotification('Добавлено в корзину', 'success')
+    },
+    onError: () => {
+      showNotification('Ошибка при добавлении в корзину', 'error')
+    },
+    onSettled: (productId) => {
+      setAddingIds(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(productId)
+        return newSet
+      })
     }
-  }, [userId, basketService, showNotification])
+  })
 
-  const loadBasket = useCallback(async () => {
-    setLoadingBasket(true)
-    try {
-      await basketService.loadBasket(userId)
-    } catch {
-      showNotification('Ошибка', 'error')
-    } finally {
-      setLoadingBasket(false)
+  const deleteProductBasket = (id: number | null) => {
+    if (id) {
+      deleteMutation.mutate(id)
     }
-  }, [userId, basketService, showNotification])
+  }
 
-  useEffect(() => {
-    loadBasket()
-  }, [userId])
+  const handleClearBasket = () => {
+    clearBasketMutation.mutate()
+  }
+
+  const handleCountChange = (e: ChangeEvent<HTMLInputElement>, id: number) => {
+    if (!userId) return
+    
+    let newCount = e.target.value
+    if (newCount === '') return
+    if (Number(newCount) <= 0) newCount = '1'
+    if (Number(newCount) > 100) newCount = '100'
+    
+    updateCountMutation.mutate({ 
+      productId: id, 
+      count: Number(newCount) 
+    })
+  }
+
+  const addBasket = (productId: number) => {
+    addBasketMutation.mutate(productId)
+  }
+
+  const decreaseBasket = (id: number, currentCount: number) => {
+    if (currentCount > 1) {
+      updateCountMutation.mutate({ productId: id, count: currentCount - 1 })
+    }
+  }
+
+  const increaseBasket = (id: number, currentCount: number) => {
+    if (currentCount < 100) {
+      updateCountMutation.mutate({ productId: id, count: currentCount + 1 })
+    }
+  }
 
   return {
-    srcBasket,
-    cartBasket,
-    loadingDeleteAllBasket,
-    loadingBasket,
-    deletingBasket,
+    cartBasket: basketQuery.data || [],
+    loadingBasket: basketQuery.isPending,
+    loadingAddBasket: addingIds,
     handleCountChange,
-    decreaseBasket,
+    decreaseBasket, 
     increaseBasket,
     handleClearBasket,
     deleteProductBasket,
-    setLoadingBasket,
-    updateBasketData,
+    addBasket
   }
 }

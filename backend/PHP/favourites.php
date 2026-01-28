@@ -60,8 +60,8 @@ if (isset($params['Operation'])) {
         if (isset($params['idUser'])) {
             $idUser = $params['idUser'];
             $query = 
-                "SELECT tovar.* FROM tovar, favourites WHERE 
-                tovar.id = favourites.id_product and favourites.id_user = $idUser";
+                "SELECT * FROM tovar INNER JOIN favourites ON tovar.id = favourites.id_product WHERE 
+                favourites.id_user = $idUser";
         }
     }
 

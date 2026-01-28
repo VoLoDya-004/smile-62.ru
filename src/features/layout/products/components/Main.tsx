@@ -1,4 +1,4 @@
-import { useProductsContext } from '../contexts/ProductsContext'
+import { useProductsContext } from '../providers/ProductsProvider'
 import Carousel from './carousel/Carousel'
 import Cards from './cards/Cards'
 import FiltersBlock from './filters/FiltersBlock'

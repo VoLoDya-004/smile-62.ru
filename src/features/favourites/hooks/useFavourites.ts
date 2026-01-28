@@ -1,102 +1,178 @@
+import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { RootStore } from '@/shared/store'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNotification } from '@/shared/hooks'
-import { FavouritesService } from '../services/favouritesService'
-import { API_URLS_FAVOURITES } from '../constants/apiConstants'
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { useSelector } from 'react-redux'
+import { favouritesApi } from '../api/favouritesApi'
+import type { IFav } from '../types/favouritesTypes'
+import { useState } from 'react'
+import type { IBasket } from '@/features/basket/types/basketTypes'
 
 export const useFavourites = () => {
-  const { showNotification } = useNotification()
+  const { showNotification } = useUIContextNotification()
 
-  const dispatch = useDispatch()
   const userId = useSelector((state: RootStore) => state.user.userId)
-  const cartFavourites = useSelector((state: RootStore) => state.favourites.cartFavourites)
 
-  const [loadingDeleteAllFav, setLoadingDeleteAllFav] = useState(false)
-  const [loadingFavourites, setLoadingFavourites] = useState(true)
-  const [deletingFavourites, setDeletingFavourites] = useState<Set<number>>(new Set())
-  
-  const favouritesService = useMemo(() => new FavouritesService(dispatch), [dispatch])
+  const queryClient = useQueryClient()
 
-  const srcFavourites = `${API_URLS_FAVOURITES}?idUser=${userId}&Operation=showFavourites`
+  const [addingFavouritesIds, setAddingFavouritesIds] = useState<Set<number>>(new Set())
+  const [addingToBasketIds, setAddingToBasketIds] = useState<Set<number>>(new Set())
 
-  const deleteProductFavourites = useCallback(async (id: number) => {
-    if (userId !== null) {
-      setDeletingFavourites(prev => new Set(prev).add(id))
+  const favouritesQuery = useQuery({
+    queryKey: ['favourites', userId],
+    queryFn: () => favouritesApi.getFavourites(userId),
+    enabled: !!userId
+  })
 
-      try {
-        await favouritesService.removeFromFavourites(userId, id)
-      } catch { 
-        showNotification('Ошибка', 'error')
-      } finally {
-        setDeletingFavourites(prev => {
-          const newSet = new Set(prev)
-          newSet.delete(id)
-          return newSet
-        })
+  const deleteMutation = useMutation({
+    mutationFn: (productId: number) => {
+      if (!userId) throw new Error('No user ID')
+      return favouritesApi.deleteFromFavourites(userId, productId)
+    },
+    onMutate: async (productId) => {
+      await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
+      const previosFavourites = queryClient.getQueryData(['favourites', userId])
+      queryClient.setQueryData(['favourites', userId], 
+        (old: IFav[]) => old?.filter(item => item.id_product !== productId) || []
+      )
+      setAddingFavouritesIds(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(productId)
+        return newSet
+      })
+      return { previosFavourites }
+    },
+    onSuccess() {
+      showNotification('Товар удален из избранного', 'success')  
+    },
+    onError(_error, _variables, context) {
+      if (context?.previosFavourites) {
+        queryClient.setQueryData(['favourites', userId], context.previosFavourites)
       }
+      showNotification('Ошибка при удалении товара', 'error')
     }
-  }, [favouritesService, userId, showNotification])
+  })
 
-  const handleClearFav = useCallback(async () => {
-    if (userId !== null) {
-      setLoadingDeleteAllFav(true)
-
-      try {
-        await favouritesService.clearFavourites(userId)
-      } catch {
-        showNotification('Ошибка', 'error')
-      } finally {
-        setLoadingDeleteAllFav(false)
+  const clearFavouritesMutation = useMutation({
+    mutationFn: () => {
+      if (!userId) throw new Error('No user ID')
+      return favouritesApi.clearFavourites(userId)
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
+      const previosFavourites = queryClient.getQueryData(['favourites', userId])
+      queryClient.setQueryData(['favourites', userId], [])
+      setAddingFavouritesIds(new Set())
+      return { previosFavourites }
+    },
+    onSuccess: () => {
+      showNotification('Избранное очищено', 'success')
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previosFavourites) {
+        queryClient.setQueryData(['favourites', userId], context.previosFavourites)
       }
+      showNotification('Ошибка при очистке избранного', 'error')
     }
-  }, [userId, favouritesService, showNotification])
+  })
 
-  const addInBasketProductFavourites = useCallback(async (id: number): Promise<void> => {
-    if (userId !== null) {
-      try {
-        await favouritesService.addToBasketFromFavourites(userId, id)
-      } catch {
-        showNotification('Ошибка', 'error')
+  const addFavouritesMutation = useMutation({
+    mutationFn: (productId: number) => {
+      if (!userId) throw new Error('No user ID')
+      return favouritesApi.addFavourites(productId, userId)
+    },
+    onMutate: async (productId) => {
+      setAddingFavouritesIds(prev => new Set(prev).add(productId))
+      await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
+      const previosFavourites = queryClient.getQueryData(['favourites', userId])
+      return { previosFavourites }
+    },
+    onSuccess: (updatedFavourites) => {
+      queryClient.setQueryData(['favourites', userId], updatedFavourites)
+      showNotification('Добавлено в избранное', 'success')
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previosFavourites) {
+        queryClient.setQueryData(['favourites', userId], context.previosFavourites)
       }
+      showNotification('Ошибка при добавлении в избранное', 'error')
+    },
+    onSettled: (productId) => {
+      setAddingFavouritesIds(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(productId)
+        return newSet
+      })
     }
-  }, [userId, favouritesService, showNotification])
+  })
 
-  const updateFavouritesData = useCallback(async () => {
-    if (userId !== null) {
-      try {
-        await favouritesService.refreshFavourites(userId)
-      } catch {
-        showNotification('Ошибка', 'error')
+  const addToBasketFromFavouritesMutation = useMutation({
+    mutationFn: (productId: number) => {
+      if (!userId) throw new Error('No user ID')
+      return favouritesApi.addToBasketFromFavourites(userId, productId)
+    },
+    onMutate: async (productId) => {
+      setAddingToBasketIds(prev => new Set(prev).add(productId))
+      await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
+      const previosFavourites = queryClient.getQueryData(['favourites', userId])
+      queryClient.setQueryData<IBasket[]>(['basket', userId], (old) => [
+        ...(old || []),
+        {
+          id: 0,
+          id_product: 0,
+          nazvanie: 'Загрузка...',
+          count: 1,
+          price_total: 0
+        }
+      ])
+      return { previosFavourites }
+    },
+    onSuccess: async (updatedFavourites, productId) => {
+      queryClient.setQueryData(['favourites', userId], updatedFavourites)
+      showNotification('Товар добавлен в корзину', 'success')
+      await queryClient.invalidateQueries({ queryKey: ['basket', userId] })
+      setAddingToBasketIds(prev => { 
+        const newSet = new Set(prev)
+        newSet.delete(productId)
+        return newSet
+      })
+    },
+    onError: (_error, productId, context) => {
+      if (context?.previosFavourites) {
+        queryClient.setQueryData(['favourites', userId], context.previosFavourites)
       }
+      showNotification('Ошибка добавления в корзину', 'error')
+      setAddingToBasketIds(prev => { 
+        const newSet = new Set(prev)
+        newSet.delete(productId)
+        return newSet
+      })
     }
-  }, [userId, favouritesService, showNotification])
+  })
 
-  const loadFavourites = useCallback(async () => {
-    setLoadingFavourites(true)
-    try {
-      await favouritesService.loadFavourites(userId)
-    } catch {
-      showNotification('Ошибка', 'error')
-    } finally {
-      setLoadingFavourites(false)
-    }
-  }, [userId, favouritesService, showNotification])
+  const deleteProductFavourites = (id: number) => {
+    deleteMutation.mutate(id)
+  }
 
-  useEffect(() => {
-    loadFavourites()
-  }, [userId])
+  const handleClearFav = () => {
+    clearFavouritesMutation.mutate()
+  }
 
-  return { 
-    srcFavourites,
-    cartFavourites,
-    loadingFavourites,
-    deletingFavourites,
-    loadingDeleteAllFav,
+  const addInBasketProductFavourites = (id: number) => {
+    addToBasketFromFavouritesMutation.mutate(id)
+  }
+
+  const addFavourites = (id: number) => {
+    addFavouritesMutation.mutate(id)
+  }
+
+  return {
+    cartFavourites: favouritesQuery.data || [],
+    loadingFavourites: favouritesQuery.isPending,
+    loadingAddFavourites: addingFavouritesIds,
+    loadingAddToBasket: addingToBasketIds,
     deleteProductFavourites,
-    addInBasketProductFavourites,
-    setLoadingFavourites,
     handleClearFav,
-    updateFavouritesData,
+    addInBasketProductFavourites,
+    addFavourites
   }
 }

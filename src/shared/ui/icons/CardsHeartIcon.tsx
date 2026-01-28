@@ -1,12 +1,9 @@
-import type { ICardsRender } from "@/features/layout/products/types/mainTypes"
-
 interface ICardsHeartIconProps {
-  addingStatusFav: Record<number, boolean>
-  isInLocalFav: boolean
-  card: ICardsRender
+  isInFavourites: boolean
+  addingStatusFav: boolean
 }
 
-const CardsHeartIcon = ({ addingStatusFav, isInLocalFav, card }: ICardsHeartIconProps) => {
+const CardsHeartIcon = ({ isInFavourites, addingStatusFav }: ICardsHeartIconProps) => {
 
   return (
     <svg 
@@ -17,8 +14,8 @@ const CardsHeartIcon = ({ addingStatusFav, isInLocalFav, card }: ICardsHeartIcon
       <path 
         opacity='.6'
         className={`
-          ${addingStatusFav[card.id] && !isInLocalFav ? 
-            'fill-red' : isInLocalFav ? 
+          ${addingStatusFav && !isInFavourites ? 
+            'fill-red' : isInFavourites ? 
             'fill-red' : 
             ''
           }
@@ -31,9 +28,9 @@ const CardsHeartIcon = ({ addingStatusFav, isInLocalFav, card }: ICardsHeartIcon
       /> 
       <path 
         className={`
-          fill-clip-rule ${addingStatusFav[card.id] && !isInLocalFav ? 
+          fill-clip-rule ${addingStatusFav && !isInFavourites ? 
             'fill-red' : 
-            isInLocalFav ? 
+            isInFavourites ? 
             'fill-red' : 
             ''
           }

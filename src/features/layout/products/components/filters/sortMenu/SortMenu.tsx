@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useProductsContext } from '@/features/layout/products/contexts/ProductsContext'
+import { useProductsContext } from '@/features/layout/products/providers/ProductsProvider'
 import styles from './SortMenu.module.scss'
 
 interface ISortMenuProps {
