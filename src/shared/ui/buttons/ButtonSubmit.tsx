@@ -5,9 +5,10 @@ interface IButtonSubmitProps {
   className?: string
   onClick?: PointerEventHandler<HTMLButtonElement>
   children: ReactNode
+  disabled: boolean
 }
 
-const ButtonSubmit = ({ children, id, className, onClick }: IButtonSubmitProps) => {
+const ButtonSubmit = ({ children, id, className, onClick, disabled }: IButtonSubmitProps) => {
 
   return (
 	  <button 
@@ -15,6 +16,7 @@ const ButtonSubmit = ({ children, id, className, onClick }: IButtonSubmitProps) 
       className={className} 
       id={id} 
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>

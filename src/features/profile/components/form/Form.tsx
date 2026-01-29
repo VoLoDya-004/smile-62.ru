@@ -1,190 +1,159 @@
-import { useState, type ChangeEvent } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
-import type { IRegisterData } from '../../types/profileTypes'
 import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
+import { useForm } from 'react-hook-form'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/shared/ui/buttons/ButtonSubmit'
 import Account from '../account/Account'
 import styles from './Form.module.scss'
+import { yupResolver } from '@hookform/resolvers/yup'
+import FormInput from './FormInput'
+import { registerSchema, loginSchema, type TRegisterFormData, type TLoginFormData } from '../../types/validationSchemas'
+
+const {
+  'form-container': formContainer,
+  'form-margin-top': formMarginTop,
+} = styles
 
 const RegisterForm = () => {
-  const {
-    'form__registration': registration,
-    'form-margin-top': formMargin,
-    'form__registration-item': registrationItem,
-    'form-font': formFont
-  } = styles
-
-  const [registerData, setRegisterData] = useState<IRegisterData>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  })
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegisterData({ ...registerData, [e.target.name]: e.target.value })
-  }
-
   const { handleRegister } = useAuth()
 
-  const handleSubmit = async () => {
-    const res = await handleRegister({ registerData })
-    if (res) {
-      setRegisterData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+    mode: 'onChange',
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
     }
+  })
+
+  const onSubmit = async (data: TRegisterFormData) => {
+    const { confirmPassword, ...registerData } = data
+    const res = await handleRegister({ registerData })
+    if (res) reset()
   }
 
   return (
     <form 
-      method='post' 
-      className={registration}
-      onSubmit={(e) => {
-        e.preventDefault()
-        handleSubmit()
-      }}
+      className={formContainer}
+      onSubmit={handleSubmit(onSubmit)}
       aria-label='Регистрация'
+      noValidate
     >
-      <FormTitle children={'Регистрация'} />
-      <p className={formMargin}>
-        <label className={formFont} htmlFor='name-register'>
-          Введите имя<br/>
-          <input 
-            id='name-register'
-            type='text' 
-            name='name'
-            autoComplete='name'
-            className={registrationItem}
-            onChange={handleChange} 
-            value={registerData.name}
-            spellCheck='false'
-            required
-          />
-        </label>
-      </p>
-      <p>
-        <label className={formFont} htmlFor='email-register'>
-          Введите e-mail<br/>
-          <input 
-            id='email-register'
-            type='email'
-            name='email'
-            autoComplete='email'
-            className={registrationItem}
-            onChange={handleChange} 
-            value={registerData.email}
-            required
-          />
-        </label>
-      </p>
-      <p>
-        <label className={formFont} htmlFor='password-register'>
-          Введите пароль<br/>
-          <input 
-            id='password-register'
-            type='password' 
-            name='password'
-            autoComplete='new-password'
-            className={registrationItem}
-            onChange={handleChange} 
-            value={registerData.password}
-            required
-            minLength={2}
-          />
-        </label>
-      </p>
-      <p>
-        <label className={formFont} htmlFor='confirm-password-register'>
-          Подтвердите пароль<br/>
-          <input 
-            id='confirm-password-register'
-            type='password' 
-            name='confirmPassword'
-            autoComplete='new-password'
-            className={registrationItem}
-            onChange={handleChange} 
-            value={registerData.confirmPassword}
-            required
-          />
-        </label>
-      </p>
-      <ButtonSubmit className='button-violet'>Зарегистрироваться</ButtonSubmit>
+      <FormTitle>Регистрация</FormTitle>
+      <FormInput
+        id='name-register'
+        label='Введите имя'
+        type='text'
+        autoComplete='name'
+        className={formMarginTop}
+        error={errors.name}
+        register={register}
+        name='name'
+        spellCheck={false}
+      />
+      <FormInput
+        id='email-register'
+        label='Введите e-mail'
+        type='email'
+        autoComplete='email'
+        error={errors.email}
+        register={register}
+        name='email'
+      />
+      <FormInput
+        id='password-register'
+        label='Введите пароль'
+        type='password'
+        autoComplete='new-password'
+        error={errors.password}
+        register={register}
+        name='password'
+      />
+      <FormInput
+        id='confirm-password-register'
+        label='Подтвердите пароль'
+        type='password'
+        autoComplete='new-password'
+        error={errors.confirmPassword}
+        register={register}
+        name='confirmPassword'
+      />
+      <ButtonSubmit 
+        className={cx(isSubmitting ? 'button-violet button-violet_disabled' : 'button-violet')}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+      </ButtonSubmit>
     </form>
   )
 }
 
 const LoginForm = () => {
-  const {
-    'form__registration': registration,
-    'form-margin-top': formMargin,
-    'form__registration-item': registrationItem,
-    'form-font': formFont
-  } = styles
-
-  const [loginData, setLoginData] = useState<IRegisterData>({ email: '', password: '' })
-
-  const handleChangeLogin = (e: ChangeEvent<HTMLInputElement>) => {
-  	setLoginData({ ...loginData, [e.target.name]: e.target.value })
-  }
-
   const { handleLogin } = useAuth()
 
-  const handleSubmit = async () => {
-    const res = await handleLogin({ email: loginData.email, password: loginData.password })
-    if (res) {
-      setLoginData({ email: '', password: '' })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: ''
     }
+  })
+
+  const onSubmit = async (data: TLoginFormData) => {
+    const res = await handleLogin(data)
+    if (res) reset()
   }
 
   return (
     <form 
-      method='post'
-      className={registration}
-      onSubmit={(e) => { 
-        e.preventDefault() 
-        handleSubmit() 
-      }}
+      className={formContainer}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
       aria-label='Вход'
     >
-      <FormTitle children={'Вход'} />
-      <p className={formMargin}>
-        <label className={formFont} htmlFor='email-login'>
-          Введите e-mail<br/>
-          <input 
-            id='email-login'
-            type='email' 
-            name='email'
-            autoComplete='email'
-            className={registrationItem} 
-            onChange={handleChangeLogin}
-            value={loginData.email}
-            required
-          />
-        </label>
-      </p>
-      <p>
-        <label className={formFont} htmlFor='password-login'>
-          Введите пароль<br/>
-          <input 
-            id='password-login'
-            type='password'
-            name='password'
-            autoComplete='current-password'
-            className={registrationItem}
-            onChange={handleChangeLogin}
-            value={loginData.password}
-            required
-          />
-        </label>
-      </p>
-      <ButtonSubmit className='button-violet margin-top-auto'>Войти</ButtonSubmit>
+      <FormTitle>Вход</FormTitle>
+      <FormInput
+        id='email-login'
+        label='Введите e-mail'
+        type='email'
+        autoComplete='email'
+        className={formMarginTop}
+        error={errors.email}
+        register={register}
+        name='email'
+      />
+      <FormInput
+        id='password-login'
+        label='Введите пароль'
+        type='password'
+        autoComplete='current-password'
+        error={errors.password}
+        register={register}
+        name='password'
+      />
+      <ButtonSubmit 
+        className={cx(
+          'margin-top-auto', isSubmitting ? 'button-violet button-violet_disabled' : 'button-violet'
+        )}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Вход...' : 'Войти'}
+      </ButtonSubmit>
     </form>
   )
 }

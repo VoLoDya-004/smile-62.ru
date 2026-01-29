@@ -1,8 +1,7 @@
 export interface IRegisterData {
-  name?: string
+  name: string
   email: string
   password: string
-  confirmPassword?: string
 }
 
 export interface ILoginData {

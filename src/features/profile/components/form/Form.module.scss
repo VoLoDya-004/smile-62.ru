@@ -6,7 +6,7 @@
   &.no-wrap {
     flex-wrap: nowrap;
   }
-  &__registration { 
+  &-container { 
     display: flex;
     width: 40vw;
     align-items: center;
@@ -14,7 +14,7 @@
     background-color: var(--form-bg);
     border-radius: 19px;
     padding-bottom: 16px;
-    &-item {
+    &__input {
       padding-inline: 5px;
       box-sizing: border-box;
       border: 1px solid var(--form-item-border);
@@ -34,6 +34,9 @@
       &:focus {
         background-color: var(--form-item-focus-bg);
       }
+      &_error {
+        border-color: red;
+      }
     }
     &-btn {
       background-color: #d8c4e0;
@@ -46,6 +49,13 @@
         background-color: rgb(186, 155, 194);
         transition: .3s;
       }
+    }
+    & label {
+      display: flex;
+      flex-direction: column;
+    }
+    & p {
+      min-height: 80px;
     }
   }
   &__header {
@@ -61,14 +71,22 @@
   }
 }
 
+.error-message {
+  display: block;
+  text-align: center;
+  color: red;
+  font-size: 0.9em;
+  min-height: 16px;
+}
+
 @media (max-width: $breakpoint-md) {
   .form {
     &.no-wrap {
       margin-bottom: 0;
     }
-    &__registration { 
+    &-container { 
       width: 43vw;
-      &-item {
+      &__input {
         width: 280px;
       }
     }
@@ -78,12 +96,12 @@
 @media (max-width: $breakpoint-sm) {
   .form {
     flex-wrap: wrap;
-    &__registration { 
+    &-container { 
       width: 90vw;
       &:first-child {
         margin-bottom: 15px;
       }
-      &-item {
+      &__input {
         width: 60vw;
       }
     }
@@ -95,7 +113,7 @@
     &.no-wrap {
       flex-wrap: wrap;
     }
-    &__registration:first-child {
+    &-container:first-child {
       margin-bottom: 10px;
     }
   }

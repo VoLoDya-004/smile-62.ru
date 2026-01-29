@@ -35,17 +35,10 @@ if (isset($params['Operation'])) {
         $name = trim($params['name'] ?? '');
         $email = trim($params['email'] ?? '');
         $passwordUser = trim($params['password'] ?? '');
-        $confirmPassword = trim($params['confirmPassword'] ?? '');
 
-        if (!$name || !$email || !$passwordUser || !$confirmPassword) {
+        if (!$name || !$email || !$passwordUser) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Пожалуйста, заполните все поля']);
-            exit;
-        }
-
-        if ($passwordUser !== $confirmPassword) {
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'Пароли не совпадают']);
             exit;
         }
 

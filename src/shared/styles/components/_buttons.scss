@@ -42,6 +42,14 @@
       background-color: rgb(186, 155, 194);
     }
   }
+  &_disabled {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: #d8c4e0;
+        cursor: default;
+      }
+    }
+  }
 }
 
 .button-cross {
