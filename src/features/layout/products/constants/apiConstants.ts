@@ -1,1 +1,1 @@
-export const API_URLS_CARDS = '/backend/PHP/getCards.php'
+export const API_URLS_CARDS = '/backend/PHP/api/getCards.php'

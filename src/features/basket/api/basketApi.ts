@@ -1,6 +1,5 @@
+import { API_URLS_BASKET } from '../constants/apiConstants'
 import axios from 'axios'
-
-const API_URLS_BASKET = '/backend/PHP/basket.php'
 
 export const basketApi = {
   getBasket: async (userId: number | null) => {

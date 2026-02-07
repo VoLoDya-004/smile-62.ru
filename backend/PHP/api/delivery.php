@@ -1,8 +1,10 @@
 <?php
-require_once "./config/cors.php";
-require_once "./config/db.php";
+require_once "../config/cors.php";
+require_once "../config/db.php";
 
-if (isset($_GET['Operation'])) {
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'GET') {
     $connect = mysqli_connect($hostname, $username, $password, $dbName);
     if (!$connect) {
         die("Ошибка подключения к БД: " . mysqli_connect_error());
@@ -11,22 +13,20 @@ if (isset($_GET['Operation'])) {
     mysqli_select_db($connect, $dbName) or die 
     ("<p>Не могу выбрать базу данных: ".mysqli_error($connect).". Ошибка в строке ".__LINE__."</p>");
 
-    $operation = $_GET['Operation'];
-    $myArray = array();
+    $query = "SELECT * FROM delivery_methods ORDER BY cost";
+    $result = mysqli_query($connect, $query);
 
-    if ($operation == 'showRecommendations') { 
-        $query = "SELECT * FROM tovar";
-    }
- 
-    if ($query != "") {
-        $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
-        while ($row = mysqli_fetch_assoc($result)) {
-            $myArray[] = $row;
-        }
+    $methods = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $methods[] = $row;
     }
 
     header('Content-Type: application/json');
-    echo json_encode($myArray);
+    echo json_encode($methods);
+
     mysqli_close($connect);
+} else {
+    http_response_code(405);
+    echo json_encode(['error' => 'Метод не разрешен']);
 }
 ?>

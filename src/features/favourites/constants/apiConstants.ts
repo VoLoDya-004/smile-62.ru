@@ -1,1 +1,1 @@
-export const API_URLS_FAVOURITES = '/backend/PHP/favourites.php'
+export const API_URLS_FAVOURITES = '/backend/PHP/api/favourites.php'

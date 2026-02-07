@@ -3,13 +3,13 @@ import type { RootStore } from '@/shared/store'
 import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { registerSchema, loginSchema, type TRegisterFormData, type TLoginFormData } from '../../types/validationSchemas'
 import FormTitle from './FormTitle'
 import ButtonSubmit from '@/shared/ui/buttons/ButtonSubmit'
 import Account from '../account/Account'
 import styles from './Form.module.scss'
-import { yupResolver } from '@hookform/resolvers/yup'
 import FormInput from './FormInput'
-import { registerSchema, loginSchema, type TRegisterFormData, type TLoginFormData } from '../../types/validationSchemas'
 
 const {
   'form-container': formContainer,

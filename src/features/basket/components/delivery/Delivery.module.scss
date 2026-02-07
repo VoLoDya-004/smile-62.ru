@@ -21,16 +21,11 @@
     margin: 25px;
     border-radius: 19px;
     flex-direction: column;
-    padding-block: 50px;
-    padding-left: 50px;
+    padding: 30px;
     width: 40%;
-    &-count {
+    &-title {
       text-transform: uppercase;
-      font-size: 1.25em;
-    }
-    &-price-total {
-      text-transform: uppercase;
-      font-size: 1.25em;
+      font-size: 1.15em;
     }
     &-btn {
       margin: 0;
@@ -43,6 +38,7 @@
       text-decoration: none;
       cursor: pointer;
       color: var(--basket-rules-text);
+      transition: .2s;
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           color: blue;
@@ -50,19 +46,17 @@
       }
     }
   }
-  &__city {
+  &__method {
     display: flex;
-    background-color: var(--basket-city-bg);
+    background-color: var(--basket-method-delivery-bg);
     margin: 25px;
     border-radius: 19px;
     gap: 20px;
     width: 40%;
     flex-direction: column;
-    padding-block: 50px;
-    padding-left: 50px;
-    &-text {
+    padding: 30px;
+    &-title {
       text-transform: uppercase;
-      font-size: 1.25em;
     }
     &-select {
       background-color: var(--basket-select-bg);
@@ -71,27 +65,29 @@
       border: none;
       border-radius: 6px;
       height: 30px;
-      width: 70%;
-      max-width: 390px;
       & > * {
         cursor: pointer;
       }
+    }
+    &-textarea {
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      resize: none;
+      overflow: hidden;
+      height: 44px;
+      width: 100%;
+      margin-right: 10px;
+      box-sizing: border-box;
+      font-size: 1.06em;
+      background-color: var(--delivery-bg-textarea);
+      color: var(--delivery-text-textarea);
     }
   }
 }
 
 @media (max-width: $breakpoint-md) {
-  .delivery {
-    &__order {
-      padding-left: 30px;
-      &-checkbox {
-        font-size: 0.81em;
-      }
-    }
-    &__city {
-      padding-left: 30px;
-    }
-  }
+  .delivery__order-checkbox { font-size: 0.81em; }
 }  
 
 @media (max-width: $breakpoint-sm) {
@@ -101,16 +97,17 @@
     justify-content: space-evenly;
     &__order {
       margin-block: 25px;
-      padding-block: 25px;
-      padding-left: 15px;
+      padding: 15px;
       width: 80%;
     }
-    &__city {
+    &__method {
       margin-top: 0;
       margin-bottom: 25px;
       width: 80%;
-      padding-block: 25px;
-      padding-left: 15px;
+      padding: 15px;
+      &-title {
+        text-align: center;
+      }
     }
   }
 }
@@ -120,7 +117,7 @@
     &__order-checkbox {
       font-size: 0.75em;
     }
-    &__city {
+    &__method {
       margin: 25px;
       margin-top: 0;
     }

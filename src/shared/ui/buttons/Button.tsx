@@ -6,9 +6,10 @@ interface IButtonProps {
   onClick?: PointerEventHandler<HTMLButtonElement>
   children: ReactNode
   style?: CSSProperties
+  disabled?: boolean
 }
 
-const Button = ({ children, id, className, onClick, style }: IButtonProps) => {
+const Button = ({ children, id, className, onClick, style, disabled }: IButtonProps) => {
 
   return (
 	  <button 
@@ -17,6 +18,7 @@ const Button = ({ children, id, className, onClick, style }: IButtonProps) => {
       id={id} 
       onClick={onClick}
       style={style}
+      disabled={disabled}
     >   
       {children}
     </button>

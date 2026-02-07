@@ -10,19 +10,36 @@ import { useBasket } from '@/features/basket/hooks/useBasket'
 import type { IBasket, IBasketTotal } from '@/features/basket/types/basketTypes'
 import Button from '@/shared/ui/buttons/Button'
 import styles from './Account.module.scss'
+import { useWallet } from '../../hooks/useWallet'
+import { formatPrice } from '@/shared/utils/formatters'
 
 interface IProfileAsideProps {
   userName: string
   onLogout: () => void
   handleTopUpWallet: () => void
+  balance: number
+  isLoadingBalance: boolean
+}
+
+interface IFavoritesBlockProps {
+  favoritesCount: number
+  itemText: string
+  loadingFavourites: boolean
 }
 
 interface IBasketBlockProps {
   basketCount: number
   itemText: string
+  loadingBasket: boolean
 }
 
-const ProfileAside = ({ userName, onLogout, handleTopUpWallet }: IProfileAsideProps) => {
+const ProfileAside = ({ 
+  userName, 
+  onLogout, 
+  handleTopUpWallet, 
+  balance,
+  isLoadingBalance
+}: IProfileAsideProps) => {
   const {
     'user-aside': aside,
     'user-aside__name': asideName,
@@ -32,7 +49,14 @@ const ProfileAside = ({ userName, onLogout, handleTopUpWallet }: IProfileAsidePr
   return (
     <section className={aside} aria-label='Ваш баланс'>
       <div className={asideName}>{userName || 'Пользователь'}</div>
-      <div className={asideSum}>Баланс: 0 &#x20bd;</div>
+      <div className={asideSum}>
+        <div>Баланс: </div>
+        {isLoadingBalance ? (
+          <span>Обновление...</span>
+        ) : (
+          <span className='text-nowrap'>{formatPrice(balance)} &#x20bd;</span>
+        )}
+      </div>
       <Button onClick={handleTopUpWallet} className='button-violet'>
         Пополнить
       </Button>
@@ -43,12 +67,7 @@ const ProfileAside = ({ userName, onLogout, handleTopUpWallet }: IProfileAsidePr
   )
 }
 
-interface IFavoritesBlockProps {
-  favoritesCount: number
-  itemText: string
-}
-
-const FavoritesBlock = ({ favoritesCount, itemText }: IFavoritesBlockProps) => {
+const FavoritesBlock = ({ favoritesCount, itemText, loadingFavourites }: IFavoritesBlockProps) => {
   const {
     'profile-fav': profileFav,
     'profile-fav__block': profileFavBlock,
@@ -68,9 +87,9 @@ const FavoritesBlock = ({ favoritesCount, itemText }: IFavoritesBlockProps) => {
   	        Избранное
   	      </NavLink>
   	    </div>
-  	    <div className={profileFavBlockCount}>
-  	      {favoritesCount} {itemText}
-  	    </div>
+        <div className={profileFavBlockCount}>
+        	{loadingFavourites ? 'Обновление...' : `${favoritesCount} ${itemText}`}
+        </div>
   	  </div>
   	  <div className={profileFavBlockSVG} aria-hidden='true'>
   	    <svg 
@@ -95,7 +114,7 @@ const FavoritesBlock = ({ favoritesCount, itemText }: IFavoritesBlockProps) => {
   )
 }
 
-const BasketBlock = ({ basketCount, itemText }: IBasketBlockProps) => {
+const BasketBlock = ({ basketCount, itemText, loadingBasket }: IBasketBlockProps) => {
   const {
     'profile-basket': profileBasket,
     'profile-basket__block': profileBasketBlock,
@@ -116,7 +135,7 @@ const BasketBlock = ({ basketCount, itemText }: IBasketBlockProps) => {
         	</NavLink>
         </div>
         <div className={profileBasketBlockCount}>
-        	{basketCount} {itemText}
+        	{loadingBasket ? 'Обновление...' : `${basketCount} ${itemText}`}
         </div>
       </div>
       <div className={profileBasketBlockSVG} aria-hidden='true'>
@@ -149,10 +168,11 @@ const BasketBlock = ({ basketCount, itemText }: IBasketBlockProps) => {
 const Account = () => {
   const { 'container-profile': container } = styles
 
-  const { cartFavourites } = useFavourites()
-  let { cartBasket } = useBasket()
+  const { cartFavourites, loadingFavourites } = useFavourites()
   const { showNotification } = useUIContextNotification()
+  let { cartBasket, loadingBasket } = useBasket()
   const { handleLogout } = useAuth()
+  const { balance, topUpBalance, isLoadingBalance } = useWallet()
 
   const userName = useSelector((state: RootStore) => state.user.userName)
 
@@ -165,7 +185,16 @@ const Account = () => {
   }, { count: 0 })
 
   const handleTopUpWallet = () => {
-    showNotification('Фунционал в разработке', 'error')
+    const amount = prompt('Введите сумму для пополнения:')
+    if (!amount) return
+
+    const numAmount = parseFloat(amount)
+    if (isNaN(numAmount)) {
+      showNotification('Введите корректную сумму', 'error')
+      return
+    }
+
+    topUpBalance(numAmount)
   }
 
   const itemTextBasket = pluralize(total.count, ['товар', 'товара', 'товаров'])
@@ -177,10 +206,20 @@ const Account = () => {
         userName={userName}
         onLogout={handleLogout}
         handleTopUpWallet={handleTopUpWallet}
+        balance={balance}
+        isLoadingBalance={isLoadingBalance}
       />
       <section className={container}>
-        <FavoritesBlock favoritesCount={cartFavourites.length} itemText={itemTextFav} />
-        <BasketBlock basketCount={total.count} itemText={itemTextBasket} />
+        <FavoritesBlock 
+          favoritesCount={cartFavourites.length} 
+          itemText={itemTextFav}
+          loadingFavourites={loadingFavourites}
+        />
+        <BasketBlock 
+          basketCount={total.count} 
+          itemText={itemTextBasket} 
+          loadingBasket={loadingBasket}
+        />
       </section>
     </>
   )

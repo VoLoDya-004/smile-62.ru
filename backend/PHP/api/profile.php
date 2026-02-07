@@ -1,6 +1,6 @@
 <?php
-require_once "./config/cors.php";
-require_once "./config/db.php";
+require_once "../config/cors.php";
+require_once "../config/db.php";
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     $origin = $_SERVER['HTTP_ORIGIN'];

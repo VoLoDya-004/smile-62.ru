@@ -1,4 +1,4 @@
-import { logoutUser, setUser } from '@/shared/store/slices/UserSlice'
+import { logoutUser, setUser } from '@/shared/store/slices/userSlice'
 import type { ILoginData, IRegisterData } from '../types/profileTypes'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'

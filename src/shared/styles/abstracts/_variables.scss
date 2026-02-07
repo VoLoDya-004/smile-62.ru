@@ -32,7 +32,7 @@ $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Co
   --basket-input-text: black;
   --basket-order-bg: white;
   --basket-rules-text: black;
-  --basket-city-bg: white;
+  --basket-method-delivery-bg: white;
   --basket-select-bg: #eaeff2;
   --basket-select-text: black;
   --basket-border-color: rgb(126 155 189 / 0.3);
@@ -40,6 +40,8 @@ $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Co
   //доставка
   --delivery-bg: #eaeff2;
   --delivery-text: black;
+  --delivery-bg-textarea: #eaeff2;
+  --delivery-text-textarea: black;
 
   //футер
   --footer-hover-text: rgb(96, 22, 118);
@@ -164,7 +166,7 @@ $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Co
   --basket-input-text: white;
   --basket-order-bg: black;
   --basket-rules-text: white;
-  --basket-city-bg: black;
+  --basket-method-delivery-bg: black;
   --basket-select-bg: rgb(149, 150, 150);
   --basket-select-text: black;
   --basket-border-color: black;
@@ -172,6 +174,8 @@ $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Co
   //доставка
   --delivery-bg: rgb(234 239 242 / 28%);
   --delivery-text: white;
+  --delivery-bg-textarea: rgb(46, 46, 46);
+  --delivery-text-textarea: white;
 
   //футер
   --footer-hover-text: white;

@@ -1,6 +1,6 @@
 <?php
-require_once "./config/cors.php";
-require_once "./config/db.php";
+require_once "../config/cors.php";
+require_once "../config/db.php";
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $perPage = 40;
