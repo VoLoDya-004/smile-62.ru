@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `shop` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `shop`;
 -- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: localhost    Database: shop
@@ -30,7 +28,7 @@ CREATE TABLE `basket` (
   `id_product` int NOT NULL,
   `count` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2766 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3041 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,8 +37,35 @@ CREATE TABLE `basket` (
 
 LOCK TABLES `basket` WRITE;
 /*!40000 ALTER TABLE `basket` DISABLE KEYS */;
-INSERT INTO `basket` VALUES (1773,12,4,1),(1774,12,3,1);
+INSERT INTO `basket` VALUES (1773,12,4,1),(1774,12,3,1),(2789,24,5,1),(2790,24,4,1),(2826,27,3,1),(2827,27,4,1),(2828,27,5,1),(3018,30,3,2),(3019,30,2,1);
 /*!40000 ALTER TABLE `basket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `delivery_methods`
+--
+
+DROP TABLE IF EXISTS `delivery_methods`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `delivery_methods` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `cost` decimal(10,2) NOT NULL,
+  `estimated_days` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery_methods`
+--
+
+LOCK TABLES `delivery_methods` WRITE;
+/*!40000 ALTER TABLE `delivery_methods` DISABLE KEYS */;
+INSERT INTO `delivery_methods` VALUES (1,'Самовывоз','Забрать из пункта выдачи',0.00,1),(2,'Курьер','Доставка курьером по адресу',500.00,2),(3,'Почта России','Доставка почтой',300.00,7);
+/*!40000 ALTER TABLE `delivery_methods` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -55,7 +80,7 @@ CREATE TABLE `favourites` (
   `id_user` int DEFAULT NULL,
   `id_product` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1879 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1992 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,8 +89,66 @@ CREATE TABLE `favourites` (
 
 LOCK TABLES `favourites` WRITE;
 /*!40000 ALTER TABLE `favourites` DISABLE KEYS */;
-INSERT INTO `favourites` VALUES (676,12,3);
+INSERT INTO `favourites` VALUES (676,12,3),(1900,24,2),(1930,26,2),(1931,26,4),(1932,27,3),(1933,27,1),(1990,18,2),(1991,30,2);
 /*!40000 ALTER TABLE `favourites` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_items`
+--
+
+DROP TABLE IF EXISTS `order_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_items` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_order` int NOT NULL,
+  `id_product` int NOT NULL,
+  `quantity` int NOT NULL,
+  `price_at_moment` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_items`
+--
+
+LOCK TABLES `order_items` WRITE;
+/*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
+INSERT INTO `order_items` VALUES (1,1,3,17,175000.00),(2,2,3,1,175000.00),(3,3,7,1,9000.00),(4,4,7,2,9000.00),(5,5,7,1,9000.00),(6,6,7,1,9000.00),(7,7,7,1,9000.00),(8,8,7,2,9000.00),(9,9,7,1,9000.00),(10,10,7,1,9000.00),(11,11,7,1,9000.00),(12,12,7,1,9000.00),(13,13,7,1,9000.00),(14,14,7,1,9000.00),(15,15,7,1,9000.00),(16,16,7,1,9000.00),(17,17,7,1,9000.00),(18,18,4,1,110000.00);
+/*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_user` int NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `status` enum('pending','processing','completed','cancelled') DEFAULT 'pending',
+  `delivery_address` text NOT NULL,
+  `delivery_type` varchar(100) DEFAULT 'courier',
+  `delivery_cost` decimal(10,2) DEFAULT '0.00',
+  `customer_notes` text,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (18,18,110300.00,'pending','оор','Почта России',300.00,'','2026-02-07 18:02:25');
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -100,6 +183,34 @@ INSERT INTO `tovar` VALUES (1,'Lenovo ThinkPad X1 Carbon 2019',200000.00,150000.
 UNLOCK TABLES;
 
 --
+-- Table structure for table `transactions`
+--
+
+DROP TABLE IF EXISTS `transactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `transactions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_user` int NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `type` enum('deposit','payment') NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transactions`
+--
+
+LOCK TABLES `transactions` WRITE;
+/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (1,18,12.00,'deposit','Пополнение баланса','2026-02-04 14:51:59'),(2,18,14.00,'deposit','Пополнение баланса','2026-02-04 14:52:26'),(3,18,1000.00,'deposit','Пополнение баланса','2026-02-04 14:52:45'),(4,18,4.00,'deposit','Пополнение баланса','2026-02-04 14:55:06'),(5,18,10.00,'deposit','Пополнение баланса','2026-02-04 16:28:58'),(6,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:30:11'),(7,18,9.00,'deposit','Пополнение баланса','2026-02-04 16:30:27'),(8,18,100000.00,'deposit','Пополнение баланса','2026-02-04 16:30:50'),(9,18,100000.00,'deposit','Пополнение баланса','2026-02-04 16:30:59'),(10,18,800000.00,'deposit','Пополнение баланса','2026-02-04 16:31:13'),(11,18,1000000.00,'deposit','Пополнение баланса','2026-02-04 16:34:13'),(12,18,1000000.00,'deposit','Пополнение баланса','2026-02-04 16:34:22'),(13,18,10.00,'deposit','Пополнение баланса','2026-02-04 16:50:24'),(14,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:57:40'),(15,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:57:42'),(16,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:57:46'),(17,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:57:52'),(18,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:57:54'),(19,18,1.00,'deposit','Пополнение баланса','2026-02-04 16:57:56'),(20,18,2975300.00,'payment','Оплата заказа #1','2026-02-07 14:20:45'),(21,18,200000.00,'deposit','Пополнение баланса','2026-02-07 14:23:19'),(22,18,175000.00,'payment','Оплата заказа #2','2026-02-07 14:24:19'),(23,18,9000.00,'payment','Оплата заказа #3','2026-02-07 16:16:24'),(24,18,18000.00,'payment','Оплата заказа #4','2026-02-07 16:22:41'),(25,18,9000.00,'payment','Оплата заказа #5','2026-02-07 16:25:10'),(26,18,9300.00,'payment','Оплата заказа #6','2026-02-07 16:28:39'),(27,18,9300.00,'payment','Оплата заказа #7','2026-02-07 16:29:18'),(28,18,120000.00,'deposit','Пополнение баланса','2026-02-07 16:29:31'),(29,18,18300.00,'payment','Оплата заказа #8','2026-02-07 16:31:13'),(30,18,9300.00,'payment','Оплата заказа #9','2026-02-07 16:31:46'),(31,18,9000.00,'payment','Оплата заказа #10','2026-02-07 16:38:19'),(32,18,9300.00,'payment','Оплата заказа #11','2026-02-07 16:41:58'),(33,18,9000.00,'payment','Оплата заказа #12','2026-02-07 16:45:34'),(34,18,9300.00,'payment','Оплата заказа #13','2026-02-07 17:12:12'),(35,18,9000.00,'payment','Оплата заказа #14','2026-02-07 17:16:21'),(36,18,9500.00,'payment','Оплата заказа #15','2026-02-07 17:31:01'),(37,18,9300.00,'payment','Оплата заказа #16','2026-02-07 17:31:26'),(38,18,9300.00,'payment','Оплата заказа #17','2026-02-07 17:32:16'),(39,18,1000000.00,'deposit','Пополнение баланса','2026-02-07 18:02:02'),(40,18,110300.00,'payment','Оплата заказа #18','2026-02-07 18:02:25');
+/*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -111,9 +222,9 @@ CREATE TABLE `users` (
   `name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `confirmPassword` varchar(255) DEFAULT NULL,
+  `is_admin` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,8 +233,35 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (12,'Иван','IVAN2003@yandex.ru','$2y$10$q7HiifLgrF6sg15qpaumoe/sIpkB0jv.fXdE2clW2/zrlT0brRp52',NULL),(13,'Марина','mar-3048@yandex.ru','$2y$10$knhk3EGz/ry0m6.szF1xteDRiNKM45cgoYy7gPe2/KGgS4zHe0ppK',NULL),(14,'Николай','nik@yandex.ru','$2y$10$3FVBnvfVyR5tQWJ4aJU98OQRSfj9zhQhLjMaZdnr0OZJ46igj3Vjq',NULL),(15,'Jack','j@yandex.ru','$2y$10$5rdmEtMAQvaQQ.RgZnwiLOgKwrxVeS4aes1.mMSkUd2X/86w85fXe',NULL),(16,'Александр','alex@yandex.ru','$2y$10$Q1He4ASm5OIILAebThov..WAprkmeopESJTQzDwQH3PwJ/itaHPuS',NULL),(17,'Максим','max@yandex.ru','$2y$10$oRp/6ASHfias3AW4ohIP8ep0AnbGa3U79yFP2No62nfGZmd/4W.Di',NULL),(18,'Арина','ar@yandex.ru','$2y$10$U6zxVnWwhH4qvijFzJRBtenLYEvL/TXZl903WqpX3R1687tNd012G',NULL);
+INSERT INTO `users` VALUES (18,'Арина','ar@yandex.ru','$2y$10$U6zxVnWwhH4qvijFzJRBtenLYEvL/TXZl903WqpX3R1687tNd012G',0),(26,'Иван','ivan@yandex.ru','$2y$10$JPH9pbHDPJGwL1ev4IOwBeeMF0VVpCdALu4fWpRLXurf9GXwXDtpy',0),(27,'Максим','max@yandex.ru','$2y$10$kvfH3q0hnsLKMlyVnU3b.u.UfkbGbrqvS2qrN7wgX1.P8ujCwMxEa',0),(29,'Зоя','zoya@yandex.ru','$2y$10$tUZ2i5OKR9elAfmel9C5PemiV/b1FbUQdR0/sUi5maFPb2isaGUjC',0),(30,'Олег','oleg@yandex.ru','$2y$10$tpuhCrHsQJzE5CsT3JUbDeHB8qPeI2ERvnyt7VX8xZFv5X7GsGikG',0),(31,'Олеся','olesya@yandex.ru','$2y$10$pLvxBy6Nep9JqV9H92TcouyN4nOZ3WCPat.nLq.tT6TTLzmwcFQBm',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `wallets`
+--
+
+DROP TABLE IF EXISTS `wallets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `wallets` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_user` int NOT NULL,
+  `balance` decimal(10,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `wallets_ibfk_1` (`id_user`),
+  CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wallets`
+--
+
+LOCK TABLES `wallets` WRITE;
+/*!40000 ALTER TABLE `wallets` DISABLE KEYS */;
+INSERT INTO `wallets` VALUES (1,18,914566.00),(2,26,10000.00),(3,27,10000.00),(4,29,10000.00),(5,30,10000.00),(6,31,10000.00);
+/*!40000 ALTER TABLE `wallets` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -135,4 +273,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-16 15:56:05
+-- Dump completed on 2026-02-08 18:31:00
