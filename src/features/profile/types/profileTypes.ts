@@ -9,6 +9,4 @@ export interface ILoginData {
   password: string
 }
 
-export type TWalletData = {
-  balance: number
-}
+export type TWalletData = { balance: number }

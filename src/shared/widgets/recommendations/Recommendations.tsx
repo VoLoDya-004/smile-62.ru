@@ -84,7 +84,7 @@ const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
         {price === price_sale ? (
           <>
             <div className={cx(productPrice, productPriceCountSame)}>
-              <span className='text-nowrap'>{price} &#x20BD;</span> 
+              <span className='text-nowrap'>{price} ₽</span> 
               <div className={productPriceCountSameTitle}>
                 Обычная
               </div>
@@ -97,13 +97,13 @@ const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
           <>
             <div className={productPrices}>
               <div className={cx(productPrice, productPriceDiscount)}>
-                <span className='text-nowrap'>{price_sale} &#x20BD;</span>
+                <span className='text-nowrap'>{price_sale} ₽</span>
                 <div className={productPriceDiscountTitle}>
                   Со скидкой
                 </div>
               </div>
               <div className={cx(productPrice, productPriceCount)}>
-                <span className='text-nowrap'>{price} &#x20BD;</span> 
+                <span className='text-nowrap'>{price} ₽</span> 
                 <div className={productPriceCountTitle}>
                   Обычная
                 </div>

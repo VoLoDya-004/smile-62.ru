@@ -139,7 +139,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
             Без акции
           </div>
         </label>
-        <label aria-label='Акция 1-10%'>
+        <label aria-label='Акция меньше 10%'>
           <div className={accordionItem}>
             <input 
               className='margin-checkbox cursor-pointer'
@@ -148,7 +148,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
               checked={actions.action2}
               onChange={handleCheckboxChange}
             />
-            Акция 1-10%
+            Акция меньше 10%
           </div>
         </label>
         <label aria-label='Акция 10-20%'>

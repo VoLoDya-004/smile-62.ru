@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import { favouritesApi } from '../api/favouritesApi'
 import type { IFav } from '../types/favouritesTypes'
 import { useState } from 'react'
-import type { IBasket } from '@/features/basket/types/basketTypes'
 
 export const useFavourites = () => {
   const { showNotification } = useUIContextNotification()
@@ -114,16 +113,6 @@ export const useFavourites = () => {
       setAddingToBasketIds(prev => new Set(prev).add(productId))
       await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
       const previosFavourites = queryClient.getQueryData(['favourites', userId])
-      queryClient.setQueryData<IBasket[]>(['basket', userId], (old) => [
-        ...(old || []),
-        {
-          id: 0,
-          id_product: 0,
-          nazvanie: 'Загрузка...',
-          count: 1,
-          price_total: 0
-        }
-      ])
       return { previosFavourites }
     },
     onSuccess: async (updatedFavourites, productId) => {

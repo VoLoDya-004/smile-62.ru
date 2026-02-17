@@ -106,12 +106,14 @@ if (isset($params['Operation'])) {
                 $_SESSION['user_id'] = $user['id_user'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_email'] = $user['email'];
+                $_SESSION['is_admin'] = $user['is_admin'];
 
                 echo json_encode([
                     'success' => true,
                     'message' => 'Вы успешно вошли',
                     'name' => $user['name'],
-                    'id_user' => $user['id_user']
+                    'id_user' => $user['id_user'],
+                    'is_admin' => $user['is_admin']
                 ]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Неверный пароль']);

@@ -77,8 +77,8 @@ if (isset($params['Operation'])) {
                         
                         try {
                             $orderQuery = "
-                                INSERT INTO orders (id_user, total_amount, delivery_address, delivery_type, delivery_cost, customer_notes) 
-                                VALUES ($idUser, $totalAmount, '$deliveryAddress', '{$deliveryMethod['name']}', $deliveryCost, '$customerNotes')
+                                INSERT INTO orders (id_user, total_amount, delivery_address, delivery_type, delivery_cost, customer_notes, status) 
+                                VALUES ($idUser, $totalAmount, '$deliveryAddress', '{$deliveryMethod['name']}', $deliveryCost, '$customerNotes', 'accepted')
                             ";
                             
                             if (!mysqli_query($connect, $orderQuery)) {

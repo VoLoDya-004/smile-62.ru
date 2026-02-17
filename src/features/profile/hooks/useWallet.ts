@@ -1,6 +1,6 @@
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { RootStore } from '@/shared/store'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useIsFetching, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { walletApi } from '../api/walletApi'
 import type { TWalletData } from '../types/profileTypes'
@@ -49,9 +49,12 @@ export const  useWallet = () => {
     topUpMutation.mutate(amount)
   }
 
+  const isFetchingBalance = useIsFetching({ queryKey: ['wallet', userId] }) > 0
+
   return {
     balance: balanceQuery.data?.balance || 0,
     topUpBalance,
-    isLoadingBalance: balanceQuery.isPending || topUpMutation.isPending
+    isLoadingBalance: balanceQuery.isPending || topUpMutation.isPending,
+    isFetchingBalance
   }
 }

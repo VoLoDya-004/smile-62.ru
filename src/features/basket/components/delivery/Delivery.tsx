@@ -45,22 +45,22 @@ const OrderSummary = ({
 
       <div className={orderTitle}>
         <b>Итого: </b> 
-        <span className='text-nowrap'>{formatPrice(total.price_total)} &#x20bd;</span>
+        <span className='text-nowrap'>{formatPrice(total.price)} ₽</span>
       </div>
 
       <div className={orderTitle}> 
         <b>Доставка: </b> 
-        <span className='text-nowrap'>{formatPrice(deliveryCost)} &#x20bd;</span>
+        <span className='text-nowrap'>{formatPrice(deliveryCost)} ₽</span>
       </div>
       
       <div className={orderTitle}>
         <b>Итого с доставкой: </b> 
-        <span className='text-nowrap'>{formatPrice(totalWithDelivery)} &#x20bd;</span>
+        <span className='text-nowrap'>{formatPrice(totalWithDelivery)} ₽</span>
       </div>
       
       <div className={orderTitle}>
         <b>Ваш баланс: </b>
-        <span className='text-nowrap'>{formatPrice(balance)} &#x20bd;</span>
+        <span className='text-nowrap'>{formatPrice(balance)} ₽</span>
       </div>
 
       {balance < totalWithDelivery && (
@@ -194,19 +194,19 @@ const Delivery = () => {
 
   const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
     const count = Number(item.count)
-    const price_total = Number(item.price_total) || 0
+    const price = Number(item.price_sale) || 0
 
     acc.count += (isNaN(count) || count <= 0) ? 0 : count
-    acc.price_total += price_total * count
+    acc.price += price * count
 
     return acc
-  }, { count: 0, price_total: 0 })
+  }, { count: 0, price: 0 })
 
   const selectedMethod = deliveryMethods.find(
     (method: IDeliveryMethod) => Number(method.id) === selectedDeliveryMethod
   )
   const deliveryCost = selectedMethod ? parseFloat(selectedMethod.cost) : 0
-  const totalWithDelivery = total.price_total + deliveryCost
+  const totalWithDelivery = total.price + deliveryCost
 
   const handleOrderProducts = async () => {
     if (!deliveryAddress.trim()) {
@@ -224,7 +224,7 @@ const Delivery = () => {
       return
     }
     
-    if (balance < total.price_total) {
+    if (balance < total.price) {
       showNotification('Недостаточно средств на балансе', 'error')
       return
     }

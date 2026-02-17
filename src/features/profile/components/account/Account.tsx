@@ -6,12 +6,13 @@ import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
 import { useFavourites } from '@/features/favourites/hooks/useFavourites'
+import { useWallet } from '../../hooks/useWallet'
+import { formatPrice } from '@/shared/utils/formatters'
+import { useOrders } from '@/features/basket/hooks/useOrders'
 import { useBasket } from '@/features/basket/hooks/useBasket'
 import type { IBasket, IBasketTotal } from '@/features/basket/types/basketTypes'
 import Button from '@/shared/ui/buttons/Button'
 import styles from './Account.module.scss'
-import { useWallet } from '../../hooks/useWallet'
-import { formatPrice } from '@/shared/utils/formatters'
 
 interface IProfileAsideProps {
   userName: string
@@ -19,6 +20,8 @@ interface IProfileAsideProps {
   handleTopUpWallet: () => void
   balance: number
   isLoadingBalance: boolean
+  isCreatingOrder: boolean
+  isFetchingBalance: boolean
 }
 
 interface IFavoritesBlockProps {
@@ -38,7 +41,9 @@ const ProfileAside = ({
   onLogout, 
   handleTopUpWallet, 
   balance,
-  isLoadingBalance
+  isLoadingBalance,
+  isCreatingOrder,
+  isFetchingBalance
 }: IProfileAsideProps) => {
   const {
     'user-aside': aside,
@@ -51,10 +56,10 @@ const ProfileAside = ({
       <div className={asideName}>{userName || 'Пользователь'}</div>
       <div className={asideSum}>
         <div>Баланс: </div>
-        {isLoadingBalance ? (
+        {isLoadingBalance || isCreatingOrder || isFetchingBalance ? (
           <span>Обновление...</span>
         ) : (
-          <span className='text-nowrap'>{formatPrice(balance)} &#x20bd;</span>
+          <span className='text-nowrap'>{formatPrice(balance)} ₽</span>
         )}
       </div>
       <Button onClick={handleTopUpWallet} className='button-violet'>
@@ -172,8 +177,10 @@ const Account = () => {
   const { showNotification } = useUIContextNotification()
   let { cartBasket, loadingBasket } = useBasket()
   const { handleLogout } = useAuth()
-  const { balance, topUpBalance, isLoadingBalance } = useWallet()
+  const { balance, topUpBalance, isLoadingBalance, isFetchingBalance } = useWallet()
+  const { isCreatingOrder } = useOrders()
 
+  
   const userName = useSelector((state: RootStore) => state.user.userName)
 
   cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
@@ -208,6 +215,8 @@ const Account = () => {
         handleTopUpWallet={handleTopUpWallet}
         balance={balance}
         isLoadingBalance={isLoadingBalance}
+        isCreatingOrder={isCreatingOrder}
+        isFetchingBalance={isFetchingBalance}
       />
       <section className={container}>
         <FavoritesBlock 

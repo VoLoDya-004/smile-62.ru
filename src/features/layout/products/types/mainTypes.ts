@@ -24,7 +24,6 @@ export interface ICardsRender {
   price: number
   price_sale: number
   image: string
-  price_total?: number
   discount?: number
 }
 

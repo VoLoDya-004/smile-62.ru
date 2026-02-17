@@ -11,7 +11,7 @@ interface ISortMenuProps {
 const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClose }, ref) => {
   const {
     'sort-menu': sortMenu,
-    'sort-option': sortOption,
+    'sort-option': sortOption
   } = styles
 
   const { setSearchParams } = useProductsContext()

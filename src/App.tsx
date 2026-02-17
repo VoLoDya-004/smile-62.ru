@@ -4,22 +4,23 @@ import { useAuth } from './features/profile/hooks/useAuth'
 import { useFavourites } from './features/favourites/hooks/useFavourites'
 import { useBasket } from './features/basket/hooks/useBasket'
 import { useUIContextModals, useUIContextNotification } from './shared/providers/UIProvider'
-import Header from './features/layout/header/components/Header'
-import Footer from './features/layout/footer/components/Footer'
-import ProgressBar from './features/layout/header/components/headerComponents/ProgressBar'
+import Header from './features/layout/header/Header'
+import Footer from './features/layout/footer/Footer'
+import ProgressBar from './features/layout/header/components/ProgressBar'
 import ButtonScroll from './shared/ui/buttons/ButtonScroll'
 import ButtonChat from './shared/ui/buttons/ButtonChat'
 import CookiesNotice from './shared/widgets/cookiesNotice/CookiesNotice'
-import Main from './features/layout/products/components/Main'
-import Favourites from './features/favourites/components/Favourites'
-import Profile from './features/profile/components/Profile'
-import Basket from './features/basket/components/Basket'
+import Products from './features/layout/products/Products'
+import Favourites from './features/favourites/Favourites'
+import Profile from './features/profile/Profile'
+import Basket from './features/basket/Basket'
 import Support from './shared/widgets/support/Support'
 import Notification from './shared/widgets/Notification'
 import ModalContainer from './shared/widgets/modals/ModalContainer'
-import FavouritesList from './features/favourites/components/favouritesComponents/FavouritesList'
-import BasketList from './features/basket/components/basketComponents/BasketList'
+import FavouritesList from './features/favourites/components/FavouritesList'
+import BasketList from './features/basket/components/basket/BasketList'
 import Backdrop from './shared/ui/backdrop/Backdrop'
+import AdminPanel from './features/admin/AdminPanel'
 
 const App = () => {
   useAuth()
@@ -54,16 +55,17 @@ const App = () => {
       <Header />
       <main id='main' className='main'>  
         <Routes>
-          <Route path='/' element={<Main />} />                
+          <Route path='/' element={<Products />} />                
+          <Route path='/profile' element={<Profile />} />                   
+          <Route path='/admin' element={<AdminPanel />}/>               
           <Route 
             path='/favourites' 
             element={<Favourites loading={loadingFavourites}><FavouritesList /></Favourites>} 
           />                   
-          <Route path='/profile' element={<Profile />} />                   
           <Route 
             path='/basket' 
             element={<Basket loading={loadingBasket}><BasketList /></Basket>} 
-          />                   
+          />    
         </Routes>
       </main>
       {notification && (
@@ -99,10 +101,6 @@ const App = () => {
 }
 
 export default App
-
-
-
-
 
 
 

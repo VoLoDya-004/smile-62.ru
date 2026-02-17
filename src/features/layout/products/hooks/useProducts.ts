@@ -19,16 +19,11 @@ export const useProducts = () => {
     const sortFromUrl = searchParams.get('sort')
 
     switch (sortFromUrl) {
-      case 'cheap':
-        return 'Дешевле'
-      case 'expensive':
-        return 'Дороже'
-      case 'discount':
-        return 'По скидке (%)'
-      case 'default': 
-        return 'По умолчанию'
-      default: 
-        return 'По умолчанию'
+      case 'cheap': return 'Дешевле'
+      case 'expensive': return 'Дороже'
+      case 'discount': return 'По скидке (%)'
+      case 'default': return 'По умолчанию'
+      default: return 'По умолчанию'
     }
   })
 

@@ -1,6 +1,6 @@
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { RootStore } from '@/shared/store'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useIsMutating, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { ordersApi } from '../api/ordersApi'
 
@@ -21,6 +21,7 @@ export const useOrders = () => {
   })
 
   const createOrderMutation = useMutation({
+    mutationKey: ['createOrder'],
     mutationFn: (data: {
       deliveryAddress: string
       deliveryMethodId: number
@@ -60,12 +61,14 @@ export const useOrders = () => {
     return createOrderMutation.mutateAsync(data)
   }
 
+  const isCreatingOrder = useIsMutating({ mutationKey: ['createOrder'] }) > 0
+
   return {
     deliveryMethods: deliveryMethodsQuery.data || [],
     isLoadingDeliveryMethods: deliveryMethodsQuery.isPending,
     userOrders: userOrdersQuery.data || [],
     isLoadingUserOrders: userOrdersQuery.isPending,
     createOrder,
-    isCreatingOrder: createOrderMutation.isPending
+    isCreatingOrder
   }
 }

@@ -60,7 +60,7 @@
     }
     &-select {
       background-color: var(--basket-select-bg);
-      color: --basket-select-text;
+      color: var(--basket-select-text);
       outline: none;
       border: none;
       border-radius: 6px;

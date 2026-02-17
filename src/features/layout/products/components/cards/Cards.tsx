@@ -136,9 +136,13 @@ const Cards = () => {
 
     const { card, cartFavourites, cartBasket } = props
 
-    const sale = Math.round(100 * ((card.price - card.price_sale) / card.price))
-    const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
-    const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
+    const price = Number(card.price)
+    const priceSale = Number(card.price_sale)
+    const salePercent = priceSale < price ? ((price - priceSale) / price) * 100 : 0
+    const saleDisplay = salePercent > 0 ? (
+      salePercent < 1 ? salePercent.toFixed(1) : Math.round(salePercent)
+    ) : 0
+    const isHighSale = salePercent >= 20
 
     const isInFavourites = cartFavourites.some(item => item.id_product === card.id)
     const isAddingFavourites = loadingAddFavourites.has(card.id)
@@ -208,14 +212,14 @@ const Cards = () => {
               />
             </div>
           )}
-          {sale !== 0 && <div className={productLabel}>-{sale}%</div>}
-          {sale >= 20 && <div className={productSale}>выгодно</div>}
+          {+saleDisplay > 0 && <div className={productLabel}>-{saleDisplay}%</div>}
+          {isHighSale && <div className={productSale}>выгодно</div>}
         </div>
         <div className={productBottom}>
-          {price === price_sale ? (
+          {price === priceSale ? (
             <>
               <div className={cx(productPrice, productPriceCountSame)}>
-                <span className='text-nowrap'>{price} &#x20BD;</span>
+                <span className='text-nowrap'>{price} ₽</span>
                 <div className={productPriceCountSameTitle}>Обычная</div>
               </div>
               <div className={productTitle}>
@@ -244,11 +248,11 @@ const Cards = () => {
             <>
               <div className={productPrices}>
                 <div className={cx(productPrice, productPriceDiscount)}>
-                  <span className='text-nowrap'>{price_sale} &#x20BD;</span>
+                  <span className='text-nowrap'>{priceSale} ₽</span>
                   <div className={productPriceDiscountTitle}>Со скидкой</div>
                 </div>
                 <div className={cx(productPrice, productPriceCount)}>
-                  <span className='text-nowrap'>{price} &#x20BD;</span> 
+                  <span className='text-nowrap'>{price} ₽</span> 
                   <div className={productPriceCountTitle}>Обычная</div>
                 </div>
                 </div>

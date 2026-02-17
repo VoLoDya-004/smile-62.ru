@@ -1,20 +1,20 @@
 import { cx } from '@/shared/utils/classnames'
-import { type FieldError } from 'react-hook-form'
+import { type FieldError, type Path, type UseFormRegister } from 'react-hook-form'
 import styles from './Form.module.scss'
 
-interface FormInputProps {
+interface IFormInputProps<T extends Record<string, unknown>> {
   id: string
   label: string
   type?: string
   autoComplete?: string
   error?: FieldError
   className?: string
-  register: any
-  name: string
+  register: UseFormRegister<T>
+  name: Path<T>
   spellCheck?: boolean
 }
 
-const FormInput = ({
+const FormInput = <T extends Record<string, unknown>>({
   id,
   label,
   type = 'text',
@@ -24,12 +24,11 @@ const FormInput = ({
   register,
   name,
   spellCheck = false
-}: FormInputProps) => {
+}: IFormInputProps<T>) => {
   const {
     'form-container__input': formInput,
     'form-container__input_error': formInputError,
-    'form-font': formFont,
-    'error-message': errorMessage
+    'form-font': formFont
   } = styles
 
   return (
@@ -43,7 +42,7 @@ const FormInput = ({
         spellCheck={spellCheck}
         {...register(name)}
       />
-      {error && <span className={errorMessage}>{error.message}</span>}
+      {error && <span className='error-message'>{error.message}</span>}
     </p>
   )
 }

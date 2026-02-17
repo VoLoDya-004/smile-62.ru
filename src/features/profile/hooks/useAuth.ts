@@ -14,9 +14,9 @@ export const useAuth = () => {
   useEffect(() => {
     const storedAuth = localStorage.getItem('auth')
     if (storedAuth) {
-      const { isAuth, userName, userId } = JSON.parse(storedAuth)
+      const { isAuth, userName, userId, isAdmin } = JSON.parse(storedAuth)
       if (isAuth && userId !== null) {
-        dispatch(setUser({ userId, userName, isAuth }))
+        dispatch(setUser({ userId, userName, isAuth, isAdmin }))
       }
     }
   }, [dispatch])
@@ -36,12 +36,14 @@ export const useAuth = () => {
         dispatch(setUser({
           userId: data.id_user,
           userName: data.name,
-          isAuth: true
+          isAuth: true,
+          isAdmin: data.is_admin == 1
         }))
         localStorage.setItem('auth', JSON.stringify({
           isAuth: true,
           userName: data.name,
-          userId: data.id_user
+          userId: data.id_user,
+          isAdmin: data.is_admin == 1
         }))
       }
     }

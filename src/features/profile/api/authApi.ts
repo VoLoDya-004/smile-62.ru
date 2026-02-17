@@ -21,11 +21,13 @@ export const authApi = {
         'Content-Type': 'application/json'
       }
     })
+
     return {
       success: res.data.success,
       id_user: res.data.id_user,
       name: res.data.name,
       message: res.data.message,
+      is_admin: Number(res.data.is_admin)
     }
   },
 }

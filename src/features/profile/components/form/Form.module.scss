@@ -71,14 +71,6 @@
   }
 }
 
-.error-message {
-  display: block;
-  text-align: center;
-  color: red;
-  font-size: 0.9em;
-  min-height: 16px;
-}
-
 @media (max-width: $breakpoint-md) {
   .form {
     &.no-wrap {

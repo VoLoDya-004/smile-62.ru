@@ -1,4 +1,4 @@
-import styles from '@/features/basket/components/basketComponents/Basket.module.scss'
+import styles from '@/features/basket/components/basket/Basket.module.scss'
 
 const BasketDecreaseSVG = () => {
 

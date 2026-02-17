@@ -40,25 +40,41 @@ function buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $act
     }
 
     if ($minPrice !== null && $maxPrice !== null) {
-        $conditions[] = "price_total >= $minPrice AND price_total <= $maxPrice";
+        $conditions[] = "price_sale >= $minPrice AND price_sale <= $maxPrice";
     } elseif ($minPrice !== null) {
-        $conditions[] = "price_total >= $minPrice";
+        $conditions[] = "price_sale >= $minPrice";
     } elseif ($maxPrice !== null) {
-        $conditions[] = "price_total <= $maxPrice";
+        $conditions[] = "price_sale <= $maxPrice";
     }
 
     $discountConditions = [];
+    $displayDiscountExpr = "ROUND(
+        ((price - price_sale) / price) * 100,
+        IF(((price - price_sale) / price) * 100 < 1, 1, 0)
+    )";
+
     if ($actionsFilters['action1']) {
-        $discountConditions[] = "(discount IS NULL OR discount = 0)";
+        $discountConditions[] = "(price_sale >= price)";
     }
     if ($actionsFilters['action2']) {
-        $discountConditions[] = "(discount >= 1 AND discount <= 10)";
+        $discountConditions[] = "(
+            price_sale < price 
+            AND $displayDiscountExpr > 0 
+            AND $displayDiscountExpr < 10
+        )";    
     }
     if ($actionsFilters['action3']) {
-        $discountConditions[] = "(discount > 10 AND discount <= 20)";
+        $discountConditions[] = "(
+            price_sale < price 
+            AND $displayDiscountExpr >= 10 
+            AND $displayDiscountExpr <= 20
+        )";
     }
     if ($actionsFilters['action4']) {
-        $discountConditions[] = "(discount > 20)";
+        $discountConditions[] = "(
+            price_sale < price 
+            AND $displayDiscountExpr > 20
+        )";
     }
 
     if (!empty($discountConditions)) {
@@ -68,16 +84,16 @@ function buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $act
     if ($minPrice === null && $maxPrice === null) {
         $priceConditions = [];
         if ($actionsFilters['action5']) {
-            $priceConditions[] = "(price_total < 15000)";
+            $priceConditions[] = "(price_sale < 15000)";
         }
         if ($actionsFilters['action6']) {
-            $priceConditions[] = "(price_total >= 15000 AND price_total <= 50000)";
+            $priceConditions[] = "(price_sale >= 15000 AND price_sale <= 50000)";
         }
         if ($actionsFilters['action7']) {
-            $priceConditions[] = "(price_total > 50000 AND price_total <= 100000)";
+            $priceConditions[] = "(price_sale > 50000 AND price_sale <= 100000)";
         }
         if ($actionsFilters['action8']) {
-            $priceConditions[] = "(price_total > 100000)";
+            $priceConditions[] = "(price_sale > 100000)";
         }
         if (!empty($priceConditions)) {
             $conditions[] = "(" . implode(" OR ", $priceConditions) . ")";
@@ -104,7 +120,7 @@ switch ($sortType) {
         $query .= " ORDER BY price_sale DESC";
         break;
     case 'discount':
-        $query .= " ORDER BY discount DESC";
+        $query .= " ORDER BY ((price - price_sale) / price) DESC, id ASC";
         break;
     default:
         $query .= " ORDER BY id ASC";
