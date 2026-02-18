@@ -91,17 +91,57 @@ if (isset($params['Operation'])) {
         if (isset($params['orderId']) && isset($params['status'])) {
             $orderId = mysqli_real_escape_string($connect, $params['orderId']);
             $status = mysqli_real_escape_string($connect, $params['status']);
-            
+            $tracking = isset($params['tracking_number']) ? mysqli_real_escape_string($connect, $params['tracking_number']) : null;
+
             $validStatuses = ['accepted', 'collected', 'completed', 'cancelled'];
             if (!in_array($status, $validStatuses)) {
                 $response = ['success' => false, 'message' => 'Некорректный статус'];
             } else {
-                $query = "UPDATE orders SET status = '$status' WHERE id = $orderId";
-                
-                if (mysqli_query($connect, $query)) {
-                    $response = ['success' => true, 'message' => 'Статус обновлен'];
+                $orderQuery = "SELECT delivery_type FROM orders WHERE id = $orderId";
+                $orderResult = mysqli_query($connect, $orderQuery);
+                if (!$orderResult || mysqli_num_rows($orderResult) == 0) {
+                    $response = ['success' => false, 'message' => 'Заказ не найден'];
                 } else {
-                    $response = ['success' => false, 'message' => 'Ошибка обновления статуса'];
+                    $orderData = mysqli_fetch_assoc($orderResult);
+                    $deliveryType = $orderData['delivery_type'];
+
+                    if ($status === 'completed' && $tracking === null && $deliveryType === 'Почта России') {
+                        $maxAttempts = 10;
+                        $attempt = 0;
+                        do {
+                            $newTracking = str_pad(mt_rand(0, 99999999999999), 14, '0', STR_PAD_LEFT);
+                            $checkQuery = "SELECT COUNT(*) as cnt FROM orders WHERE tracking_number = '$newTracking'";
+                            $checkResult = mysqli_query($connect, $checkQuery);
+                            $row = mysqli_fetch_assoc($checkResult);
+                            $exists = $row['cnt'] > 0;
+                            $attempt++;
+                            if ($attempt >= $maxAttempts) {
+                                $response = ['success' => false, 'message' => 'Не удалось сгенерировать уникальный трек-номер'];
+                                echo json_encode($response);
+                                exit();
+                            }
+                        } while ($exists);
+                        $tracking = $newTracking;
+                    }
+
+                    $updateQuery = "UPDATE orders SET status = '$status'";
+                    if ($tracking !== null) {
+                        $updateQuery .= ", tracking_number = '$tracking'";
+                    }
+                    $updateQuery .= " WHERE id = $orderId";
+
+                    if (mysqli_query($connect, $updateQuery)) {
+                        $updatedOrderQuery = "SELECT id, status, tracking_number FROM orders WHERE id = $orderId";
+                        $updatedResult = mysqli_query($connect, $updatedOrderQuery);
+                        $updatedOrder = mysqli_fetch_assoc($updatedResult);
+                        $response = [
+                            'success' => true,
+                            'message' => 'Статус обновлен',
+                            'order' => $updatedOrder
+                        ];
+                    } else {
+                        $response = ['success' => false, 'message' => 'Ошибка обновления статуса'];
+                    }
                 }
             }
         }

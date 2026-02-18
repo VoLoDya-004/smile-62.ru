@@ -49,7 +49,18 @@ export const useAdmin = () => {
       
       return { previousOrders }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (data.success && data.order) {
+        queryClient.setQueryData(['adminOrders', userId], (old: IOrdersResponse) => {
+          if (!old?.success) return old
+          return {
+            ...old,
+            orders: old.orders.map(order =>
+              order.id === data.order.id ? { ...order, ...data.order } : order
+            )
+          }
+        })
+      }
       showNotification('Статус заказа обновлен', 'success')
     },
     onError: (_error, _variables, context) => {
@@ -76,7 +87,7 @@ export const useAdmin = () => {
   })
 
   const updateOrderStatus = (orderId: number, status: string) => {
-    updateOrderStatusMutation.mutate({ orderId, status })
+    return updateOrderStatusMutation.mutateAsync({ orderId, status })
   }
 
   const addProduct = async (productData: TProductFormData) => {

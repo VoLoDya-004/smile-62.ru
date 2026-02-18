@@ -95,6 +95,9 @@
     border-radius: 4px;
     background: var(--admin-order-select-bg);
     color: var(--admin-order-select-text);
+    &:disabled {
+      border-color: gray !important;
+    }
   }
   &__badge {
     padding: 3px 10px;

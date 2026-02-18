@@ -2,19 +2,18 @@ import { formatPrice } from '@/shared/utils/formatters'
 import type { IOrder, IOrderItem } from '../../types/adminTypes'
 import { OrderProductItem } from './OrderProductItem'
 import styles from '../AdminPanel.module.scss'
+import { useState } from 'react'
 
 interface IOrdersTabProps {
   orders: IOrder[]
-  updateOrderStatus: (orderId: number, status: string) => void
+  updateOrderStatus: (orderId: number, status: string) => Promise<void> 
   isLoadingOrders: boolean
-  isUpdatingOrder: boolean
 }
 
 export const OrdersTab = ({ 
   orders, 
   updateOrderStatus, 
-  isLoadingOrders, 
-  isUpdatingOrder 
+  isLoadingOrders 
 }: IOrdersTabProps) => {
   const {
     'orders-list': ordersList,
@@ -49,6 +48,17 @@ export const OrdersTab = ({
     }
   }
 
+  const [updatingOrderIds, setUpdatingOrderIds] = useState<number[]>([])
+
+  const handleStatusChange = async (orderId: number, newStatus: string) => {
+    setUpdatingOrderIds(prev => [...prev, orderId])
+    try {
+      await updateOrderStatus(orderId, newStatus)
+    } finally {
+      setUpdatingOrderIds(prev => prev.filter(id => id !== orderId))
+    }
+  }
+
   return (
     <>
       {isLoadingOrders ? (
@@ -76,9 +86,9 @@ export const OrdersTab = ({
                 <span>Статус: </span>
                 <select 
                   value={order.status}
-                  onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
                   style={{ borderColor: getStatusColor(order.status) }}
-                  disabled={isUpdatingOrder}
+                  disabled={updatingOrderIds.includes(order.id)}
                 >
                   <option value='accepted'>Принят</option>
                   <option value='collected'>Собран</option>
@@ -87,9 +97,16 @@ export const OrdersTab = ({
                 </select>
                 <span 
                   className={statusBadge}
-                  style={{ backgroundColor: getStatusColor(order.status) }}
+                  style={{ 
+                    backgroundColor: updatingOrderIds.includes(order.id) ? 
+                    'gray' : 
+                    getStatusColor(order.status) 
+                  }}
                 >
-                  {getStatusText(order.status)}
+                  {updatingOrderIds.includes(order.id) ? 
+                    'Обновление...' :
+                    getStatusText(order.status)
+                  }
                 </span>
               </div>
 
@@ -107,6 +124,12 @@ export const OrdersTab = ({
                 {order.customer_notes && (
                   <div>
                     <strong>Комментарий: </strong>{order.customer_notes}
+                  </div>
+                )}
+                {order.tracking_number && order.status === 'completed' && (
+                  <div>
+                    <strong>Трек-номер: </strong>
+                    {updatingOrderIds.includes(order.id) ? 'Обновление...' : order.tracking_number}
                   </div>
                 )}
               </div>

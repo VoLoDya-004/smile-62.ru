@@ -17,6 +17,7 @@ export interface IOrder {
   status: string           
   user_name: string
   user_email: string
+  tracking_number: number
   items: IOrderItem[]
 }
 
