@@ -44,7 +44,7 @@
 	top: 60px;
   left: 50%;
   transform: translateX(-50%);
-	width: 190px;
+	width: 300px;
 	background-color: var(--profile-dropdown-bg);
   color: var(--profile-dropdown-text);
   border-radius: 15px;
@@ -65,7 +65,8 @@
 	&__title {
 		overflow: hidden;
 		text-overflow: ellipsis;
-		white-space: nowrap;
+    text-align: center;
+    font-weight: 700;
 		color: var(--profile-title-text);
 		padding: 0 16px;
 		margin-bottom: 16px;

@@ -1,6 +1,6 @@
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { RootStore } from '@/shared/store'
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { adminApi } from '../api/adminApi'
 import type { IOrder, IOrdersResponse } from '../types/adminTypes'
@@ -23,11 +23,17 @@ export const useAdmin = () => {
     enabled: !!userId
   })
 
-  const usersQuery = useQuery({
+  const usersInfiniteQuery = useInfiniteQuery({
     queryKey: ['adminUsers', userId],
-    queryFn: () => adminApi.getAllUsers(userId),
+    queryFn: ({ pageParam = 1 }) => adminApi.getAllUsers(userId, pageParam, 30),
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasMore ? lastPage.page + 1 : undefined
+    },
+    initialPageParam: 1,
     enabled: !!userId
   })
+
+  const users = usersInfiniteQuery.data?.pages.flatMap(page => page.users) || []
 
   const updateOrderStatusMutation = useMutation({
     mutationFn: ({ orderId, status }: { orderId: number, status: string }) => 
@@ -94,30 +100,18 @@ export const useAdmin = () => {
     return addProductMutation.mutateAsync(productData)
   }
 
-  const refetchOrders = () => {
-    queryClient.invalidateQueries({ queryKey: ['adminOrders', userId] })
-  }
-
-  const refetchStats = () => {
-    queryClient.invalidateQueries({ queryKey: ['adminStats', userId] })
-  }
-
-  const refetchUsers = () => {
-    queryClient.invalidateQueries({ queryKey: ['adminUsers', userId] })
-  }
-
   return {
     orders: ordersQuery.data?.orders || [],
     stats: statsQuery.data?.stats || null,
-    users: usersQuery.data?.users || [],
+    users,
     isLoadingOrders: ordersQuery.isPending,
     isLoadingStats: statsQuery.isPending,
-    isLoadingUsers: usersQuery.isPending,
+    isLoadingUsers: usersInfiniteQuery.isPending,
     isUpdatingOrder: updateOrderStatusMutation.isPending,
+    hasNextUsers: usersInfiniteQuery.hasNextPage,
+    isFetchingNextUsers: usersInfiniteQuery.isFetchingNextPage,
+    fetchNextUsers: usersInfiniteQuery.fetchNextPage,
     updateOrderStatus,
-    addProduct,
-    refetchOrders,
-    refetchStats,
-    refetchUsers
+    addProduct
   }
 }

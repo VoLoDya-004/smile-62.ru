@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { useAdmin } from './hooks/useAdmin'
@@ -27,25 +27,12 @@ const AdminPanel = () => {
     isLoadingOrders,
     isLoadingStats,
     isLoadingUsers,
-    isUpdatingOrder,
     updateOrderStatus,
-    refetchOrders,
-    refetchStats,
-    refetchUsers,
-    addProduct
+    addProduct,
+    hasNextUsers,
+    isFetchingNextUsers,
+    fetchNextUsers
   } = useAdmin()
-
-  useEffect(() => {
-    if (isAdmin) {
-      if (activeTab === 'orders') {
-        refetchOrders()
-      } else if (activeTab === 'stats') {
-        refetchStats()
-      } else if (activeTab === 'users') {
-        refetchUsers()
-      }
-    }
-  }, [activeTab, isAdmin, refetchOrders, refetchStats, refetchUsers])
 
   if (!isAdmin) {
     return (
@@ -92,7 +79,6 @@ const AdminPanel = () => {
             orders={orders}
             updateOrderStatus={updateOrderStatus}
             isLoadingOrders={isLoadingOrders}
-            isUpdatingOrder={isUpdatingOrder}
           />
         )}
 
@@ -101,7 +87,13 @@ const AdminPanel = () => {
         )}
 
         {activeTab === 'users' && (
-          <UsersTab users={users} isLoadingUsers={isLoadingUsers} />
+          <UsersTab 
+            users={users} 
+            isLoadingUsers={isLoadingUsers} 
+            hasNextUsers={hasNextUsers}
+            isFetchingNextUsers={isFetchingNextUsers}
+            fetchNextUsers={fetchNextUsers}
+          />
         )}
 
         {activeTab === 'products' && (

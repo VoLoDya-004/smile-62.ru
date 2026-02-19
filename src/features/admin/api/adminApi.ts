@@ -23,11 +23,13 @@ export const adminApi = {
     return res.data
   },
 
-  getAllUsers: async (userId: number | null) => {
+  getAllUsers: async (userId: number | null, page: number = 1, limit: number = 30) => {
     const res = await axios.get(API_URLS_ADMIN, {
       params: {
         Operation: 'getAllUsers',
-        idUser: userId
+        idUser: userId,
+        page,
+        limit
       }
     })
     return res.data

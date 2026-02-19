@@ -184,21 +184,39 @@ if (isset($params['Operation'])) {
     }
 
     elseif ($operation == 'getAllUsers') {
-        $query = "SELECT id_user, name, email, is_admin, 
-                  (SELECT COUNT(*) FROM orders WHERE id_user = users.id_user) as orders_count,
-                  (SELECT balance FROM wallets WHERE id_user = users.id_user) as balance
-                  FROM users ORDER BY id_user DESC";
-        
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $limit = isset($params['limit']) ? (int)$params['limit'] : 30;
+        $offset = ($page - 1) * $limit;
+
+        $countQuery = "SELECT COUNT(*) as total FROM users";
+        $countResult = mysqli_query($connect, $countQuery);
+        $total = mysqli_fetch_assoc($countResult)['total'];
+
+        $query = "SELECT 
+                    id_user, 
+                    name, 
+                    email, 
+                    is_admin,
+                    (SELECT COUNT(*) FROM orders WHERE id_user = users.id_user) as orders_count,
+                    (SELECT balance FROM wallets WHERE id_user = users.id_user) as balance
+                  FROM users 
+                  ORDER BY id_user DESC 
+                  LIMIT $offset, $limit";
+
         $result = mysqli_query($connect, $query);
-        
+
         $users = [];
-        while($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $users[] = $row;
         }
-        
+
         $response = [
             'success' => true,
-            'users' => $users
+            'users' => $users,
+            'total' => (int)$total,
+            'page' => $page,
+            'limit' => $limit,
+            'hasMore' => ($offset + $limit) < $total
         ];
     }
 

@@ -21,7 +21,7 @@ const ProfileMenu = ({
     'profile-dropdown__title': profileDropdownTitle
   } = styles
 
-	const name = isAuth ? `Имя: ${userName || 'Пользователь'}` : 'Войдите в аккаунт'
+	const name = isAuth ? `${userName || 'Пользователь'}` : 'Войдите в аккаунт'
 	const ButtonText = isAuth ? 'Выйти' : 'Войти'
 
 	return (
