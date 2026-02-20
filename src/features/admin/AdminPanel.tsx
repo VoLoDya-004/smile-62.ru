@@ -31,7 +31,10 @@ const AdminPanel = () => {
     addProduct,
     hasNextUsers,
     isFetchingNextUsers,
-    fetchNextUsers
+    fetchNextUsers,
+    hasNextOrders,
+    isFetchingNextOrders,
+    fetchNextOrders
   } = useAdmin()
 
   if (!isAdmin) {
@@ -79,6 +82,9 @@ const AdminPanel = () => {
             orders={orders}
             updateOrderStatus={updateOrderStatus}
             isLoadingOrders={isLoadingOrders}
+            hasNextOrders={hasNextOrders}
+            isFetchingNextOrders={isFetchingNextOrders}
+            fetchNextOrders={fetchNextOrders}
           />
         )}
 

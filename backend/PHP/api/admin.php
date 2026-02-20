@@ -56,13 +56,22 @@ if (isset($params['Operation'])) {
     }
 
     if ($operation == 'getAllOrders') {
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $limit = isset($params['limit']) ? (int)$params['limit'] : 15;
+        $offset = ($page - 1) * $limit;
+
+        $countQuery = "SELECT COUNT(*) as total FROM orders";
+        $countResult = mysqli_query($connect, $countQuery);
+        $total = mysqli_fetch_assoc($countResult)['total'];
+
         $query = "SELECT o.*, u.name as user_name, u.email as user_email 
                   FROM orders o 
                   JOIN users u ON o.id_user = u.id_user 
-                  ORDER BY o.created_at DESC";
-        
+                  ORDER BY o.created_at DESC 
+                  LIMIT $offset, $limit";
+
         $result = mysqli_query($connect, $query);
-        
+
         $orders = [];
         while($row = mysqli_fetch_assoc($result)) {
             $orderId = $row['id'];
@@ -70,20 +79,24 @@ if (isset($params['Operation'])) {
                           FROM order_items oi 
                           JOIN tovar t ON oi.id_product = t.id 
                           WHERE oi.id_order = $orderId";
-            
+
             $itemsResult = mysqli_query($connect, $itemsQuery);
             $items = [];
             while($item = mysqli_fetch_assoc($itemsResult)) {
                 $items[] = $item;
             }
-            
+
             $row['items'] = $items;
             $orders[] = $row;
         }
-        
+
         $response = [
             'success' => true,
-            'orders' => $orders
+            'orders' => $orders,
+            'total' => (int)$total,
+            'page' => $page,
+            'limit' => $limit,
+            'hasMore' => ($offset + $limit) < $total
         ];
     }
 

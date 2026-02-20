@@ -3,11 +3,13 @@ import type { TProductFormData } from '../types/validationSchemas'
 import axios from 'axios'
 
 export const adminApi = {
-  getAllOrders: async (userId: number | null) => {
+  getAllOrders: async (userId: number | null, page: number = 1, limit: number = 15) => {
     const res = await axios.get(API_URLS_ADMIN, {
       params: {
         Operation: 'getAllOrders',
-        idUser: userId
+        idUser: userId,
+        page,
+        limit
       }
     })
     return res.data

@@ -21,9 +21,18 @@ export interface IOrder {
   items: IOrderItem[]
 }
 
-export interface IOrdersResponse {
+export interface IOrdersPage {
   success: boolean
   orders: IOrder[]
+  total: number
+  page: number
+  limit: number
+  hasMore: boolean
+}
+
+export interface IOrdersInfiniteData {
+  pages: IOrdersPage[]
+  pageParams: number[]
 }
 
 export interface IUser {

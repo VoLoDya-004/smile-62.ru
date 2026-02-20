@@ -3,7 +3,7 @@ import type { RootStore } from '@/shared/store'
 import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { adminApi } from '../api/adminApi'
-import type { IOrder, IOrdersResponse } from '../types/adminTypes'
+import type { IOrder, IOrdersInfiniteData, IOrdersPage } from '../types/adminTypes'
 import type { TProductFormData } from '../types/validationSchemas'
 
 export const useAdmin = () => {
@@ -11,11 +11,17 @@ export const useAdmin = () => {
   const userId = useSelector((state: RootStore) => state.user.userId)
   const queryClient = useQueryClient()
 
-  const ordersQuery = useQuery({
+  const ordersInfiniteQuery = useInfiniteQuery({
     queryKey: ['adminOrders', userId],
-    queryFn: () => adminApi.getAllOrders(userId),
+    queryFn: ({ pageParam = 1 }) => adminApi.getAllOrders(userId, pageParam, 15),
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasMore ? lastPage.page + 1 : undefined
+    },
+    initialPageParam: 1,
     enabled: !!userId
   })
+
+  const orders = ordersInfiniteQuery.data?.pages.flatMap(page => page.orders) || []
 
   const statsQuery = useQuery({
     queryKey: ['adminStats', userId],
@@ -35,50 +41,51 @@ export const useAdmin = () => {
 
   const users = usersInfiniteQuery.data?.pages.flatMap(page => page.users) || []
 
-  const updateOrderStatusMutation = useMutation({
-    mutationFn: ({ orderId, status }: { orderId: number, status: string }) => 
-      adminApi.updateOrderStatus(userId, orderId, status),
-    onMutate: async ({ orderId, status }) => {
-      await queryClient.cancelQueries({ queryKey: ['adminOrders', userId] })
-      
-      const previousOrders = queryClient.getQueryData(['adminOrders', userId])
-      
-      queryClient.setQueryData(['adminOrders', userId], (old: IOrdersResponse) => {
-        if (!old?.success) return old
+  const updateOrderInCache = (
+    oldData: IOrdersInfiniteData, 
+    orderId: number, 
+    updates: Partial<IOrder>
+  ) => {
+    if (!oldData) return oldData
+    return {
+      ...oldData,
+      pages: oldData.pages.map((page: IOrdersPage) => {
+        if (!page.orders) return page
         return {
-          ...old,
-          orders: old.orders.map((order: IOrder) =>
-            order.id === orderId ? { ...order, status } : order
+          ...page,
+          orders: page.orders.map((order: IOrder) =>
+            order.id === orderId ? { ...order, ...updates } : order
           )
         }
       })
-      
+    }
+  }
+
+  const updateOrderStatusMutation = useMutation({
+    mutationFn: ({ orderId, status }: { orderId: number; status: string }) =>
+      adminApi.updateOrderStatus(userId, orderId, status),
+    onMutate: async ({ orderId, status }) => {
+      await queryClient.cancelQueries({ queryKey: ['adminOrders', userId] })
+      const previousOrders = queryClient.getQueryData(['adminOrders', userId])
+      queryClient.setQueryData(['adminOrders', userId], (old: IOrdersInfiniteData) => {
+        return updateOrderInCache(old, orderId, { status })
+      })
       return { previousOrders }
     },
     onSuccess: (data) => {
       if (data.success && data.order) {
-        queryClient.setQueryData(['adminOrders', userId], (old: IOrdersResponse) => {
-          if (!old?.success) return old
-          return {
-            ...old,
-            orders: old.orders.map(order =>
-              order.id === data.order.id ? { ...order, ...data.order } : order
-            )
-          }
+        queryClient.setQueryData(['adminOrders', userId], (old: IOrdersInfiniteData) => {
+          return updateOrderInCache(old, data.order.id, data.order)
         })
       }
       showNotification('Статус заказа обновлен', 'success')
     },
     onError: (_error, _variables, context) => {
       showNotification('Ошибка при обновлении статуса', 'error')
-      
       if (context?.previousOrders) {
         queryClient.setQueryData(['adminOrders', userId], context.previousOrders)
       }
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['adminOrders', userId] })
-    }
   })
 
   const addProductMutation = useMutation({
@@ -101,17 +108,20 @@ export const useAdmin = () => {
   }
 
   return {
-    orders: ordersQuery.data?.orders || [],
-    stats: statsQuery.data?.stats || null,
-    users,
-    isLoadingOrders: ordersQuery.isPending,
-    isLoadingStats: statsQuery.isPending,
-    isLoadingUsers: usersInfiniteQuery.isPending,
+    orders,
+    isLoadingOrders: ordersInfiniteQuery.isPending,
     isUpdatingOrder: updateOrderStatusMutation.isPending,
+    hasNextOrders: ordersInfiniteQuery.hasNextPage,
+    isFetchingNextOrders: ordersInfiniteQuery.isFetchingNextPage,
+    fetchNextOrders: ordersInfiniteQuery.fetchNextPage,
+    stats: statsQuery.data?.stats || null,
+    isLoadingStats: statsQuery.isPending,
+    updateOrderStatus,
+    users,
+    isLoadingUsers: usersInfiniteQuery.isPending,
     hasNextUsers: usersInfiniteQuery.hasNextPage,
     isFetchingNextUsers: usersInfiniteQuery.isFetchingNextPage,
     fetchNextUsers: usersInfiniteQuery.fetchNextPage,
-    updateOrderStatus,
     addProduct
   }
 }

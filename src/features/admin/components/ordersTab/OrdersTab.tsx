@@ -1,19 +1,26 @@
 import { formatPrice } from '@/shared/utils/formatters'
 import type { IOrder, IOrderItem } from '../../types/adminTypes'
 import { OrderProductItem } from './OrderProductItem'
+import { useEffect, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import styles from '../AdminPanel.module.scss'
-import { useState } from 'react'
 
 interface IOrdersTabProps {
   orders: IOrder[]
   updateOrderStatus: (orderId: number, status: string) => Promise<void> 
   isLoadingOrders: boolean
+  hasNextOrders: boolean
+  isFetchingNextOrders: boolean
+  fetchNextOrders: () => void
 }
 
 export const OrdersTab = ({ 
   orders, 
   updateOrderStatus, 
-  isLoadingOrders 
+  isLoadingOrders,
+  hasNextOrders,
+  isFetchingNextOrders,
+  fetchNextOrders
 }: IOrdersTabProps) => {
   const {
     'orders-list': ordersList,
@@ -59,6 +66,14 @@ export const OrdersTab = ({
     }
   }
 
+  const { ref: lastOrderRef, inView } = useInView()
+
+  useEffect(() => {
+    if (inView && hasNextOrders && !isFetchingNextOrders) {
+      fetchNextOrders()
+    }
+  }, [inView, hasNextOrders, isFetchingNextOrders, fetchNextOrders])
+
   return (
     <>
       {isLoadingOrders ? (
@@ -70,8 +85,12 @@ export const OrdersTab = ({
         <h2 className='centered-heading'>Нет заказов</h2>
       ) : (
         <div className={ordersList}>
-          {orders.map((order: IOrder) => (
-            <article key={order.id} className={orderCard}>
+          {orders.map((order: IOrder, index) => (
+            <article 
+              key={order.id} 
+              className={orderCard}
+              ref={index === orders.length - 1 ? lastOrderRef : null}
+            >
               <header className={orderHeader}>
                 <div>
                   <div className={orderId}>Заказ №{order.id}</div>
@@ -142,6 +161,12 @@ export const OrdersTab = ({
               </div>
             </article>
           ))}
+          {isFetchingNextOrders && (
+            <>
+              <h2 className='centered-heading margin-null'>Загрузка...</h2>
+              <div className='spinner-cards'></div>
+            </>
+          )}
         </div>
       )}
     </>
