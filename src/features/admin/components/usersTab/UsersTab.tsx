@@ -1,8 +1,12 @@
 import { formatPrice } from '@/shared/utils/formatters'
 import type { IUser } from '../../types/adminTypes'
 import { useInView } from 'react-intersection-observer'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../AdminPanel.module.scss'
+import { useSelector } from 'react-redux'
+import type { RootStore } from '@/shared/store'
+import { cx } from '@/shared/utils/classnames'
+import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
 
 interface IUsersTabProps {
   users: IUser[]
@@ -10,6 +14,7 @@ interface IUsersTabProps {
   hasNextUsers: boolean
   isFetchingNextUsers: boolean
   fetchNextUsers: () => void
+  onToggleAdmin: (userId: number, currentIsAdmin: boolean) => void
 }
 
 export const UsersTab = ({ 
@@ -17,17 +22,35 @@ export const UsersTab = ({
   isLoadingUsers, 
   hasNextUsers, 
   isFetchingNextUsers,
-  fetchNextUsers
+  fetchNextUsers,
+  onToggleAdmin
 }: IUsersTabProps) => {
   const {
     'users-tab': usersTab,
     'users-table': usersTable,
     'admin-badge': adminBadge,
     'admin-badge_active': adminBadgeActive,
-    'admin-badge_passive': adminBadgePassive
+    'admin-badge_passive': adminBadgePassive,
+    'admin-button': AdminButton,
+    'admin-button_disabled': AdminButtonDisabled
   } = styles
 
+  const { containerRef, dragHandlers } = useDragScroll()
+
+  const userId = useSelector((state: RootStore) => state.user.userId)
+
   const { ref: lastUserRef, inView } = useInView()
+
+  const [updatingUserId, setUpdatingUserId] = useState<number | null>(null)
+
+  const handleToggleAdmin = async (userId: number, makeAdmin: boolean) => {
+    setUpdatingUserId(userId)
+    try {
+      await onToggleAdmin(userId, makeAdmin)
+    } finally {
+      setUpdatingUserId(null)
+    }
+  }
 
   useEffect(() => {
     if (inView && hasNextUsers && !isFetchingNextUsers) {
@@ -37,7 +60,7 @@ export const UsersTab = ({
 
   return (
     <>
-      <div className={usersTab}>          
+      <div className={usersTab} ref={containerRef} {...dragHandlers}>          
         {isLoadingUsers ? (
           <>
             <h2 className='centered-heading'>Загрузка пользователей...</h2>
@@ -55,6 +78,7 @@ export const UsersTab = ({
                 <th>Админ</th>
                 <th>Заказов</th>
                 <th>Баланс</th>
+                <th>Действия</th>
               </tr>
             </thead>
             <tbody>
@@ -77,6 +101,28 @@ export const UsersTab = ({
                   <td>{user.orders_count || 0}</td>
                   <td>
                     {user.balance ? `${formatPrice(parseFloat(user.balance))} ₽` : '0 ₽'}
+                  </td>
+                  <td>
+                    <button
+                      className={cx(
+                        'button-reset', 
+                        AdminButton, 
+                        user.id_user === userId || updatingUserId === user.id_user ? 
+                        AdminButtonDisabled : '' 
+                      )}
+                      onClick={() => handleToggleAdmin(user.id_user, user.is_admin != 1)}
+                      disabled={user.id_user === userId || updatingUserId === user.id_user}
+                    >
+                      {
+                        updatingUserId === user.id_user ?
+                        'Загрузка...' :
+                        user.id_user === userId ? 
+                        'Это вы' :
+                        user.is_admin == 1 ? 
+                        'Снять админa' : 
+                        'Сделать админом'
+                      }
+                    </button>
                   </td>
                 </tr>
               ))}

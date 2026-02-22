@@ -3,7 +3,7 @@ import type { RootStore } from '@/shared/store'
 import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { adminApi } from '../api/adminApi'
-import type { IOrder, IOrdersInfiniteData, IOrdersPage } from '../types/adminTypes'
+import type { IOrder, IOrdersInfiniteData, IUser, IUsersInfiniteData } from '../types/adminTypes'
 import type { TProductFormData } from '../types/validationSchemas'
 
 export const useAdmin = () => {
@@ -49,11 +49,11 @@ export const useAdmin = () => {
     if (!oldData) return oldData
     return {
       ...oldData,
-      pages: oldData.pages.map((page: IOrdersPage) => {
+      pages: oldData.pages.map((page) => {
         if (!page.orders) return page
         return {
           ...page,
-          orders: page.orders.map((order: IOrder) =>
+          orders: page.orders.map((order) =>
             order.id === orderId ? { ...order, ...updates } : order
           )
         }
@@ -99,6 +99,59 @@ export const useAdmin = () => {
     }
   })
 
+  const updateUserInCache = (
+    oldData: IUsersInfiniteData,
+    targetUserId: number,
+    updates: Partial<IUser>
+  ) => {
+    if (!oldData) return oldData
+    return {
+      ...oldData,
+      pages: oldData.pages.map((page) => ({
+        ...page,
+        users: page.users.map((user) => 
+          user.id_user === targetUserId ? { ...user, ...updates } : user
+        )
+      }))
+    }
+  }
+
+  const updateUserAdminStatusMutation = useMutation({
+    mutationFn: ({ targetUserId, isAdmin }: { targetUserId: number, isAdmin: boolean }) => 
+      adminApi.updateUserAdminStatus(userId, targetUserId, isAdmin),
+    onMutate: async ({ targetUserId, isAdmin }) => {
+      await queryClient.cancelQueries({ queryKey: ['adminUsers', userId] })
+      const previousUsers = queryClient.getQueryData(['adminUsers', userId])
+      queryClient.setQueryData(['adminUsers', userId], (old: IUsersInfiniteData) => {
+        return updateUserInCache(old, targetUserId, { is_admin: isAdmin ? 1 : 0 })
+      })
+      return { previousUsers }
+    },
+    onSuccess: (data, _variables, context) => {
+      if (data.success && data.user) {
+        queryClient.setQueryData(['adminUsers', userId], (old: IUsersInfiniteData) => {
+          return updateUserInCache(old, data.user.id_user, { is_admin: data.user.is_admin })
+        })
+        showNotification('Права администратора обновлены', 'success')
+      } else {
+        if (context?.previousUsers) {
+          queryClient.setQueryData(['adminUsers', userId], context.previousUsers)
+        }
+        showNotification('Ошибка при обновлении прав', 'error')
+      }
+    },
+    onError(_error, _variables, context) {
+      showNotification('Ошибка при обновлении прав', 'error')
+      if (context?.previousUsers) {
+        queryClient.setQueryData(['adminUsers', userId], context.previousUsers)
+      }
+    }
+  })
+
+  const updateUserAdminStatus = (targetUserId: number, isAdmin: boolean) => {
+    return updateUserAdminStatusMutation.mutateAsync({ targetUserId, isAdmin })
+  }
+
   const updateOrderStatus = (orderId: number, status: string) => {
     return updateOrderStatusMutation.mutateAsync({ orderId, status })
   }
@@ -122,6 +175,7 @@ export const useAdmin = () => {
     hasNextUsers: usersInfiniteQuery.hasNextPage,
     isFetchingNextUsers: usersInfiniteQuery.isFetchingNextPage,
     fetchNextUsers: usersInfiniteQuery.fetchNextPage,
+    updateUserAdminStatus,
     addProduct
   }
 }

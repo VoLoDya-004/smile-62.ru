@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, type PointerEvent, type RefObject } from 'react'
+import { useCallback, useEffect, useState, type RefObject } from 'react'
 import { useRecommendations } from '@/shared/hooks'
 import type { ICardsRender } from '@/features/layout/products/types/mainTypes'
 import type { IScrollHandlers } from './types/recommendationsTypes'
 import { cx } from '@/shared/utils/classnames'
 import ButtonArrow from '@/shared/ui/buttons/ButtonArrow'
 import styles from './Recommendations.module.scss'
+import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
 
 const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   const {
@@ -190,88 +191,50 @@ const Recommendations = () => {
     'recommendation__title': recommendationTitle
   } = styles
 
-  const scrollAmount = 500
+  const updateButtons = useCallback((scrollLeft: number) => {
+    if (!containerRef.current) return
+    setShowLeftButton(scrollLeft > 0)
+    setShowRightButton(
+      containerRef.current.scrollWidth - containerRef.current.clientWidth > scrollLeft + 1
+    )
+  }, [])
 
-  const [isDragging, setIsDragging] = useState<boolean>(false)
-  const [startX, setStartX] = useState<number>(0)
-  const [scrollLeft, setScrollLeft] = useState<number>(0)
-  const [isSmoothScroll, setIsSmoothScroll] = useState<boolean>(true)
-  const [showLeftButton, setShowLeftButton] = useState<boolean>(false)
-  const [showRightButton, setShowRightButton] = useState<boolean>(false)
-
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  
   const { cards, isLoading } = useRecommendations()
+  const { containerRef, isDragging, dragHandlers } = useDragScroll({
+    onScroll: updateButtons
+  })
+
+  const [isSmoothScroll, setIsSmoothScroll] = useState(true)
+  const [showLeftButton, setShowLeftButton] = useState(false)
+  const [showRightButton, setShowRightButton] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return
-
-      const element = containerRef.current
-      setShowLeftButton(element.scrollLeft > 0)
-      setShowRightButton(element.scrollWidth - element.clientWidth > element.scrollLeft + 1)
+    if (isDragging) {
+      setIsSmoothScroll(false)
+    } else {
+      setIsSmoothScroll(true)
     }
+  }, [isDragging])
 
+  useEffect(() => {
     const container = containerRef.current
-
-    if (container) {
-      container.addEventListener('scroll', handleScroll)
-      handleScroll()    
-      return () => container.removeEventListener('scroll', handleScroll)
-    }
-  }, [cards])
+    if (!container) return
+    const handleScroll = () => updateButtons(container.scrollLeft)
+    container.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [updateButtons, cards])
 
   const scrollLeftBtn = () => {
     if (containerRef.current) {
-      setIsSmoothScroll(true)
-      containerRef.current.scrollLeft -= scrollAmount
+      containerRef.current.scrollLeft -= 500
     }
   }
 
   const scrollRightBtn = () => {
     if (containerRef.current) {
-      setIsSmoothScroll(true)
-      containerRef.current.scrollLeft += scrollAmount
+      containerRef.current.scrollLeft += 500
     }
-  }
-
-  const handlePointerDown = (e: PointerEvent) => {
-    if (!containerRef.current) return
-    
-    setIsDragging(true)
-    setStartX(e.clientX - containerRef.current.offsetLeft)
-    setScrollLeft(containerRef.current.scrollLeft)
-    containerRef.current.style.cursor = 'grabbing'
-    setIsSmoothScroll(false)
-  }
-
-  const stopDragging = () => {
-    setIsDragging(false)
-    setIsSmoothScroll(true)
-
-    if (containerRef.current) {
-      containerRef.current.style.cursor = 'grab'
-    }
-  }
-
-  const handlePointerLeave = stopDragging
-  const handlePointerUp = stopDragging
-
-  const handlePointerMove = (e: PointerEvent) => {
-    if (!isDragging || !containerRef.current) return
-
-    e.preventDefault()
-    const x = e.clientX - containerRef.current.offsetLeft
-    const walk = (x - startX) * 1
-    containerRef.current.scrollLeft = scrollLeft - walk
-  }
-
-  const scrollHandlers = {
-    onPointerDown: handlePointerDown,
-    onPointerLeave: handlePointerLeave,
-    onPointerUp: handlePointerUp,
-    onPointerMove: handlePointerMove,
-    style: { scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' } as const
   }
 
   return (
@@ -285,7 +248,10 @@ const Recommendations = () => {
         <RecommendationsContainer
           cards={cards}
           containerRef={containerRef}
-          scrollHandlers={scrollHandlers}
+          scrollHandlers={{
+            ...dragHandlers,
+            style: { scrollBehavior: isSmoothScroll ? 'smooth' : 'auto' } as const,
+          }}
           showLeftButton={showLeftButton}
           showRightButton={showRightButton}
           scrollLeftBtn={scrollLeftBtn}
@@ -297,6 +263,8 @@ const Recommendations = () => {
 }   
 
 export default Recommendations
+
+
 
 
 

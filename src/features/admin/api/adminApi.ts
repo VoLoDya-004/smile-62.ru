@@ -54,5 +54,15 @@ export const adminApi = {
       ...productData
     })
     return res.data
+  },
+
+  updateUserAdminStatus: async (userId: number | null, targetUserId: number, isAdmin: boolean) => {
+    const res = await axios.patch(API_URLS_ADMIN, {
+      Operation: 'updateUserAdminStatus',
+      idUser: userId,
+      targetUserId,
+      isAdmin
+    })
+    return res.data
   }
 }

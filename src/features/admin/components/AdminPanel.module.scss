@@ -236,9 +236,11 @@
     background: var(--admin-users-header-bg);
     font-weight: 600;
   }
-  tr:hover {
-    transition: .1s;
-    background: var(--admin-users-header-hover-bg);
+  @media (hover: hover) and (pointer: fine) {
+    tr:hover {
+      transition: .1s;
+      background: var(--admin-users-header-hover-bg);
+    }
   }
 }
 
@@ -255,6 +257,33 @@
   &_passive {
     background: red;
     color: white;
+  }
+}
+
+.admin-button {
+  border: 2px solid !important;
+  padding: 10px !important;
+  border-radius: 8px;
+  color: var(--text-body);
+  transition: .2s;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #6d5ac9;
+      border-color: #6d5ac9 !important;
+      color: white;
+    }
+  }
+  &_disabled {
+    cursor: default !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        color: inherit;
+      }
+    }
   }
 }
 

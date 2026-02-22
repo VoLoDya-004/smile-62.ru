@@ -35,15 +35,6 @@ export interface IOrdersInfiniteData {
   pageParams: number[]
 }
 
-export interface IUser {
-  id_user: number
-  name: string
-  email: string
-  is_admin: number          
-  orders_count: number 
-  balance: string 
-}
-
 export interface IStats {
   totalOrders: number
   totalRevenue: number
@@ -56,3 +47,29 @@ export interface IStats {
     cancelled: string
   }
 }
+
+export interface IUser {
+  id_user: number 
+  name: string
+  email: string
+  is_admin: number          
+  orders_count: number 
+  balance: string 
+}
+
+export interface IUsersPage {
+  success: boolean
+  users: IUser[]
+  total: number
+  page: number
+  limit: number
+  hasMore: boolean
+}
+
+export interface IUsersInfiniteData {
+  pages: IUsersPage[]
+  pageParams: number[]
+}
+
+
+

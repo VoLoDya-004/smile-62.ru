@@ -34,7 +34,8 @@ const AdminPanel = () => {
     fetchNextUsers,
     hasNextOrders,
     isFetchingNextOrders,
-    fetchNextOrders
+    fetchNextOrders,
+    updateUserAdminStatus
   } = useAdmin()
 
   if (!isAdmin) {
@@ -99,6 +100,7 @@ const AdminPanel = () => {
             hasNextUsers={hasNextUsers}
             isFetchingNextUsers={isFetchingNextUsers}
             fetchNextUsers={fetchNextUsers}
+            onToggleAdmin={updateUserAdminStatus}
           />
         )}
 

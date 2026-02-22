@@ -252,6 +252,47 @@ if (isset($params['Operation'])) {
         }
     }
 
+    elseif ($operation == 'updateUserAdminStatus') {
+        if (isset($params['targetUserId']) && isset($params['isAdmin'])) {
+            $targetUserId = mysqli_real_escape_string($connect, $params['targetUserId']);
+            $newIsAdmin = $params['isAdmin'] ? 1 : 0; 
+
+            $checkUserQuery = "SELECT id_user FROM users WHERE id_user = $targetUserId";
+            $checkUserResult = mysqli_query($connect, $checkUserQuery);
+            if (mysqli_num_rows($checkUserResult) == 0) {
+                $response = ['success' => false, 'message' => 'Пользователь не найден'];
+            } else {
+                if ($newIsAdmin == 0) {
+                    $adminCountQuery = "SELECT COUNT(*) as cnt FROM users WHERE is_admin = 1";
+                    $adminCountResult = mysqli_query($connect, $adminCountQuery);
+                    $adminCount = mysqli_fetch_assoc($adminCountResult)['cnt'];
+
+                    if ($adminCount <= 1 && $targetUserId == $idUser) {
+                        $response = ['success' => false, 'message' => 'Нельзя удалить последнего администратора'];
+                        echo json_encode($response);
+                        exit();
+                    }
+                }
+
+                $updateQuery = "UPDATE users SET is_admin = $newIsAdmin WHERE id_user = $targetUserId";
+                if (mysqli_query($connect, $updateQuery)) {
+                    $response = [
+                        'success' => true,
+                        'message' => 'Права администратора обновлены',
+                        'user' => [
+                            'id_user' => $targetUserId,
+                            'is_admin' => $newIsAdmin
+                        ]
+                    ];
+                } else {
+                    $response = ['success' => false, 'message' => 'Ошибка при обновлении прав'];
+                }
+            }
+        } else {
+            $response = ['success' => false, 'message' => 'Не указаны целевой пользователь или статус'];
+        }
+    }
+
     if (!empty($response)) {
         header('Content-Type: application/json');
         echo json_encode($response);
