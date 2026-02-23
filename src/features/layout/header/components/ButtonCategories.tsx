@@ -27,7 +27,7 @@ const ButtonCategories = () => {
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    const categoryFromUrl = searchParams.get('category')
+    const categoryFromUrl = searchParams.get('categoryProducts')
 
     if (categoryFromUrl) {
       const categoryId = parseInt(categoryFromUrl)

@@ -1,4 +1,5 @@
 import { API_URLS_ADMIN } from '../constants/apiConstants'
+import type { TAdminSelect } from '../types/adminTypes'
 import type { TProductFormData } from '../types/validationSchemas'
 import axios from 'axios'
 
@@ -25,13 +26,21 @@ export const adminApi = {
     return res.data
   },
 
-  getAllUsers: async (userId: number | null, page: number = 1, limit: number = 30) => {
+  getAllUsers: async (
+    userId: number | null, 
+    page: number = 1, 
+    limit: number = 30,
+    search: string = '',
+    filterAdmin: TAdminSelect = 'all'
+  ) => {
     const res = await axios.get(API_URLS_ADMIN, {
       params: {
         Operation: 'getAllUsers',
         idUser: userId,
         page,
-        limit
+        limit,
+        search,
+        filterAdmin
       }
     })
     return res.data

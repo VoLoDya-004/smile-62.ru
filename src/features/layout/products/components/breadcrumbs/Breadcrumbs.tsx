@@ -51,7 +51,7 @@ const Breadcrumbs = ({
     if (selectedCategory !== 0) {
       const newSearchParams = new URLSearchParams(window.location.search)
 
-      newSearchParams.delete('category')
+      newSearchParams.delete('categoryProducts')
 
       setSearchParams(newSearchParams)
       setVisible(false)

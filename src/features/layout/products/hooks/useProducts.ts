@@ -9,14 +9,14 @@ export const useProducts = () => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState(() => sessionStorage.getItem('searchQuery') || '')
-  const [sortType, setSortType] = useState(() => searchParams.get('sort') || 'default')
+  const [sortType, setSortType] = useState(() => searchParams.get('sortProducts') || 'default')
 
   const [selectedCategory, setSelectedCategory] = useState<number | null>(() => 
-    Number(searchParams.get('category')) || 0
+    Number(searchParams.get('categoryProducts')) || 0
   )
 
   const [currentSort, setCurrentSort] = useState(() => {
-    const sortFromUrl = searchParams.get('sort')
+    const sortFromUrl = searchParams.get('sortProducts')
 
     switch (sortFromUrl) {
       case 'cheap': return 'Дешевле'
@@ -99,10 +99,10 @@ export const useProducts = () => {
   }, [searchQuery, filters])
 
   useEffect(() => {
-    const categoryId = Number(searchParams.get('category')) || 0
+    const categoryId = Number(searchParams.get('categoryProducts')) || 0
     setSelectedCategory(categoryId)
 
-    const sortFromUrl = searchParams.get('sort') || 'default'
+    const sortFromUrl = searchParams.get('sortProducts') || 'default'
     setSortType(sortFromUrl)
 
     switch (sortFromUrl) {

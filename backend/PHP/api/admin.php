@@ -201,7 +201,25 @@ if (isset($params['Operation'])) {
         $limit = isset($params['limit']) ? (int)$params['limit'] : 30;
         $offset = ($page - 1) * $limit;
 
-        $countQuery = "SELECT COUNT(*) as total FROM users";
+        $search = isset($params['search']) ? mysqli_real_escape_string($connect, $params['search']) : '';
+        $filterAdmin = isset($params['filterAdmin']) ? $params['filterAdmin'] : 'all';
+
+        $whereClauses = [];
+        if (!empty($search)) {
+            $whereClauses[] = "(id_user LIKE '%$search%' OR name LIKE '%$search%' OR email LIKE '%$search%')";
+        }
+        if ($filterAdmin === 'admin') {
+            $whereClauses[] = "is_admin = 1";
+        } elseif ($filterAdmin === 'not_admin') {
+            $whereClauses[] = "is_admin = 0";
+        }
+
+        $whereSql = '';
+        if (!empty($whereClauses)) {
+            $whereSql = 'WHERE ' . implode(' AND ', $whereClauses);
+        }
+
+        $countQuery = "SELECT COUNT(*) as total FROM users $whereSql";
         $countResult = mysqli_query($connect, $countQuery);
         $total = mysqli_fetch_assoc($countResult)['total'];
 
@@ -213,6 +231,7 @@ if (isset($params['Operation'])) {
                     (SELECT COUNT(*) FROM orders WHERE id_user = users.id_user) as orders_count,
                     (SELECT balance FROM wallets WHERE id_user = users.id_user) as balance
                   FROM users 
+                  $whereSql
                   ORDER BY id_user DESC 
                   LIMIT $offset, $limit";
 

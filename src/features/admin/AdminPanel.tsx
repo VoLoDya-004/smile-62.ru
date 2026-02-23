@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { useAdmin } from './hooks/useAdmin'
@@ -6,6 +6,8 @@ import { ProductsTab } from './components/productsTab/ProductsTab'
 import { UsersTab } from './components/usersTab/UsersTab'
 import { StatsTab } from './components/statsTab/StatsTab'
 import { OrdersTab } from './components/ordersTab/OrdersTab'
+import { useSearchParams } from 'react-router-dom'
+import type { TAdminSelect } from './types/adminTypes'
 import styles from './components/AdminPanel.module.scss'
 
 const AdminPanel = () => {
@@ -18,7 +20,18 @@ const AdminPanel = () => {
   } = styles
 
   const isAdmin = useSelector((state: RootStore) => state.user.isAdmin)
-  const [activeTab, setActiveTab] = useState<'orders' | 'stats' | 'users' | 'products'>('orders')
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const userSearch = searchParams.get('search') || ''
+  const userFilter = (searchParams.get('filter') as TAdminSelect) || 'all'
+
+  const [activeTab, setActiveTab] = useState<'orders' | 'stats' | 'users' | 'products'>(() => {
+    const saved = sessionStorage.getItem('tabAdmin')
+    if (saved === 'orders' || saved === 'stats' || saved === 'users' || saved === 'products') {
+      return saved
+    }
+    return 'orders'
+  })
   
   const { 
     orders, 
@@ -35,8 +48,33 @@ const AdminPanel = () => {
     hasNextOrders,
     isFetchingNextOrders,
     fetchNextOrders,
-    updateUserAdminStatus
-  } = useAdmin()
+    updateUserAdminStatus,
+  } = useAdmin({ userSearch, userFilter})
+
+  useEffect(() => {
+    sessionStorage.setItem('tabAdmin', activeTab)
+  }, [activeTab])
+
+  // Функции для обновления URL
+  const setUserSearch = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set('search', value);
+    } else {
+      params.delete('search');
+    }
+    setSearchParams(params); // без replace → новая запись в истории
+  };
+
+  const setUserFilter = (value: 'all'|'admin'|'not_admin') => {
+    const params = new URLSearchParams(searchParams);
+    if (value !== 'all') {
+      params.set('filter', value);
+    } else {
+      params.delete('filter');
+    }
+    setSearchParams(params);
+  };
 
   if (!isAdmin) {
     return (
@@ -101,6 +139,10 @@ const AdminPanel = () => {
             isFetchingNextUsers={isFetchingNextUsers}
             fetchNextUsers={fetchNextUsers}
             onToggleAdmin={updateUserAdminStatus}
+            userSearch={userSearch}
+            setUserSearch={setUserSearch}
+            userFilter={userFilter}
+            setUserFilter={setUserFilter}
           />
         )}
 

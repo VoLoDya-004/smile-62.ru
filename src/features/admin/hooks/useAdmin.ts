@@ -3,10 +3,15 @@ import type { RootStore } from '@/shared/store'
 import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { adminApi } from '../api/adminApi'
-import type { IOrder, IOrdersInfiniteData, IUser, IUsersInfiniteData } from '../types/adminTypes'
+import type { IOrder, IOrdersInfiniteData, IUser, IUsersInfiniteData, TAdminSelect } from '../types/adminTypes'
 import type { TProductFormData } from '../types/validationSchemas'
 
-export const useAdmin = () => {
+interface IUseAdminProps {
+  userSearch: string
+  userFilter: TAdminSelect
+}
+
+export const useAdmin = ({ userSearch = '', userFilter = 'all' }: IUseAdminProps ) => {
   const { showNotification } = useUIContextNotification()
   const userId = useSelector((state: RootStore) => state.user.userId)
   const queryClient = useQueryClient()
@@ -30,8 +35,9 @@ export const useAdmin = () => {
   })
 
   const usersInfiniteQuery = useInfiniteQuery({
-    queryKey: ['adminUsers', userId],
-    queryFn: ({ pageParam = 1 }) => adminApi.getAllUsers(userId, pageParam, 30),
+    queryKey: ['adminUsers', userId, userSearch, userFilter],
+    queryFn: ({ pageParam = 1 }) => 
+      adminApi.getAllUsers(userId, pageParam, 30, userSearch, userFilter),
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.page + 1 : undefined
     },
@@ -120,22 +126,28 @@ export const useAdmin = () => {
     mutationFn: ({ targetUserId, isAdmin }: { targetUserId: number, isAdmin: boolean }) => 
       adminApi.updateUserAdminStatus(userId, targetUserId, isAdmin),
     onMutate: async ({ targetUserId, isAdmin }) => {
-      await queryClient.cancelQueries({ queryKey: ['adminUsers', userId] })
-      const previousUsers = queryClient.getQueryData(['adminUsers', userId])
-      queryClient.setQueryData(['adminUsers', userId], (old: IUsersInfiniteData) => {
-        return updateUserInCache(old, targetUserId, { is_admin: isAdmin ? 1 : 0 })
-      })
+      await queryClient.cancelQueries({ queryKey: ['adminUsers', userId, userSearch, userFilter] })
+      const previousUsers = queryClient.getQueryData(['adminUsers', userId, userSearch, userFilter])
+      queryClient.setQueryData(['adminUsers', userId, userSearch, userFilter], 
+        (old: IUsersInfiniteData) => {
+          return updateUserInCache(old, targetUserId, { is_admin: isAdmin ? 1 : 0 })
+        }
+      )
       return { previousUsers }
     },
     onSuccess: (data, _variables, context) => {
       if (data.success && data.user) {
-        queryClient.setQueryData(['adminUsers', userId], (old: IUsersInfiniteData) => {
-          return updateUserInCache(old, data.user.id_user, { is_admin: data.user.is_admin })
-        })
+        queryClient.setQueryData(['adminUsers', userId, userSearch, userFilter], 
+          (old: IUsersInfiniteData) => {
+            return updateUserInCache(old, data.user.id_user, { is_admin: data.user.is_admin })
+          }
+        )
         showNotification('Права администратора обновлены', 'success')
       } else {
         if (context?.previousUsers) {
-          queryClient.setQueryData(['adminUsers', userId], context.previousUsers)
+          queryClient.setQueryData(['adminUsers', userId, userSearch, userFilter], 
+            context.previousUsers
+          )
         }
         showNotification('Ошибка при обновлении прав', 'error')
       }
@@ -143,7 +155,9 @@ export const useAdmin = () => {
     onError(_error, _variables, context) {
       showNotification('Ошибка при обновлении прав', 'error')
       if (context?.previousUsers) {
-        queryClient.setQueryData(['adminUsers', userId], context.previousUsers)
+        queryClient.setQueryData(['adminUsers', userId, userSearch, userFilter], 
+          context.previousUsers
+        )
       }
     }
   })
@@ -174,6 +188,8 @@ export const useAdmin = () => {
     isLoadingUsers: usersInfiniteQuery.isPending,
     hasNextUsers: usersInfiniteQuery.hasNextPage,
     isFetchingNextUsers: usersInfiniteQuery.isFetchingNextPage,
+    userSearch,
+    userFilter,
     fetchNextUsers: usersInfiniteQuery.fetchNextPage,
     updateUserAdminStatus,
     addProduct

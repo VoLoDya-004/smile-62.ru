@@ -18,10 +18,12 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
 
   const [searchParams] = useSearchParams()
 
-  const [selectedOption, setSelectedOption] = useState(() => searchParams.get('sort') || 'default')
+  const [selectedOption, setSelectedOption] = useState(() =>
+    searchParams.get('sortProducts') || 'default'
+  )
 
   useEffect(() => {
-    const sortFromUrl = searchParams.get('sort') || 'default'
+    const sortFromUrl = searchParams.get('sortProducts') || 'default'
     setSelectedOption(sortFromUrl)
   }, [searchParams])
 
@@ -29,9 +31,9 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
     const newSearchParams = new URLSearchParams(searchParams)
         
     if (value === 'default') {
-      newSearchParams.delete('sort')
+      newSearchParams.delete('sortProducts')
     } else {
-      newSearchParams.set('sort', value)
+      newSearchParams.set('sortProducts', value)
     }
         
     setSearchParams(newSearchParams) 

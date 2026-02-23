@@ -1,12 +1,12 @@
 import { formatPrice } from '@/shared/utils/formatters'
-import type { IUser } from '../../types/adminTypes'
+import type { IUser, TAdminSelect } from '../../types/adminTypes'
 import { useInView } from 'react-intersection-observer'
 import { useEffect, useState } from 'react'
-import styles from '../AdminPanel.module.scss'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
 import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
+import styles from '../AdminPanel.module.scss'
 
 interface IUsersTabProps {
   users: IUser[]
@@ -15,6 +15,10 @@ interface IUsersTabProps {
   isFetchingNextUsers: boolean
   fetchNextUsers: () => void
   onToggleAdmin: (userId: number, currentIsAdmin: boolean) => void
+  userSearch: string
+  setUserSearch: (value: string) => void
+  userFilter: TAdminSelect
+  setUserFilter: (value: TAdminSelect) => void
 }
 
 export const UsersTab = ({ 
@@ -23,11 +27,18 @@ export const UsersTab = ({
   hasNextUsers, 
   isFetchingNextUsers,
   fetchNextUsers,
-  onToggleAdmin
+  onToggleAdmin,
+  userSearch,
+  setUserSearch,
+  userFilter,
+  setUserFilter
 }: IUsersTabProps) => {
   const {
     'users-tab': usersTab,
     'users-table': usersTable,
+    'users-params': usersParams,
+    'users-params__search': usersSearch,
+    'users-params__filters': usersFilters,
     'admin-badge': adminBadge,
     'admin-badge_active': adminBadgeActive,
     'admin-badge_passive': adminBadgePassive,
@@ -60,7 +71,25 @@ export const UsersTab = ({
 
   return (
     <>
-      <div className={usersTab} ref={containerRef} {...dragHandlers}>          
+      <div className={usersTab} ref={containerRef} {...dragHandlers}>   
+        <div className={usersParams}>
+          <input 
+            className={usersSearch}
+            type='text'
+            placeholder='Поиск по ID, имени или email'
+            value={userSearch}
+            onChange={(e) => setUserSearch(e.target.value)}
+          />
+          <select
+            className={usersFilters}
+            value={userFilter}
+            onChange={(e) => setUserFilter(e.target.value as TAdminSelect)}
+          >
+            <option value='all'>Все пользователи</option>
+            <option value='admin'>Только админы</option>
+            <option value='not_admin'>Только не админы</option>
+          </select>
+        </div>  
         {isLoadingUsers ? (
           <>
             <h2 className='centered-heading'>Загрузка пользователей...</h2>

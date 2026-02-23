@@ -33,9 +33,9 @@ const CategoriesDropdown = forwardRef<HTMLElement, ICategoriesDropdownProps>(({
     const newSearchParams = new URLSearchParams(window.location.search)
 
     if (id === 0) {
-      newSearchParams.delete('category')
+      newSearchParams.delete('categoryProducts')
     } else {
-      newSearchParams.set('category', id.toString())
+      newSearchParams.set('categoryProducts', id.toString())
     }
 
     setSearchParams(newSearchParams)

@@ -71,5 +71,7 @@ export interface IUsersInfiniteData {
   pageParams: number[]
 }
 
+export type TAdminSelect = 'all' | 'admin' | 'not_admin'
+
 
 
