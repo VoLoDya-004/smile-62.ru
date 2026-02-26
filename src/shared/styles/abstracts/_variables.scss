@@ -12,6 +12,8 @@ $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Co
 // ============================================
 :root {
   //основные
+  --text-border: black;
+  --bg: white;
   --back-color-elem: #eaeff2;
   --bg-body: white;
   --text-body: black;
@@ -166,6 +168,8 @@ $fontSegoe: Segoe UI, -apple-system, Helvetica Neue, Arial, sans-serif, Apple Co
 
 [data-theme="dark"] {
   //основные
+  --text-border: white;
+  --bg: black;
   --back-color-elem: rgb(234 239 242 / 28%);
   --bg-body: #121212;
   --text-body: white;

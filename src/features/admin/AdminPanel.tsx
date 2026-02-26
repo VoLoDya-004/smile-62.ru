@@ -55,26 +55,25 @@ const AdminPanel = () => {
     sessionStorage.setItem('tabAdmin', activeTab)
   }, [activeTab])
 
-  // Функции для обновления URL
   const setUserSearch = (value: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams)
     if (value) {
-      params.set('search', value);
+      params.set('search', value)
     } else {
-      params.delete('search');
+      params.delete('search')
     }
-    setSearchParams(params); // без replace → новая запись в истории
-  };
+    setSearchParams(params)
+  }
 
   const setUserFilter = (value: 'all'|'admin'|'not_admin') => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams)
     if (value !== 'all') {
-      params.set('filter', value);
+      params.set('filter', value)
     } else {
-      params.delete('filter');
+      params.delete('filter')
     }
-    setSearchParams(params);
-  };
+    setSearchParams(params)
+  }
 
   if (!isAdmin) {
     return (

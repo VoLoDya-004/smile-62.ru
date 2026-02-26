@@ -7,6 +7,7 @@ import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
 import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
 import styles from '../AdminPanel.module.scss'
+import Search from '@/shared/widgets/search/Search'
 
 interface IUsersTabProps {
   users: IUser[]
@@ -37,7 +38,7 @@ export const UsersTab = ({
     'users-tab': usersTab,
     'users-table': usersTable,
     'users-params': usersParams,
-    'users-params__search': usersSearch,
+    'search-wrapper': searchWrapper,
     'users-params__filters': usersFilters,
     'admin-badge': adminBadge,
     'admin-badge_active': adminBadgeActive,
@@ -53,6 +54,15 @@ export const UsersTab = ({
   const { ref: lastUserRef, inView } = useInView()
 
   const [updatingUserId, setUpdatingUserId] = useState<number | null>(null)
+  const [localSearch, setLocalSearch] = useState(userSearch)
+
+  useEffect(() => {
+    setLocalSearch(userSearch)
+  }, [userSearch])
+
+  const handleApplySearch = () => {
+    setUserSearch(localSearch)
+  }
 
   const handleToggleAdmin = async (userId: number, makeAdmin: boolean) => {
     setUpdatingUserId(userId)
@@ -71,25 +81,33 @@ export const UsersTab = ({
 
   return (
     <>
-      <div className={usersTab} ref={containerRef} {...dragHandlers}>   
-        <div className={usersParams}>
-          <input 
-            className={usersSearch}
-            type='text'
+      <div className={usersParams}>
+        <div className={searchWrapper}>
+          <Search 
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleApplySearch()}
+            onSearchClick={handleApplySearch}
+            onClear={() => {
+              setLocalSearch('')
+              setUserSearch('')
+            }}
             placeholder='Поиск по ID, имени или email'
-            value={userSearch}
-            onChange={(e) => setUserSearch(e.target.value)}
+            className='padding-null'
           />
-          <select
-            className={usersFilters}
-            value={userFilter}
-            onChange={(e) => setUserFilter(e.target.value as TAdminSelect)}
-          >
-            <option value='all'>Все пользователи</option>
-            <option value='admin'>Только админы</option>
-            <option value='not_admin'>Только не админы</option>
-          </select>
-        </div>  
+        </div>
+        <select
+          id='users-select'
+          className={usersFilters}
+          value={userFilter}
+          onChange={(e) => setUserFilter(e.target.value as TAdminSelect)}
+        >
+          <option value='all'>Все пользователи</option>
+          <option value='admin'>Только админы</option>
+          <option value='not_admin'>Только не админы</option>
+        </select>
+      </div>  
+      <div className={usersTab} ref={containerRef} {...dragHandlers}>   
         {isLoadingUsers ? (
           <>
             <h2 className='centered-heading'>Загрузка пользователей...</h2>

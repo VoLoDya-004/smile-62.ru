@@ -1,11 +1,11 @@
 @use '@/shared/styles/abstracts' as *;
 
 .header-nav {
-	margin: 0 5px 0 auto;
+	margin-left: auto;
 	display: inline-flex;
   user-select: none;
 	&__list {
-		margin: 0 40px 0 auto;
+		margin: 0 45px 0 auto;
 		display: inline-flex;
 		width: auto;
 		column-gap: 12px;

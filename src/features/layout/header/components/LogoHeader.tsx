@@ -3,12 +3,14 @@ import styles from '../Header.module.scss'
 
 const LogoHeader = () => {
   const {
+    'logo-wrapper': logoWrapper,
     'logo__header': logo,
     'logo__header-color': logoColor
   } = styles
     
   return (
     <NavLink 
+      className={logoWrapper}
       to='/'
       aria-label='Перейти на главную страницу'
     >

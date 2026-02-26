@@ -8,15 +8,9 @@
 	height: 240px;
 	font-family: $fontSegoe;
 	&__logo {
-		display: inline-flex;
-		pointer-events: none;
 		user-select: none;
-    &-wrapper {
-      user-select: none;
-    }
-		&-img {
-			width: 240px;
-		}
+    cursor: pointer;
+		width: 240px;
 	}
 	&__section {
 		display: inline-flex;
@@ -163,7 +157,7 @@
 	.footer {
 		margin-bottom: 60px;
 		grid-template-columns: repeat(4, auto);
-		&__logo-wrapper {
+		&__logo {
 			display: none;
 		}
 		&__section {

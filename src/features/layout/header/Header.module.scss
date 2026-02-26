@@ -31,19 +31,25 @@
   animation-timeline: scroll();
 }
 	
+.logo-wrapper {
+	margin-block: auto;
+}
+
 .logo__header { 
 	width: auto;
 	display: inline-flex;
 	pointer-events: none;
 	fill: white;
-	height: 72px;
 	&-color {
 		fill: white;
 	}
+  svg {
+    height: 60px;
+  }
 }
 	
 .categories { 
-  margin-block: auto;
+  margin: auto 10px;
 	&__button {
     display: flex;
 		align-items: center;
@@ -66,65 +72,6 @@
 	&__img {
 		width: 20px;
 	}
-}
-	
-.search { 
-	display: inline-flex;
-	align-items: center;
-	width: 56vw;
-	margin-inline: 10px;
-  &__line { 
-    width: 100%;
-    display: inline-flex;
-    background-color: #d8c4e0;
-    border-radius: 10px;
-		&-input {
-			border-radius: 10px;
-			width: 100%;
-			height: 36px;
-      background-color: var(--search-input-bg);
-			color: var(--search-input-text);
-			padding-inline: 10px;
-			font-size: 1em;
-			outline: none;
-			border: 3px solid #d8c4e0;
-			@include autofill-styles(
-        var(--search-autofill-bg),
-        var(--search-autofill-text),
-        var(--search-autofill-caret)
-      );
-		}
-		&-button {
-			border-radius: 10px;
-			height: 30px;
-			margin: 3px 3px 0 0;
-			min-width: 69px;
-			background-color: #d8c4e0;
-			font-size: 1em;
-			padding: 0 15px 0 13px;
-			border: none;
-			transition: background-color .3s;
-			&-img {
-				width: 20px;
-				pointer-events: none;
-			}
-			@media (hover: hover) and (pointer: fine) {
-    		&:hover {
-    		  background-color: #b193bd;
-    		}
-			}
-		}
-		&-clear {
-			margin: 3px;
-			border: none;
-			background: none;
-			border-radius: 10px;
-			transition: background-color .3s;
-			&:hover {
-				background-color: #b193bd;
-			}
-		}
-  }
 }
 
 .theme-toggle {
@@ -153,13 +100,6 @@
 		position: fixed;
 		right: 12px;
 		top: 7px;
-	}
-}
-
-@media (max-width: $breakpoint-md) {
-	.search { 
-		padding-right: 40px;
-		width: 90vw;
 	}
 }
 
