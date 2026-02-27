@@ -59,17 +59,45 @@ if (isset($params['Operation'])) {
         $page = isset($params['page']) ? (int)$params['page'] : 1;
         $limit = isset($params['limit']) ? (int)$params['limit'] : 15;
         $offset = ($page - 1) * $limit;
-
-        $countQuery = "SELECT COUNT(*) as total FROM orders";
+            
+        $search = isset($params['search']) ? mysqli_real_escape_string($connect, $params['search']) : '';
+        $sortDate = isset($params['sortDate']) && strtolower($params['sortDate']) === 'asc' ? 'ASC' : 'DESC';
+        $deliveryTypes = isset($params['deliveryTypes']) ? explode(',', $params['deliveryTypes']) : [];
+        $statuses = isset($params['statuses']) ? explode(',', $params['statuses']) : [];
+            
+        $whereConditions = [];
+        if (!empty($search)) {
+            $whereConditions[] = "(o.id LIKE '%$search%' OR u.name LIKE '%$search%' OR u.email LIKE '%$search%' OR o.delivery_address LIKE '%$search%')";
+        }
+        if (!empty($deliveryTypes)) {
+            $deliveryTypesEscaped = array_map(function($dt) use ($connect) {
+                return "'" . mysqli_real_escape_string($connect, trim($dt)) . "'";
+            }, $deliveryTypes);
+            $whereConditions[] = "o.delivery_type IN (" . implode(',', $deliveryTypesEscaped) . ")";
+        }
+        if (!empty($statuses)) {
+            $statusesEscaped = array_map(function($s) use ($connect) {
+                return "'" . mysqli_real_escape_string($connect, trim($s)) . "'";
+            }, $statuses);
+            $whereConditions[] = "o.status IN (" . implode(',', $statusesEscaped) . ")";
+        }
+        
+        $whereSql = '';
+        if (!empty($whereConditions)) {
+            $whereSql = 'WHERE ' . implode(' AND ', $whereConditions);
+        }
+        
+        $countQuery = "SELECT COUNT(*) as total FROM orders o JOIN users u ON o.id_user = u.id_user $whereSql";
         $countResult = mysqli_query($connect, $countQuery);
         $total = mysqli_fetch_assoc($countResult)['total'];
-
+        
         $query = "SELECT o.*, u.name as user_name, u.email as user_email 
                   FROM orders o 
                   JOIN users u ON o.id_user = u.id_user 
-                  ORDER BY o.created_at DESC 
+                  $whereSql
+                  ORDER BY o.created_at $sortDate 
                   LIMIT $offset, $limit";
-
+        
         $result = mysqli_query($connect, $query);
 
         $orders = [];

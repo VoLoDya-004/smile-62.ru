@@ -19,7 +19,7 @@
     max-width: 288px;
     &-title {
       display: inline-flex;
-      align-items: end;
+      align-items: center;
       flex-wrap: nowrap;
       flex-shrink: 0;
       width: auto;
@@ -39,8 +39,12 @@
       }
     }
     &-triangle-padding {
+      font-size: 0.8em;
       user-select: none;
-      padding-left: 3px;
+      transition: transform 0.2s;
+      &_up {
+        transform: rotate(180deg);
+      }
     }
   }
   &__filter {
@@ -50,6 +54,10 @@
     padding-right: 20px;
     flex: 1;
   }
+}
+
+.sort-title {
+  padding-right: 3px;
 }
 
 @media (max-width: $breakpoint-md) {

@@ -9,16 +9,36 @@ import type { TProductFormData } from '../types/validationSchemas'
 interface IUseAdminProps {
   userSearch: string
   userFilter: TAdminSelect
+  orderSearch?: string
+  orderSort?: 'asc' | 'desc'
+  orderDeliveryTypes?: string[]
+  orderStatuses?: string[]
 }
 
-export const useAdmin = ({ userSearch = '', userFilter = 'all' }: IUseAdminProps ) => {
+export const useAdmin = ({ 
+  userSearch = '', 
+  userFilter = 'all',
+  orderSearch = '',
+  orderSort = 'desc',
+  orderDeliveryTypes = [],
+  orderStatuses = []
+}: IUseAdminProps ) => {
   const { showNotification } = useUIContextNotification()
   const userId = useSelector((state: RootStore) => state.user.userId)
   const queryClient = useQueryClient()
 
   const ordersInfiniteQuery = useInfiniteQuery({
-    queryKey: ['adminOrders', userId],
-    queryFn: ({ pageParam = 1 }) => adminApi.getAllOrders(userId, pageParam, 15),
+    queryKey: ['adminOrders', userId, orderSearch, orderSort, orderDeliveryTypes, orderStatuses],
+    queryFn: ({ pageParam = 1 }) => 
+      adminApi.getAllOrders(
+        userId, 
+        pageParam, 
+        15,
+        orderSearch,
+        orderSort,
+        orderDeliveryTypes,
+        orderStatuses
+      ),
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore ? lastPage.page + 1 : undefined
     },
@@ -71,25 +91,38 @@ export const useAdmin = ({ userSearch = '', userFilter = 'all' }: IUseAdminProps
     mutationFn: ({ orderId, status }: { orderId: number; status: string }) =>
       adminApi.updateOrderStatus(userId, orderId, status),
     onMutate: async ({ orderId, status }) => {
-      await queryClient.cancelQueries({ queryKey: ['adminOrders', userId] })
-      const previousOrders = queryClient.getQueryData(['adminOrders', userId])
-      queryClient.setQueryData(['adminOrders', userId], (old: IOrdersInfiniteData) => {
-        return updateOrderInCache(old, orderId, { status })
+      await queryClient.cancelQueries({ 
+        queryKey: ['adminOrders', userId, orderSearch, orderSort, orderDeliveryTypes, orderStatuses] 
       })
+      const previousOrders = queryClient.getQueryData(
+        ['adminOrders', userId, orderSearch, orderSort, orderDeliveryTypes, orderStatuses]
+      )
+      queryClient.setQueryData(
+        ['adminOrders', userId, orderSearch, orderSort, orderDeliveryTypes, orderStatuses], 
+        (old: IOrdersInfiniteData) => {
+          return updateOrderInCache(old, orderId, { status })
+        }
+      )
       return { previousOrders }
     },
     onSuccess: (data) => {
       if (data.success && data.order) {
-        queryClient.setQueryData(['adminOrders', userId], (old: IOrdersInfiniteData) => {
-          return updateOrderInCache(old, data.order.id, data.order)
-        })
+        queryClient.setQueryData(
+          ['adminOrders', userId, orderSearch, orderSort, orderDeliveryTypes, orderStatuses], 
+          (old: IOrdersInfiniteData) => {
+            return updateOrderInCache(old, data.order.id, data.order)
+          }
+        )
       }
       showNotification('Статус заказа обновлен', 'success')
     },
     onError: (_error, _variables, context) => {
       showNotification('Ошибка при обновлении статуса', 'error')
       if (context?.previousOrders) {
-        queryClient.setQueryData(['adminOrders', userId], context.previousOrders)
+        queryClient.setQueryData(
+          ['adminOrders', userId, orderSearch, orderSort, orderDeliveryTypes, orderStatuses], 
+          context.previousOrders
+        )
       }
     },
   })

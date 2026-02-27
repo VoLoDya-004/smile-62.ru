@@ -24,6 +24,13 @@ const AdminPanel = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const userSearch = searchParams.get('search') || ''
   const userFilter = (searchParams.get('filter') as TAdminSelect) || 'all'
+  const orderSearch = searchParams.get('orderSearch') || ''
+  const orderSort = (searchParams.get('orderSort') as 'asc' | 'desc') || 'desc'
+  const orderDeliveryParam = searchParams.get('orderDelivery') || ''
+  const orderStatusParam = searchParams.get('orderStatus') || ''
+
+  const orderDeliveryTypes = orderDeliveryParam ? orderDeliveryParam.split(',') : []
+  const orderStatuses = orderStatusParam ? orderStatusParam.split(',') : []
 
   const [activeTab, setActiveTab] = useState<'orders' | 'stats' | 'users' | 'products'>(() => {
     const saved = sessionStorage.getItem('tabAdmin')
@@ -48,8 +55,15 @@ const AdminPanel = () => {
     hasNextOrders,
     isFetchingNextOrders,
     fetchNextOrders,
-    updateUserAdminStatus,
-  } = useAdmin({ userSearch, userFilter})
+    updateUserAdminStatus
+  } = useAdmin({ 
+    userSearch, 
+    userFilter,
+    orderSearch,
+    orderSort,
+    orderDeliveryTypes,
+    orderStatuses
+  })
 
   useEffect(() => {
     sessionStorage.setItem('tabAdmin', activeTab)
@@ -57,21 +71,43 @@ const AdminPanel = () => {
 
   const setUserSearch = (value: string) => {
     const params = new URLSearchParams(searchParams)
-    if (value) {
-      params.set('search', value)
-    } else {
-      params.delete('search')
-    }
+    if (value) params.set('search', value)
+    else params.delete('search')
     setSearchParams(params)
   }
 
   const setUserFilter = (value: 'all'|'admin'|'not_admin') => {
     const params = new URLSearchParams(searchParams)
-    if (value !== 'all') {
-      params.set('filter', value)
-    } else {
-      params.delete('filter')
-    }
+    if (value !== 'all') params.set('filter', value)
+    else params.delete('filter')
+    setSearchParams(params)
+  }
+
+  const setOrderSearch = (value: string) => {
+    const params = new URLSearchParams(searchParams)
+    if (value) params.set('orderSearch', value)
+    else params.delete('orderSearch')
+    setSearchParams(params)
+  }
+
+  const setOrderSort = (value: 'asc' | 'desc') => {
+    const params = new URLSearchParams(searchParams)
+    if (value !== 'desc') params.set('orderSort', value)
+    else params.delete('orderSort')
+    setSearchParams(params)
+  }
+
+  const setOrderDeliveryTypes = (values: string[]) => {
+    const params = new URLSearchParams(searchParams)
+    if (values.length) params.set('orderDelivery', values.join(','))
+    else params.delete('orderDelivery')
+    setSearchParams(params)
+  }
+
+  const setOrderStatuses = (values: string[]) => {
+    const params = new URLSearchParams(searchParams)
+    if (values.length) params.set('orderStatus', values.join(','))
+    else params.delete('orderStatus')
     setSearchParams(params)
   }
 
@@ -123,6 +159,14 @@ const AdminPanel = () => {
             hasNextOrders={hasNextOrders}
             isFetchingNextOrders={isFetchingNextOrders}
             fetchNextOrders={fetchNextOrders}
+            orderSearch={orderSearch}
+            orderSort={orderSort}
+            orderDeliveryTypes={orderDeliveryTypes}
+            orderStatuses={orderStatuses}
+            setOrderSearch={setOrderSearch}
+            setOrderSort={setOrderSort}
+            setOrderDeliveryTypes={setOrderDeliveryTypes}
+            setOrderStatuses={setOrderStatuses}
           />
         )}
 

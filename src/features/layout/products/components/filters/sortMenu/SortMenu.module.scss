@@ -5,7 +5,6 @@
   flex-direction: column;
   position: absolute;
   top: 43px;
-  left: -20px;
   width: 288.66px;
   background-color: var(--sort-bg);
   border-radius: 15px;
@@ -36,13 +35,9 @@ input[name="sortOptions"] {
   margin-top: 3px;
 }
 
-@media (max-width: $breakpoint-md) {
-  .sort-menu { left: -10px; }
-}
-
 @media (max-width: $breakpoint-sm) {
   .sort-menu {
-    top: 23px;
-    left: 5px;
+    top: 33px;
+    left: 0;
   }
 }

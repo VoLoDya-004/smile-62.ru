@@ -4,6 +4,8 @@ import { OrderProductItem } from './OrderProductItem'
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import styles from '../AdminPanel.module.scss'
+import AdminSearchSelect from '@/shared/widgets/admin/AdminSearchSelect'
+import FilterDropdown from '@/shared/widgets/filtersDropdown/FilterDropdown'
 
 interface IOrdersTabProps {
   orders: IOrder[]
@@ -12,6 +14,14 @@ interface IOrdersTabProps {
   hasNextOrders: boolean
   isFetchingNextOrders: boolean
   fetchNextOrders: () => void
+  orderSearch: string
+  orderSort: 'asc' | 'desc'
+  orderDeliveryTypes: string[]
+  orderStatuses: string[]
+  setOrderSearch: (value: string) => void
+  setOrderSort: (value: 'asc' | 'desc') => void
+  setOrderDeliveryTypes: (values: string[]) => void
+  setOrderStatuses: (values: string[]) => void
 }
 
 export const OrdersTab = ({ 
@@ -20,10 +30,20 @@ export const OrdersTab = ({
   isLoadingOrders,
   hasNextOrders,
   isFetchingNextOrders,
-  fetchNextOrders
+  fetchNextOrders,
+  orderSearch,
+  orderSort,
+  orderDeliveryTypes,
+  orderStatuses,
+  setOrderSearch,
+  setOrderSort,
+  setOrderDeliveryTypes,
+  setOrderStatuses
 }: IOrdersTabProps) => {
   const {
     'orders-list': ordersList,
+    'orders-params-row':paramsRow,
+    'orders-filters-row': filtersRow,
     'order-card': orderCard,
     'order-card-header': orderHeader,
     'order-card-header__id': orderId,
@@ -56,6 +76,7 @@ export const OrdersTab = ({
   }
 
   const [updatingOrderIds, setUpdatingOrderIds] = useState<number[]>([])
+  const [localSearch, setLocalSearch] = useState(orderSearch)
 
   const handleStatusChange = async (orderId: number, newStatus: string) => {
     setUpdatingOrderIds(prev => [...prev, orderId])
@@ -74,8 +95,66 @@ export const OrdersTab = ({
     }
   }, [inView, hasNextOrders, isFetchingNextOrders, fetchNextOrders])
 
+  const handleDeliveryFilter = (type: string, checked: boolean) => {
+    const newTypes = checked
+      ? [...orderDeliveryTypes, type]
+      : orderDeliveryTypes.filter(i => i !== type)
+      setOrderDeliveryTypes(newTypes)
+  }
+
+  const handleStatusFilter = (status: string, checked: boolean) => {
+    const newStatuses = checked
+      ? [...orderStatuses, status]
+      : orderStatuses.filter(i => i !== status)
+    setOrderStatuses(newStatuses)
+  }
+
   return (
     <>
+      <div className={paramsRow}>
+        <AdminSearchSelect
+          searchValue={localSearch}
+          onSearchChange={(e) => setLocalSearch(e.target.value)}
+          onSearchKeyDown={(e) => e.key === 'Enter' && setOrderSearch(localSearch)}
+          onSearchClick={() => setOrderSearch(localSearch)}
+          onSearchClear={() => {
+            setLocalSearch('')
+            setOrderSearch('')
+          }}
+          searchPlaceholder='Поиск (ID, имя, email, адрес)'
+          selectValue={orderSort}
+          onSelectChange={(e) => setOrderSort(e.target.value as 'asc' | 'desc')}
+          selectOptions={[
+            { value: 'desc', label: 'Сначала новые' },
+            { value: 'asc', label: 'Сначала старые' }
+          ]}
+        />
+        <div className={filtersRow}>
+          <FilterDropdown
+            label='Тип доставки'
+            options={[
+              { value: 'Почта России', label: 'Почта России' },
+              { value: 'Самовывоз', label: 'Самовывоз' },
+              { value: 'Курьер', label: 'Курьер' }
+            ]}
+            selectedValues={orderDeliveryTypes}
+            onChange={handleDeliveryFilter}
+            position='left'
+          />
+          <FilterDropdown
+            label='Статус'
+            options={[
+              { value: 'accepted', label: 'Принят' },
+              { value: 'collected', label: 'Собран' },
+              { value: 'completed', label: 'Отправлен' },
+              { value: 'cancelled', label: 'Отменен' }
+            ]}
+            selectedValues={orderStatuses}
+            onChange={handleStatusFilter}
+            position='right'
+          />
+        </div>
+      </div>
       {isLoadingOrders ? (
         <>
           <h2 className='centered-heading'>Загрузка заказов...</h2>

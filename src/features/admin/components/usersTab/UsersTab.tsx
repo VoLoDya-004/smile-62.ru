@@ -7,7 +7,7 @@ import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
 import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
 import styles from '../AdminPanel.module.scss'
-import Search from '@/shared/widgets/search/Search'
+import AdminSearchSelect from '@/shared/widgets/admin/AdminSearchSelect'
 
 interface IUsersTabProps {
   users: IUser[]
@@ -37,9 +37,6 @@ export const UsersTab = ({
   const {
     'users-tab': usersTab,
     'users-table': usersTable,
-    'users-params': usersParams,
-    'search-wrapper': searchWrapper,
-    'users-params__filters': usersFilters,
     'admin-badge': adminBadge,
     'admin-badge_active': adminBadgeActive,
     'admin-badge_passive': adminBadgePassive,
@@ -81,32 +78,24 @@ export const UsersTab = ({
 
   return (
     <>
-      <div className={usersParams}>
-        <div className={searchWrapper}>
-          <Search 
-            value={localSearch}
-            onChange={(e) => setLocalSearch(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleApplySearch()}
-            onSearchClick={handleApplySearch}
-            onClear={() => {
-              setLocalSearch('')
-              setUserSearch('')
-            }}
-            placeholder='Поиск по ID, имени или email'
-            className='padding-null'
-          />
-        </div>
-        <select
-          id='users-select'
-          className={usersFilters}
-          value={userFilter}
-          onChange={(e) => setUserFilter(e.target.value as TAdminSelect)}
-        >
-          <option value='all'>Все пользователи</option>
-          <option value='admin'>Только админы</option>
-          <option value='not_admin'>Только не админы</option>
-        </select>
-      </div>  
+      <AdminSearchSelect
+        searchValue={localSearch}
+        onSearchChange={(e) => setLocalSearch(e.target.value)}
+        onSearchKeyDown={(e) => e.key === 'Enter' && handleApplySearch()}
+        onSearchClick={handleApplySearch}
+        onSearchClear={() => {
+          setLocalSearch('')
+          setUserSearch('')
+        }}
+        searchPlaceholder='Поиск (ID, имя, email)'
+        selectValue={userFilter}
+        onSelectChange={(e) => setUserFilter(e.target.value as TAdminSelect)}
+        selectOptions={[
+          { value: 'all', label: 'Все пользователи' },
+          { value: 'admin', label: 'Только админы' },
+          { value: 'not_admin', label: 'Только не админы' }
+        ]}
+      />
       <div className={usersTab} ref={containerRef} {...dragHandlers}>   
         {isLoadingUsers ? (
           <>

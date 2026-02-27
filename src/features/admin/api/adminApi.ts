@@ -1,18 +1,29 @@
 import { API_URLS_ADMIN } from '../constants/apiConstants'
-import type { TAdminSelect } from '../types/adminTypes'
+import type { IGetAllOrdersParams, TAdminSelect } from '../types/adminTypes'
 import type { TProductFormData } from '../types/validationSchemas'
 import axios from 'axios'
 
 export const adminApi = {
-  getAllOrders: async (userId: number | null, page: number = 1, limit: number = 15) => {
-    const res = await axios.get(API_URLS_ADMIN, {
-      params: {
-        Operation: 'getAllOrders',
-        idUser: userId,
-        page,
-        limit
-      }
-    })
+  getAllOrders: async (
+    userId: number | null,
+    page: number = 1, 
+    limit: number = 15,
+    search: string = '',
+    sortDate: 'asc' | 'desc' = 'desc',
+    deliveryTypes: string[] = [],
+    statuses: string[] = []
+  ) => {
+    const params: IGetAllOrdersParams = {
+      Operation: 'getAllOrders',
+      idUser: userId,
+      page,
+      limit
+    }
+    if (search) params.search = search
+    if (sortDate !== 'desc') params.sortDate = sortDate
+    if (deliveryTypes.length) params.deliveryTypes = deliveryTypes.join(',')
+    if (statuses.length) params.statuses = statuses.join(',')
+    const res = await axios.get(API_URLS_ADMIN, { params })
     return res.data
   },
 

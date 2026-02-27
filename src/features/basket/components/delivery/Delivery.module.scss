@@ -61,15 +61,16 @@
     &-select {
       background-color: var(--basket-select-bg);
       color: var(--basket-select-text);
-      outline: none;
       border: none;
       border-radius: 6px;
-      height: 30px;
+      height: 44px;
+      font-size: 1em;
       & > * {
         cursor: pointer;
       }
     }
     &-textarea {
+      padding: 5px 0 0 7px;
       border: none;
       outline: none;
       border-radius: 8px;

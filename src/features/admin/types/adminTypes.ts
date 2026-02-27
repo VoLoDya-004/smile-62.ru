@@ -73,5 +73,17 @@ export interface IUsersInfiniteData {
 
 export type TAdminSelect = 'all' | 'admin' | 'not_admin'
 
+export interface IGetAllOrdersParams {
+  Operation: 'getAllOrders'
+  idUser: number | null
+  page: number
+  limit: number
+  search?: string
+  sortDate?: 'asc' | 'desc'
+  deliveryTypes?: string
+  statuses?: string
+}
+
+
 
 

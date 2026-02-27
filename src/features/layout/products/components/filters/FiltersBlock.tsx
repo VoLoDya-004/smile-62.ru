@@ -1,3 +1,4 @@
+import { cx } from '@/shared/utils/classnames'
 import { useEffect, useRef, useState } from 'react'
 import { useProductsContext } from '../../providers/ProductsProvider'
 import { useUIContextModals } from '@/shared/providers/UIProvider'
@@ -12,7 +13,9 @@ const FiltersBlock = () => {
     'filters-block__sort': filtersBlockSort,
     'filters-block__sort-title': filtersBlockSortTitle,
     'filters-block__sort-triangle-padding': sortTriangle,
-    'filters-block__filter': filtersBlockFilter
+    'filters-block__sort-triangle-padding_up': sortTriangleUp,
+    'filters-block__filter': filtersBlockFilter,
+    'sort-title': sortTitle
   } = styles
 
   const { setSortType, handleFiltersChange, currentSort, setCurrentSort } = useProductsContext()
@@ -23,10 +26,7 @@ const FiltersBlock = () => {
 
   const menuSortRef = useRef<HTMLFormElement | null>(null)
   const menuFiltersRef = useRef<HTMLElement | null>(null)
-
-  const handleToggleSort = () => {
-    setVisibleSort(prev => !prev)
-  }
+  const sortButtonRef = useRef<HTMLButtonElement | null>(null)
 
   const handleToggleFilters = () => {
     setVisibleFilters(prev => !prev)
@@ -71,7 +71,10 @@ const FiltersBlock = () => {
 
   useEffect(() => {
   const handleClickOutsideSort = (e: PointerEvent) => {
-    if (menuSortRef.current && !menuSortRef.current.contains(e.target as Node)) {
+    const isOutsideMenu = menuSortRef.current && !menuSortRef.current.contains(e.target as Node)
+    const isOutsideButton = sortButtonRef.current && !sortButtonRef.current.contains(e.target as Node)
+
+    if (isOutsideMenu && isOutsideButton) {
       setVisibleSort(false)
     }
   }
@@ -153,15 +156,13 @@ const FiltersBlock = () => {
       <section className={filtersBlock}>
         <div className={filtersBlockSort}>Сортировка:
           <button 
+            ref={sortButtonRef}
             className={filtersBlockSortTitle} 
-            onClick={handleToggleSort}
+            onClick={() => setVisibleSort(!visibleSort)}
             tabIndex={0}
           >
-            <span>{currentSort}</span>
-            {visibleSort ? 
-              <span className={sortTriangle}>▴</span> : 
-              <span className={sortTriangle}>▾</span>
-            }
+            <span className={sortTitle}>{currentSort}</span>
+            <span className={cx(sortTriangle, visibleSort ? sortTriangleUp : '')}>▼</span>
           </button>
         </div>
         <div className={filtersBlockFilter}>
