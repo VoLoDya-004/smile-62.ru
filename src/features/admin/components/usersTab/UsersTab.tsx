@@ -7,7 +7,7 @@ import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
 import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
 import styles from '../AdminPanel.module.scss'
-import AdminSearchSelect from '@/shared/widgets/admin/AdminSearchSelect'
+import AdminSearchSelect from '../adminSearchSelect/AdminSearchSelect'
 
 interface IUsersTabProps {
   users: IUser[]

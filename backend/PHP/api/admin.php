@@ -4,15 +4,13 @@ require_once "../config/db.php";
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method === 'GET') {
+$isMultipart = false;
+if ($method === 'POST' && isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') !== false) {
+    $isMultipart = true;
+    $params = $_POST; 
+} elseif ($method === 'GET') {
     $params = $_GET;
-} elseif ($method === 'POST') {
-    $input = file_get_contents('php://input');
-    $params = json_decode($input, true);
-} elseif ($method === 'PUT') {
-    $input = file_get_contents('php://input');
-    $params = json_decode($input, true);
-} elseif ($method === 'PATCH') {
+} elseif (in_array($method, ['POST', 'PUT', 'PATCH'])) {
     $input = file_get_contents('php://input');
     $params = json_decode($input, true);
 } else {
@@ -281,20 +279,94 @@ if (isset($params['Operation'])) {
     }
 
     elseif ($operation == 'addProduct') {
-        if (isset($params['nazvanie']) && isset($params['price'])) {
+        if (empty($params['nazvanie']) || empty($params['price'])) {
+            $response = ['success' => false, 'message' => 'Не указаны название или цена'];
+        } else {
             $nazvanie = mysqli_real_escape_string($connect, $params['nazvanie']);
-            $price = mysqli_real_escape_string($connect, $params['price']);
-            $price_sale = isset($params['price_sale']) ? mysqli_real_escape_string($connect, $params['price_sale']) : $price;
-            $image = isset($params['image']) ? mysqli_real_escape_string($connect, $params['image']) : 'default.jpg';
-            $id_category = isset($params['id_category']) ? mysqli_real_escape_string($connect, $params['id_category']) : '1';
+            $price = (float)$params['price'];
+            $price_sale = isset($params['price_sale']) && $params['price_sale'] !== '' ? (float)$params['price_sale'] : $price;
+            $id_category = isset($params['id_category']) ? (int)$params['id_category'] : 1;
+
+            $imageName = 'default.jpg';
+
+            if ($isMultipart && isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['image'];
+                $tmpName = $file['tmp_name'];
+                $originalName = $file['name'];
+                $fileSize = $file['size'];
+                $fileType = $file['type'];
+
+                if ($fileSize > 2 * 1024 * 1024) {
+                    $response = ['success' => false, 'message' => 'Файл слишком большой (макс 2MB)'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/avif'];
+                if (!in_array($fileType, $allowedTypes)) {
+                    $response = ['success' => false, 'message' => 'Неподдерживаемый формат. Разрешены JPEG, PNG, GIF, AVIF.'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                $baseName = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($originalName, PATHINFO_FILENAME));
+                $imageName = $baseName;
+
+                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/public/images/tovar/';
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $pngPath = $uploadDir . $baseName . '.png';
+                $avifPath = $uploadDir . $baseName . '.avif';
+
+                $image = null;
+                switch ($fileType) {
+                    case 'image/jpeg':
+                        $image = imagecreatefromjpeg($tmpName);
+                        break;
+                    case 'image/png':
+                        $image = imagecreatefrompng($tmpName);
+                        break;
+                    case 'image/gif':
+                        $image = imagecreatefromgif($tmpName);
+                        break;
+                    case 'image/avif':
+                        if (function_exists('imagecreatefromavif')) {
+                            $image = imagecreatefromavif($tmpName);
+                        } else {
+                            $response = ['success' => false, 'message' => 'Сервер не поддерживает AVIF. Пожалуйста, загрузите JPEG, PNG или GIF.'];
+                            echo json_encode($response);
+                            exit();
+                        }
+                        break;
+                }
+
+                if (!$image) {
+                    $response = ['success' => false, 'message' => 'Не удалось обработать изображение'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if (!imagepng($image, $pngPath)) {
+                    $response = ['success' => false, 'message' => 'Ошибка сохранения PNG'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if (function_exists('imageavif')) {
+                    imageavif($image, $avifPath, 80);
+                }
+            }
 
             $query = "INSERT INTO tovar (nazvanie, price, price_sale, image, id_category) 
-                     VALUES ('$nazvanie', $price, $price_sale, '$image', '$id_category')";
-            
+                      VALUES ('$nazvanie', $price, $price_sale, '$imageName', $id_category)";
+
             if (mysqli_query($connect, $query)) {
                 $response = ['success' => true, 'message' => 'Товар добавлен'];
             } else {
-                $response = ['success' => false, 'message' => 'Ошибка добавления товара'];
+                $response = ['success' => false, 'message' => 'Ошибка добавления товара: ' . mysqli_error($connect)];
             }
         }
     }

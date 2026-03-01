@@ -4,7 +4,7 @@ import { OrderProductItem } from './OrderProductItem'
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import styles from '../AdminPanel.module.scss'
-import AdminSearchSelect from '@/shared/widgets/admin/AdminSearchSelect'
+import AdminSearchSelect from '../adminSearchSelect/AdminSearchSelect'
 import FilterDropdown from '@/shared/widgets/filtersDropdown/FilterDropdown'
 
 interface IOrdersTabProps {

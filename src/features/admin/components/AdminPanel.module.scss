@@ -343,6 +343,31 @@
   }
 }
 
+.file-download-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  &__button {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-size: 1em;
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    transition: .2s;
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+  span {
+    @include text-wrap;
+  }
+}
+
 .button-container {
   @include flex-center;
 }

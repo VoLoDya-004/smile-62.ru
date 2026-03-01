@@ -216,7 +216,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
               disabled={minPrice !== '' || maxPrice !== ''}
             />
             <span className={accordionItemMargin}>
-              Меньше 15&nbsp;000 &#8381;
+              Меньше 15&nbsp;000 ₽
             </span>
           </div>
         </label>
@@ -226,12 +226,12 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
               className='margin-checkbox cursor-pointer'
               type='checkbox' 
               name='action6'
-              checked={actions.action6}
+              checked={actions.action6} 
               onChange={handleCheckboxChange}
               disabled={minPrice !== '' || maxPrice !== ''}
             />
             <span className={accordionItemMargin}>
-              От 15&nbsp;000 &#8381; до 50&nbsp;000 &#8381;
+              От 15&nbsp;000 ₽ до 50&nbsp;000 ₽
             </span>
           </div>
         </label>
@@ -246,7 +246,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
               disabled={minPrice !== '' || maxPrice !== ''}
             />
             <span className={accordionItemMargin}>
-              От 50&nbsp;000 &#8381; до 100&nbsp;000 &#8381;
+              От 50&nbsp;000 ₽ до 100&nbsp;000 ₽
             </span>
           </div>
         </label>
@@ -261,7 +261,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
               disabled={minPrice !== '' || maxPrice !== ''}
             />
             <span className={accordionItemMargin}>
-              Больше 100&nbsp;000 &#8381;
+              Больше 100&nbsp;000 ₽
             </span>
           </div>
         </label>

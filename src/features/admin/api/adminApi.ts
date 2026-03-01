@@ -1,6 +1,5 @@
 import { API_URLS_ADMIN } from '../constants/apiConstants'
 import type { IGetAllOrdersParams, TAdminSelect } from '../types/adminTypes'
-import type { TProductFormData } from '../types/validationSchemas'
 import axios from 'axios'
 
 export const adminApi = {
@@ -67,11 +66,14 @@ export const adminApi = {
     return res.data
   },
 
-  addProduct: async (userId: number | null, productData: TProductFormData) => {
-    const res = await axios.post(API_URLS_ADMIN, {
-      Operation: 'addProduct',
-      idUser: userId,
-      ...productData
+  addProduct: async (userId: number | null, formData: FormData) => {
+    formData.append('Operation', 'addProduct')
+    if (userId) formData.append('idUser', String(userId))
+
+    const res = await axios.post(API_URLS_ADMIN, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
     return res.data
   },

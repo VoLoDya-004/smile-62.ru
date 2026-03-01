@@ -4,7 +4,6 @@ import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tansta
 import { useSelector } from 'react-redux'
 import { adminApi } from '../api/adminApi'
 import type { IOrder, IOrdersInfiniteData, IUser, IUsersInfiniteData, TAdminSelect } from '../types/adminTypes'
-import type { TProductFormData } from '../types/validationSchemas'
 
 interface IUseAdminProps {
   userSearch: string
@@ -88,7 +87,7 @@ export const useAdmin = ({
   }
 
   const updateOrderStatusMutation = useMutation({
-    mutationFn: ({ orderId, status }: { orderId: number; status: string }) =>
+    mutationFn: ({ orderId, status }: { orderId: number, status: string }) =>
       adminApi.updateOrderStatus(userId, orderId, status),
     onMutate: async ({ orderId, status }) => {
       await queryClient.cancelQueries({ 
@@ -128,7 +127,7 @@ export const useAdmin = ({
   })
 
   const addProductMutation = useMutation({
-    mutationFn: (productData: TProductFormData) => adminApi.addProduct(userId, productData),
+    mutationFn: (formData: FormData) => adminApi.addProduct(userId, formData),
     onSuccess: () => {
       showNotification('Товар добавлен', 'success')
       queryClient.invalidateQueries({ queryKey: ['products'] })
@@ -203,8 +202,8 @@ export const useAdmin = ({
     return updateOrderStatusMutation.mutateAsync({ orderId, status })
   }
 
-  const addProduct = async (productData: TProductFormData) => {
-    return addProductMutation.mutateAsync(productData)
+  const addProduct = async (formData: FormData) => {
+    return addProductMutation.mutateAsync(formData)
   }
 
   return {

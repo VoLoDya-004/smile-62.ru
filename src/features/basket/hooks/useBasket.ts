@@ -73,7 +73,7 @@ export const useBasket = () => {
   })
 
   const updateCountMutation = useMutation({
-    mutationFn: ({ productId, count }: { productId: number; count: number }) => {
+    mutationFn: ({ productId, count }: { productId: number, count: number }) => {
       if (!userId) throw new Error('No user ID')
       return basketApi.updateBasketCount(userId, productId, count)
     },

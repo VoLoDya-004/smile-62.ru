@@ -1,5 +1,5 @@
 import type { ChangeEvent, KeyboardEvent } from 'react'
-import Search from '../search/Search'
+import Search from '@/shared/widgets/search/Search'
 import styles from './AdminSearchSelect.module.scss'
 
 interface IOption {
