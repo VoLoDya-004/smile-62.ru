@@ -1,5 +1,5 @@
 import { API_URLS_ADMIN } from '../constants/apiConstants'
-import type { IGetAllOrdersParams, TAdminSelect } from '../types/adminTypes'
+import type { IGetAllOrdersParams, IGetAllProductsParams, TAdminSelect } from '../types/adminTypes'
 import axios from 'axios'
 
 export const adminApi = {
@@ -84,6 +84,61 @@ export const adminApi = {
       idUser: userId,
       targetUserId,
       isAdmin
+    })
+    return res.data
+  },
+
+  getAllProducts: async (
+    userId: number | null, 
+    page: number = 1, 
+    limit: number = 20,
+    search: string = '',
+    categoryId: number = 0,
+    minPrice?: number,
+    maxPrice?: number
+  ) => {
+    const params: IGetAllProductsParams = {
+      Operation: 'getAllProducts',
+      idUser: userId,
+      page,
+      limit
+    }
+    if (search) params.search = search
+    if (categoryId > 0) params.categoryId = categoryId
+    if (minPrice !== undefined && minPrice !== null && String(minPrice) !== '') 
+      params.minPrice = minPrice
+    if (maxPrice !== undefined && maxPrice !== null && String(maxPrice) !== '') 
+      params.maxPrice = maxPrice
+    const res = await axios.get(API_URLS_ADMIN, { params })
+    return res.data
+  },
+
+  getProduct: async (userId: number | null, productId: number) => {
+    const params = {
+      Operation: 'getProduct',
+      idUser: userId,
+      productId
+    }
+    const res = await axios.get(API_URLS_ADMIN, { params })
+    return res.data
+  },
+
+  updateProduct: async (userId: number | null, formData: FormData) => {
+    formData.append('Operation', 'updateProduct')
+    if (userId) formData.append('idUser', String(userId))
+    const res = await axios.post(API_URLS_ADMIN, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    return res.data
+  },
+
+  deleteProduct: async (userId: number | null, productId: number) => {
+    const res = await axios.delete(API_URLS_ADMIN, {
+      data: {
+        Operation: 'deleteProduct',
+        idUser: userId,
+        id: productId
+      }
     })
     return res.data
   }

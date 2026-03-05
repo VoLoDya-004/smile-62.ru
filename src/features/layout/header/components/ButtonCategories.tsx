@@ -1,3 +1,4 @@
+import { useFocusTrap } from '@/shared/hooks/shared/useFocusTrap'
 import { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useProductsContext } from '@/features/layout/products/providers/ProductsProvider'
@@ -78,64 +79,7 @@ const ButtonCategories = () => {
     return () => document.removeEventListener('pointerdown', handleClickOutside)
   }, [])
 
-  useEffect(() => {
-    if (toggle) {
-      const handleTabKey = (e: KeyboardEvent) => {
-        if (e.key === 'Tab') {
-          const categoriesDropdown = categoriesDropdownRef.current
-          const navButton = document.querySelector('[data-js-categories-button]') as HTMLElement
-          
-          if (!categoriesDropdown || !navButton) return
-                    
-          const focusableElements = [
-            navButton,
-            ...Array.from(categoriesDropdown.querySelectorAll(
-              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-            )) as HTMLElement[]
-          ]
-                    
-          if (focusableElements.length === 0) return
-                    
-          const firstElement = focusableElements[0]
-          const lastElement = focusableElements[focusableElements.length - 1]
-                    
-          if (!focusableElements.includes(document.activeElement as HTMLElement)) {
-            e.preventDefault()
-            if (e.shiftKey) {
-              lastElement.focus()
-            } else {
-              firstElement.focus()
-            }
-          } else if (document.activeElement === lastElement && !e.shiftKey) {
-            e.preventDefault()
-            firstElement.focus()
-          } else if (document.activeElement === firstElement && e.shiftKey) {
-            e.preventDefault()
-            lastElement.focus()
-          }
-        }
-                
-        if (e.key === 'Escape') {
-          closeCategoriesDropdown()
-        }
-      }
-            
-      document.addEventListener('keydown', handleTabKey)
-            
-      const timer = setTimeout(() => {
-        const navButton = document.querySelector('[data-js-categories-button]') as HTMLElement
-
-        if (navButton) {
-          navButton.focus()
-        }
-      }, 100)
-            
-      return () => {
-        document.removeEventListener('keydown', handleTabKey)
-        clearTimeout(timer)
-      }
-    }
-  }, [toggle])
+  useFocusTrap(toggle, categoriesDropdownRef, closeCategoriesDropdown)
 
   return (
     <>

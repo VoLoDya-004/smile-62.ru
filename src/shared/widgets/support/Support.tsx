@@ -5,8 +5,9 @@ import { useEffect, useRef, type FormEvent } from 'react'
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import ButtonCross from '@/shared/ui/buttons/ButtonCross'
 import styles from './Support.module.scss'
+import { useModalFocusTrap } from '@/shared/hooks/shared/useModalFocusTrap'
 
-interface SupportProps {
+interface ISupportProps {
   isOpen: boolean
   onClose: () => void
 }
@@ -74,69 +75,7 @@ const SupportForm = () => {
   )
 }
 
-const useModalAccessibility = (isOpen: boolean, onClose: () => void) => {
-  useEffect(() => {
-    const modal = document.getElementById('confirm-modal-chat')
-        
-    if (!isOpen || !modal) return
-
-    const handleClickOutside = (e: MouseEvent) => {
-      if (e.target === modal) {
-        onClose()
-      }
-    }
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
-    }
-
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return
-            
-      const focusableElements = modal.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
-            
-      if (focusableElements.length === 0) return
-
-      const first = focusableElements[0] as HTMLElement
-      const last = focusableElements[focusableElements.length - 1] as HTMLElement
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault()
-        last.focus()
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault()
-        first.focus()
-      }
-    }
-
-    const allChildren = Array.from(document.body.children)
-    allChildren.forEach(child => {
-      if (child.id !== 'confirm-modal-chat') {
-        child.setAttribute('inert', '')
-      }
-    })
-
-    modal.addEventListener('click', handleClickOutside)
-    document.addEventListener('keydown', handleTab)
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      modal.removeEventListener('click', handleClickOutside)
-      document.removeEventListener('keydown', handleTab)
-      document.removeEventListener('keydown', handleKeyDown)
-
-      allChildren.forEach(child => {
-        child.removeAttribute('inert')
-      })
-    }
-  }, [isOpen, onClose])
-}
-
-const Support = ({ isOpen, onClose }: SupportProps) => {
+const Support = ({ isOpen, onClose }: ISupportProps) => {
   const {
     'support': support,
     'support__main': supportMain,
@@ -146,7 +85,7 @@ const Support = ({ isOpen, onClose }: SupportProps) => {
   const portalElement = usePortal('confirm-modal-chat', isOpen)
   const prevPortalElemenRef = useRef<HTMLElement | null>(null)
 
-  useModalAccessibility(isOpen, onClose)
+  useModalFocusTrap(isOpen, onClose, 'confirm-modal-chat')
 
   const closeModal = () => onClose()
 
@@ -160,7 +99,6 @@ const Support = ({ isOpen, onClose }: SupportProps) => {
   if (!portalElement || !isOpen) {
     return null
   }
-
 
   return createPortal(
     <section 

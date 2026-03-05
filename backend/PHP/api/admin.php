@@ -10,7 +10,7 @@ if ($method === 'POST' && isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CO
     $params = $_POST; 
 } elseif ($method === 'GET') {
     $params = $_GET;
-} elseif (in_array($method, ['POST', 'PUT', 'PATCH'])) {
+} elseif (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
     $input = file_get_contents('php://input');
     $params = json_decode($input, true);
 } else {
@@ -368,6 +368,196 @@ if (isset($params['Operation'])) {
             } else {
                 $response = ['success' => false, 'message' => 'Ошибка добавления товара: ' . mysqli_error($connect)];
             }
+        }
+    }
+
+    elseif ($operation == 'getAllProducts') {
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $limit = isset($params['limit']) ? (int)$params['limit'] : 20;
+        $offset = ($page - 1) * $limit;
+    
+        $search = isset($params['search']) ? mysqli_real_escape_string($connect, $params['search']) : '';
+        $categoryId = isset($params['categoryId']) ? (int)$params['categoryId'] : 0;
+        $minPrice = isset($params['minPrice']) && $params['minPrice'] !== '' ? (float)$params['minPrice'] : null;
+        $maxPrice = isset($params['maxPrice']) && $params['maxPrice'] !== '' ? (float)$params['maxPrice'] : null;
+    
+        $whereConditions = [];
+        if (!empty($search)) {
+            $whereConditions[] = "nazvanie LIKE '%$search%'";
+        }
+        if ($categoryId > 0) {
+            $whereConditions[] = "id_category = $categoryId";
+        }
+        if ($minPrice !== null) {
+            $whereConditions[] = "price >= $minPrice";
+        }
+        if ($maxPrice !== null) {
+            $whereConditions[] = "price <= $maxPrice";
+        }
+    
+        $whereSql = '';
+        if (!empty($whereConditions)) {
+            $whereSql = 'WHERE ' . implode(' AND ', $whereConditions);
+        }
+    
+        $countQuery = "SELECT COUNT(*) as total FROM tovar $whereSql";
+        $countResult = mysqli_query($connect, $countQuery);
+        $total = mysqli_fetch_assoc($countResult)['total'];
+    
+        $query = "SELECT id, nazvanie, price, price_sale, image, id_category FROM tovar $whereSql ORDER BY id DESC LIMIT $offset, $limit";
+        $result = mysqli_query($connect, $query);
+    
+        $products = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $products[] = $row;
+        }
+    
+        $response = [
+            'success' => true,
+            'products' => $products,
+            'total' => (int)$total,
+            'page' => $page,
+            'limit' => $limit,
+            'hasMore' => ($offset + $limit) < $total
+        ];
+    }
+
+    elseif ($operation == 'getProduct') {
+        if (isset($params['productId'])) {
+            $productId = (int)$params['productId'];
+            $query = "SELECT id, nazvanie, price, price_sale, image, id_category FROM tovar WHERE id = $productId";
+            $result = mysqli_query($connect, $query);
+            if ($row = mysqli_fetch_assoc($result)) {
+                $response = ['success' => true, 'product' => $row];
+            } else {
+                $response = ['success' => false, 'message' => 'Товар не найден'];
+            }
+        } else {
+            $response = ['success' => false, 'message' => 'Не указан ID товара'];
+        }
+    }
+
+    elseif ($operation == 'updateProduct') {
+        if (empty($params['id']) || empty($params['nazvanie']) || empty($params['price'])) {
+            $response = ['success' => false, 'message' => 'Не все обязательные поля заполнены'];
+        } else {
+            $id = (int)$params['id'];
+            $nazvanie = mysqli_real_escape_string($connect, $params['nazvanie']);
+            $price = (float)$params['price'];
+            $price_sale = isset($params['price_sale']) && $params['price_sale'] !== '' ? (float)$params['price_sale'] : $price;
+            $id_category = isset($params['id_category']) ? (int)$params['id_category'] : 1;
+
+            $imageName = null;
+            if ($isMultipart && isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['image'];
+                $tmpName = $file['tmp_name'];
+                $originalName = $file['name'];
+                $fileSize = $file['size'];
+                $fileType = $file['type'];
+
+                if ($fileSize > 2 * 1024 * 1024) {
+                    $response = ['success' => false, 'message' => 'Файл слишком большой (макс 2MB)'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/avif'];
+                if (!in_array($fileType, $allowedTypes)) {
+                    $response = ['success' => false, 'message' => 'Неподдерживаемый формат. Разрешены JPEG, PNG, GIF, AVIF.'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                $baseName = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($originalName, PATHINFO_FILENAME));
+                $imageName = $baseName;
+
+                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/public/images/tovar/';
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $pngPath = $uploadDir . $baseName . '.png';
+                $avifPath = $uploadDir . $baseName . '.avif';
+
+                $image = null;
+                switch ($fileType) {
+                    case 'image/jpeg':
+                        $image = imagecreatefromjpeg($tmpName);
+                        break;
+                    case 'image/png':
+                        $image = imagecreatefrompng($tmpName);
+                        break;
+                    case 'image/gif':
+                        $image = imagecreatefromgif($tmpName);
+                        break;
+                    case 'image/avif':
+                        if (function_exists('imagecreatefromavif')) {
+                            $image = imagecreatefromavif($tmpName);
+                        } else {
+                            $response = ['success' => false, 'message' => 'Сервер не поддерживает AVIF. Пожалуйста, загрузите JPEG, PNG или GIF.'];
+                            echo json_encode($response);
+                            exit();
+                        }
+                        break;
+                }
+
+                if (!$image) {
+                    $response = ['success' => false, 'message' => 'Не удалось обработать изображение'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if (!imagepng($image, $pngPath)) {
+                    $response = ['success' => false, 'message' => 'Ошибка сохранения PNG'];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if (function_exists('imageavif')) {
+                    imageavif($image, $avifPath, 80);
+                }
+            }
+
+            if ($imageName !== null) {
+                $query = "UPDATE tovar SET nazvanie='$nazvanie', price=$price, price_sale=$price_sale, image='$imageName', id_category=$id_category WHERE id=$id";
+            } else {
+                $query = "UPDATE tovar SET nazvanie='$nazvanie', price=$price, price_sale=$price_sale, id_category=$id_category WHERE id=$id";
+            }
+
+            if (mysqli_query($connect, $query)) {
+                $response = ['success' => true, 'message' => 'Товар обновлен'];
+            } else {
+                $response = ['success' => false, 'message' => 'Ошибка обновления товара: ' . mysqli_error($connect)];
+            }
+        }
+    }
+
+    elseif ($operation == 'deleteProduct') {
+        if (isset($params['id'])) {
+            $id = (int)$params['id'];
+            $selectQuery = "SELECT image FROM tovar WHERE id = $id";
+            $selectResult = mysqli_query($connect, $selectQuery);
+            if ($row = mysqli_fetch_assoc($selectResult)) {
+                $imageName = $row['image'];
+                $deleteQuery = "DELETE FROM tovar WHERE id = $id";
+                if (mysqli_query($connect, $deleteQuery)) {
+                    if ($imageName !== 'default.jpg') {
+                        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/public/images/tovar/';
+                        $pngFile = $uploadDir . $imageName . '.png';
+                        $avifFile = $uploadDir . $imageName . '.avif';
+                        if (file_exists($pngFile)) unlink($pngFile);
+                        if (file_exists($avifFile)) unlink($avifFile);
+                    }
+                    $response = ['success' => true, 'message' => 'Товар удален'];
+                } else {
+                    $response = ['success' => false, 'message' => 'Ошибка удаления товара: ' . mysqli_error($connect)];
+                }
+            } else {
+                $response = ['success' => false, 'message' => 'Товар не найден'];
+            }
+        } else {
+            $response = ['success' => false, 'message' => 'Не указан ID товара'];
         }
     }
 

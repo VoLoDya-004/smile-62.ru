@@ -1,0 +1,51 @@
+@use '@/shared/styles/abstracts' as *;
+
+.filters-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-bottom: 1.5em;
+  padding: 1em;
+  background: var(--back-color-elem);
+  border-radius: 8px;
+  &__search {
+    width: 100%;
+  }
+  &__buttons {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+  }
+  input, select {
+    font-size: 1em;
+    padding: 0.5em;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    outline: none;
+    cursor: pointer;
+    &:focus-visible {
+      border: 2px solid #007bff;
+    }
+    &::placeholder {
+      color: gray !important;
+    }
+		@include autofill-styles(
+      var(--admin-products-autofill-bg),
+      var(--admin-products-autofill-text),
+      var(--admin-products-autofill-caret)
+    );
+  }
+  input[type="number"] {
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .filters-form {
+    select {
+      width: 100%;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
 import BasketBox from './components/basket/BasketBox'
 import Delivery from './components/delivery/Delivery'
 import Recommendations from '@/shared/widgets/recommendations/Recommendations'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 interface IBasketProps {
   children: ReactNode
   loading: boolean
@@ -29,14 +30,7 @@ const Basket = ({ children, loading }: IBasketProps) => {
     }
   }, [isAuth])
 
-  if (loading && isAuth) {
-    return (
-      <>
-        <h2 className='centered-heading'>Загрузка товаров...</h2>
-        <div className='spinner-cards'></div>
-      </>
-    )
-  }
+  if (loading && isAuth) return <Spinner />
 
   const hasBasket = cartBasket.length > 0
 

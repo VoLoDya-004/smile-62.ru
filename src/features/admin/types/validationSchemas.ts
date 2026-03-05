@@ -23,13 +23,12 @@ export const productSchema = yup.object({
     .max(yup.ref('price'), 'Цена со скидкой не может быть больше обычной цены'),
   image: yup
     .mixed<FileList>()
-    .test('fileRequired', 'Изображение обязательно', (value) => {
-      return value && value.length > 0
-    })
     .test('fileSize', 'Файл слишком большой (макс 2MB)', (value) => {
+      if (!value || !value[0]) return true
       return value && value[0] && value[0].size <= 2 * 1024 * 1024
     })
     .test('fileType', 'Поддерживаются только JPEG, PNG, GIF, AVIF', (value) => {
+      if (!value || !value[0]) return true
       return value && value[0] && ['image/jpeg', 'image/png', 'image/gif', 'image/avif'].includes(value[0].type)
     }),
   id_category: yup

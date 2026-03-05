@@ -2,6 +2,7 @@ import { cx } from '@/shared/utils/classnames'
 import { useEffect, useRef, useState } from 'react'
 import { useProductsContext } from '../../providers/ProductsProvider'
 import { useUIContextModals } from '@/shared/providers/UIProvider'
+import { useFocusTrap } from '@/shared/hooks/shared/useFocusTrap'
 import Button from '@/shared/ui/buttons/Button'
 import SortMenu from './sortMenu/SortMenu'
 import FiltersMenu from './filtersMenu/FiltersMenu'
@@ -107,49 +108,7 @@ const FiltersBlock = () => {
     }
   }, [visibleFilters])
 
-  useEffect(() => {
-    if (visibleFilters) {
-      const handleTabKey = (e: KeyboardEvent) => {
-        if (e.key === 'Tab') {
-          const filtersMenu = document.querySelector('[data-js-filter-menu]') as HTMLElement
-          if (!filtersMenu) return
-
-          const focusableElements = filtersMenu.querySelectorAll(
-            'button, input, select, textarea, [href], [tabindex]:not([tabindex="-1"])'
-          )
-
-          if (focusableElements.length === 0) return
-
-          const firstElement = focusableElements[0] as HTMLElement
-          const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
-
-          if (!filtersMenu.contains(document.activeElement)) {
-            e.preventDefault()
-            if (e.shiftKey) {
-              lastElement.focus()
-            } else {
-              firstElement.focus()
-            }
-          }
-          else if (document.activeElement === lastElement && !e.shiftKey) {
-            e.preventDefault()
-            firstElement.focus()
-          }
-          else if (document.activeElement === firstElement && e.shiftKey) {
-            e.preventDefault()
-            lastElement.focus()
-          }
-        }
-
-        if (e.key === 'Escape') {
-          handleToggleFilters()
-        }
-      }
-
-      document.addEventListener('keydown', handleTabKey)
-      return () => document.removeEventListener('keydown', handleTabKey)
-    }
-  }, [visibleFilters])
+  useFocusTrap(visibleFilters, menuFiltersRef, handleToggleFilters)
 
   return (
     <>

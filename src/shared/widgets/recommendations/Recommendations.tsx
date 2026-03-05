@@ -6,6 +6,7 @@ import { cx } from '@/shared/utils/classnames'
 import ButtonArrow from '@/shared/ui/buttons/ButtonArrow'
 import styles from './Recommendations.module.scss'
 import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   const {
@@ -120,12 +121,7 @@ const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   )
 }
 
-const RecommendationsLoading = () => (
-  <>
-    <h2 className={styles['recommendation-loading']}>Загрузка рекомендаций...</h2>
-    <div className='spinner-cards'></div>
-  </>
-)
+const RecommendationsLoading = () => <Spinner />
 
 const RecommendationsEmpty = () => (
   <h2 className={styles['recommendation-loading']}>Пока что рекомендации пусты</h2>

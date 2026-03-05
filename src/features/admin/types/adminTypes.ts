@@ -84,4 +84,45 @@ export interface IGetAllOrdersParams {
   statuses?: string
 }
 
+export interface IGetAllProductsParams {
+  Operation: 'getAllProducts'
+  idUser: number | null
+  page: number
+  limit: number
+  search?: string,
+  categoryId?: number,
+  minPrice?: number,
+  maxPrice?: number
+}
 
+export interface IProduct {
+  id: number
+  nazvanie: string
+  price: number
+  price_sale: number
+  image: string
+  id_category: string
+}
+
+export interface IProductsPage {
+  success: boolean
+  products: IProduct[]
+  total: number
+  page: number
+  limit: number
+  hasMore: boolean
+}
+
+export interface IProductsPage {
+  success: boolean
+  products: IProduct[]
+  total: number
+  page: number
+  limit: number
+  hasMore: boolean
+}
+
+export interface IProductsInfiniteData {
+  pages: IProductsPage[]
+  pageParams: number[]
+}

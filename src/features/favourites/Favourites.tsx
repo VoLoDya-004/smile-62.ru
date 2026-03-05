@@ -5,6 +5,7 @@ import type { RootStore } from '@/shared/store'
 import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
 import FavouritesBox from './components/FavouritesBox'
 import Recommendations from '@/shared/widgets/recommendations/Recommendations'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 interface IFavouritesProps {
   loading: boolean
@@ -12,7 +13,7 @@ interface IFavouritesProps {
 }
 
 const Favourites = ({ loading, children }: IFavouritesProps) => {
-  const { cartFavourites, loadingAddFavourites } = useFavourites()
+  const { cartFavourites } = useFavourites()
 
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
@@ -29,16 +30,7 @@ const Favourites = ({ loading, children }: IFavouritesProps) => {
     }
   }, [isAuth])
 
-  if (loading && isAuth) {
-    return (
-      <>
-        <h2 className='centered-heading'>
-          {loadingAddFavourites.size > 0 ? 'Добавление товара...' : 'Загрузка товаров...'}
-        </h2>
-        <div className='spinner-cards'></div>
-      </>
-    )
-  }
+  if (loading && isAuth) return <Spinner />
 
   const hasFavourites = cartFavourites.length > 0
     

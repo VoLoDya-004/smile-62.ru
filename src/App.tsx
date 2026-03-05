@@ -41,14 +41,14 @@ const App = () => {
     productIdToDelete,
     isCategoriesProductOpen,
     isFiltersProductOpen,
-    isSearchProductOpen
+    isSearchProductOpen,
   } = useUIContextModals()
 
   const { notification, setNotification, } = useUIContextNotification()
   const { loadingFavourites, handleClearFav } = useFavourites()
   const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasket()
 
-  const shouldShowBackdrop = isCategoriesProductOpen || isFiltersProductOpen || isSearchProductOpen
+  const shouldShowBackdrop = isCategoriesProductOpen || isFiltersProductOpen || isSearchProductOpen 
 
   return (
     <>

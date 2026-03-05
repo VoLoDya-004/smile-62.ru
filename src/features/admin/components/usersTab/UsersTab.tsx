@@ -8,6 +8,7 @@ import { cx } from '@/shared/utils/classnames'
 import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
 import styles from '../AdminPanel.module.scss'
 import AdminSearchSelect from '../adminSearchSelect/AdminSearchSelect'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 interface IUsersTabProps {
   users: IUser[]
@@ -98,10 +99,7 @@ export const UsersTab = ({
       />
       <div className={usersTab} ref={containerRef} {...dragHandlers}>   
         {isLoadingUsers ? (
-          <>
-            <h2 className='centered-heading'>Загрузка пользователей...</h2>
-            <div className='spinner-cards'></div>
-          </>
+          <Spinner />
         ) : users.length === 0 ? (
           <h2 className='centered-heading'>Нет пользователей</h2>
         ) : (
@@ -166,12 +164,7 @@ export const UsersTab = ({
           </table>
         )}
       </div>
-      {isFetchingNextUsers && (
-        <>
-          <h2 className='centered-heading'>Загрузка...</h2>
-          <div className='spinner-cards'></div>
-        </>
-      )}
+      {isFetchingNextUsers && <Spinner />}
     </>
   )
 }

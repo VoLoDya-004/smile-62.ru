@@ -11,6 +11,7 @@ import { useFavourites } from '@/features/favourites/hooks/useFavourites'
 import CardsHeartIcon from '@/shared/ui/icons/CardsHeartIcon'
 import styles from './Cards.module.scss'
 import { useBasket } from '@/features/basket/hooks/useBasket'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 interface ICardProps {
   card: ICardsRender
@@ -287,10 +288,7 @@ const Cards = () => {
   return (
     <>
       {isLoading ? (
-        <>
-          <h2 className='centered-heading'>Загрузка товаров...</h2>
-          <div className='spinner-cards'></div>
-        </>
+        <Spinner />
       ) : (
         <>
           {!isLoading && (searchQuery && filteredCards.length === 0 && !isLoading || cards.length === 0

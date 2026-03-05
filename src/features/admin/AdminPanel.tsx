@@ -28,6 +28,13 @@ const AdminPanel = () => {
   const orderSort = (searchParams.get('orderSort') as 'asc' | 'desc') || 'desc'
   const orderDeliveryParam = searchParams.get('orderDelivery') || ''
   const orderStatusParam = searchParams.get('orderStatus') || ''
+  const productSearch = searchParams.get('productSearch') || ''
+  const productCategory = searchParams.get('productCategory') ? 
+    Number(searchParams.get('productCategory')) : 0
+  const productMinPrice = searchParams.get('productMinPrice') ? 
+    Number(searchParams.get('productMinPrice')) : undefined
+  const productMaxPrice = searchParams.get('productMaxPrice') ? 
+    Number(searchParams.get('productMaxPrice')) : undefined
 
   const orderDeliveryTypes = orderDeliveryParam ? orderDeliveryParam.split(',') : []
   const orderStatuses = orderStatusParam ? orderStatusParam.split(',') : []
@@ -55,14 +62,27 @@ const AdminPanel = () => {
     hasNextOrders,
     isFetchingNextOrders,
     fetchNextOrders,
-    updateUserAdminStatus
+    updateUserAdminStatus,
+    products,
+    isLoadingProducts,
+    isLoadingAddProducts,
+    isLoadingEditProducts,
+    updateProduct,
+    deleteProduct,
+    hasNextProducts,
+    isFetchingNextProducts,
+    fetchNextProducts
   } = useAdmin({ 
     userSearch, 
     userFilter,
     orderSearch,
     orderSort,
     orderDeliveryTypes,
-    orderStatuses
+    orderStatuses,
+    productSearch,
+    productCategory,
+    productMinPrice,
+    productMaxPrice
   })
 
   useEffect(() => {
@@ -108,6 +128,24 @@ const AdminPanel = () => {
     const params = new URLSearchParams(searchParams)
     if (values.length) params.set('orderStatus', values.join(','))
     else params.delete('orderStatus')
+    setSearchParams(params)
+  }
+
+  const handleApplyProductFilters = (filters: { 
+    search: string, 
+    categoryId: number, 
+    minPrice?: number,
+    maxPrice?: number 
+  }) => {
+    const params = new URLSearchParams(searchParams)
+    if (filters.search) params.set('productSearch', filters.search)
+    else params.delete('productSearch')
+    if (filters.categoryId) params.set('productCategory', filters.categoryId.toString())
+    else params.delete('productCategory')
+    if (filters.minPrice !== undefined) params.set('productMinPrice', filters.minPrice.toString())
+    else params.delete('productMinPrice')
+    if (filters.maxPrice !== undefined) params.set('productMaxPrice', filters.maxPrice.toString())
+    else params.delete('productMaxPrice')
     setSearchParams(params)
   }
 
@@ -170,9 +208,7 @@ const AdminPanel = () => {
           />
         )}
 
-        {activeTab === 'stats' && (
-          <StatsTab stats={stats} isLoadingStats={isLoadingStats} />
-        )}
+        {activeTab === 'stats' && <StatsTab stats={stats} isLoadingStats={isLoadingStats} />}
 
         {activeTab === 'users' && (
           <UsersTab 
@@ -190,7 +226,23 @@ const AdminPanel = () => {
         )}
 
         {activeTab === 'products' && (
-          <ProductsTab addProduct={addProduct} />
+          <ProductsTab
+            addProduct={addProduct} 
+            updateProduct={updateProduct}
+            deleteProduct={deleteProduct}
+            products={products}
+            isLoadingProducts={isLoadingProducts}
+            hasNextProducts={hasNextProducts}
+            isFetchingNextProducts={isFetchingNextProducts}
+            fetchNextProducts={fetchNextProducts}
+            productSearch={productSearch}
+            productCategory={productCategory}
+            productMinPrice={productMinPrice}
+            productMaxPrice={productMaxPrice}
+            onApplyFilters={handleApplyProductFilters}
+            isLoadingAddProducts={isLoadingAddProducts}
+            isLoadingEditProducts={isLoadingEditProducts}
+          />
         )}
       </div>
     </>

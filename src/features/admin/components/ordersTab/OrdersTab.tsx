@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer'
 import styles from '../AdminPanel.module.scss'
 import AdminSearchSelect from '../adminSearchSelect/AdminSearchSelect'
 import FilterDropdown from '@/shared/widgets/filtersDropdown/FilterDropdown'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 interface IOrdersTabProps {
   orders: IOrder[]
@@ -156,10 +157,7 @@ export const OrdersTab = ({
         </div>
       </div>
       {isLoadingOrders ? (
-        <>
-          <h2 className='centered-heading'>Загрузка заказов...</h2>
-          <div className='spinner-cards'></div>
-        </>
+        <Spinner />
       ) : orders.length === 0 ? (
         <h2 className='centered-heading'>Нет заказов</h2>
       ) : (
@@ -240,12 +238,7 @@ export const OrdersTab = ({
               </div>
             </article>
           ))}
-          {isFetchingNextOrders && (
-            <>
-              <h2 className='centered-heading margin-null'>Загрузка...</h2>
-              <div className='spinner-cards'></div>
-            </>
-          )}
+          {isFetchingNextOrders && <Spinner />}
         </div>
       )}
     </>

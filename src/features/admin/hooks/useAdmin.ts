@@ -3,7 +3,7 @@ import type { RootStore } from '@/shared/store'
 import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { adminApi } from '../api/adminApi'
-import type { IOrder, IOrdersInfiniteData, IUser, IUsersInfiniteData, TAdminSelect } from '../types/adminTypes'
+import type { IOrder, IOrdersInfiniteData, IProduct, IProductsInfiniteData, IUser, IUsersInfiniteData, TAdminSelect } from '../types/adminTypes'
 
 interface IUseAdminProps {
   userSearch: string
@@ -12,6 +12,10 @@ interface IUseAdminProps {
   orderSort?: 'asc' | 'desc'
   orderDeliveryTypes?: string[]
   orderStatuses?: string[]
+  productSearch?: string 
+  productCategory?: number 
+  productMinPrice?: number 
+  productMaxPrice?: number 
 }
 
 export const useAdmin = ({ 
@@ -20,7 +24,11 @@ export const useAdmin = ({
   orderSearch = '',
   orderSort = 'desc',
   orderDeliveryTypes = [],
-  orderStatuses = []
+  orderStatuses = [],
+  productSearch = '', 
+  productCategory = undefined,    
+  productMinPrice = undefined,     
+  productMaxPrice = undefined,     
 }: IUseAdminProps ) => {
   const { showNotification } = useUIContextNotification()
   const userId = useSelector((state: RootStore) => state.user.userId)
@@ -65,6 +73,31 @@ export const useAdmin = ({
   })
 
   const users = usersInfiniteQuery.data?.pages.flatMap(page => page.users) || []
+
+  const productsInfiniteQuery = useInfiniteQuery({
+    queryKey: [
+      'adminProducts', 
+      userId, 
+      productSearch, 
+      productCategory, 
+      productMinPrice, 
+      productMaxPrice
+    ],
+    queryFn: ({ pageParam = 1 }) => adminApi.getAllProducts(
+      userId, 
+      pageParam, 
+      20,
+      productSearch,
+      productCategory,
+      productMinPrice,
+      productMaxPrice
+    ),
+    getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.page + 1 : undefined,
+    initialPageParam: 1,
+    enabled: !!userId
+  })
+
+  const products = productsInfiniteQuery.data?.pages.flatMap(page => page.products || []) || [] 
 
   const updateOrderInCache = (
     oldData: IOrdersInfiniteData, 
@@ -128,9 +161,11 @@ export const useAdmin = ({
 
   const addProductMutation = useMutation({
     mutationFn: (formData: FormData) => adminApi.addProduct(userId, formData),
-    onSuccess: () => {
+    onSuccess: async () => {
       showNotification('Товар добавлен', 'success')
-      queryClient.invalidateQueries({ queryKey: ['products'] })
+      await queryClient.invalidateQueries({queryKey: 
+        ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice]
+      })    
     },
     onError: () => {
       showNotification('Ошибка при добавлении товара', 'error')
@@ -194,6 +229,67 @@ export const useAdmin = ({
     }
   })
 
+  const updateProductMutation = useMutation({
+    mutationFn: (formData: FormData) => adminApi.updateProduct(userId, formData),
+    onSuccess: async () => {
+      showNotification('Товар обновлен', 'success')
+      await queryClient.invalidateQueries({ queryKey: 
+        ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice] 
+      })
+    },
+    onError: () => {
+      showNotification('Ошибка при обновлении товара', 'error')
+    }
+  })
+
+  const deleteProductMutation = useMutation({
+    mutationFn: (productId: number) => adminApi.deleteProduct(userId, productId),
+    onMutate: async (productId) => {
+      await queryClient.cancelQueries({
+        queryKey: [
+          'adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice
+        ]
+      })
+      const previousProducts = queryClient.getQueryData(
+        ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice]
+      )
+      queryClient.setQueryData<IProductsInfiniteData>(
+        ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice],
+        (old) => {
+          if (!old) return old
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              products: page.products.filter((product: IProduct) => product.id !== productId) || []
+            }))
+          }
+        }
+      )
+      return { previousProducts }
+    },
+    onSuccess: () => {
+      showNotification('Товар удален', 'success')
+    },
+    onError: (_error, _variables, context) => {
+      showNotification('Ошибка при удалении товара', 'error')
+      if (context?.previousProducts) {
+        queryClient.setQueryData(
+          ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice],
+          context.previousProducts
+        )
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: 
+        ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice] 
+      })
+    }
+  })
+
+  const updateProduct = (formData: FormData) => updateProductMutation.mutateAsync(formData)
+  const deleteProduct = (productId: number) => deleteProductMutation.mutateAsync(productId)
+
   const updateUserAdminStatus = (targetUserId: number, isAdmin: boolean) => {
     return updateUserAdminStatusMutation.mutateAsync({ targetUserId, isAdmin })
   }
@@ -224,6 +320,15 @@ export const useAdmin = ({
     userFilter,
     fetchNextUsers: usersInfiniteQuery.fetchNextPage,
     updateUserAdminStatus,
+    products,
+    isLoadingProducts: productsInfiniteQuery.isPending,
+    hasNextProducts: productsInfiniteQuery.hasNextPage,
+    isFetchingNextProducts: productsInfiniteQuery.isFetchingNextPage,
+    isLoadingAddProducts: addProductMutation.isPending,
+    isLoadingEditProducts: updateProductMutation.isPending,
+    fetchNextProducts: productsInfiniteQuery.fetchNextPage,
+    updateProduct,
+    deleteProduct,
     addProduct
   }
 }

@@ -1,6 +1,7 @@
 import { formatPrice } from '@/shared/utils/formatters'
 import type { IStats } from '../../types/adminTypes'
 import styles from '../AdminPanel.module.scss'
+import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 interface IStatsTabProps {
   stats: IStats
@@ -22,10 +23,7 @@ export const StatsTab = ({ stats, isLoadingStats }: IStatsTabProps) => {
   return (
     <>          
       {isLoadingStats ? (
-        <>
-          <h2 className='centered-heading'>Загрузка статистики...</h2>
-          <div className='spinner-cards'></div>
-        </>
+        <Spinner />
       ) : stats ? (
         <>
           <section className={statsGrid}>
