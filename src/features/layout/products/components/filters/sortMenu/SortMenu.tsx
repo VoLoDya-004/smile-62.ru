@@ -1,51 +1,49 @@
-import { forwardRef, useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { forwardRef, useEffect, useRef, type KeyboardEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useProductsContext } from '@/features/layout/products/providers/ProductsProvider'
 import styles from './SortMenu.module.scss'
+import { useForm } from 'react-hook-form'
 
-interface ISortMenuProps {
-  onSelect: (sortOption: string) => void
-  onClose: () => void
-}
+type TSortMenuProps = { onSelect: (sortOption: string) => void }
 
-const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClose }, ref) => {
+const SortMenu = forwardRef<HTMLFormElement, TSortMenuProps>(({ onSelect }, ref) => {
   const {
     'sort-menu': sortMenu,
     'sort-option': sortOption
   } = styles
 
   const { setSearchParams } = useProductsContext()
-
   const [searchParams] = useSearchParams()
 
-  const [selectedOption, setSelectedOption] = useState(() =>
-    searchParams.get('sortProducts') || 'default'
-  )
+  const { register, watch, setValue } = useForm({
+    defaultValues: {
+      sortOption: searchParams.get('sortProducts') || 'default'
+    }
+  })
+
+  const currentSort = watch('sortOption')
+
+  useEffect(() => {
+    const newSearchParams = new URLSearchParams(searchParams)
+    if (currentSort === 'default') {
+      newSearchParams.delete('sortProducts')
+    } else {
+      newSearchParams.set('sortProducts', currentSort)
+    }
+    setSearchParams(newSearchParams)
+    onSelect(currentSort)
+    //onClose()
+  }, [currentSort, searchParams, setSearchParams])
 
   useEffect(() => {
     const sortFromUrl = searchParams.get('sortProducts') || 'default'
-    setSelectedOption(sortFromUrl)
-  }, [searchParams])
-
-  const handleRadioChange = (value: string) => {
-    const newSearchParams = new URLSearchParams(searchParams)
-        
-    if (value === 'default') {
-      newSearchParams.delete('sortProducts')
-    } else {
-      newSearchParams.set('sortProducts', value)
-    }
-        
-    setSearchParams(newSearchParams) 
-    setSelectedOption(value)
-    onSelect(value)
-    onClose()
-  }
+    setValue('sortOption', sortFromUrl)
+  }, [searchParams, setValue])
 
   const handleKeyDown = (e: KeyboardEvent, value: string) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      handleRadioChange(value)
+      setValue('sortOption', value)
     }
   }
 
@@ -56,7 +54,7 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
   }, [])
     
   return (
-    <form className={sortMenu} ref={ref}>
+    <form className={sortMenu} ref={ref} noValidate>
       <label 
         htmlFor='sort-menu-default' 
         className={sortOption} 
@@ -66,11 +64,10 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
       >
         <input 
           className='cursor-pointer'
-          checked={selectedOption === 'default'}
-          name='sortOptions'
           type='radio'
           id='sort-menu-default'
-          onChange={() => handleRadioChange('default')} 
+          value='default'
+          {...register('sortOption')}
           tabIndex={-1}
         />
         По умолчанию
@@ -83,11 +80,10 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
       >
         <input 
           className='cursor-pointer'
-          checked={selectedOption === 'cheap'}
           type='radio'
           id='sort-menu-cheap' 
-          name='sortOptions'
-          onChange={() => handleRadioChange('cheap')}
+          value='cheap'
+          {...register('sortOption')}
           tabIndex={-1}
         />
         Дешевле
@@ -100,11 +96,10 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
       >
         <input 
           className='cursor-pointer'
-          checked={selectedOption === 'expensive'}
-          name='sortOptions' 
           type='radio'
           id='sort-menu-expensive'
-          onChange={() => handleRadioChange('expensive')} 
+          value='expensive'
+          {...register('sortOption')}
           tabIndex={-1}
         />
         Дороже
@@ -117,11 +112,10 @@ const SortMenu = forwardRef<HTMLFormElement, ISortMenuProps>(({ onSelect, onClos
       >
         <input 
           className='cursor-pointer'
-          checked={selectedOption === 'discount'}
           type='radio'
           id='sort-menu-discount'
-          name='sortOptions'
-          onChange={() => handleRadioChange('discount')} 
+          value='discount'
+          {...register('sortOption')}
           tabIndex={-1}
         />
         По скидке (%)

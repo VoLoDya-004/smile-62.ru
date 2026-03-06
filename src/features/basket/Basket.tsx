@@ -7,6 +7,7 @@ import BasketBox from './components/basket/BasketBox'
 import Delivery from './components/delivery/Delivery'
 import Recommendations from '@/shared/widgets/recommendations/Recommendations'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
+import { Helmet } from 'react-helmet-async'
 interface IBasketProps {
   children: ReactNode
   loading: boolean
@@ -36,6 +37,10 @@ const Basket = ({ children, loading }: IBasketProps) => {
 
   return (
     <>
+      <Helmet>
+        <title>Корзина | Smile</title>
+        <meta name='description' content='Ваша корзина в магазине Smile и оформление заказа' />
+      </Helmet>
       {!hasBasket && <BlockEmpty textUp={textUpButton} textDown={textDownButton} /> }
       {hasBasket &&
         <>

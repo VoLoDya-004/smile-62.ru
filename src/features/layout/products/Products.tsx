@@ -5,6 +5,7 @@ import FiltersBlock from './components/filters/FiltersBlock'
 import Breadcrumbs from './components/breadcrumbs/Breadcrumbs'
 import PaginationButtons from './components/paginationButtons/PaginationButtons'
 import styles from './components/carousel/Carousel.module.scss'
+import { Helmet } from 'react-helmet-async'
 
 const Products = () => {
   const {
@@ -27,6 +28,13 @@ const Products = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Главная | Smile – интернет-магазин техники</title>
+        <meta 
+          name='description' 
+          content='Купить бытовую технику в интернет-магазине Smile. Широкий ассортимент, низкие цены.' 
+        />
+      </Helmet>
       <h1 className='visually-hidden'>Интернет-магазин Smile</h1>
       <Carousel>
         <article 

@@ -55,7 +55,7 @@ const SupportForm = () => {
   }
 
   return (
-    <form method='post' className={supportFooter}>
+    <form className={supportFooter}>
       <textarea 
         className={supportFooterMessage} 
         name='support'

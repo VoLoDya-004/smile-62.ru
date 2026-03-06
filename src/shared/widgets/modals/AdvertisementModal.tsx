@@ -1,4 +1,6 @@
+import { useRef } from 'react'
 import styles from './Modals.module.scss'
+import { useFocusTrap } from '@/shared/hooks/shared/useFocusTrap'
 
 interface IAdvertisementModalProps {
   isOpen: boolean
@@ -13,12 +15,16 @@ const AdvertisementModal = ({ isOpen, closeModalAdvertisement }: IAdvertisementM
     'modal-advertisement__button': modalButton
   } = styles
 
+  const modalRef = useRef(null)
+
+  useFocusTrap(isOpen, modalRef, closeModalAdvertisement) 
+
   if (!isOpen) {
     return null
   }
 
   return (
-    <div className={modalWindow} role='alertdialog' aria-modal='true'>
+    <div ref={modalRef} className={modalWindow} role='alertdialog' aria-modal='true'>
       <div className={modal}>
         <div className={modalContent}>
           <p className='margin-null'>OOO "AAAAA"</p>

@@ -4,6 +4,7 @@ import { store } from '../store'
 import { QueryProvider } from './QueryProvider'
 import { UIProvider } from './UIProvider'
 import type { ReactNode } from 'react'
+import { HelmetProvider } from 'react-helmet-async'
 import { ProductsProvider } from '../../features/layout/products/providers/ProductsProvider'
 
 export const AppProviders = ({ children }: { children: ReactNode }) => {
@@ -11,11 +12,13 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     <Provider store={store}>
       <QueryProvider>
         <BrowserRouter>
-          <UIProvider>
-            <ProductsProvider>
-              {children}
-            </ProductsProvider>
-          </UIProvider>
+          <HelmetProvider>
+            <UIProvider>
+              <ProductsProvider>
+                {children}
+              </ProductsProvider>
+            </UIProvider>
+          </HelmetProvider>
         </BrowserRouter>
       </QueryProvider>
     </Provider>

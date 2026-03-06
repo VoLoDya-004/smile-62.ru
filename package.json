@@ -24,6 +24,7 @@
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-helmet-async": "^3.0.0",
     "react-hook-form": "^7.71.1",
     "react-intersection-observer": "^10.0.3",
     "react-redux": "^9.2.0",

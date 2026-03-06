@@ -9,6 +9,7 @@ import { OrdersTab } from './components/ordersTab/OrdersTab'
 import { useSearchParams } from 'react-router-dom'
 import type { TAdminSelect } from './types/adminTypes'
 import styles from './components/AdminPanel.module.scss'
+import { Helmet } from 'react-helmet-async'
 
 const AdminPanel = () => {
   const {
@@ -160,6 +161,10 @@ const AdminPanel = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Админ-панель | Smile</title>
+        <meta name='description' content='Управление магазином Smile' />
+      </Helmet>
       <h1 className='visually-hidden'>Панель администратора</h1>
       <div className={container}>      
         <nav className={tabs}>

@@ -6,6 +6,7 @@ import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
 import FavouritesBox from './components/FavouritesBox'
 import Recommendations from '@/shared/widgets/recommendations/Recommendations'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
+import { Helmet } from 'react-helmet-async'
 
 interface IFavouritesProps {
   loading: boolean
@@ -36,6 +37,10 @@ const Favourites = ({ loading, children }: IFavouritesProps) => {
     
   return (
     <>
+      <Helmet>
+        <title>Избранное | Smile</title>
+        <meta name='description' content='Ваши избранные товары в магазине Smile' />
+      </Helmet>
       {!hasFavourites && <BlockEmpty textUp={textUpButton} textDown={textDownButton} />}
       {hasFavourites && <FavouritesBox>{children}</FavouritesBox>}
       <Recommendations />

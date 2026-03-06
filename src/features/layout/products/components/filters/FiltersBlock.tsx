@@ -49,10 +49,6 @@ const FiltersBlock = () => {
     )  
   }
 
-  const handleCloseSortMenu = () => {
-    setVisibleSort(false)
-  }
-
   const handleResetFilters = () => {
     handleFiltersChange({
       minPrice: null,
@@ -138,13 +134,7 @@ const FiltersBlock = () => {
             Сбросить фильтры
           </Button>
         </div>
-        {visibleSort && 
-          <SortMenu 
-            ref={menuSortRef} 
-            onSelect={handleSortSelect} 
-            onClose={handleCloseSortMenu}
-          />
-        }
+        {visibleSort && <SortMenu ref={menuSortRef} onSelect={handleSortSelect} />}
         {visibleFilters && 
           <FiltersMenu handleToggleFilters={handleToggleFilters} ref={menuFiltersRef} />
         }

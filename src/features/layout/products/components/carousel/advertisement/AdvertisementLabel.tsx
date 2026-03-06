@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, type KeyboardEvent } from 'react'
 import { useUIContextModals } from '@/shared/providers/UIProvider'
 import AdvertisementInfo from './AdvertisementInfo'
 import styles from './Advertisement.module.scss'
@@ -10,6 +10,12 @@ interface AdvertisementLabelProps {
 
 const AdvertisementLabel = ({ onHover, showChildren }: AdvertisementLabelProps) => {
   const { OpenModalAdvertisement } = useUIContextModals()
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      OpenModalAdvertisement()
+    }
+  }
   
   return (
     <div
@@ -17,6 +23,7 @@ const AdvertisementLabel = ({ onHover, showChildren }: AdvertisementLabelProps) 
       role='complementary'
       aria-label='Реклама'
       onClick={OpenModalAdvertisement}
+      onKeyDown={handleKeyDown}
       onPointerEnter={() => onHover(true)}
       onPointerLeave={() => onHover(false)}
       onFocus={() => onHover(true)}
