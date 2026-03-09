@@ -10,6 +10,8 @@ import ButtonSubmit from '@/shared/ui/buttons/ButtonSubmit'
 import Account from '../account/Account'
 import styles from './Form.module.scss'
 import FormInput from './FormInput'
+import TransactionsHistory from '../transactions/TransactionsHistory'
+import { useTransactions } from '../../hooks/useTransactions'
 
 const {
   'form-container': formContainer,
@@ -166,17 +168,36 @@ const Form = () => {
 
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
+  const { 
+    transactions, 
+    isTransactionsLoading,
+    isFetchingNextTransactions, 
+    hasNextTransactions, 
+    fetchNextTransactions 
+  } = useTransactions()
+
   return (
-		<section className={cx(form, isAuth && noWrap)}>
-  	  {!isAuth ? (
-  	    <>
-  	      <RegisterForm />
-  	      <LoginForm />
-  	    </>
-  	  ) : (
-  	    <Account />
-  	  )}
-  	</section>
+    <>
+		  <section className={cx(form, isAuth && noWrap)}>
+  	    {!isAuth ? (
+  	      <>
+  	        <RegisterForm />
+  	        <LoginForm />
+  	      </>
+  	    ) : (  
+  	      <Account />
+  	    )}
+  	  </section>
+      {isAuth && (
+        <TransactionsHistory
+          transactions={transactions} 
+          isTransactionsLoading={isTransactionsLoading} 
+          isFetchingNextTransactions={isFetchingNextTransactions}
+          hasNextTransactions={hasNextTransactions}
+          fetchNextTransactions={fetchNextTransactions}
+        />
+      )}
+    </>
   )
 }
 

@@ -146,6 +146,7 @@ export const useAdmin = ({
           }
         )
       }
+      queryClient.invalidateQueries({ queryKey: ['adminStats', userId] })
       showNotification('Статус заказа обновлен', 'success')
     },
     onError: (_error, _variables, context) => {

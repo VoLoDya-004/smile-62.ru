@@ -50,6 +50,7 @@ export const useOrders = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['basket', userId] })
+      queryClient.invalidateQueries({ queryKey: ['transactions', userId] })
     }
   })
 

@@ -201,6 +201,52 @@ if (isset($params['Operation'])) {
         }
         mysqli_close($connect);
     }
+
+    elseif ($operation == 'getTransactions') {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+            exit;
+        }
+        $userId = $_SESSION['user_id'];
+
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $limit = isset($params['limit']) ? (int)$params['limit'] : 30;
+        $offset = ($page - 1) * $limit;
+
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        if (!$connect) {
+            die("Ошибка подключения к БД: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($connect, "utf8");
+
+        $countQuery = "SELECT COUNT(*) as total FROM transactions WHERE id_user = $userId";
+        $countResult = mysqli_query($connect, $countQuery);
+        $total = mysqli_fetch_assoc($countResult)['total'];
+
+        $query = "SELECT id, amount, type, description, created_at 
+                  FROM transactions 
+                  WHERE id_user = $userId 
+                  ORDER BY created_at DESC 
+                  LIMIT $offset, $limit";
+        $result = mysqli_query($connect, $query);
+
+        $transactions = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $transactions[] = $row;
+        }
+
+        mysqli_close($connect);
+
+        echo json_encode([
+            'success' => true,
+            'transactions' => $transactions,
+            'total' => (int)$total,
+            'page' => $page,
+            'limit' => $limit,
+            'hasMore' => ($offset + $limit) < $total
+        ]);
+    }
     
     else {
         header('Content-Type: application/json');

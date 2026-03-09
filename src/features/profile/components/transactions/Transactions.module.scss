@@ -1,0 +1,21 @@
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transaction-item {
+  background-color: var(--back-color-elem);
+  border-radius: 8px;
+  padding: 10px;
+  &__type {
+    font-size: 1.125em;
+    font-weight: 700;
+  }
+  &__date {
+    color: #909090;
+    font-size: 0.875em;
+    margin-bottom: 5px;
+  }
+}
+

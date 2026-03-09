@@ -10,3 +10,21 @@ export interface ILoginData {
 }
 
 export type TWalletData = { balance: number }
+
+export interface ITransaction {
+  id: number
+  amount: number
+  type: 'deposit' | 'payment'
+  description: string
+  created_at: string
+}
+
+export interface ITransactionsResponse {
+  success: boolean
+  transactions: ITransaction[]
+  total: number
+  page: number
+  limit: number
+  hasMore: boolean
+  message?: string
+}

@@ -1,4 +1,4 @@
-import { formatPrice } from '@/shared/utils/formatters'
+import { formatDate, formatPrice } from '@/shared/utils/formatters'
 import type { IOrder, IOrderItem } from '../../types/adminTypes'
 import { OrderProductItem } from './OrderProductItem'
 import { useEffect, useState } from 'react'
@@ -112,134 +112,137 @@ export const OrdersTab = ({
 
   return (
     <>
-      <div className={paramsRow}>
-        <AdminSearchSelect
-          searchValue={localSearch}
-          onSearchChange={(e) => setLocalSearch(e.target.value)}
-          onSearchKeyDown={(e) => e.key === 'Enter' && setOrderSearch(localSearch)}
-          onSearchClick={() => setOrderSearch(localSearch)}
-          onSearchClear={() => {
-            setLocalSearch('')
-            setOrderSearch('')
-          }}
-          searchPlaceholder='Поиск (ID, имя, email, адрес)'
-          selectValue={orderSort}
-          onSelectChange={(e) => setOrderSort(e.target.value as 'asc' | 'desc')}
-          selectOptions={[
-            { value: 'desc', label: 'Сначала новые' },
-            { value: 'asc', label: 'Сначала старые' }
-          ]}
-        />
-        <div className={filtersRow}>
-          <FilterDropdown
-            label='Тип доставки'
-            options={[
-              { value: 'Почта России', label: 'Почта России' },
-              { value: 'Самовывоз', label: 'Самовывоз' },
-              { value: 'Курьер', label: 'Курьер' }
-            ]}
-            selectedValues={orderDeliveryTypes}
-            onChange={handleDeliveryFilter}
-            position='left'
-          />
-          <FilterDropdown
-            label='Статус'
-            options={[
-              { value: 'accepted', label: 'Принят' },
-              { value: 'collected', label: 'Собран' },
-              { value: 'completed', label: 'Отправлен' },
-              { value: 'cancelled', label: 'Отменен' }
-            ]}
-            selectedValues={orderStatuses}
-            onChange={handleStatusFilter}
-            position='right'
-          />
-        </div>
-      </div>
       {isLoadingOrders ? (
         <Spinner />
       ) : orders.length === 0 ? (
         <h2 className='centered-heading'>Нет заказов</h2>
       ) : (
-        <div className={ordersList}>
-          {orders.map((order: IOrder, index) => (
-            <article 
-              key={order.id} 
-              className={orderCard}
-              ref={index === orders.length - 1 ? lastOrderRef : null}
-            >
-              <header className={orderHeader}>
-                <div>
-                  <div className={orderId}>Заказ №{order.id}</div>
-                  <div className={orderDate}>{order.created_at}</div>
-                </div>
-                <div className={orderUser}>
-                  {order.user_name} ({order.user_email})
-                </div>
-              </header>
+        <>
+          <div className={paramsRow}>
+            <AdminSearchSelect
+              searchValue={localSearch}
+              onSearchChange={(e) => setLocalSearch(e.target.value)}
+              onSearchKeyDown={(e) => e.key === 'Enter' && setOrderSearch(localSearch)}
+              onSearchClick={() => setOrderSearch(localSearch)}
+              onSearchClear={() => {
+                setLocalSearch('')
+                setOrderSearch('')
+              }}
+              searchPlaceholder='Поиск (ID, имя, email, адрес)'
+              selectValue={orderSort}
+              onSelectChange={(e) => setOrderSort(e.target.value as 'asc' | 'desc')}
+              selectOptions={[
+                { value: 'desc', label: 'Сначала новые' },
+                { value: 'asc', label: 'Сначала старые' }
+              ]}
+            />
+            <div className={filtersRow}>
+              <FilterDropdown
+                label='Тип доставки'
+                options={[
+                  { value: 'Почта России', label: 'Почта России' },
+                  { value: 'Самовывоз', label: 'Самовывоз' },
+                  { value: 'Курьер', label: 'Курьер' }
+                ]}
+                selectedValues={orderDeliveryTypes}
+                onChange={handleDeliveryFilter}
+                position='left'
+              />
+              <FilterDropdown
+                label='Статус'
+                options={[
+                  { value: 'accepted', label: 'Принят' },
+                  { value: 'collected', label: 'Собран' },
+                  { value: 'completed', label: 'Отправлен' },
+                  { value: 'cancelled', label: 'Отменен' }
+                ]}
+                selectedValues={orderStatuses}
+                onChange={handleStatusFilter}
+                position='right'
+              />
+            </div>
+          </div>
 
-              <div className={statusSection}>
-                <span>Статус: </span>
-                <select 
-                  value={order.status}
-                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                  style={{ borderColor: getStatusColor(order.status) }}
-                  disabled={updatingOrderIds.includes(order.id)}
-                >
-                  <option value='accepted'>Принят</option>
-                  <option value='collected'>Собран</option>
-                  <option value='completed'>Отправлен</option>
-                  <option value='cancelled'>Отменен</option>
-                </select>
-                <span 
-                  className={statusBadge}
-                  style={{ 
-                    backgroundColor: updatingOrderIds.includes(order.id) ? 
-                    'gray' : 
-                    getStatusColor(order.status) 
-                  }}
-                >
-                  {updatingOrderIds.includes(order.id) ? 
-                    'Обновление...' :
-                    getStatusText(order.status)
-                  }
-                </span>
-              </div>
-
-              <div className={orderInfo}>
-                <div>
-                  <strong>Сумма: </strong>{formatPrice(parseFloat(order.total_amount))} ₽
-                </div>
-                <div>
-                  <strong>Доставка: </strong> 
-                  {order.delivery_type} ({formatPrice(parseFloat(order.delivery_cost))} ₽)
-                </div>
-                <div>
-                  <strong>Адрес: </strong>{order.delivery_address}
-                </div>
-                {order.customer_notes && (
+          <div className={ordersList}>
+            {orders.map((order: IOrder, index) => (
+              <article 
+                key={order.id} 
+                className={orderCard}
+                ref={index === orders.length - 1 ? lastOrderRef : null}
+              >
+                <header className={orderHeader}>
                   <div>
-                    <strong>Комментарий: </strong>{order.customer_notes}
+                    <div className={orderId}>Заказ №{order.id}</div>
+                    <div className={orderDate}>{formatDate(order.created_at)}</div>
                   </div>
-                )}
-                {order.tracking_number && order.status === 'completed' && (
-                  <div>
-                    <strong>Трек-номер: </strong>
-                    {updatingOrderIds.includes(order.id) ? 'Обновление...' : order.tracking_number}
+                  <div className={orderUser}>
+                    {order.user_name} ({order.user_email})
                   </div>
-                )}
-              </div>
+                </header>
 
-              <div className={orderItems}>
-                <h4 className='text-center'>Товары в заказе</h4>
-                {order.items && order.items.map((item: IOrderItem) => (
-                  <OrderProductItem key={item.id} item={item} />
-                ))}
-              </div>
-            </article>
-          ))}
-          {isFetchingNextOrders && <Spinner />}
-        </div>
+                <div className={statusSection}>
+                  <span>Статус: </span>
+                  <select 
+                    value={order.status}
+                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                    style={{ borderColor: getStatusColor(order.status) }}
+                    disabled={updatingOrderIds.includes(order.id)}
+                  >
+                    <option value='accepted'>Принят</option>
+                    <option value='collected'>Собран</option>
+                    <option value='completed'>Отправлен</option>
+                    <option value='cancelled'>Отменен</option>
+                  </select>
+                  <span 
+                    className={statusBadge}
+                    style={{ 
+                      backgroundColor: updatingOrderIds.includes(order.id) ? 
+                      'gray' : 
+                      getStatusColor(order.status) 
+                    }}
+                  >
+                    {updatingOrderIds.includes(order.id) ? 
+                      'Обновление...' :
+                      getStatusText(order.status)
+                    }
+                  </span>
+                </div>
+
+                <div className={orderInfo}>
+                  <div>
+                    <strong>Сумма: </strong>{formatPrice(parseFloat(order.total_amount))} ₽
+                  </div>
+                  <div>
+                    <strong>Доставка: </strong> 
+                    {order.delivery_type} ({formatPrice(parseFloat(order.delivery_cost))} ₽)
+                  </div>
+                  <div>
+                    <strong>Адрес: </strong>{order.delivery_address}
+                  </div>
+                  {order.customer_notes && (
+                    <div>
+                      <strong>Комментарий: </strong>{order.customer_notes}
+                    </div>
+                  )}
+                  {order.tracking_number && order.status === 'completed' && (
+                    <div>
+                      <strong>Трек-номер: </strong>
+                      {updatingOrderIds.includes(order.id) ? 'Обновление...' : order.tracking_number}
+                    </div>
+                  )}
+                </div>
+
+                <div className={orderItems}>
+                  <h4 className='text-center'>Товары в заказе</h4>
+                  {order.items && order.items.map((item: IOrderItem) => (
+                    <OrderProductItem key={item.id} item={item} />
+                  ))}
+                </div>
+              </article>
+            ))}
+            {isFetchingNextOrders && <Spinner />}
+          </div>
+        </>
       )}
     </>
   )
