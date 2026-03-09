@@ -1,5 +1,6 @@
 import AdvertisementModal from './AdvertisementModal'
 import ConfirmModal from './ConfirmModal'
+import EditProfileModal from './EditProfileModal'
 
 interface IModalContainerProps {
   isModalAdvertisementOpen: boolean
@@ -14,6 +15,11 @@ interface IModalContainerProps {
   closeModalAllBasket: () => void
   closeModalAllFav: () => void
   productIdToDelete: number | null
+  isDeleteAccountModalOpen: boolean
+  confirmDeleteAccount: () => void
+  closeDeleteAccountModal: () => void
+  isEditProfileModalOpen: boolean
+  closeEditProfileModal: () => void
 }
 
 const ModalContainer = ({ 
@@ -29,6 +35,11 @@ const ModalContainer = ({
   closeModalAllBasket,
   closeModalAllFav,
   productIdToDelete,
+  isDeleteAccountModalOpen,
+  confirmDeleteAccount,
+  closeDeleteAccountModal,
+  isEditProfileModalOpen,
+  closeEditProfileModal
 }: IModalContainerProps) => (
   <>
     <ConfirmModal
@@ -67,9 +78,26 @@ const ModalContainer = ({
       title='Удаление избранного'
       description='Удалить все товары из избранного? Отменить действие будет невозможно.'
     />
+    <ConfirmModal
+      isOpen={isDeleteAccountModalOpen}
+      onConfirm={() => {
+        confirmDeleteAccount()
+        closeDeleteAccountModal()
+      }}
+      onCancel={closeDeleteAccountModal}
+      modalId='delete-account-modal'
+      portalId='delete-account-modal'
+      title='Удаление аккаунта'
+      description='Вы уверены, что хотите удалить аккаунт? Все данные будут безвозвратно потеряны.'
+      
+    />
     <AdvertisementModal 
       closeModalAdvertisement={closeModalAdvertisement}
       isOpen={isModalAdvertisementOpen}
+    />
+    <EditProfileModal
+      isOpen={isEditProfileModalOpen}
+      onClose={closeEditProfileModal}
     />
   </>
 )

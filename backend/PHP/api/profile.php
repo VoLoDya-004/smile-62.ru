@@ -13,8 +13,9 @@ if (in_array($origin, $allowed_origins)) {
     header("Access-Control-Allow-Origin: $origin");
 }
 
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -112,6 +113,7 @@ if (isset($params['Operation'])) {
                     'success' => true,
                     'message' => 'Вы успешно вошли',
                     'name' => $user['name'],
+                    'email' => $user['email'], 
                     'id_user' => $user['id_user'],
                     'is_admin' => $user['is_admin']
                 ]);
@@ -122,6 +124,81 @@ if (isset($params['Operation'])) {
             echo json_encode(['success' => false, 'message' => 'Пользователь не найден']);
         }
 
+        mysqli_close($connect);
+    }
+
+    elseif ($operation == 'updateProfile') {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+            exit;
+        }
+        $userId = $_SESSION['user_id'];
+        $name = trim($params['name'] ?? '');
+        $email = trim($params['email'] ?? '');
+        $newPassword = trim($params['password'] ?? '');
+
+        if (!$name || !$email) {
+            echo json_encode(['success' => false, 'message' => 'Имя и email обязательны']);
+            exit;
+        }
+
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        if (!$connect) {
+            die("Ошибка подключения к БД: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($connect, "utf8");
+
+        $query_check = "SELECT id_user FROM users WHERE email='" . mysqli_real_escape_string($connect, $email) . "' AND id_user != $userId";
+        $result_check = mysqli_query($connect, $query_check);
+        if ($result_check && mysqli_num_rows($result_check) > 0) {
+            mysqli_close($connect);
+            echo json_encode(['success' => false, 'message' => 'Email уже зарегистрирован']);
+            exit;
+        }
+
+        if (!empty($newPassword)) {
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $query_update = "UPDATE users SET name='" . mysqli_real_escape_string($connect, $name) . "', email='" . mysqli_real_escape_string($connect, $email) . "', password='" . mysqli_real_escape_string($connect, $hashedPassword) . "' WHERE id_user=$userId";
+        } else {
+            $query_update = "UPDATE users SET name='" . mysqli_real_escape_string($connect, $name) . "', email='" . mysqli_real_escape_string($connect, $email) . "' WHERE id_user=$userId";
+        }
+
+        if (mysqli_query($connect, $query_update)) {
+            $_SESSION['user_name'] = $name;
+            $_SESSION['user_email'] = $email;
+            echo json_encode([
+                'success' => true,
+                'message' => 'Профиль обновлён',
+                'name' => $name,
+                'email' => $email
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Ошибка при обновлении профиля']);
+        }
+        mysqli_close($connect);
+    }
+    elseif ($operation == 'deleteAccount') {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+            exit;
+        }
+        $userId = $_SESSION['user_id'];
+
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        if (!$connect) {
+            die("Ошибка подключения к БД: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($connect, "utf8");
+
+        $query_delete = "DELETE FROM users WHERE id_user=$userId";
+        if (mysqli_query($connect, $query_delete)) {
+            session_destroy();
+            echo json_encode(['success' => true, 'message' => 'Аккаунт удалён']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Ошибка при удалении аккаунта']);
+        }
         mysqli_close($connect);
     }
     

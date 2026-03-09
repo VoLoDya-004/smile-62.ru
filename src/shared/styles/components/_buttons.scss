@@ -36,7 +36,7 @@
   height: 40px;
   font-weight: 700;
   transition: .2s;
-	white-space: nowrap;
+	white-space: wrap;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       background-color: rgb(186, 155, 194);
@@ -191,7 +191,7 @@
   background-color: #ea3025;
   color: white;
   font-size: 0.875em;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.5px;
   transition: .2s;
 	@media (hover: hover) and (pointer: fine) {

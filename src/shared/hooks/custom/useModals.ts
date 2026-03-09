@@ -10,6 +10,18 @@ export const useModals = () => {
   const [isCategoriesProductOpen, setIsCategoriesProductOpen] = useState(false)
   const [isFiltersProductOpen, setIsFiltersProductOpen] = useState(false)
   const [isSearchProductOpen, setIsSearchProductOpen] = useState(false)
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false)
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false)
+
+  const openEditProfileModal = useCallback(() => {
+    setIsEditProfileModalOpen(true)
+    document.body.classList.add('modal-open')
+  }, [])
+
+  const closeEditProfileModal = useCallback(() => {
+    setIsEditProfileModalOpen(false)
+    document.body.classList.remove('modal-open')
+  }, [])
 
   const openSupport = useCallback(() => {
     setIsSupportOpen(true)
@@ -70,6 +82,16 @@ export const useModals = () => {
     showModalAllFav()
   }, [showModalAllFav])
 
+  const openDeleteAccountModal = useCallback(() => {
+    setIsDeleteAccountModalOpen(true)
+    document.body.classList.add('modal-open')
+  }, [setIsDeleteAccountModalOpen])
+
+  const closeDeleteAccountModal = useCallback(() => {
+    setIsDeleteAccountModalOpen(false)
+    document.body.classList.remove('modal-open')
+  }, [setIsDeleteAccountModalOpen])
+
   return {
     isModalAdvertisementOpen,
     isModalOpen,
@@ -95,6 +117,12 @@ export const useModals = () => {
     isFiltersProductOpen, 
     setIsFiltersProductOpen,
     isSearchProductOpen, 
-    setIsSearchProductOpen
+    setIsSearchProductOpen,
+    isDeleteAccountModalOpen,
+    closeDeleteAccountModal,
+    openDeleteAccountModal,
+    isEditProfileModalOpen,
+    openEditProfileModal,
+    closeEditProfileModal
   }
 }

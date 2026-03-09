@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { NavLink } from 'react-router-dom'
 import { pluralize } from '@/shared/utils/pluralize'
-import { useUIContextNotification } from '@/shared/providers/UIProvider'
+import { useUIContextModals, useUIContextNotification } from '@/shared/providers/UIProvider'
 import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
 import { useFavourites } from '@/features/favourites/hooks/useFavourites'
@@ -22,6 +22,8 @@ interface IProfileAsideProps {
   isLoadingBalance: boolean
   isCreatingOrder: boolean
   isFetchingBalance: boolean
+  onEditProfile: () => void 
+  onDeleteAccount: () => void 
 }
 
 interface IFavoritesBlockProps {
@@ -43,7 +45,9 @@ const ProfileAside = ({
   balance,
   isLoadingBalance,
   isCreatingOrder,
-  isFetchingBalance
+  isFetchingBalance,
+  onEditProfile,
+  onDeleteAccount,
 }: IProfileAsideProps) => {
   const {
     'user-aside': aside,
@@ -65,8 +69,17 @@ const ProfileAside = ({
       <Button onClick={handleTopUpWallet} className='button-violet'>
         Пополнить
       </Button>
-      <Button onClick={onLogout} className='button-violet'>
+      <Button onClick={onEditProfile} className='button-violet'>
+        Редактировать аккаунт
+      </Button>
+      <Button onClick={onLogout} className='confirm-delete-button'>
         Выйти из аккаунта
+      </Button>
+      <Button 
+        onClick={onDeleteAccount} 
+        className='confirm-delete-button'
+      >
+        Удалить аккаунт
       </Button>
     </section>
   )
@@ -179,7 +192,7 @@ const Account = () => {
   const { handleLogout } = useAuth()
   const { balance, topUpBalance, isLoadingBalance, isFetchingBalance } = useWallet()
   const { isCreatingOrder } = useOrders()
-
+  const { openDeleteAccountModal, openEditProfileModal } = useUIContextModals()
   
   const userName = useSelector((state: RootStore) => state.user.userName)
 
@@ -217,6 +230,8 @@ const Account = () => {
         isLoadingBalance={isLoadingBalance}
         isCreatingOrder={isCreatingOrder}
         isFetchingBalance={isFetchingBalance}
+        onEditProfile={openEditProfileModal}
+        onDeleteAccount={openDeleteAccountModal}
       />
       <section className={container}>
         <FavoritesBlock 

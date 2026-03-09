@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   userId: null,      
   isAuth: false,
-  userName: '',     
+  userName: '', 
+  userEmail: '',    
   isAdmin: false
 }
 
@@ -14,12 +15,14 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.userId = action.payload.userId
       state.userName = action.payload.userName
+      state.userEmail = action.payload.userEmail
       state.isAuth = true
       state.isAdmin = action.payload.isAdmin || false
     },
     logoutUser(state) {
       state.userId = null
       state.userName = ''
+      state.userEmail = ''
       state.isAuth = false
       state.isAdmin = false
     },

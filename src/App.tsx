@@ -42,10 +42,15 @@ const App = () => {
     isCategoriesProductOpen,
     isFiltersProductOpen,
     isSearchProductOpen,
+    isDeleteAccountModalOpen,
+    closeDeleteAccountModal,
+    isEditProfileModalOpen,
+    closeEditProfileModal
   } = useUIContextModals()
 
   const { notification, setNotification, } = useUIContextNotification()
   const { loadingFavourites, handleClearFav } = useFavourites()
+  const { handleDeleteAccount } = useAuth()
   const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasket()
 
   const shouldShowBackdrop = isCategoriesProductOpen || isFiltersProductOpen || isSearchProductOpen 
@@ -92,6 +97,11 @@ const App = () => {
         closeModalAllBasket={closeModalAllBasket}
         closeModalAllFav={closeModalAllFav}
         productIdToDelete={productIdToDelete}
+        isDeleteAccountModalOpen={isDeleteAccountModalOpen}
+        confirmDeleteAccount={handleDeleteAccount}
+        closeDeleteAccountModal={closeDeleteAccountModal}
+        isEditProfileModalOpen={isEditProfileModalOpen}
+        closeEditProfileModal={closeEditProfileModal}
       />
       <Backdrop isActive={shouldShowBackdrop} />
       <CookiesNotice />

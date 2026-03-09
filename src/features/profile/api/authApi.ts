@@ -17,17 +17,20 @@ export const authApi = {
 
   login: async (loginData: ILoginData) => {
     const res = await axios.post(AUTH_API_URLS, { ...loginData, Operation: 'login' }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     })
-
-    return {
-      success: res.data.success,
-      id_user: res.data.id_user,
-      name: res.data.name,
-      message: res.data.message,
-      is_admin: Number(res.data.is_admin)
-    }
+    return res.data
   },
+
+  updateProfile: async (data: { name: string, email: string, password: string }) => {
+    const res = await axios.patch(AUTH_API_URLS, { ...data, Operation: 'updateProfile' })
+    return res.data
+  },
+
+  deleteAccount: async () => {
+    const res = await axios.delete(AUTH_API_URLS, {
+      data: { Operation: 'deleteAccount' },
+    })
+    return res.data
+  }
 }
