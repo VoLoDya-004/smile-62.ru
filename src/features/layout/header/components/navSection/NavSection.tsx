@@ -6,7 +6,7 @@ import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import { cx } from '@/shared/utils/classnames'
 import { useAuth } from '@/features/profile/hooks/useAuth'
 import { useDeviceType } from '@/shared/hooks'
-import ProfileMenu from './ProfileMenu'
+import HeaderProfileDropdown from './headerProfileDropdown/HeaderProfileDropdown'
 import styles from './NavSection.module.scss'
 
 const NavSection = () => {
@@ -15,7 +15,7 @@ const NavSection = () => {
     'header-nav__list': navList,
     'header-nav__item': navItem,
     'header-nav__line': navLine,
-    'header-nav__item-style': navItemStyle
+    'header-nav__item-link': navItemLink
   } = styles
 
 	const { isMobile } = useDeviceType()
@@ -64,7 +64,7 @@ const NavSection = () => {
 				<li className={navItem}>
 					<NavLink
 						to='/'
-						className={({ isActive }) => cx(navItemStyle, isActive && navLine)}
+						className={({ isActive }) => cx(navItemLink, isActive && navLine)}
 					>
 						Главная
 					</NavLink>
@@ -82,13 +82,13 @@ const NavSection = () => {
 				>
 					<NavLink
 						to='/profile'
-						className={({ isActive }) => cx(navItemStyle, isActive && navLine)}
+						className={({ isActive }) => cx(navItemLink, isActive && navLine)}
 						aria-label='Профиль'
 					>
 						Профиль
 					</NavLink>
 					{showProfileMenu && (
-						<ProfileMenu
+						<HeaderProfileDropdown
 							isAuth={isAuth}
 							userName={userName}
 							isActiveProfile={isActiveProfile}
@@ -101,7 +101,7 @@ const NavSection = () => {
 				  <li className={navItem}>
 				  	<NavLink
 				  		to='/admin'
-				  		className={({ isActive }) => cx(navItemStyle, isActive && navLine)}
+				  		className={({ isActive }) => cx(navItemLink, isActive && navLine)}
 				  	>
 				  		Админ
 				  	</NavLink>
@@ -110,7 +110,7 @@ const NavSection = () => {
 				<li className={navItem}>
 					<NavLink
 						to='/favourites'
-						className={({ isActive }) => cx(navItemStyle, isActive && navLine)}
+						className={({ isActive }) => cx(navItemLink, isActive && navLine)}
 					>
 						Избранное
 					</NavLink>
@@ -118,7 +118,7 @@ const NavSection = () => {
 				<li className={navItem}>
 					<NavLink
 						to='/basket'
-						className={({ isActive }) => cx(navItemStyle, isActive && navLine)}
+						className={({ isActive }) => cx(navItemLink, isActive && navLine)}
 					>
 						Корзина
 					</NavLink>

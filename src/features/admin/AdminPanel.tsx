@@ -8,7 +8,7 @@ import { StatsTab } from './components/statsTab/StatsTab'
 import { OrdersTab } from './components/ordersTab/OrdersTab'
 import { useSearchParams } from 'react-router-dom'
 import type { TAdminSelect } from './types/adminTypes'
-import styles from './components/AdminPanel.module.scss'
+import styles from './AdminPanel.module.scss'
 import { Helmet } from 'react-helmet-async'
 
 const AdminPanel = () => {

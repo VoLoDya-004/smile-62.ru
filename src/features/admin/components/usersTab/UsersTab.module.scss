@@ -1,0 +1,71 @@
+@use '@/shared/styles/abstracts' as *;
+
+.users-tab {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-users-table-bg);
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    text-wrap: nowrap;
+    text-align: center;
+  }
+  th {
+    background: var(--admin-users-header-bg);
+    font-weight: 600;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    tr:hover {
+      transition: .1s;
+      background: var(--admin-users-header-hover-bg);
+    }
+  }
+}
+
+.admin-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  font-size: 0.75em;
+  &_active {
+    background: #4caf50;
+    color: white;
+  }
+  &_passive {
+    background: red;
+    color: white;
+  }
+}
+
+.admin-button {
+  border: 2px solid !important;
+  padding: 10px !important;
+  border-radius: 8px;
+  color: var(--text-body);
+  transition: .2s;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #6d5ac9;
+      border-color: #6d5ac9 !important;
+      color: white;
+    }
+  }
+  &_disabled {
+    cursor: default !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        color: inherit;
+      }
+    }
+  }
+}

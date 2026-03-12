@@ -5,7 +5,7 @@ import { useEffect, useRef, type FormEvent } from 'react'
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import ButtonCross from '@/shared/ui/buttons/ButtonCross'
 import styles from './Support.module.scss'
-import { useModalFocusTrap } from '@/shared/hooks/shared/useModalFocusTrap'
+import { useModalFocusTrap } from '@/shared/hooks'
 
 interface ISupportProps {
   isOpen: boolean

@@ -1,0 +1,98 @@
+@use '@/shared/styles/abstracts' as *;																
+
+.product {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 3fr) 1fr;
+  column-gap: 30px;
+  font-weight: 600;
+  font-size: 1.125em;
+  line-height: 1.3;
+  padding: 20px 0;
+  border-bottom: 2px solid var(--basket-border-color);
+  & > * {
+    place-self: center;
+  }
+  &__img {
+    justify-self: center;
+    width: 100%;
+    pointer-events: none;
+    max-width: 210px;
+  }
+  &__count {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    &-box {
+      width: 40px;
+      height: 30px;
+      background-color: var(--basket-count-bg);
+      border-radius: 3px;
+      padding-inline: 2px;
+    }
+    &-input {
+      border: none;
+      outline: none;
+      max-width: 100%;
+      padding: 0;
+      height: 100%;
+      background-color: transparent;
+      text-align: center;
+      font-size: 1.125em;
+      font-weight: 600;
+      line-height: 1.3;
+      -moz-appearance: textfield;
+      appearance: textfield;
+      color: var(--basket-input-text);
+    }
+    &-controls {
+      background-color: var(--basket-controls-bg);
+      display: flex;
+      flex-direction: column;
+      row-gap: 9px;
+    }
+  }
+}
+
+.count {
+  &-up,
+  &-down {
+    border: none;
+    background-color: transparent;
+  }
+  &-svg {
+    stroke: #A0BBCC;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: .2s;
+    &-hover {
+      @media (hover: hover) and (pointer: fine) {
+        &:hover .count-svg {
+          stroke: #9814ad;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .product {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(60px, auto);
+    gap: 10px 15px;
+    &__img {
+      grid-column: 1/3;
+    }
+    &__title {
+      grid-column: 3/-1;
+    }
+    &__count {
+      grid-column: 1/3;
+      justify-self: center;
+    }
+    &__price {
+      grid-column: 3/6;
+      justify-self: center;
+    }
+  }
+}
+   

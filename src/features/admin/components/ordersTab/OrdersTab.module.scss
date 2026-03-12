@@ -1,0 +1,94 @@
+@use '@/shared/styles/abstracts' as *;
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.orders-params-row {
+  margin-bottom: 20px;
+}
+
+.orders-filters-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.order-card {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--admin-order-card-bg);
+  &-header {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    &__id {
+      font-weight: bold;
+      font-size: 1.125em;
+      margin-bottom: 5px;
+    }
+    &__date {
+      color: #666;
+      font-size: 0.875em;
+    }
+    &__user {
+      font-size: 0.875em;
+      color: #666;
+      @include text-wrap;
+      text-align: center;
+    }
+  }
+}
+
+.status-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  select {
+    padding: 5px 10px;
+    border: 2px solid;
+    border-radius: 4px;
+    background: var(--admin-order-select-bg);
+    color: var(--admin-order-select-text);
+    cursor: pointer;
+    &:disabled {
+      border-color: gray !important;
+    }
+  }
+  &__badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.75em;
+    font-weight: bold;
+  }
+}
+
+.order-info {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 15px;
+  @include text-wrap;
+}
+
+.order-items {
+  margin-top: 15px;
+  border-top: 2px solid #eee;
+  h4 {
+    margin-block: 15px 10px;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .status-section {
+    flex-wrap: wrap;
+  }
+}

@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
-import BasketCircleMobile from './BasketCircleMobile'
-import styles from '../NavSection.module.scss'
+import BasketCircleMobile from './circleBasket/BasketCircleMobile'
+import styles from './NavSectionMobile.module.scss'
 import AdminSVG from '@/shared/ui/icons/NavMobileSVG/AdminSVG'
 import BasketSVG from '@/shared/ui/icons/NavMobileSVG/BasketSVG'
 import ProfileSVG from '@/shared/ui/icons/NavMobileSVG/ProfileSVG'
@@ -13,10 +13,10 @@ import HomeSVG from '@/shared/ui/icons/NavMobileSVG/HomeSVG'
 
 const NavSectionMobile = () => {  
   const {
-    'header-nav-mobile': nav,
-    'header-nav-mobile__item': navItem,
-    'header-nav-mobile__item_active': navItemActive,
-    'header-nav-mobile__item_passiv': navItemPassiv
+    'header-nav': nav,
+    'header-nav__item': navItem,
+    'header-nav__item_active': navItemActive,
+    'header-nav__item_passiv': navItemPassiv
   } = styles
 
   const isAdmin = useSelector((state: RootStore) => state.user.isAdmin)

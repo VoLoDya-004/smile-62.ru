@@ -1,6 +1,6 @@
 import { formatPrice } from '@/shared/utils/formatters'
 import type { IStats } from '../../types/adminTypes'
-import styles from '../AdminPanel.module.scss'
+import styles from './StatsTab.module.scss'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 interface IStatsTabProps {

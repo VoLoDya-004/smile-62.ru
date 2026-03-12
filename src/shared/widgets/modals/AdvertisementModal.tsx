@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import styles from './Modals.module.scss'
-import { useFocusTrap } from '@/shared/hooks/shared/useFocusTrap'
+import { useFocusTrap } from '@/shared/hooks'
 
 interface IAdvertisementModalProps {
   isOpen: boolean

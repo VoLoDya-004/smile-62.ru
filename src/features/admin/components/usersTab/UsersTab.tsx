@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { cx } from '@/shared/utils/classnames'
-import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
-import styles from '../AdminPanel.module.scss'
+import styles from './UsersTab.module.scss'
 import AdminSearchSelect from '../adminSearchSelect/AdminSearchSelect'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
+import { useDragScroll } from '@/shared/hooks'
 
 interface IUsersTabProps {
   users: IUser[]

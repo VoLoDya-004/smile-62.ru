@@ -1,0 +1,13 @@
+@use '@/shared/styles/abstracts' as *;
+
+.logo {
+	user-select: none;
+  cursor: pointer;
+	width: 240px;
+}
+
+@media (max-width: $breakpoint-md) {
+  .logo {
+  	display: none;
+  }
+}

@@ -1,0 +1,28 @@
+@use '@/shared/styles/abstracts' as *;
+
+.categories { 
+  margin: auto 10px;
+	&-button {
+    display: flex;
+		align-items: center;
+		background-color: transparent;
+		width: 35px;
+		height: 35px;
+    padding: 0;
+		border-radius: 10px;
+		border: 1px solid rgb(255 255 255 / 0.4);
+		justify-content: center;
+		transition: border-width .3s;
+		transition: border-color .3s;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-width: 2px;
+        border-color: white;
+      }
+    }
+	}
+}
+
+@media (max-width: $breakpoint-sm) {	
+	.categories {  margin-left: 10px; }
+}

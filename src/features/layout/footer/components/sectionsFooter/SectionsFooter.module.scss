@@ -1,0 +1,50 @@
+@use '@/shared/styles/abstracts' as *;
+
+.section {
+	display: inline-flex;
+	flex-direction: column;
+	padding-top: 30px;
+	margin-right: 40px;
+	&__item { 
+		margin-block: 10px;
+		display: flex;
+		color: #868695;
+		text-decoration: none;
+		transition: color .3s;
+		user-select: none;
+		&-link { 
+			color: #868695;
+			text-decoration: none;
+			transition: color .3s;
+			width: 80px;
+			@media (hover: hover) and (pointer: fine) {
+				&:hover { 
+					color: var(--footer-hover-text);
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $breakpoint-md) {	
+	.section {
+		display: inline-flex;
+		margin: 0;
+		margin-left: 40px;
+	}
+}
+
+
+@media (max-width: $breakpoint-sm) {
+	.section {
+		margin-left: 30px;
+	}
+}
+
+@media (max-width: $breakpoint-xs) {
+	.section {
+		font-size: 0.81em;
+		margin-left: 0;
+		width: min-content;
+	}
+}

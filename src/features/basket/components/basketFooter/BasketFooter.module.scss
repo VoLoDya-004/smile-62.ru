@@ -1,0 +1,35 @@
+@use '@/shared/styles/abstracts' as *;																
+
+.basket-footer {
+  display: grid;
+  grid-template-columns: 5fr 3fr 4fr;
+  column-gap: 30px;
+  background-color: var(--basket-footer-bg);
+  font-weight: 700;
+  font-size: 1.125em;
+  line-height: 1.2;
+  padding: 19px 0;
+  border-radius: 0 0 19px 19px;
+  &__count {
+    grid-column-start: 2;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .basket-footer {
+    grid-template-columns: 1fr 1fr;
+    &__count {
+      grid-column-start: 1;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .basket-footer {
+    grid-template-columns: 1fr;
+    justify-items: end;
+    row-gap: 10px;
+    padding: 19px 30px 19px 0;
+  }
+}
+     

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState, type RefObject } from 'react'
-import { useRecommendations } from '@/shared/hooks'
+import { useRecommendations } from './hooks/useRecommendations'
 import type { ICardsRender } from '@/features/layout/products/types/mainTypes'
 import type { IScrollHandlers } from './types/recommendationsTypes'
 import { cx } from '@/shared/utils/classnames'
 import ButtonArrow from '@/shared/ui/buttons/ButtonArrow'
 import styles from './Recommendations.module.scss'
-import { useDragScroll } from '@/shared/hooks/shared/useDragScroll'
+import { useDragScroll } from '@/shared/hooks'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
 
 const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {

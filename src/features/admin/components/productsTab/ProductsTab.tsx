@@ -1,4 +1,4 @@
-import { ProductsList } from './ProductsList'
+import { ProductsList } from './productsList/ProductsList'
 import type { IProduct } from '../../types/adminTypes'
 import { ProductsFilter } from './productsFilter/ProductsFilter'
 

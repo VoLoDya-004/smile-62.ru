@@ -1,6 +1,6 @@
 import { useFavourites } from '../hooks/useFavourites'
 import type { IFav } from '../types/favouritesTypes'
-import FavouritesProducts from './FavouritesProducts'
+import FavouritesProducts from './favouritesProducts/FavouritesProducts'
 
 const FavouritesList = () => {
   const { cartFavourites } = useFavourites()

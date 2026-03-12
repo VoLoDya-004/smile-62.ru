@@ -1,0 +1,20 @@
+@use '@/shared/styles/abstracts' as *;
+
+.logo { 
+  width: auto;
+  display: inline-flex;
+  pointer-events: none;
+  fill: white;
+  svg {
+    height: 60px;
+  }
+}
+
+.logo-wrapper {
+	margin-block: auto;
+}
+
+@media (max-width: $breakpoint-sm) {	
+	.logo { display: none; }
+}
+

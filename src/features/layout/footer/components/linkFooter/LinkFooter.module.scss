@@ -1,0 +1,97 @@
+@use '@/shared/styles/abstracts' as *;
+
+.link {
+  display: flex;
+  justify-content: end;
+  margin-left: 40px;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 20px;
+  &__item {
+		background-color: var(--footer-link-bg);
+		border-radius: 9px;
+		&-vk {
+			@include flex-center;
+			height: 34px;
+			width: 34px;
+			transition: background-color .3s;
+			&-svg {
+				fill: #868695;
+				transition: .3s;
+				padding: 11px 7px;
+				@media (hover: hover) and (pointer: fine) {
+					&:hover {
+						fill: #07f;
+					}
+				}
+			}
+		}
+		&-tg {
+			@include flex-center;
+			height: 34px;
+			width: 34px;
+			transition: background-color .3s;
+			&-svg {
+				fill: #868695;
+				transition: .3s;
+				padding: 9px 7px;
+				@media (hover: hover) and (pointer: fine) {
+					&:hover {
+						fill: #3490ec;
+					}
+				}
+			}
+		}
+		&-ok {
+			@include flex-center;
+			height: 34px;
+			width: 34px;
+			transition: background-color .3s;
+			&-svg {
+				fill: #868695;
+				transition: .3s;
+				padding: 8px 11px;
+				@media (hover: hover) and (pointer: fine) {
+					&:hover {
+						fill: #ff7701;
+					}
+				}
+			}
+		}
+		&-youtube {
+			@include flex-center;
+			height: 34px;
+			width: 34px;
+			transition: background-color .3s;
+			&-svg {
+				fill: #868695;
+				transition: .3s;
+				padding: 10px 7px;
+				@media (hover: hover) and (pointer: fine) {
+					&:hover {
+						fill: red;
+					}
+				}
+			}
+		}
+  }
+}
+
+@media (max-width: $breakpoint-md) {	
+	.link {
+		margin-left: auto;
+	}
+}
+
+@media (max-width: $breakpoint-sm) {	
+	.link {
+		justify-content: start;
+		margin: 0 10px 60px 30px;
+	}
+}
+
+@media (max-width: $breakpoint-xs) {
+  .link {
+		margin-left: 10px;
+  }
+}

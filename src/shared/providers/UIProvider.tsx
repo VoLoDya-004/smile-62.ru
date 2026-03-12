@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { useModals } from '../hooks/custom/useModals'
-import { useNotification } from '../hooks/custom/useNotification'
+import { useModals } from '../widgets/modals/hooks/useModals'
+import { useNotification } from '../widgets/notification/hooks/useNotification'
 import { createContext, useContext } from 'react'
 
 interface IUIContextType {

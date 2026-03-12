@@ -1,14 +1,13 @@
 
 import { useUIContextModals } from '@/shared/providers/UIProvider'
 import Button from '@/shared/ui/buttons/Button'
-import styles from './Favourites.module.scss'
 
 const FavouritesClearString = () => {
   const { handleClearFavBtn } = useUIContextModals()
 
   return (
     <section className='clear-string'>
-      <h1 className={styles['favourites-box__title']}>Избранные товары</h1>
+      <h1>Избранные товары</h1>
       <Button className='button-violet' onClick={handleClearFavBtn}>Очистить избранное</Button>
     </section>
   )

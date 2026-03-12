@@ -1,0 +1,29 @@
+@use '@/shared/styles/abstracts' as *;														                                                               
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr repeat(2, 3fr) 0.5fr 0.5fr;
+  column-gap: 30px;
+  background-color: var(--favourites-header);
+  padding: 22px 0;
+  font-weight: 700;
+  font-size: 0.81em;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 19px 19px 0 0;
+  h4:first-child {
+    grid-column-start: 2;
+  }
+}
+
+
+@media (max-width: $breakpoint-sm) {
+	.table-header {
+    height: 1px;
+    padding: 0;
+    & > * {
+      display: none;
+    }
+  }
+}

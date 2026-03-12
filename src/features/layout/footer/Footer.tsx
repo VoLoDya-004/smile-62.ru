@@ -1,8 +1,8 @@
-import ContactsFooter from './components/ContactsFooter'
-import LinkFooter from './components/LinkFooter'
-import LogoFooter from './components/LogoFooter'
-import Copyright from './components/Copyright'
-import SectionsFooter from './components/SectionsFooter'
+import ContactsFooter from './components/contactsFooter/ContactsFooter'
+import LinkFooter from './components/linkFooter/LinkFooter'
+import LogoFooter from './components/logoFooter/LogoFooter'
+import Copyright from './components/copyright/Copyright'
+import SectionsFooter from './components/sectionsFooter/SectionsFooter'
 import styles from './Footer.module.scss'
 
 const Footer = () => {

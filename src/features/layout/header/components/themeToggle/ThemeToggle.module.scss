@@ -1,0 +1,30 @@
+@use '@/shared/styles/abstracts' as *;
+
+.theme-toggle {
+	&__button {
+		width: 20px;
+		height: 20px;
+		position: fixed;
+		right: 10px;
+		top: 5px;
+		z-index: 200;
+		border: none;
+		background-color: $buttonColor;
+		border-radius: 50%;
+		transition: .4s linear;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -2px calc(100% - 24px) -2px -4px;
+    }
+		&:hover {
+			background-color: rgb(186 155 194);
+		}
+	}
+	&__img {
+		width: 16px;
+		position: fixed;
+		right: 12px;
+		top: 7px;
+	}
+}

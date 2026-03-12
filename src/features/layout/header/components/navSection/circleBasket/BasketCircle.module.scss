@@ -1,0 +1,23 @@
+@use '@/shared/styles/abstracts' as *;
+
+.circle { 
+  box-sizing: border-box;
+	border-radius: 17px;
+	min-width: 17px;
+  height: 17px;
+	text-align: center;
+	color: white;
+	background: #e50000;
+	font: 10px Arial, sans-serif;
+	display: inline-block;
+	position: absolute;
+	top: 27px;
+  right: 37px;
+	letter-spacing: normal;
+  padding: 3px 3px 1px;
+	z-index: 300;
+}
+
+@media (max-width: $breakpoint-md) {	
+	.circle { display: none; }
+}
