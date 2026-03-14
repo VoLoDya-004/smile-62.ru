@@ -32,7 +32,6 @@ const SortMenu = forwardRef<HTMLFormElement, TSortMenuProps>(({ onSelect }, ref)
     }
     setSearchParams(newSearchParams)
     onSelect(currentSort)
-    //onClose()
   }, [currentSort, searchParams, setSearchParams])
 
   useEffect(() => {

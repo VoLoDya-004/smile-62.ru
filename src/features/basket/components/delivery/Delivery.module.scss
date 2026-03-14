@@ -33,6 +33,7 @@
     &-checkbox {
       color: grey;
       user-select: none; 
+      height: 58px;
     }
     &-rules {
       text-decoration: none;
@@ -51,14 +52,21 @@
     background-color: var(--basket-method-delivery-bg);
     margin: 25px;
     border-radius: 19px;
-    gap: 20px;
+    gap: 10px;
     width: 40%;
     flex-direction: column;
     padding: 30px;
+    &-height {
+      height: 62px;
+    }
     &-title {
       text-transform: uppercase;
+      h3 {
+        margin-top: 0;
+      }
     }
     &-select {
+      width: 100%;
       background-color: var(--basket-select-bg);
       color: var(--basket-select-text);
       border: none;

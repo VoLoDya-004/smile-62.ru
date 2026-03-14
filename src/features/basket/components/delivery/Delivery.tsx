@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { cx } from '@/shared/utils/classnames'
 import { useBasket } from '../../hooks/useBasket'
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
@@ -9,25 +8,28 @@ import { useWallet } from '@/features/profile/hooks/useWallet'
 import { useOrders } from '../../hooks/useOrders'
 import Button from '@/shared/ui/buttons/Button'
 import styles from './Delivery.module.scss'
+import { useForm, type FieldErrors, type UseFormRegister, type UseFormRegisterReturn } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { deliverySchema, type TDeliveryFormData } from '../../types/deliverySchema'
 
 const OrderSummary = ({ 
   total,
   deliveryCost,
   handleOrderProducts,
-  acceptRules,
-  setAcceptRules,
+  registerAcceptRules,
   balance,
   totalWithDelivery,
-  isCreatingOrder
+  isCreatingOrder,
+  errorAcceptRules
 }: { 
   total: IBasketTotal
   deliveryCost: number
   handleOrderProducts: () => Promise<void>
-  acceptRules: boolean
-  setAcceptRules: (value: boolean) => void
+  registerAcceptRules: UseFormRegisterReturn
   balance: number
   totalWithDelivery: number
   isCreatingOrder: boolean
+  errorAcceptRules?: string
 }) => {
   const {
     'delivery__order': order,
@@ -82,14 +84,13 @@ const OrderSummary = ({
           <input 
             type='checkbox' 
             id='accept-rules' 
-            name='acceptRules'
             className='cursor-pointer margin-checkbox'
-            checked={acceptRules}
-            onChange={(e) => setAcceptRules(e.target.checked)}
+            {...registerAcceptRules}
           />
           Соглашаюсь с <a href='' className={orderRules}> правилами </a> пользования <br /> 
           торговой площадкой и возврата
         </label>
+        {errorAcceptRules && <span className='error-message'>{errorAcceptRules}</span>}
       </div>
     </section>
   )
@@ -98,24 +99,17 @@ const OrderSummary = ({
 const MethodSelection = ({ 
   isLoadingDeliveryMethods,
   deliveryMethods,
-  selectedDeliveryMethod,
-  setSelectedDeliveryMethod,
-  deliveryAddress,
-  setDeliveryAddress,
-  customerNotes,
-  setCustomerNotes
+  register,
+  errors
 }: { 
   isLoadingDeliveryMethods: boolean
   deliveryMethods: IDeliveryMethod[]
-  selectedDeliveryMethod: number | null
-  setSelectedDeliveryMethod: (id: number) => void
-  deliveryAddress: string
-  setDeliveryAddress: (address: string) => void
-  customerNotes: string
-  setCustomerNotes: (notes: string) => void
+  register: UseFormRegister<TDeliveryFormData>
+  errors: FieldErrors<TDeliveryFormData> 
 }) => {
   const {
     'delivery__method': deliveryMethod,
+    'delivery__method-height': deliveryHeight,
     'delivery__method-title': deliveryMethodTitle,
     'delivery__method-select': deliveryMethodSelect,
     'delivery__method-textarea': deliveryMethodTextarea
@@ -130,20 +124,24 @@ const MethodSelection = ({
           <label className={deliveryMethodTitle} htmlFor='delivery-method-select'>
             <h3 className='margin-null'>Способ доставки</h3>
           </label>
-          <select 
-            id='delivery-method-select'
-            value={selectedDeliveryMethod || ''}
-            onChange={(e) => setSelectedDeliveryMethod(Number(e.target.value))}
-            className={cx(deliveryMethodSelect, 'cursor-pointer')} 
-          >
-            <option value='' disabled>Выберите способ доставки</option>
-            {deliveryMethods.map((method) => (
-              <option key={method.id} value={method.id}>
-                {method.name} - {formatPrice(parseFloat(method.cost))} ₽ 
-                (доставка за {method.estimated_days} дн.)
-              </option>
-            ))}
-          </select>
+          <div className={deliveryHeight}>
+            <select 
+              id='delivery-method-select'
+              {...register('selectedDeliveryMethod')}
+              className={cx(deliveryMethodSelect, 'cursor-pointer')} 
+            >
+              <option value='' disabled>Выберите способ доставки</option>
+              {deliveryMethods.map((method) => (
+                <option key={method.id} value={method.id}>
+                  {method.name} - {formatPrice(parseFloat(method.cost))} ₽ 
+                  (доставка за {method.estimated_days} дн.)
+                </option>
+              ))}
+            </select>
+            {errors.selectedDeliveryMethod && (
+              <span className='error-message'>{errors.selectedDeliveryMethod.message}</span>
+            )}
+          </div>
         </>
       ) : (<div>Нет доступных способов доставки</div>)}
       
@@ -151,24 +149,32 @@ const MethodSelection = ({
         <label className={deliveryMethodTitle}>
           <h3>Адрес доставки</h3>
         </label>
-        <textarea
-          value={deliveryAddress}
-          onChange={(e) => setDeliveryAddress(e.target.value)}
-          placeholder='Введите полный адрес доставки'
-          className={deliveryMethodTextarea}
-        />
+        <div className={deliveryHeight}>
+          <textarea
+            {...register('deliveryAddress')}
+            placeholder='Введите полный адрес доставки'
+            className={deliveryMethodTextarea}
+          />
+          {errors.deliveryAddress && (
+            <span className='error-message'>{errors.deliveryAddress.message}</span>
+          )}
+        </div>
       </div>
 
       <div>
         <label className={deliveryMethodTitle}>
           <h3>Комментарий к заказу</h3>
         </label>
-        <textarea
-          value={customerNotes}
-          onChange={(e) => setCustomerNotes(e.target.value)}
-          placeholder='Дополнительные пожелания (необязательно)'
-          className={deliveryMethodTextarea}
-        />
+        <div className={deliveryHeight}>
+          <textarea
+            {...register('customerNotes')}
+            placeholder='Дополнительные пожелания (необязательно)'
+            className={deliveryMethodTextarea}
+          />
+          {errors.customerNotes && (
+            <span className='error-message'>{errors.customerNotes.message}</span>
+          )}
+        </div>
       </div>
     </section>
   )
@@ -187,10 +193,22 @@ const Delivery = () => {
 
   cartBasket = cartBasket.filter((item: IBasket) => item.id > 0)
 
-  const [deliveryAddress, setDeliveryAddress] = useState('')
-  const [customerNotes, setCustomerNotes] = useState('')
-  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState<number | null>(null)
-  const [acceptRules, setAcceptRules] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<TDeliveryFormData>({
+    resolver: yupResolver(deliverySchema),
+    defaultValues: {
+      deliveryAddress: '',
+      selectedDeliveryMethod: '',
+      customerNotes: '',
+      acceptRules: false,
+    }
+  })
+
+  const selectedDeliveryMethod = watch('selectedDeliveryMethod')
 
   const total = cartBasket.reduce((acc: IBasketTotal, item: IBasket) => {
     const count = Number(item.count)
@@ -203,38 +221,23 @@ const Delivery = () => {
   }, { count: 0, price: 0 })
 
   const selectedMethod = deliveryMethods.find(
-    (method: IDeliveryMethod) => Number(method.id) === selectedDeliveryMethod
+    (method: IDeliveryMethod) => String(method.id) === selectedDeliveryMethod
   )
   const deliveryCost = selectedMethod ? parseFloat(selectedMethod.cost) : 0
   const totalWithDelivery = total.price + deliveryCost
 
-  const handleOrderProducts = async () => {
-    if (!deliveryAddress.trim()) {
-      showNotification('Введите адрес доставки', 'error')
-      return
-    }
-    
-    if (!selectedDeliveryMethod) {
-      showNotification('Выберите способ доставки', 'error')
-      return
-    }
-    
-    if (!acceptRules) {
-      showNotification('Подтвердите согласие с правилами', 'error')
-      return
-    }
-    
+  const onSubmit = async (data: TDeliveryFormData) => {
     if (balance < total.price) {
       showNotification('Недостаточно средств на балансе', 'error')
       return
     }
 
     const res = await createOrder({
-      deliveryAddress,
-      deliveryMethodId: selectedDeliveryMethod,
-      customerNotes
+      deliveryAddress: data.deliveryAddress,
+      deliveryMethodId: Number(data.selectedDeliveryMethod),
+      customerNotes: data.customerNotes
     })
-
+    
     if (res.success) {
       showNotification('Заказ успешно создан', 'success')
     }
@@ -247,22 +250,18 @@ const Delivery = () => {
         <OrderSummary 
           total={total} 
           deliveryCost={deliveryCost}
-          handleOrderProducts={handleOrderProducts}
-          acceptRules={acceptRules}
-          setAcceptRules={setAcceptRules}
+          handleOrderProducts={handleSubmit(onSubmit)}
+          registerAcceptRules={register('acceptRules')}
           balance={balance}
           totalWithDelivery={totalWithDelivery}
           isCreatingOrder={isCreatingOrder}
+          errorAcceptRules={errors.acceptRules?.message}
         />
         <MethodSelection
           isLoadingDeliveryMethods={isLoadingDeliveryMethods}
           deliveryMethods={deliveryMethods}
-          selectedDeliveryMethod={selectedDeliveryMethod}
-          setSelectedDeliveryMethod={setSelectedDeliveryMethod}
-          deliveryAddress={deliveryAddress}
-          setDeliveryAddress={setDeliveryAddress}
-          customerNotes={customerNotes}
-          setCustomerNotes={setCustomerNotes}
+          register={register}
+          errors={errors}
         />
       </section>
     </>

@@ -148,7 +148,7 @@ export const useProducts = () => {
   return {
     cards: productQuery.data?.data || [],
     totalItems: productQuery.data?.total || 0,
-    isLoading: productQuery.isLoading,
+    isLoading: productQuery.isPending,
     searchQuery,
     currentPage,
     currentSort,

@@ -20,7 +20,7 @@ const Accordion = ({ title, children }: IAccordionProps) => {
 
   return (
     <div className={accordion}>
-      <button className={accordionHeader} onClick={toggle}>
+      <button type='button' className={accordionHeader} onClick={toggle}>
         <h4 className='margin-null'>{title} {isOpen ? '▴' : '▾'}</h4>
       </button>
       {isOpen && 

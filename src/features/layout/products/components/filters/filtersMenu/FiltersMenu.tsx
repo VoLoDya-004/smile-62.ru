@@ -1,9 +1,14 @@
-import { forwardRef, useEffect, useState, type ChangeEvent } from 'react'
+import { forwardRef, useEffect } from 'react'
 import { useProductsContext } from '@/features/layout/products/providers/ProductsProvider'
 import Accordion from './Accordion'
 import Button from '@/shared/ui/buttons/Button'
 import ButtonCross from '@/shared/ui/buttons/ButtonCross'
 import styles from './FiltersMenu.module.scss'
+import { useForm } from 'react-hook-form'
+import ButtonSubmit from '@/shared/ui/buttons/ButtonSubmit'
+import { cx } from '@/shared/utils/classnames'
+import { useProducts } from '../../../hooks/useProducts'
+import type { IFiltersFormValues } from '../../../types/mainTypes'
 
 interface IFiltersMenuProps {
   handleToggleFilters: () => void
@@ -22,83 +27,73 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
   } = styles
 
   const { handleFiltersChange, filters } = useProductsContext()
+  const { isLoading } = useProducts()
 
-  const [actions, setActions] = useState({
-    action1: false,
-    action2: false,
-    action3: false,
-    action4: false,
-    action5: false,
-    action6: false,
-    action7: false,
-    action8: false,
+  const { register, handleSubmit, reset, watch, setValue } = useForm({
+    defaultValues: {
+      minPrice: '',
+      maxPrice: '',
+      action1: false,
+      action2: false,
+      action3: false,
+      action4: false,
+      action5: false,
+      action6: false,
+      action7: false,
+      action8: false,
+    }
   })
-
-  const [minPrice, setMinPrice] = useState('')
-  const [maxPrice, setMaxPrice] = useState('')
 
   useEffect(() => {
     if (filters) {
-      setActions({
-        action1: filters.actions.action1 ? true : false,
-        action2: filters.actions.action2 ? true : false,
-        action3: filters.actions.action3 ? true : false,
-        action4: filters.actions.action4 ? true : false,
-        action5: filters.actions.action5 ? true : false,
-        action6: filters.actions.action6 ? true : false,
-        action7: filters.actions.action7 ? true : false,
-        action8: filters.actions.action8 ? true : false,
+      reset({
+        minPrice: filters.minPrice !== null ? String(filters.minPrice) : '',
+        maxPrice: filters.maxPrice !== null ? String(filters.maxPrice) : '',
+        action1: filters.actions.action1,
+        action2: filters.actions.action2,
+        action3: filters.actions.action3,
+        action4: filters.actions.action4,
+        action5: filters.actions.action5,
+        action6: filters.actions.action6,
+        action7: filters.actions.action7,
+        action8: filters.actions.action8,
       })
-      setMinPrice(filters.minPrice !== null ? String(filters.minPrice) : '')
-      setMaxPrice(filters.maxPrice !== null ? String(filters.maxPrice) : '')
     }
-  }, [filters])
+  }, [filters, reset])
 
-  const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setMinPrice(value)
+  const minPriceValue = watch('minPrice')
+  const maxPriceValue = watch('maxPrice')
+  const isPriceRangeDisabled = minPriceValue !== '' || maxPriceValue !== ''
 
-    if (value !== '' || maxPrice !== '') {
-      setActions(prev => ({
-        ...prev,
-        action5: false,
-        action6: false,
-        action7: false,
-        action8: false,
-      }))
+  useEffect(() => {
+    if (isPriceRangeDisabled) {
+      setValue('action5', false)
+      setValue('action6', false)
+      setValue('action7', false)
+      setValue('action8', false)
     }
-  }
+  }, [isPriceRangeDisabled, setValue])
 
-  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setMaxPrice(value)
-
-    if (value !== '' || minPrice !== '') {
-      setActions(prev => ({
-        ...prev,
-        action5: false,
-        action6: false,
-        action7: false,
-        action8: false,
-      }))
-    }
-  }
-
-  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setActions({...actions, [e.target.name]: e.target.checked})
-  }
-
-  const handleApplyFilters = () => {
+  const onSubmit = (data: IFiltersFormValues) => {
     handleFiltersChange({
-      minPrice: minPrice !== '' ? parseFloat(minPrice) : null,
-      maxPrice: maxPrice !== '' ? parseFloat(maxPrice) : null,
-      actions: { ...actions }
+      minPrice: data.minPrice !== '' ? parseFloat(data.minPrice) : null,
+      maxPrice: data.maxPrice !== '' ? parseFloat(data.maxPrice) : null,
+      actions: {
+        action1: data.action1,
+        action2: data.action2,
+        action3: data.action3,
+        action4: data.action4,
+        action5: data.action5,
+        action6: data.action6,
+        action7: data.action7,
+        action8: data.action8,
+      }
     })
     handleToggleFilters()
   }
 
-  const handleResetFilters = () => {
-    handleFiltersChange({
+  const onReset = () => {
+    const emptyFilters = {
       minPrice: null,
       maxPrice: null,
       actions: {
@@ -111,7 +106,9 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         action7: false,
         action8: false,
       }
-    })
+    }
+    handleFiltersChange(emptyFilters)
+    reset()
     handleToggleFilters()
   }
 
@@ -126,154 +123,141 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
         <h3 className='margin-null'>Фильтры</h3>
         <ButtonCross className='button-cross' onClick={handleToggleFilters} />
       </div>
-      <Accordion title='Акции'>
-        <label aria-label='Без акции'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action1'
-              checked={actions.action1}
-              onChange={handleCheckboxChange}
-            />
-            Без акции
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Accordion title='Акции'>
+          <label aria-label='Без акции'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                {...register('action1')}
+              />
+              Без акции
+            </div>
+          </label>
+          <label aria-label='Акция меньше 10%'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                {...register('action2')}
+              />
+              Акция меньше 10%
+            </div>
+          </label>
+          <label aria-label='Акция 10-20%'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                {...register('action3')}
+              />
+              Акция 10-20%
+            </div>
+          </label>
+          <label aria-label='Акция больше 20%'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                {...register('action4')}
+              />
+              Акция больше 20%
+            </div>
+          </label>
+        </Accordion>
+        <Accordion title='Цена'>
+          <div className={accordionPrice}>
+            <div className={accordionInputBlock}>
+              <input 
+                id='accordion__input-left'
+                className={accordionInput}
+                type='number'
+                min='1'
+                max='1000000'
+                placeholder='от...'
+                aria-label='Начальная граница стоимости товаров'
+                {...register('minPrice')}
+              />
+            </div>
+            <div className={accordionInputBlock}>
+              <input 
+                id='accordion__input-right'
+                className={accordionInput}
+                type='number'
+                min='1'
+                max='1000000' 
+                placeholder='до...'
+                aria-label='Конечная граница стоимости товаров'
+                {...register('maxPrice')}
+              />
+            </div>
           </div>
-        </label>
-        <label aria-label='Акция меньше 10%'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action2'
-              checked={actions.action2}
-              onChange={handleCheckboxChange}
-            />
-            Акция меньше 10%
-          </div>
-        </label>
-        <label aria-label='Акция 10-20%'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action3'
-              checked={actions.action3}
-              onChange={handleCheckboxChange}
-            />
-            Акция 10-20%
-          </div>
-        </label>
-        <label aria-label='Акция больше 20%'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action4'
-              checked={actions.action4}
-              onChange={handleCheckboxChange}
-            />
-            Акция больше 20%
-          </div>
-        </label>
-      </Accordion>
-      <Accordion title='Цена'>
-        <div className={accordionPrice}>
-          <div className={accordionInputBlock}>
-            <input 
-              id='accordion__input-left'
-              className={accordionInput}
-              type='number'
-              min='1'
-              max='1000000'
-              value={minPrice}
-              placeholder='от...'
-              onChange={handleMinPriceChange}
-              aria-label='Начальная граница стоимости товаров'
-            />
-          </div>
-          <div className={accordionInputBlock}>
-            <input 
-              id='accordion__input-right'
-              className={accordionInput}
-              type='number'
-              min='1'
-              max='1000000' 
-              value={maxPrice}
-              placeholder='до...'
-              onChange={handleMaxPriceChange}
-              aria-label='Конечная граница стоимости товаров'
-            />
-          </div>
+          <label aria-label='Меньше 15 тысяч рублей'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                disabled={isPriceRangeDisabled}
+                {...register('action5')}
+              />
+              <span className={accordionItemMargin}>
+                Меньше 15&nbsp;000 ₽
+              </span>
+            </div>
+          </label>
+          <label aria-label='От 15 тысяч до 50 тысяч рублей'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox' 
+                disabled={isPriceRangeDisabled}
+                {...register('action6')}
+              />
+              <span className={accordionItemMargin}>
+                От 15&nbsp;000 ₽ до 50&nbsp;000 ₽
+              </span>
+            </div>
+          </label>
+          <label aria-label='От 50 тысяч до 100 тысяч рублей'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                disabled={isPriceRangeDisabled}
+                {...register('action7')}
+              />
+              <span className={accordionItemMargin}>
+                От 50&nbsp;000 ₽ до 100&nbsp;000 ₽
+              </span>
+            </div>
+          </label>
+          <label aria-label='Больше 100 тысяч рублей'>
+            <div className={accordionItem}>
+              <input 
+                className='margin-checkbox cursor-pointer'
+                type='checkbox'
+                disabled={isPriceRangeDisabled}
+                {...register('action8')}
+              />
+              <span className={accordionItemMargin}>
+                Больше 100&nbsp;000 ₽
+              </span>
+            </div>
+          </label>
+        </Accordion>
+        <div className={accordionButton}>
+          <ButtonSubmit 
+            className={cx(isLoading ? 'button-violet button-violet_disabled' : 'button-violet')}
+            disabled={isLoading}
+          >
+            Применить
+          </ButtonSubmit>
+          <Button className='button-grey' onClick={onReset}>
+            Сбросить
+          </Button>
         </div>
-        <label aria-label='Меньше 15 тысяч рублей'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action5'
-              checked={actions.action5}
-              onChange={handleCheckboxChange}
-              disabled={minPrice !== '' || maxPrice !== ''}
-            />
-            <span className={accordionItemMargin}>
-              Меньше 15&nbsp;000 ₽
-            </span>
-          </div>
-        </label>
-        <label aria-label='От 15 тысяч до 50 тысяч рублей'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox' 
-              name='action6'
-              checked={actions.action6} 
-              onChange={handleCheckboxChange}
-              disabled={minPrice !== '' || maxPrice !== ''}
-            />
-            <span className={accordionItemMargin}>
-              От 15&nbsp;000 ₽ до 50&nbsp;000 ₽
-            </span>
-          </div>
-        </label>
-        <label aria-label='От 50 тысяч до 100 тысяч рублей'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action7'
-              checked={actions.action7}
-              onChange={handleCheckboxChange}
-              disabled={minPrice !== '' || maxPrice !== ''}
-            />
-            <span className={accordionItemMargin}>
-              От 50&nbsp;000 ₽ до 100&nbsp;000 ₽
-            </span>
-          </div>
-        </label>
-        <label aria-label='Больше 100 тысяч рублей'>
-          <div className={accordionItem}>
-            <input 
-              className='margin-checkbox cursor-pointer'
-              type='checkbox'
-              name='action8'
-              checked={actions.action8}
-              onChange={handleCheckboxChange}
-              disabled={minPrice !== '' || maxPrice !== ''}
-            />
-            <span className={accordionItemMargin}>
-              Больше 100&nbsp;000 ₽
-            </span>
-          </div>
-        </label>
-      </Accordion>
-      <div className={accordionButton}>
-        <Button className='button-violet' onClick={handleApplyFilters}>
-          Применить
-        </Button>
-        <Button className='button-grey' onClick={handleResetFilters}>
-          Сбросить
-        </Button>
-      </div>
+      </form>
     </section>
   )
 })

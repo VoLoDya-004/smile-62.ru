@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import type { IFav } from '@/features/favourites/types/favouritesTypes'
 import { formatPrice } from '@/shared/utils/formatters'
-import ButtonDeleteFavourites from '@/shared/ui/buttons/ButtonDeleteFavourites'
+import ButtonProductDelete from '@/shared/ui/buttons/ButtonProductDelete'
 import ButtonBasket from '@/shared/ui/buttons/ButtonBasket'
 import styles from './FavouritesProducts.module.scss'
+import { useFavourites } from '../../hooks/useFavourites'
 
 const FavouritesProducts = ({ productFavourites }: { productFavourites :IFav }) => {
   const {
@@ -14,6 +15,8 @@ const FavouritesProducts = ({ productFavourites }: { productFavourites :IFav }) 
   } = styles
 
   const { id, nazvanie, image, price_sale, id_product } = productFavourites
+
+  const { deleteProductFavourites } = useFavourites()
 
   const [hasAvif, setHasAvif] = useState(true)
 
@@ -68,7 +71,10 @@ const FavouritesProducts = ({ productFavourites }: { productFavourites :IFav }) 
         productFavourites={productFavourites} 
         id={id} 
       />
-      <ButtonDeleteFavourites id={id_product} />
+      <ButtonProductDelete 
+        onClick={() => deleteProductFavourites(id_product)}
+        ariaLabel='Удалить выбранный товар из избранного'
+      />
     </article> 
   )
 }

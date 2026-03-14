@@ -1,20 +1,23 @@
-import { useFavourites } from '@/features/favourites/hooks/useFavourites'
+interface IButtonProductDeleteProps {
+  onClick: () => void
+  ariaLabel: string
+  dataAction?: string
+}
 
-const ButtonDeleteFavourites = ({ id }: { id: number }) => {
-  const { deleteProductFavourites } = useFavourites()
-
+const ButtonDelete = ({ onClick, ariaLabel, dataAction }: IButtonProductDeleteProps) => {
   return (
     <div className='button-product-controls'>
-      <button 
+      <button
         type='button'
         className='button-product-controls'
-        onClick={() => { deleteProductFavourites(id) }}
-        aria-label='Удалить выбранный товар из избранного'
+        onClick={onClick}
+        aria-label={ariaLabel}
+        {...(dataAction && { 'data-action': dataAction })}
       >
-        <svg 
+        <svg
           className='button-product-controls-cross-hover'
           width='24'
-          height='24' 
+          height='24'
           viewBox='0 0 24 24'
           xmlns='http://www.w3.org/2000/svg'
         >
@@ -26,4 +29,4 @@ const ButtonDeleteFavourites = ({ id }: { id: number }) => {
   )
 }
 
-export default ButtonDeleteFavourites
+export default ButtonDelete

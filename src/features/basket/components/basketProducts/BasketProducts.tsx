@@ -2,7 +2,7 @@ import { useEffect, useState, type ChangeEvent, type KeyboardEvent } from 'react
 import type { IBasket } from '@/features/basket/types/basketTypes'
 import { formatPrice } from '@/shared/utils/formatters'
 import { cx } from '@/shared/utils/classnames'
-import ButtonDeleteBasket from '@/shared/ui/buttons/ButtonDeleteBasket'
+import ButtonProductDelete from '@/shared/ui/buttons/ButtonProductDelete'
 import BasketIncreaseSVG from './svg/BasketIncreaseSVG'
 import BasketDecreaseSVG from './svg/BasketDecreaseSVG'
 import styles from './BasketProducts.module.scss'
@@ -169,7 +169,11 @@ const BasketProducts = ({
       <div className={productPrice}>
         {formatPrice((price_sale ?? 0) * Number(count))} руб.
       </div>
-      <ButtonDeleteBasket openDeleteModal={openDeleteModal} id={id} />
+      <ButtonProductDelete 
+        onClick={() => openDeleteModal(id)} 
+        ariaLabel='Удалить выбранный товар из корзины' 
+        dataAction='delete-basket-product'
+      />
     </article>
   )
 }
