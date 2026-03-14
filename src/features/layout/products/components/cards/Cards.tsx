@@ -22,9 +22,9 @@ interface ICardProps {
 const Cards = () => {
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
-  const { cartBasket, addBasket, loadingAddBasket } = useBasket()
+  const { cartBasket, addBasket, loadingAddBasket, isLoadingProductBasket } = useBasket()
   const { searchQuery, isLoading, cards, currentPage } = useProductsContext()
-  const { addFavourites, loadingAddFavourites, cartFavourites } = useFavourites()
+  const { addFavourites, isLoadingProductFav, cartFavourites } = useFavourites()
   const { showNotification } = useUIContextNotification()
 
   const scrollPositionRef = useRef(0)
@@ -47,13 +47,13 @@ const Cards = () => {
   }, [])
 
   const handleAddBasket = useCallback((id: number) => {
-    if (loadingAddBasket.has(id)) return
+    if (isLoadingProductBasket(id)) return
     saveScrollPosition()
     if (!isAuth) {
       showNotification('Войдите в аккаунт', 'error')
       return
     }
-    if (cartBasket.some((item: IBasket) => item.id === id) || loadingAddBasket.has(id)) {
+    if (cartBasket.some((item: IBasket) => item.id === id) || isLoadingProductBasket(id)) {
       showNotification('Уже в корзине', 'error')
       return
     }
@@ -65,13 +65,13 @@ const Cards = () => {
   }, [cartBasket, isAuth, loadingAddBasket, addBasket])
 
   const handleAddFav = useCallback((id: number) => {
-    if (loadingAddFavourites.has(id)) return
+    if (isLoadingProductFav(id)) return
     saveScrollPosition()
     if (!isAuth) {
       showNotification('Войдите в аккаунт', 'error')
       return
     }
-    if (cartFavourites.some((item: IFav) => item.id === id) || loadingAddFavourites.has(id)) {
+    if (cartFavourites.some((item: IFav) => item.id === id) || isLoadingProductFav(id)) {
       showNotification('Уже в избранном', 'error')
       return
     }
@@ -80,7 +80,7 @@ const Cards = () => {
     } catch {
       showNotification('Ошибка', 'error')
     }
-  }, [isAuth, cartFavourites, loadingAddFavourites, addFavourites])
+  }, [isAuth, cartFavourites, isLoadingProductFav, addFavourites])
 
   useEffect(() => {
     const toUp = () => {
@@ -146,9 +146,9 @@ const Cards = () => {
     const isHighSale = salePercent >= 20
 
     const isInFavourites = cartFavourites.some(item => item.id_product === card.id)
-    const isAddingFavourites = loadingAddFavourites.has(card.id)
+    const isAddingFavourites = isLoadingProductFav(card.id)
     const isInBasket = cartBasket.some(item => item.id_product === card.id)
-    const isAddingBasket = loadingAddBasket.has(card.id)
+    const isAddingBasket = isLoadingProductBasket(card.id)
 
     const [hasAvif, setHasAvif] = useState(true)
 

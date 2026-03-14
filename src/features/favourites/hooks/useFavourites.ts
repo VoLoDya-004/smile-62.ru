@@ -1,20 +1,23 @@
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { RootStore } from '@/shared/store'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { favouritesApi } from '../api/favouritesApi'
 import type { IFav } from '../types/favouritesTypes'
-import { useState } from 'react'
+import { removeAddingFavId, addAddingFavId, clearAddingFavIds } from '@/shared/store/slices/favouritesSlice'
+import { addAddingBasketId, removeAddingBasketId } from '@/shared/store/slices/basketSlice'
 
 export const useFavourites = () => {
   const { showNotification } = useUIContextNotification()
 
+  const dispatch = useDispatch()
+  const addingIds = useSelector((state: RootStore) => state.favourites.addingIds)
   const userId = useSelector((state: RootStore) => state.user.userId)
 
   const queryClient = useQueryClient()
 
-  const [addingFavouritesIds, setAddingFavouritesIds] = useState<Set<number>>(new Set())
-  const [addingToBasketIds, setAddingToBasketIds] = useState<Set<number>>(new Set())
+  const isAdding = addingIds.length > 0
+  const isLoadingProductFav = (productId: number) => addingIds.includes(productId)
 
   const favouritesQuery = useQuery({
     queryKey: ['favourites', userId],
@@ -33,11 +36,7 @@ export const useFavourites = () => {
       queryClient.setQueryData(['favourites', userId], 
         (old: IFav[]) => old?.filter(item => item.id_product !== productId) || []
       )
-      setAddingFavouritesIds(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(productId)
-        return newSet
-      })
+      dispatch(removeAddingFavId(productId))
       return { previosFavourites }
     },
     onSuccess() {
@@ -60,7 +59,7 @@ export const useFavourites = () => {
       await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
       const previosFavourites = queryClient.getQueryData(['favourites', userId])
       queryClient.setQueryData(['favourites', userId], [])
-      setAddingFavouritesIds(new Set())
+      dispatch(clearAddingFavIds())
       return { previosFavourites }
     },
     onSuccess: () => {
@@ -80,7 +79,7 @@ export const useFavourites = () => {
       return favouritesApi.addFavourites(productId, userId)
     },
     onMutate: async (productId) => {
-      setAddingFavouritesIds(prev => new Set(prev).add(productId))
+      dispatch(addAddingFavId(productId))
       await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
       const previosFavourites = queryClient.getQueryData(['favourites', userId])
       return { previosFavourites }
@@ -95,12 +94,10 @@ export const useFavourites = () => {
       }
       showNotification('Ошибка при добавлении в избранное', 'error')
     },
-    onSettled: (productId) => {
-      setAddingFavouritesIds(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(productId)
-        return newSet
-      })
+    onSettled: (_data, _error, variables) => {
+      if (variables) {
+        dispatch(removeAddingFavId(variables))
+      }
     }
   })
 
@@ -110,31 +107,26 @@ export const useFavourites = () => {
       return favouritesApi.addToBasketFromFavourites(userId, productId)
     },
     onMutate: async (productId) => {
-      setAddingToBasketIds(prev => new Set(prev).add(productId))
+      dispatch(addAddingBasketId(productId))
       await queryClient.cancelQueries({ queryKey: ['favourites', userId] })
       const previosFavourites = queryClient.getQueryData(['favourites', userId])
       return { previosFavourites }
     },
-    onSuccess: async (updatedFavourites, productId) => {
+    onSuccess: async (updatedFavourites) => {
       queryClient.setQueryData(['favourites', userId], updatedFavourites)
       showNotification('Товар добавлен в корзину', 'success')
       await queryClient.invalidateQueries({ queryKey: ['basket', userId] })
-      setAddingToBasketIds(prev => { 
-        const newSet = new Set(prev)
-        newSet.delete(productId)
-        return newSet
-      })
     },
-    onError: (_error, productId, context) => {
+    onError: (_error, _variables, context) => {
       if (context?.previosFavourites) {
         queryClient.setQueryData(['favourites', userId], context.previosFavourites)
       }
       showNotification('Ошибка добавления в корзину', 'error')
-      setAddingToBasketIds(prev => { 
-        const newSet = new Set(prev)
-        newSet.delete(productId)
-        return newSet
-      })
+    },
+    onSettled: (_data, _error, variables) => {
+      if (variables) {
+        dispatch(removeAddingBasketId(variables))
+      }
     }
   })
 
@@ -157,8 +149,8 @@ export const useFavourites = () => {
   return {
     cartFavourites: favouritesQuery.data || [],
     loadingFavourites: favouritesQuery.isPending,
-    loadingAddFavourites: addingFavouritesIds,
-    loadingAddToBasket: addingToBasketIds,
+    isAdding,
+    isLoadingProductFav,
     deleteProductFavourites,
     handleClearFav,
     addInBasketProductFavourites,

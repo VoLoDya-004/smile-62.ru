@@ -1,18 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { basketApi } from '../api/basketApi'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import type { ChangeEvent } from 'react'
-import { useState } from 'react'
 import type { IBasket } from '../types/basketTypes'
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
+import { addAddingBasketId, clearAddingBasketIds, removeAddingBasketId } from '@/shared/store/slices/basketSlice'
 
 export const useBasket = () => {
   const { showNotification } = useUIContextNotification()
   const queryClient = useQueryClient()
-  const userId = useSelector((state: RootStore) => state.user.userId)
 
-  const [addingIds, setAddingIds] = useState<Set<number>>(new Set())
+  const dispatch = useDispatch()
+  const userId = useSelector((state: RootStore) => state.user.userId)
+  const addingIds = useSelector((state: RootStore) => state.basket.addingIds)
+
+  const isAdding = addingIds.length > 0
+  const isLoadingProductBasket = (productId: number) => addingIds.includes(productId)
 
   const basketQuery = useQuery({
     queryKey: ['basket', userId],
@@ -31,11 +35,7 @@ export const useBasket = () => {
       queryClient.setQueryData(['basket', userId], 
         (old: IBasket[]) => old?.filter(item => item.id !== productId) || []
       )   
-      setAddingIds(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(productId)
-        return newSet
-      })
+      dispatch(removeAddingBasketId(productId))
       return { previousBasket }
     },
     onSuccess: () => {
@@ -58,7 +58,7 @@ export const useBasket = () => {
       await queryClient.cancelQueries({ queryKey: ['basket', userId] })
       const previousBasket = queryClient.getQueryData(['basket', userId])
       queryClient.setQueryData(['basket', userId], [])
-      setAddingIds(new Set())
+      dispatch(clearAddingBasketIds())
       return { previousBasket }
     },
     onSuccess: () => {
@@ -103,7 +103,7 @@ export const useBasket = () => {
       return basketApi.addBasket(productId, userId)
     },
     onMutate: async (productId) => {
-      setAddingIds(prev => new Set(prev).add(productId))
+      dispatch(addAddingBasketId(productId))
       await queryClient.cancelQueries({ queryKey: ['basket', userId] })
       const previousBasket = queryClient.getQueryData<IBasket[]>(['basket', userId])    
       return { previousBasket }
@@ -115,12 +115,10 @@ export const useBasket = () => {
     onError: () => {
       showNotification('Ошибка при добавлении в корзину', 'error')
     },
-    onSettled: (productId) => {
-      setAddingIds(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(productId)
-        return newSet
-      })
+    onSettled: (_data, _error, variables) => {
+      if (variables) {
+        dispatch(removeAddingBasketId(variables))
+      }
     }
   })
 
@@ -168,6 +166,8 @@ export const useBasket = () => {
     cartBasket: basketQuery.data || [],
     loadingBasket: basketQuery.isPending,
     loadingAddBasket: addingIds,
+    isAdding, 
+    isLoadingProductBasket,
     handleCountChange,
     decreaseBasket, 
     increaseBasket,

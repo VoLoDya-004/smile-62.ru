@@ -14,7 +14,7 @@ interface IFavouritesProps {
 }
 
 const Favourites = ({ loading, children }: IFavouritesProps) => {
-  const { cartFavourites } = useFavourites()
+  const { cartFavourites, isAdding } = useFavourites()
 
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
@@ -31,7 +31,7 @@ const Favourites = ({ loading, children }: IFavouritesProps) => {
     }
   }, [isAuth])
 
-  if (loading && isAuth) return <Spinner />
+  if ((loading && isAuth) || isAdding) return <Spinner />
 
   const hasFavourites = cartFavourites.length > 0
     

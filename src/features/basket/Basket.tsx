@@ -14,7 +14,7 @@ interface IBasketProps {
 }
 
 const Basket = ({ children, loading }: IBasketProps) => {
-  const { cartBasket } = useBasket()
+  const { cartBasket, isAdding } = useBasket()
 
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
@@ -31,7 +31,7 @@ const Basket = ({ children, loading }: IBasketProps) => {
     }
   }, [isAuth])
 
-  if (loading && isAuth) return <Spinner />
+  if ((loading && isAuth) || isAdding) return <Spinner />
 
   const hasBasket = cartBasket.length > 0
 

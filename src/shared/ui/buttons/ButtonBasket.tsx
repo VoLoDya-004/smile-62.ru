@@ -13,8 +13,8 @@ interface IButtonBasketProps {
 
 const ButtonBasket = ({ productFavourites }: IButtonBasketProps) => {  
   const { showNotification } = useUIContextNotification()
-  const { cartBasket } = useBasket()
-  const { addInBasketProductFavourites, cartFavourites, loadingAddToBasket } = useFavourites()
+  const { cartBasket, isLoadingProductBasket } = useBasket()
+  const { addInBasketProductFavourites, cartFavourites } = useFavourites()
 
   const basketProductIds = useMemo(
     () => new Set(cartBasket.map((item: IBasket) => Number(item.id_product))),
@@ -38,7 +38,7 @@ const ButtonBasket = ({ productFavourites }: IButtonBasketProps) => {
     <>
       {filterCards.map((card: IFav) => {
         const isBasket = basketProductIds.has(Number(card.id_product))
-        const isAdding = loadingAddToBasket.has(card.id_product)
+        const isAdding = isLoadingProductBasket(card.id_product)
 
         return (
           <Fragment key={card.id}>
