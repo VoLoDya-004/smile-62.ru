@@ -2,6 +2,35 @@
 require_once "../config/cors.php";
 require_once "../config/db.php";
 
+function generateToken() {
+    return bin2hex(random_bytes(32));
+}
+
+function getUserByToken($connect) {
+    if (!isset($_COOKIE['auth_token'])) {
+        return null;
+    }
+    $token = mysqli_real_escape_string($connect, $_COOKIE['auth_token']);
+    
+    $query = "SELECT user_id FROM user_tokens 
+              WHERE token = '$token' AND expires_at > NOW()";
+    $result = mysqli_query($connect, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $userId = $row['user_id'];
+        
+        $userQuery = "SELECT id_user, name, email, is_admin FROM users WHERE id_user = $userId";
+        $userResult = mysqli_query($connect, $userQuery);
+        return mysqli_fetch_assoc($userResult);
+    }
+    return null;
+}
+
+function deleteUserTokens($connect, $userId) {
+    $query = "DELETE FROM user_tokens WHERE user_id = $userId";
+    mysqli_query($connect, $query);
+}
+
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     $origin = $_SERVER['HTTP_ORIGIN'];
 } else {
@@ -103,11 +132,22 @@ if (isset($params['Operation'])) {
             $user = mysqli_fetch_assoc($result);
 
             if (password_verify($passwordUser, $user['password'])) {
-                session_start();
-                $_SESSION['user_id'] = $user['id_user'];
-                $_SESSION['user_name'] = $user['name'];
-                $_SESSION['user_email'] = $user['email'];
-                $_SESSION['is_admin'] = $user['is_admin'];
+                deleteUserTokens($connect, $user['id_user']);
+
+                $token = generateToken();
+                $expires = date('Y-m-d H:i:s', time() + 60*60*24*30);
+                $insertToken = "INSERT INTO user_tokens (user_id, token, expires_at) 
+                                VALUES ({$user['id_user']}, '$token', '$expires')";
+                mysqli_query($connect, $insertToken);
+
+                setcookie('auth_token', $token, [
+                    'expires' => time() + 60*60*24*30,
+                    'path' => '/',
+                    'domain' => '.localhost',
+                    'secure' => false,
+                    'httponly' => true,
+                    'samesite' => 'Lax'
+                ]);
 
                 echo json_encode([
                     'success' => true,
@@ -127,13 +167,93 @@ if (isset($params['Operation'])) {
         mysqli_close($connect);
     }
 
-    elseif ($operation == 'updateProfile') {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
+    elseif ($operation == 'getMe') {
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        if (!$connect) {
+            die("Ошибка подключения к БД: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($connect, "utf8");
+
+        if (!isset($_COOKIE['auth_token'])) {
+            mysqli_close($connect);
             echo json_encode(['success' => false, 'message' => 'Не авторизован']);
             exit;
         }
-        $userId = $_SESSION['user_id'];
+
+        $token = mysqli_real_escape_string($connect, $_COOKIE['auth_token']);
+
+        $query = "SELECT user_id FROM user_tokens 
+                  WHERE token = '$token' AND expires_at > NOW()";
+        $result = mysqli_query($connect, $query);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $userId = $row['user_id'];
+
+            $newExpires = date('Y-m-d H:i:s', time() + 60*60*24*30);
+            $update = "UPDATE user_tokens SET expires_at = '$newExpires' WHERE token = '$token'";
+            mysqli_query($connect, $update);
+
+            setcookie('auth_token', $token, [
+                'expires' => time() + 60*60*24*30,
+                'path' => '/',
+                'domain' => '.localhost',
+                'secure' => false,
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
+
+            $userQuery = "SELECT id_user, name, email, is_admin FROM users WHERE id_user = $userId";
+            $userResult = mysqli_query($connect, $userQuery);
+            $user = mysqli_fetch_assoc($userResult);
+
+            mysqli_close($connect);
+            echo json_encode(['success' => true, 'user' => $user]);
+        } else {
+            mysqli_close($connect);
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+        }
+    }
+
+    elseif ($operation == 'logout') {
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        if (!$connect) {
+            die("Ошибка подключения к БД: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($connect, "utf8");
+
+        if (isset($_COOKIE['auth_token'])) {
+            $token = mysqli_real_escape_string($connect, $_COOKIE['auth_token']);
+            $query = "DELETE FROM user_tokens WHERE token = '$token'";
+            mysqli_query($connect, $query);
+        }
+
+        setcookie('auth_token', '', [
+            'expires' => 1,
+            'path' => '/',
+            'domain' => '.localhost',
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+
+        mysqli_close($connect);
+        echo json_encode(['success' => true, 'message' => 'Выход выполнен']);
+    }
+
+    elseif ($operation == 'updateProfile') {
+        $connect = mysqli_connect($hostname, $username, $password, $dbName);
+        if (!$connect) {
+            die("Ошибка подключения к БД: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($connect, "utf8");
+
+        $user = getUserByToken($connect);
+        if (!$user) {
+            mysqli_close($connect);
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+            exit;
+        }
+        $userId = $user['id_user'];
+
         $name = trim($params['name'] ?? '');
         $email = trim($params['email'] ?? '');
         $newPassword = trim($params['password'] ?? '');
@@ -142,12 +262,6 @@ if (isset($params['Operation'])) {
             echo json_encode(['success' => false, 'message' => 'Имя и email обязательны']);
             exit;
         }
-
-        $connect = mysqli_connect($hostname, $username, $password, $dbName);
-        if (!$connect) {
-            die("Ошибка подключения к БД: " . mysqli_connect_error());
-        }
-        mysqli_set_charset($connect, "utf8");
 
         $query_check = "SELECT id_user FROM users WHERE email='" . mysqli_real_escape_string($connect, $email) . "' AND id_user != $userId";
         $result_check = mysqli_query($connect, $query_check);
@@ -165,8 +279,6 @@ if (isset($params['Operation'])) {
         }
 
         if (mysqli_query($connect, $query_update)) {
-            $_SESSION['user_name'] = $name;
-            $_SESSION['user_email'] = $email;
             echo json_encode([
                 'success' => true,
                 'message' => 'Профиль обновлён',
@@ -178,23 +290,30 @@ if (isset($params['Operation'])) {
         }
         mysqli_close($connect);
     }
-    elseif ($operation == 'deleteAccount') {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
-            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
-            exit;
-        }
-        $userId = $_SESSION['user_id'];
 
+    elseif ($operation == 'deleteAccount') {
         $connect = mysqli_connect($hostname, $username, $password, $dbName);
         if (!$connect) {
             die("Ошибка подключения к БД: " . mysqli_connect_error());
         }
         mysqli_set_charset($connect, "utf8");
 
+        $user = getUserByToken($connect);
+        if (!$user) {
+            mysqli_close($connect);
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+            exit;
+        }
+        $userId = $user['id_user'];
+
         $query_delete = "DELETE FROM users WHERE id_user=$userId";
         if (mysqli_query($connect, $query_delete)) {
-            session_destroy();
+            setcookie('auth_token', '', [
+                'expires' => 1,
+                'path' => '/',
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
             echo json_encode(['success' => true, 'message' => 'Аккаунт удалён']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Ошибка при удалении аккаунта']);
@@ -203,22 +322,23 @@ if (isset($params['Operation'])) {
     }
 
     elseif ($operation == 'getTransactions') {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
-            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
-            exit;
-        }
-        $userId = $_SESSION['user_id'];
-
-        $page = isset($params['page']) ? (int)$params['page'] : 1;
-        $limit = isset($params['limit']) ? (int)$params['limit'] : 30;
-        $offset = ($page - 1) * $limit;
-
         $connect = mysqli_connect($hostname, $username, $password, $dbName);
         if (!$connect) {
             die("Ошибка подключения к БД: " . mysqli_connect_error());
         }
         mysqli_set_charset($connect, "utf8");
+
+        $user = getUserByToken($connect);
+        if (!$user) {
+            mysqli_close($connect);
+            echo json_encode(['success' => false, 'message' => 'Не авторизован']);
+            exit;
+        }
+        $userId = $user['id_user'];
+
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $limit = isset($params['limit']) ? (int)$params['limit'] : 30;
+        $offset = ($page - 1) * $limit;
 
         $countQuery = "SELECT COUNT(*) as total FROM transactions WHERE id_user = $userId";
         $countResult = mysqli_query($connect, $countQuery);

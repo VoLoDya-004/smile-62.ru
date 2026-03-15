@@ -19,7 +19,7 @@ const NavSection = () => {
   } = styles
 
 	const { isMobile } = useDeviceType()
-  const { handleLogout } = useAuth()
+  const { handleLogout, isLoggingOut } = useAuth()
   const { showNotification } = useUIContextNotification()
 
 	const isAuth = useSelector((state: RootStore) => state.user.isAuth)
@@ -94,6 +94,7 @@ const NavSection = () => {
 							isActiveProfile={isActiveProfile}
 							onLogout={handleLogout}
 							onLogin={handleLogin}
+              isLoggingOut={isLoggingOut}
 						/>
 					)}
 				</li>

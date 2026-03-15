@@ -24,6 +24,8 @@ interface IProfileAsideProps {
   isFetchingBalance: boolean
   onEditProfile: () => void 
   onDeleteAccount: () => void 
+  isLoggingOut: boolean
+  isDeletingAccount: boolean
 }
 
 interface IFavoritesBlockProps {
@@ -48,6 +50,7 @@ const ProfileAside = ({
   isFetchingBalance,
   onEditProfile,
   onDeleteAccount,
+  isLoggingOut
 }: IProfileAsideProps) => {
   const {
     'user-aside': aside,
@@ -72,13 +75,17 @@ const ProfileAside = ({
       <Button onClick={onEditProfile} className='button-violet'>
         Редактировать аккаунт
       </Button>
-      <Button onClick={onLogout} className='confirm-delete-button'>
-        Выйти из аккаунта
-      </Button>
       <Button 
-        onClick={onDeleteAccount} 
-        className='confirm-delete-button'
+        onClick={onLogout} 
+        className={cx(isLoggingOut ? 
+          'confirm-delete-button confirm-delete-button_disabled' : 
+          'confirm-delete-button'
+        )}
+        disabled={isLoggingOut}
       >
+        {isLoggingOut ? 'Выход...' : 'Выйти'}
+      </Button>
+      <Button onClick={onDeleteAccount} className='confirm-delete-button'>
         Удалить аккаунт
       </Button>
     </section>
@@ -189,7 +196,7 @@ const Account = () => {
   const { cartFavourites, loadingFavourites } = useFavourites()
   const { showNotification } = useUIContextNotification()
   let { cartBasket, loadingBasket } = useBasket()
-  const { handleLogout } = useAuth()
+  const { handleLogout, isLoggingOut, isDeletingAccount } = useAuth()
   const { balance, topUpBalance, isLoadingBalance, isFetchingBalance } = useWallet()
   const { isCreatingOrder } = useOrders()
   const { openDeleteAccountModal, openEditProfileModal } = useUIContextModals()
@@ -232,6 +239,8 @@ const Account = () => {
         isFetchingBalance={isFetchingBalance}
         onEditProfile={openEditProfileModal}
         onDeleteAccount={openDeleteAccountModal}
+        isLoggingOut={isLoggingOut}
+        isDeletingAccount={isDeletingAccount}
       />
       <section className={container}>
         <FavoritesBlock 

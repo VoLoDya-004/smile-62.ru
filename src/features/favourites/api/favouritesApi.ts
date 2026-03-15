@@ -1,9 +1,9 @@
+import { apiClient } from '@/shared/api/axiosInstance'
 import { API_URLS_FAVOURITES } from '../constants/apiConstants'
-import axios from 'axios'
 
 export const favouritesApi = {
   getFavourites: async (userId: number | null) => {
-    const res = await axios.get(API_URLS_FAVOURITES, {
+    const res = await apiClient.get(API_URLS_FAVOURITES, {
       params: {
         Operation: 'showFavourites',
         idUser: userId
@@ -13,7 +13,7 @@ export const favouritesApi = {
   },
 
   deleteFromFavourites: async (userId: number, productId: number) => {
-    await axios.delete(API_URLS_FAVOURITES, {
+    await apiClient.delete(API_URLS_FAVOURITES, {
       data: {
         Operation: 'deleteFavourites',
         idProduct: productId,
@@ -24,7 +24,7 @@ export const favouritesApi = {
   },
 
   clearFavourites: async (userId: number) => {
-    await axios.delete(API_URLS_FAVOURITES, {
+    await apiClient.delete(API_URLS_FAVOURITES, {
       data: {
         Operation: 'clearFavourites',
         idUser: userId
@@ -34,7 +34,7 @@ export const favouritesApi = {
   },
 
   addToBasketFromFavourites: async (userId: number, productId: number) => {
-    await axios.post(API_URLS_FAVOURITES, {
+    await apiClient.post(API_URLS_FAVOURITES, {
       Operation: 'addBasket',
       idProduct: productId,
       idUser: userId
@@ -43,7 +43,7 @@ export const favouritesApi = {
   },
 
   addFavourites: async (idProduct: number, userId: number | null) => {
-    await axios.post(API_URLS_FAVOURITES, {
+    await apiClient.post(API_URLS_FAVOURITES, {
       Operation: 'addFavourites',
       idProduct: idProduct,
       idUser: userId

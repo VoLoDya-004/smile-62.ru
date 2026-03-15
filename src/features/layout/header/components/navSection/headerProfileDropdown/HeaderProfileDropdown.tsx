@@ -1,5 +1,6 @@
 import Button from '@/shared/ui/buttons/Button'
 import styles from './HeaderProfileDropdown.module.scss'
+import { cx } from '@/shared/utils/classnames'
 
 interface HeaderProfileDropdownProps {
 	isAuth: boolean
@@ -7,6 +8,7 @@ interface HeaderProfileDropdownProps {
 	isActiveProfile: boolean
 	onLogout: () => void
 	onLogin: () => void
+  isLoggingOut: boolean
 }
 
 const HeaderProfileDropdown = ({
@@ -14,7 +16,8 @@ const HeaderProfileDropdown = ({
 	userName,
 	isActiveProfile,
 	onLogout,
-	onLogin
+	onLogin,
+  isLoggingOut
 }: HeaderProfileDropdownProps) => {
   const {
     'profile-dropdown': profileDropdown,
@@ -22,7 +25,7 @@ const HeaderProfileDropdown = ({
   } = styles
 
 	const name = isAuth ? `${userName || 'Пользователь'}` : 'Войдите в аккаунт'
-	const ButtonText = isAuth ? 'Выйти' : 'Войти'
+	const ButtonText = isLoggingOut ? 'Выход...' : isAuth ? 'Выйти' : 'Войти'
 
 	return (
 		<aside 
@@ -33,7 +36,11 @@ const HeaderProfileDropdown = ({
 			<div className={profileDropdownTitle}>
 				{name}
 			</div>
-			<Button onClick={isAuth ? onLogout : onLogin} className='button-violet'>
+			<Button 
+        onClick={isAuth ? onLogout : onLogin} 
+        className={cx(isLoggingOut ? 'button-violet button-violet_disabled' : 'button-violet')}
+        disabled={isLoggingOut}
+      >
 				{ButtonText}
 			</Button>
 		</aside>

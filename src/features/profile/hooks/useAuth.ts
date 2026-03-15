@@ -1,39 +1,47 @@
 import { logoutUser, setUser } from '@/shared/store/slices/userSlice'
 import type { ILoginData, IRegisterData } from '../types/profileTypes'
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authApi } from '../api/authApi'
 import { useUIContextNotification } from '@/shared/providers/UIProvider'
 import type { RootStore } from '@/shared/store'
+import { useEffect } from 'react'
 
 export const useAuth = () => {
   const dispatch = useDispatch()
   const userId = useSelector((state: RootStore) => state.user.userId)
   const isAdmin = useSelector((state: RootStore) => state.user.isAdmin)
 
+  const queryClient = useQueryClient()
+
   const { showNotification } = useUIContextNotification()
 
+  const { data: meData, isLoading: isMeLoading } = useQuery({
+    queryKey: ['getMe'],
+    queryFn: () => authApi.getMe(),
+    retry: false,
+  })
+
   useEffect(() => {
-    const storedAuth = localStorage.getItem('auth')
-    if (storedAuth) {
-      const { isAuth, userName, userEmail, userId, isAdmin } = JSON.parse(storedAuth)
-      if (isAuth && userId !== null) {
-        dispatch(setUser({ userId, userName, userEmail, isAuth, isAdmin }))
-      }
+    if (meData?.success && meData.user) {
+      dispatch(setUser({
+        userId: meData.user.id_user,
+        userName: meData.user.name,
+        userEmail: meData.user.email,
+        isAuth: true,
+        isAdmin: meData.user.is_admin == 1,
+      }))
+    } else if (meData && !meData.success) {
+      dispatch(logoutUser())
     }
-  }, [dispatch])
+  }, [meData, dispatch])
 
   const registerMutation = useMutation({
-    mutationFn: (registerData: IRegisterData) => {
-      return authApi.register(registerData)
-    }
+    mutationFn: (registerData: IRegisterData) => authApi.register(registerData)
   })
 
   const loginMutation = useMutation({
-    mutationFn: (loginData: ILoginData) => {
-      return authApi.login(loginData)
-    },
+    mutationFn: (loginData: ILoginData) => authApi.login(loginData),
     onSuccess: (data) => {
       if (data.success) {
         dispatch(setUser({
@@ -43,13 +51,15 @@ export const useAuth = () => {
           isAuth: true,
           isAdmin: data.is_admin == 1
         }))
-        localStorage.setItem('auth', JSON.stringify({
-          isAuth: true,
-          userName: data.name,
-          userEmail: data.email,
-          userId: data.id_user,
-          isAdmin: data.is_admin == 1
-        }))
+        queryClient.setQueryData(['getMe'], {
+          success: true,
+          user: {
+            id_user: data.id_user,
+            name: data.name,
+            email: data.email,
+            is_admin: data.is_admin
+          }
+        })
       }
     }
   })
@@ -66,10 +76,6 @@ export const useAuth = () => {
           isAuth: true,
           isAdmin: isAdmin
         }))
-        const auth = JSON.parse(localStorage.getItem('auth') || '{}')
-        auth.userName = data.name
-        auth.userEmail = data.email
-        localStorage.setItem('auth', JSON.stringify(auth))
       }
     }
   })
@@ -79,7 +85,17 @@ export const useAuth = () => {
     onSuccess: (data) => {
       if (data.success) {
         dispatch(logoutUser())
-        localStorage.removeItem('auth')
+        queryClient.setQueryData(['getMe'], null)
+      }
+    }
+  })
+
+  const logoutMutation = useMutation({
+    mutationFn: () => authApi.logout(),
+    onSuccess: async (data) => {
+      if (data.success) {
+        dispatch(logoutUser())
+        queryClient.setQueryData(['getMe'], null)
       }
     }
   })
@@ -119,8 +135,6 @@ export const useAuth = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      dispatch(logoutUser())
-      localStorage.removeItem('auth')
       await deleteAccountMutation.mutateAsync()
       showNotification('Аккаунт удален', 'success')
       return true
@@ -130,10 +144,13 @@ export const useAuth = () => {
     }
   }
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
-    localStorage.removeItem('auth')
-    showNotification('Вы вышли из аккаунта', 'success')
+  const handleLogout = async () => {
+    try {
+      await logoutMutation.mutateAsync()
+      showNotification('Вы вышли из аккаунта', 'success')
+    } catch {
+      showNotification('Ошибка при выходе', 'error');
+    }
   }
 
   return {
@@ -141,6 +158,9 @@ export const useAuth = () => {
     handleLogin,
     handleUpdateProfile,
     handleDeleteAccount,
-    handleLogout
+    handleLogout,
+    isMeLoading,
+    isLoggingOut: logoutMutation.isPending,
+    isDeletingAccount: deleteAccountMutation.isPending
   }
 }

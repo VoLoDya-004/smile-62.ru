@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { usePortal } from '@/shared/hooks'
 import type { IConfirmModal } from './types/modalsTypes'
 import styles from './Modals.module.scss'
+import { cx } from '@/shared/utils/classnames'
 
 const ModalHeader = ({ title }: { title: string }) => (
   <h3 className={styles['modal-delete-content__title']}>{title}</h3>
@@ -15,25 +16,36 @@ const ModalBody = ({ description }: { description: string }) => (
 const ModalFooter = ({
   onConfirm,
   onCancel,
-  initialFocusRef
+  initialFocusRef,
+  isDeletingAccount = false,
+  confirmText = 'Удалить', 
+  loadingText = 'Удаление...' 
 }: {
   onConfirm: () => void
   onCancel: () => void
   initialFocusRef: RefObject<HTMLButtonElement | null>
+  isDeletingAccount?: boolean
+  confirmText?: string
+  loadingText?: string
 }) => (
   <div className={styles['modal-delete-content__footer']}>
     <button 
       ref={initialFocusRef}
       type='button'
-      className='confirm-delete-button'
+      className={cx(isDeletingAccount ? 
+        'confirm-delete-button confirm-delete-button_disabled' : 
+        'confirm-delete-button'
+      )}
       onClick={onConfirm}
+      disabled={isDeletingAccount}
     >
-      Удалить
+      {isDeletingAccount ? loadingText : confirmText}
     </button>
     <button 
       type='button'
       className='confirm-cancel-button'
       onClick={onCancel}
+      disabled={isDeletingAccount}
     >
       Оставить
     </button>
@@ -45,13 +57,15 @@ const ModalContent = ({
   description,
   onConfirm,
   onCancel,
-  initialFocusRef
+  initialFocusRef,
+  isDeletingAccount
 }: {
   title: string
   description: string
   onConfirm: () => void
   onCancel: () => void
   initialFocusRef: RefObject<HTMLButtonElement | null>
+  isDeletingAccount: boolean
 }) => {
   const { 'modal-delete-content': modalContent } = styles
 
@@ -63,6 +77,9 @@ const ModalContent = ({
         onConfirm={onConfirm}
         onCancel={onCancel}
         initialFocusRef={initialFocusRef}
+        isDeletingAccount={isDeletingAccount}
+        confirmText='Удалить'
+        loadingText='Удаление...'
       />
     </div>
   )
@@ -75,7 +92,8 @@ const ConfirmModal = ({
   modalId,
   portalId,
   title,
-  description
+  description,
+  isDeletingAccount = false 
 }: IConfirmModal) => {
   const portalElement = usePortal(portalId, isOpen)
   const btnYesRef = useRef<HTMLButtonElement>(null)
@@ -83,19 +101,21 @@ const ConfirmModal = ({
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const modal = document.getElementById(modalId)
-      if (modal && e.target === modal) {
+      if (modal && e.target === modal && !isDeletingAccount) {
         onCancel()
       }
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && !isDeletingAccount) {
         onCancel()
       }
     }
 
     if (isOpen) {
-      btnYesRef.current?.focus()
+      if (!isDeletingAccount) {
+        btnYesRef.current?.focus()
+      }
       const allChildren = Array.from(document.body.children)
       allChildren.forEach(child => {
         if (child.id !== portalId) {
@@ -120,7 +140,7 @@ const ConfirmModal = ({
         child.removeAttribute('inert')
       })
     }
-  }, [isOpen, onCancel, modalId, portalId])
+  }, [isOpen, onCancel, modalId, portalId, isDeletingAccount])
 
   if (!portalElement || !isOpen) {
     return null
@@ -139,6 +159,7 @@ const ConfirmModal = ({
         onConfirm={onConfirm}
         onCancel={onCancel}
         initialFocusRef={btnYesRef}
+        isDeletingAccount={isDeletingAccount}
       />
     </div>,
     portalElement

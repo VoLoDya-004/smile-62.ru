@@ -21,10 +21,11 @@ import FavouritesList from './features/favourites/components/FavouritesList'
 import BasketList from './features/basket/components/BasketList'
 import Backdrop from './shared/ui/backdrop/Backdrop'
 import AdminPanel from './features/admin/AdminPanel'
+import { Spinner } from './shared/ui/spinner/Spinner'
 
 const App = () => {
-  useAuth()
   useTheme()
+  const { isMeLoading } = useAuth()
 
   const {
     openSupport,
@@ -43,17 +44,18 @@ const App = () => {
     isFiltersProductOpen,
     isSearchProductOpen,
     isDeleteAccountModalOpen,
-    closeDeleteAccountModal,
     isEditProfileModalOpen,
     closeEditProfileModal
   } = useUIContextModals()
 
   const { notification, setNotification, } = useUIContextNotification()
   const { loadingFavourites, handleClearFav } = useFavourites()
-  const { handleDeleteAccount } = useAuth()
+  const { handleDeleteAccount, isDeletingAccount } = useAuth()
   const { loadingBasket, handleClearBasket, deleteProductBasket } = useBasket()
 
   const shouldShowBackdrop = isCategoriesProductOpen || isFiltersProductOpen || isSearchProductOpen 
+  
+  if (isMeLoading) return <Spinner />
 
   return (
     <>
@@ -99,9 +101,9 @@ const App = () => {
         productIdToDelete={productIdToDelete}
         isDeleteAccountModalOpen={isDeleteAccountModalOpen}
         confirmDeleteAccount={handleDeleteAccount}
-        closeDeleteAccountModal={closeDeleteAccountModal}
         isEditProfileModalOpen={isEditProfileModalOpen}
         closeEditProfileModal={closeEditProfileModal}
+        isDeletingAccount={isDeletingAccount}
       />
       <Backdrop isActive={shouldShowBackdrop} />
       <CookiesNotice />

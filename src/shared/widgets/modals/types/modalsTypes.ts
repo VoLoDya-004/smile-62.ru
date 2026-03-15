@@ -6,4 +6,5 @@ export interface IConfirmModal {
   portalId: string
   title: string
   description: string
+  isDeletingAccount?: boolean
 }

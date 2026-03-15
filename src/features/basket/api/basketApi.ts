@@ -1,9 +1,9 @@
+import { apiClient } from '@/shared/api/axiosInstance'
 import { API_URLS_BASKET } from '../constants/apiConstants'
-import axios from 'axios'
 
 export const basketApi = {
   getBasket: async (userId: number | null) => {
-    const res = await axios.get(API_URLS_BASKET, {
+    const res = await apiClient.get(API_URLS_BASKET, {
       params: {
         Operation: 'showBasket',
         idUser: userId
@@ -13,7 +13,7 @@ export const basketApi = {
   },
 
   deleteFromBasket: async (userId: number, productId: number) => {
-    await axios.delete(API_URLS_BASKET, {
+    await apiClient.delete(API_URLS_BASKET, {
       data: {
         Operation: 'deleteBasket',
         idProduct: productId,
@@ -24,7 +24,7 @@ export const basketApi = {
   },
 
   clearBasket: async (userId: number) => {
-    await axios.delete(API_URLS_BASKET, {
+    await apiClient.delete(API_URLS_BASKET, {
       data: {
         Operation: 'clearBasket',
         idUser: userId
@@ -34,7 +34,7 @@ export const basketApi = {
   },
 
   increaseBasket: async (userId: number, productId: number) => {
-    await axios.patch(API_URLS_BASKET, {
+    await apiClient.patch(API_URLS_BASKET, {
       Operation: 'increaseBasket',
       idProduct: productId,
       idUser: userId,
@@ -43,7 +43,7 @@ export const basketApi = {
   },
 
   decreaseBasket: async (userId: number, productId: number) => {
-    await axios.patch(API_URLS_BASKET, {
+    await apiClient.patch(API_URLS_BASKET, {
       Operation: 'decreaseBasket',
       idProduct: productId,
       idUser: userId,
@@ -52,7 +52,7 @@ export const basketApi = {
   },
 
   updateBasketCount: async (userId: number, productId: number, count: number) => {
-    await axios.patch(API_URLS_BASKET, {
+    await apiClient.patch(API_URLS_BASKET, {
       Operation: 'updateCount',
       idProduct: productId,
       count: count,
@@ -62,7 +62,7 @@ export const basketApi = {
   },
 
   addBasket: async (idProduct: number, userId: number | null) => {
-    await axios.post(API_URLS_BASKET, {
+    await apiClient.post(API_URLS_BASKET, {
       Operation: 'addBasket',
       idProduct: idProduct,
       idUser: userId,

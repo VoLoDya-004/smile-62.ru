@@ -194,6 +194,10 @@
   font-weight: 500;
   letter-spacing: 0.5px;
   transition: .2s;
+  &_disabled {
+  border: 1px solid #ea2f25e2;
+  background-color: #ea2f25e2;
+  }
 	@media (hover: hover) and (pointer: fine) {
     &:hover {
       border: 1px solid #ea2f25e2;

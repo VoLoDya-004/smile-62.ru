@@ -1,6 +1,6 @@
+import { apiClient } from '@/shared/api/axiosInstance'
 import { API_URLS_ADMIN } from '../constants/apiConstants'
 import type { IGetAllOrdersParams, IGetAllProductsParams, TAdminSelect } from '../types/adminTypes'
-import axios from 'axios'
 
 export const adminApi = {
   getAllOrders: async (
@@ -22,12 +22,12 @@ export const adminApi = {
     if (sortDate !== 'desc') params.sortDate = sortDate
     if (deliveryTypes.length) params.deliveryTypes = deliveryTypes.join(',')
     if (statuses.length) params.statuses = statuses.join(',')
-    const res = await axios.get(API_URLS_ADMIN, { params })
+    const res = await apiClient.get(API_URLS_ADMIN, { params })
     return res.data
   },
 
   getStats: async (userId: number | null) => {
-    const res = await axios.get(API_URLS_ADMIN, {
+    const res = await apiClient.get(API_URLS_ADMIN, {
       params: {
         Operation: 'getStats',
         idUser: userId
@@ -43,7 +43,7 @@ export const adminApi = {
     search: string = '',
     filterAdmin: TAdminSelect = 'all'
   ) => {
-    const res = await axios.get(API_URLS_ADMIN, {
+    const res = await apiClient.get(API_URLS_ADMIN, {
       params: {
         Operation: 'getAllUsers',
         idUser: userId,
@@ -57,7 +57,7 @@ export const adminApi = {
   },
 
   updateOrderStatus: async (userId: number | null, orderId: number, status: string) => {
-    const res = await axios.patch(API_URLS_ADMIN, {
+    const res = await apiClient.patch(API_URLS_ADMIN, {
       Operation: 'updateOrderStatus',
       idUser: userId,
       orderId,
@@ -70,7 +70,7 @@ export const adminApi = {
     formData.append('Operation', 'addProduct')
     if (userId) formData.append('idUser', String(userId))
 
-    const res = await axios.post(API_URLS_ADMIN, formData, {
+    const res = await apiClient.post(API_URLS_ADMIN, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -79,7 +79,7 @@ export const adminApi = {
   },
 
   updateUserAdminStatus: async (userId: number | null, targetUserId: number, isAdmin: boolean) => {
-    const res = await axios.patch(API_URLS_ADMIN, {
+    const res = await apiClient.patch(API_URLS_ADMIN, {
       Operation: 'updateUserAdminStatus',
       idUser: userId,
       targetUserId,
@@ -109,7 +109,7 @@ export const adminApi = {
       params.minPrice = minPrice
     if (maxPrice !== undefined && maxPrice !== null && String(maxPrice) !== '') 
       params.maxPrice = maxPrice
-    const res = await axios.get(API_URLS_ADMIN, { params })
+    const res = await apiClient.get(API_URLS_ADMIN, { params })
     return res.data
   },
 
@@ -119,21 +119,21 @@ export const adminApi = {
       idUser: userId,
       productId
     }
-    const res = await axios.get(API_URLS_ADMIN, { params })
+    const res = await apiClient.get(API_URLS_ADMIN, { params })
     return res.data
   },
 
   updateProduct: async (userId: number | null, formData: FormData) => {
     formData.append('Operation', 'updateProduct')
     if (userId) formData.append('idUser', String(userId))
-    const res = await axios.post(API_URLS_ADMIN, formData, {
+    const res = await apiClient.post(API_URLS_ADMIN, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
     return res.data
   },
 
   deleteProduct: async (userId: number | null, productId: number) => {
-    const res = await axios.delete(API_URLS_ADMIN, {
+    const res = await apiClient.delete(API_URLS_ADMIN, {
       data: {
         Operation: 'deleteProduct',
         idUser: userId,

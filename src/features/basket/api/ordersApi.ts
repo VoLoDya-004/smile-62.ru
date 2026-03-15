@@ -1,9 +1,9 @@
-import axios from 'axios'
+import { apiClient } from '@/shared/api/axiosInstance'
 import { API_URLS_DELIVERY, API_URLS_ORDERS } from '../constants/apiConstants'
 
 export const ordersApi = {
   getDeliveryMethods: async () => {
-    const res = await axios.get(API_URLS_DELIVERY)
+    const res = await apiClient.get(API_URLS_DELIVERY)
     return res.data
   },
 
@@ -12,7 +12,7 @@ export const ordersApi = {
     deliveryMethodId: number
     customerNotes?: string
   }) => {
-    const res = await axios.post(API_URLS_ORDERS, {
+    const res = await apiClient.post(API_URLS_ORDERS, {
       Operation: 'createOrder',
       idUser: userId,
       ...data
@@ -21,7 +21,7 @@ export const ordersApi = {
   },
 
   getUserOrders: async (userId: number | null) => {
-    const res = await axios.get(API_URLS_ORDERS, {
+    const res = await apiClient.get(API_URLS_ORDERS, {
       params: {
         Operation: 'getUserOrders',
         idUser: userId
@@ -31,7 +31,7 @@ export const ordersApi = {
   },
 
   getOrderDetails: async (userId: number, orderId: number) => {
-    const res = await axios.get(API_URLS_ORDERS, {
+    const res = await apiClient.get(API_URLS_ORDERS, {
       params: {
         Operation: 'getOrderDetails',
         idUser: userId,

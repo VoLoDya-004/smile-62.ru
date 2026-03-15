@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
 import { useModals } from '../widgets/modals/hooks/useModals'
 import { useNotification } from '../widgets/notification/hooks/useNotification'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import type { RootStore } from '../store'
 
 interface IUIContextType {
   notification: ReturnType<typeof useNotification>
@@ -29,6 +31,14 @@ export const useUIContextModals = () => {
 export const UIProvider = ({ children }: { children: ReactNode }) => {
   const notification = useNotification()
   const modals = useModals()
+
+  const isAuth = useSelector((state: RootStore) => state.user.isAuth)
+
+  useEffect(() => {
+    if (!isAuth && modals.isDeleteAccountModalOpen) {
+      modals.closeDeleteAccountModal()
+    }
+  }, [isAuth, modals])
 
   const value = {
     notification: notification,

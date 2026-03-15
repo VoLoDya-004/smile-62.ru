@@ -1,10 +1,10 @@
+import { apiClient } from '@/shared/api/axiosInstance'
 import { API_URLS_CARDS } from '../constants/apiConstants'
 import type { IFetchProductsApiParams } from '../types/mainTypes'
-import axios from 'axios'
 
 export const productsApi = {
   fetchProducts: async (params: IFetchProductsApiParams) => {
-    const res = await axios.get(API_URLS_CARDS, {
+    const res = await apiClient.get(API_URLS_CARDS, {
       params: {
         page: params.page,
         search: params.search,
