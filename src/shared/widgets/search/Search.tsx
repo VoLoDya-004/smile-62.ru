@@ -47,6 +47,7 @@ const Search = ({
     <div className={cx(search, className)}>
       <div className={searchLine}>
         <input
+          name='searchProduct'
           ref={inputRef}
           type='search'
           placeholder={placeholder}

@@ -40,6 +40,13 @@ export interface ICardsRender {
   discount?: number
 }
 
+export interface ICardState {
+  isInFavourites: boolean
+  isInBasket: boolean
+  isAddingFavourites: boolean
+  isAddingBasket: boolean
+}
+
 export interface IFetchProductsApiParams {
   page: number
   search?: string

@@ -8,6 +8,7 @@ html {
 	  font-family: $fontSegoe;
     &.modal-open {
       overflow: hidden;
+      padding-right: 10px;
     }
   }
 }
