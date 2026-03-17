@@ -31,24 +31,6 @@ const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   const price = Intl.NumberFormat('ru-RU').format(card.price * 1)
   const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
-  const [hasAvif, setHasAvif] = useState(true)
-
-  useEffect(() => {
-    const img = new Image()
-    const handleLoad = () => setHasAvif(true)
-    const handleError = () => setHasAvif(false)
-
-    img.addEventListener('load', handleLoad)
-    img.addEventListener('error', handleError)
-    img.src = `/images/tovar/${card.image}.avif`
-
-    return () => {
-    img.removeEventListener('load', handleLoad)
-    img.removeEventListener('error', handleError)
-    img.src = ''
-    }
-  }, [card.image])
-
   return (
     <article 
       key={card.id} 
@@ -56,29 +38,15 @@ const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
       className={product}
     >
       <div className={productTop}>
-        {hasAvif ? (
-          <picture className={productImage}>
-            <source 
-              srcSet={`/images/tovar/${card.image}.avif`} 
-              type='image/avif' 
-            />
-            <img 
-              loading='lazy'
-              decoding='async'
-              src={`/images/tovar/${card.image}.png`}
-              alt='Товар'
-            />
-          </picture>
-        ) : (
-          <div className={productImage}>
-            <img 
-              loading='lazy'
-              decoding='async'
-              src={`/images/tovar/${card.image}.png`}
-              alt='Товар'
-            />
-          </div>
-        )}
+        <picture className={productImage}>
+          <source srcSet={`/images/tovar/${card.image}.avif`} type='image/avif' />
+          <img 
+            loading='lazy'
+            decoding='async'
+            src={`/images/tovar/${card.image}.png`}
+            alt='Товар'
+          />
+        </picture>
         {sale !== 0 && <div className={productLabel}>-{sale}%</div>}
         {sale >= 20 && <div className={productSale}>выгодно</div>}
       </div>

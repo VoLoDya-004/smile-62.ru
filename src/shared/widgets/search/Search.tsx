@@ -78,8 +78,10 @@ const Search = ({
         >
           <img
             className={searchLineButtonImg}
-            src='/images/icons/search.png'
+            src='/images/icons/search.svg'
             alt='Поиск'
+            width={20}
+            height={20}
           />
         </button>
       </div>

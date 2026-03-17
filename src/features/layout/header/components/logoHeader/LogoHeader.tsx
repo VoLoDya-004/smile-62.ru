@@ -8,11 +8,7 @@ const LogoHeader = () => {
   } = styles
     
   return (
-    <NavLink 
-      className={logoWrapper}
-      to='/'
-      aria-label='Перейти на главную страницу'
-    >
+    <NavLink className={logoWrapper} to='/' aria-label='Перейти на главную страницу'>
       <div className={logo}>
         <svg 
           version='1.0'

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import type { IFav } from '@/features/favourites/types/favouritesTypes'
 import { formatPrice } from '@/shared/utils/formatters'
 import ButtonProductDelete from '@/shared/ui/buttons/ButtonProductDelete'
@@ -18,49 +17,18 @@ const FavouritesProducts = ({ productFavourites }: { productFavourites :IFav }) 
 
   const { deleteProductFavourites } = useFavourites()
 
-  const [hasAvif, setHasAvif] = useState(true)
-
-  useEffect(() => {
-    const img = new Image()
-    const handleLoad = () => setHasAvif(true)
-    const handleError = () => setHasAvif(false)
-    
-    img.addEventListener('load', handleLoad)
-    img.addEventListener('error', handleError)
-    img.src = `/images/tovar/${image}.avif`
-
-    return () => {
-      img.removeEventListener('load', handleLoad)
-      img.removeEventListener('error', handleError)
-      img.src = ''
-    }
-  }, [image])
-
   return (
     <article className={product} aria-label={`Избранный товар ${nazvanie}`}>
-      {hasAvif ? (
-        <picture className={productImage}>
-          <source 
-            srcSet={`/images/tovar/${image}.avif`} 
-            type='image/avif' 
-          />
-          <img 
-            className={productImage}
-            loading='lazy'
-            decoding='async'
-            src={`/images/tovar/${image}.png`}
-            alt='Товар'
-          />
-        </picture>
-      ) : (
-        <div className={productImage}>
-          <img 
-            className={productImage}
-            src={`/images/tovar/${image}.png`}
-            alt='Товар'
-          />
-        </div>
-      )}
+      <picture className={productImage}>
+        <source srcSet={`/images/tovar/${image}.avif`} type='image/avif' />
+        <img 
+          className={productImage}
+          loading='lazy'
+          decoding='async'
+          src={`/images/tovar/${image}.png`}
+          alt='Товар'
+        />
+      </picture>
       <div className={productTitle}>
         {nazvanie}
       </div>

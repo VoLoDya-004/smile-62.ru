@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react'
+import { memo } from 'react'
 import type { ICardsRender } from '../../types/mainTypes'
 import { cx } from '@/shared/utils/classnames'
 import CardsHeartIcon from '@/shared/ui/icons/CardsHeartIcon'
@@ -53,24 +53,6 @@ const CardItem = memo(({
   ) : 0
   const isHighSale = salePercent >= 20
 
-  const [hasAvif, setHasAvif] = useState(true)
-
-  useEffect(() => {
-    const img = new Image()
-    const handleLoad = () => setHasAvif(true)
-    const handleError = () => setHasAvif(false)
-
-    img.addEventListener('load', handleLoad)
-    img.addEventListener('error', handleError)
-    img.src = `/images/tovar/${card.image}.avif`
-
-    return () => {
-      img.removeEventListener('load', handleLoad)
-      img.removeEventListener('error', handleError)
-      img.src = ''
-    }
-  }, [card.image])
-
   return (
     <article key={card.id} id={String(card.id)} className={product}>
       <div className={productTop}>
@@ -90,29 +72,15 @@ const CardItem = memo(({
             />
           </button>
         </div>
-        {hasAvif ? (
-          <picture className={productImage}>
-            <source 
-              srcSet={`/images/tovar/${card.image}.avif`} 
-              type='image/avif' 
-            />
-            <img 
-              loading='lazy'
-              decoding='async'
-              src={`/images/tovar/${card.image}.png`}
-              alt='Товар'
-            />
-          </picture>
-        ) : (
-          <div className={productImage}>
-            <img 
-              loading='lazy'
-              decoding='async'
-              src={`/images/tovar/${card.image}.png`}
-              alt='Товар'
-            />
-          </div>
-        )}
+        <picture className={productImage}>
+          <source srcSet={`/images/tovar/${card.image}.avif`} type='image/avif' />
+          <img 
+            loading='lazy'
+            decoding='async'
+            src={`/images/tovar/${card.image}.png`}
+            alt='Товар'
+          />
+        </picture>
         {+saleDisplay > 0 && <div className={productLabel}>-{saleDisplay}%</div>}
         {isHighSale && <div className={productSale}>выгодно</div>}
       </div>

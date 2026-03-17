@@ -29,52 +29,18 @@ interface IProductImageProps {
 
 type TModalType = 'add' | 'edit' | null
 
-const ProductImage = ({ image, alt = 'Товар' }: IProductImageProps) => {
-  const { 'product-box__image': productImage } = styles
-
-  const [hasAvif, setHasAvif] = useState(true)
-
-  useEffect(() => {
-    const img = new Image()
-    const handleLoad = () => setHasAvif(true)
-    const handleError = () => setHasAvif(false)
-
-    img.addEventListener('load', handleLoad)
-    img.addEventListener('error', handleError)
-    img.src = `/images/tovar/${image}.avif`
-
-    return () => {
-      img.removeEventListener('load', handleLoad)
-      img.removeEventListener('error', handleError)
-      img.src = ''
-    }
-  }, [image])
-
-  if (hasAvif) {
-    return (
-      <picture>
-        <source srcSet={`/images/tovar/${image}.avif`} type='image/avif' />
-        <img
-          className={productImage}
-          loading='lazy'
-          decoding='async'
-          src={`/images/tovar/${image}.png`}
-          alt={alt}
-        />
-      </picture>
-    )
-  }
-
-  return (
+const ProductImage = ({ image, alt = 'Товар' }: IProductImageProps) => (
+  <picture>
+    <source srcSet={`/images/tovar/${image}.avif`} type='image/avif' />
     <img
-      className={productImage}
+      className={styles['product-box__image']}
       loading='lazy'
       decoding='async'
       src={`/images/tovar/${image}.png`}
       alt={alt}
     />
-  )
-}
+  </picture>
+)
 
 export const ProductsList = ({ 
   products, 

@@ -6,12 +6,15 @@ const LogoFooter = () => {
   const handleToHome = () => navigate('/')
 
   return (
-    <img 
-      src='/images/icons/smile-62.png' 
-      alt='Smile' 
-      className={styles.logo}
-      onClick={handleToHome}
-    />
+    <picture onClick={handleToHome} className={styles.logo}>
+      <source srcSet='/images/icons/smile-62.webp' type='image/webp' width={240} />
+      <img 
+        src='/images/icons/smile-62.png'
+        loading='lazy'
+        alt='Smile'
+        width={240}
+      />
+    </picture>
   )
 }
 

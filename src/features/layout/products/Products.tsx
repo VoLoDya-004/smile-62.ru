@@ -37,36 +37,36 @@ const Products = () => {
       </Helmet>
       <h1 className='visually-hidden'>Интернет-магазин Smile</h1>
       <Carousel>
-        <article 
-          className={styles.slider__item}
-          aria-label='Первый слайд'
-        >
-          <img 
-            src='/images/icons/advertisement1.png'
-            alt='Первый слайд'
-            loading='eager'
-            fetchPriority='high'
-          />
+        <article className={styles.slider__item} aria-label='Первый слайд'>
+          <picture>
+            <source srcSet='/images/icons/advertisement1.avif' type='image/avif' />
+            <img 
+              fetchPriority='high'
+              loading='eager'
+              src='/images/icons/advertisement1.png'
+              alt='Первый слайд'
+            />
+          </picture>
         </article>
-        <article 
-          className={styles.slider__item}
-          aria-label='Второй слайд'
-        >
-          <img 
-            src='/images/icons/advertisement2.jpg' 
-            alt='Второй слайд'
-            loading='lazy'
-          />
+        <article className={styles.slider__item} aria-label='Второй слайд'>
+          <picture>
+            <source srcSet='/images/icons/advertisement2.avif' type='image/avif' />
+            <img 
+              loading='lazy'
+              src='/images/icons/advertisement2.jpg'
+              alt='Второй слайд'
+            />
+          </picture>
         </article>
-        <article 
-          className={styles.slider__item}
-          aria-label='Третий слайд'
-        >
-          <img 
-            src='/images/icons/advertisement3.jpg' 
-            alt='Третий слайд'
-            loading='lazy'
-          />
+        <article className={styles.slider__item} aria-label='Третий слайд'>
+          <picture>
+            <source srcSet='/images/icons/advertisement3.avif' type='image/avif' />
+            <img 
+              loading='lazy'
+              src='/images/icons/advertisement3.jpg'
+              alt='Третий слайд'
+            />
+          </picture>
         </article>
       </Carousel>
       <Breadcrumbs

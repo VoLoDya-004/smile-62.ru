@@ -170,6 +170,9 @@ export const useAdmin = ({
     },
     onError: () => {
       showNotification('Ошибка при добавлении товара', 'error')
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['products']})
     }
   })
 
@@ -285,6 +288,7 @@ export const useAdmin = ({
       queryClient.invalidateQueries({ queryKey: 
         ['adminProducts', userId, productSearch, productCategory, productMinPrice, productMaxPrice] 
       })
+      queryClient.invalidateQueries({ queryKey: ['products']})
     }
   })
 

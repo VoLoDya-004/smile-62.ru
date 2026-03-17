@@ -34,7 +34,7 @@
 		display: flex;
 		user-select: none;
 		pointer-events: none;
-    & img {
+    & picture, img {
 	    width: calc(100% - 0.4px);
 	    object-fit: cover;
     }
