@@ -5,9 +5,11 @@ import type { IProduct } from '../../../types/adminTypes'
 import styles from './ProductsList.module.scss'
 import { createPortal } from 'react-dom'
 import { usePortal } from '@/shared/hooks'
-import { CATEGORIES } from '@/features/layout/products/constants/categories'
+import { CATEGORIES } from '@/features/products/constants/categories'
 import { useModalFocusTrap } from '@/shared/hooks'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
+import { ICategory } from '@/features/products/types/mainTypes'
+import Image from 'next/image'
 
 interface IProductsListProps {
   products: IProduct[]
@@ -30,16 +32,17 @@ interface IProductImageProps {
 type TModalType = 'add' | 'edit' | null
 
 const ProductImage = ({ image, alt = 'Товар' }: IProductImageProps) => (
-  <picture>
-    <source srcSet={`/images/tovar/${image}.avif`} type='image/avif' />
-    <img
-      className={styles['product-box__image']}
+  <div className={styles['product-box__image-wrapper']}>
+    <Image
+      src={`/uploads/tovar/${image}.avif`}
+      alt={alt}
+      height={0}
+      width={100}
       loading='lazy'
       decoding='async'
-      src={`/images/tovar/${image}.png`}
-      alt={alt}
+      className={styles['product-box__image']}
     />
-  </picture>
+  </div>
 )
 
 export const ProductsList = ({ 
@@ -109,7 +112,7 @@ export const ProductsList = ({
   useModalFocusTrap(modal.type !== null, closeModal, 'confirm-admin-product')
 
   const categoriesTitle = (categoriesId: number) => {
-    const category = CATEGORIES.find(item => item.id === categoriesId)
+    const category = CATEGORIES.find((item: ICategory) => item.id === categoriesId)
     return category ? category.label : 'Без категории'
   }
   

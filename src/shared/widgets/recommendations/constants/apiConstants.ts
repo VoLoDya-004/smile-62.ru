@@ -1,3 +1,1 @@
-export const COMMON_API_URLS = {
-  RECOMMENDATIONS: '/backend/PHP/api/recommendations.php'
-}
+export const RECOMMENDATIONS_API_URLS = 'api/recommendations.php'

@@ -13,25 +13,23 @@
     place-self: center;
   }
   &__img {
-    justify-self: center;
-    width: 90%;
+    object-fit: contain;
+    width: 100%;
     max-width: 210px;
-    pointer-events: none;
+    height: auto;
+    &-wrapper {
+      justify-self: center;
+      pointer-events: none;
+    }
   }
 }
-
-@media (max-width: $breakpoint-md) {
-	.product__img {
-    width: 100%;
-  }
-}   
 
 @media (max-width: $breakpoint-sm) {
 	.product {
     grid-template-columns: repeat(5, 1fr);
     grid-auto-rows: minmax(60px, auto);
     gap: 10px 15px;
-    &__img {
+    &__img-wrapper {
       grid-column: 1/3;
       width: 80%;
     }

@@ -6,17 +6,26 @@ import BlockEmpty from '@/shared/widgets/blockEmpty/BlockEmpty'
 import FavouritesBox from './components/favouritesBox/FavouritesBox'
 import Recommendations from '@/shared/widgets/recommendations/Recommendations'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
-import { Helmet } from 'react-helmet-async'
+import Head from 'next/head'
+import { IFav } from './types/favouritesTypes'
 
 interface IFavouritesProps {
   loading: boolean
   children: ReactNode
+  initialFavourites?: IFav[]
+  isAuth?: boolean
 }
 
-const Favourites = ({ loading, children }: IFavouritesProps) => {
+const Favourites = ({ 
+  loading, 
+  children, 
+  initialFavourites = [], 
+  isAuth: isAuthProp = false 
+}: IFavouritesProps) => {
   const { cartFavourites, isAdding } = useFavourites()
 
-  const isAuth = useSelector((state: RootStore) => state.user.isAuth)
+  const isAuthRedux = useSelector((state: RootStore) => state.user.isAuth)
+  const isAuth = isAuthProp || isAuthRedux
 
   const [textUpButton, setTextUpButton] = useState('')
   const [textDownButton, setTextDownButton] = useState('')
@@ -33,14 +42,15 @@ const Favourites = ({ loading, children }: IFavouritesProps) => {
 
   if ((loading && isAuth) || isAdding) return <Spinner />
 
-  const hasFavourites = cartFavourites.length > 0
+  const displayFavourites = initialFavourites.length > 0 ? initialFavourites : cartFavourites
+  const hasFavourites = displayFavourites.length > 0
     
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Избранное | Smile</title>
         <meta name='description' content='Ваши избранные товары в магазине Smile' />
-      </Helmet>
+      </Head>
       {!hasFavourites && <BlockEmpty textUp={textUpButton} textDown={textDownButton} />}
       {hasFavourites && <FavouritesBox>{children}</FavouritesBox>}
       <Recommendations />

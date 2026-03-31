@@ -6,6 +6,7 @@ import ButtonProductDelete from '@/shared/ui/buttons/ButtonProductDelete'
 import BasketIncreaseSVG from './svg/BasketIncreaseSVG'
 import BasketDecreaseSVG from './svg/BasketDecreaseSVG'
 import styles from './BasketProducts.module.scss'
+import Image from 'next/image'
 
 interface IBasketProductsProps {
   productBasket: IBasket
@@ -25,6 +26,7 @@ const BasketProducts = ({
   const {
     'product': product,
     'product__img': productImage,
+    'product__img-wrapper': productImageWrapper,
     'product__title': productTitle,
     'product__price': productPrice,
     'product__count': productCount,
@@ -90,16 +92,17 @@ const BasketProducts = ({
 
   return (       
     <article className={product} aria-label={`Товар ${nazvanie} в корзине`}>
-      <picture className={productImage}>
-        <source srcSet={`/images/tovar/${image}.avif`} type='image/avif' />
-        <img 
-          className={productImage}
+      <div className={productImageWrapper}>
+        <Image
+          src={`/uploads/tovar/${image}.avif`}
+          alt={nazvanie ? nazvanie : 'Товар'}
+          width={210}
+          height={0}
           loading='lazy'
           decoding='async'
-          src={`/images/tovar/${image}.png`}
-          alt='Товар'
+          className={productImage}
         />
-      </picture>
+      </div>
       <div className={productTitle}>{nazvanie}</div>
       <div className={productCount}>
         <div className={productCountBox}>

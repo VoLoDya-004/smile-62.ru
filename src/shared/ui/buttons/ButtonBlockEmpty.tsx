@@ -1,14 +1,12 @@
 import type { RootStore } from '@/shared/store'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
 const ButtonBlockEmpty = () => {
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
-
   const [textButton, setTextButton] = useState('')
-
-  const navigate = useNavigate()
+  const router = useRouter()
 
   useEffect(() => {
     if (isAuth) {
@@ -20,9 +18,9 @@ const ButtonBlockEmpty = () => {
 
   const handleClick = () => {
     if (isAuth) {
-      navigate('/')
+      router.push('/')
     } else {
-      navigate('/profile')
+      router.push('/profile')
     }   
   }
     

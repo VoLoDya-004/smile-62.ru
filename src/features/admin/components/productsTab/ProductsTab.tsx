@@ -19,6 +19,7 @@ interface IProductsTabProps {
     (filters: { search: string, categoryId: number, minPrice?: number, maxPrice?: number }) => void
   isLoadingAddProducts: boolean  
   isLoadingEditProducts: boolean 
+  initialProducts?: IProduct[] 
 }
 
 export const ProductsTab = ({
@@ -36,27 +37,32 @@ export const ProductsTab = ({
   productMaxPrice,
   onApplyFilters,
   isLoadingAddProducts,   
-  isLoadingEditProducts 
-}: IProductsTabProps) => (
-  <>
-    <ProductsFilter
-      onApply={onApplyFilters}
-      initialSearch={productSearch}
-      initialCategory={productCategory}
-      initialMinPrice={productMinPrice?.toString() ?? ''}
-      initialMaxPrice={productMaxPrice?.toString() ?? ''}
-    />
-    <ProductsList
-      products={products}
-      onUpdate={updateProduct}
-      onAdd={addProduct}
-      onDelete={deleteProduct}
-      isLoading={isLoadingProducts}
-      hasNext={hasNextProducts}
-      isFetchingNext={isFetchingNextProducts}
-      fetchNext={fetchNextProducts}
-      isLoadingAddProducts={isLoadingAddProducts}
-      isLoadingEditProducts={isLoadingEditProducts}
-    />
-  </>
-)
+  isLoadingEditProducts,
+  initialProducts = []
+}: IProductsTabProps) => {
+  const displayProducts = initialProducts.length > 0 ? initialProducts : products
+
+  return (
+    <>
+      <ProductsFilter
+        onApply={onApplyFilters}
+        initialSearch={productSearch}
+        initialCategory={productCategory}
+        initialMinPrice={productMinPrice?.toString() ?? ''}
+        initialMaxPrice={productMaxPrice?.toString() ?? ''}
+      />
+      <ProductsList
+        products={displayProducts}
+        onUpdate={updateProduct}
+        onAdd={addProduct}
+        onDelete={deleteProduct}
+        isLoading={isLoadingProducts}
+        hasNext={hasNextProducts}
+        isFetchingNext={isFetchingNextProducts}
+        fetchNext={fetchNextProducts}
+        isLoadingAddProducts={isLoadingAddProducts}
+        isLoadingEditProducts={isLoadingEditProducts}
+      />
+    </>
+  )
+}

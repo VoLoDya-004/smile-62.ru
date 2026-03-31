@@ -1,6 +1,6 @@
 import { apiClient } from '@/shared/api/axiosInstance'
 import { AUTH_API_URLS } from '../constants/apiConstants'
-import type { ILoginData, IRegisterData } from '../types/profileTypes'
+import type { ILoginData, IRegisterData, IRequestConfig } from '../types/profileTypes'
 
 export const authApi = {
   register: async (registerData: IRegisterData) => {  
@@ -32,8 +32,19 @@ export const authApi = {
     return res.data
   },
 
-  getMe: async () => {
-    const res = await apiClient.get(AUTH_API_URLS, { params: { Operation: 'getMe' } })
+  getMe: async (token?: string) => {
+    const config: IRequestConfig = {}
+    
+    if (token) {
+      config.headers = {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+
+    const res = await apiClient.get(AUTH_API_URLS, { 
+      params: { Operation: 'getMe' },
+      ...config
+    })
     return res.data
   },
 

@@ -1,4 +1,5 @@
-import { CATEGORIES } from '@/features/layout/products/constants/categories'
+import { CATEGORIES } from '@/features/products/constants/categories'
+import { ICategory } from '@/features/products/types/mainTypes'
 import * as yup from 'yup'
 
 export const productSchema = yup.object({
@@ -34,7 +35,7 @@ export const productSchema = yup.object({
   id_category: yup
     .string()
     .required('Выберите категорию')
-    .oneOf(CATEGORIES.slice(1).map(item => String(item.id)), 'Некорректная категория')
+    .oneOf(CATEGORIES.slice(1).map((item: ICategory) => String(item.id)), 'Некорректная категория')
 })
 
 export type TProductFormData = yup.InferType<typeof productSchema>

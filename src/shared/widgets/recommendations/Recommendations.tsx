@@ -1,18 +1,20 @@
 import { useCallback, useEffect, useState, type RefObject } from 'react'
 import { useRecommendations } from './hooks/useRecommendations'
-import type { ICardsRender } from '@/features/layout/products/types/mainTypes'
+import type { ICardsRender } from '@/features/products/types/mainTypes'
 import type { IScrollHandlers } from './types/recommendationsTypes'
 import { cx } from '@/shared/utils/classnames'
 import ButtonArrow from '@/shared/ui/buttons/ButtonArrow'
 import styles from './Recommendations.module.scss'
 import { useDragScroll } from '@/shared/hooks'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
+import Image from 'next/image'
 
 const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   const {
     'recommendation-card': product,
     'recommendation-card__top': productTop,
     'recommendation-card__bottom': productBottom,
+    'recommendation-card__image-wrapper': productImageWrapper,
     'recommendation-card__image': productImage,
     'recommendation-card__label': productLabel,
     'recommendation-card__sale': productSale,
@@ -32,21 +34,18 @@ const RecommendationsProduct = ({ card }: { card: ICardsRender }) => {
   const price_sale = Intl.NumberFormat('ru-RU').format(card.price_sale * 1)
 
   return (
-    <article 
-      key={card.id} 
-      id={String(card.id)} 
-      className={product}
-    >
+    <article key={card.id} id={String(card.id)} className={product}>
       <div className={productTop}>
-        <picture className={productImage}>
-          <source srcSet={`/images/tovar/${card.image}.avif`} type='image/avif' />
-          <img 
+        <div className={productImageWrapper}>
+          <Image
+            className={productImage}
+            src={`/uploads/tovar/${card.image}.avif`}
+            alt={card.nazvanie}
+            fill
             loading='lazy'
             decoding='async'
-            src={`/images/tovar/${card.image}.png`}
-            alt='Товар'
           />
-        </picture>
+        </div>
         {sale !== 0 && <div className={productLabel}>-{sale}%</div>}
         {sale >= 20 && <div className={productSale}>выгодно</div>}
       </div>

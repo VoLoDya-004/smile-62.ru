@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
 import { useAuth } from '../../hooks/useAuth'
 import { cx } from '@/shared/utils/classnames'
@@ -12,6 +12,18 @@ import styles from './Form.module.scss'
 import FormInput from './FormInput'
 import TransactionsHistory from '../transactions/TransactionsHistory'
 import { useTransactions } from '../../hooks/useTransactions'
+import { useEffect } from 'react'
+import { setUser } from '@/shared/store/slices/userSlice'
+
+interface IFormProps {
+  initialUser?: {
+    id_user: number
+    name: string
+    email: string
+    is_admin: number
+  } | null
+  isAuth: boolean
+}
 
 const {
   'form-container': formContainer,
@@ -160,13 +172,26 @@ const LoginForm = () => {
   )
 }
 
-const Form = () => {
+const Form = ({ initialUser, isAuth: isAuthFromProps }: IFormProps) => {
   const {
     'form': form,
     'no-wrap': noWrap
   } = styles
 
+  const dispatch = useDispatch()
   const isAuth = useSelector((state: RootStore) => state.user.isAuth)
+
+  useEffect(() => {
+    if (isAuthFromProps && initialUser && !isAuth) {
+      dispatch(setUser({
+        userId: initialUser.id_user,
+        userName: initialUser.name,
+        userEmail: initialUser.email,
+        isAuth: true,
+        isAdmin: initialUser.is_admin === 1
+      }))
+    }
+  }, [isAuthFromProps, initialUser, isAuth, dispatch])
 
   const { 
     transactions, 

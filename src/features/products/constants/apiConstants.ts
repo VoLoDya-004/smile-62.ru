@@ -1,0 +1,1 @@
+export const API_URLS_CARDS = 'api/getCards.php'

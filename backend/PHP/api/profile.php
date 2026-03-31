@@ -143,7 +143,6 @@ if (isset($params['Operation'])) {
                 setcookie('auth_token', $token, [
                     'expires' => time() + 60*60*24*30,
                     'path' => '/',
-                    'domain' => '.localhost',
                     'secure' => false,
                     'httponly' => true,
                     'samesite' => 'Lax'
@@ -174,13 +173,24 @@ if (isset($params['Operation'])) {
         }
         mysqli_set_charset($connect, "utf8");
 
-        if (!isset($_COOKIE['auth_token'])) {
+        $token = null;
+        if (isset($_COOKIE['auth_token'])) {
+            $token = $_COOKIE['auth_token'];
+        }
+        elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+            if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+                $token = $matches[1];
+            }
+        }
+
+        if (!$token) {
             mysqli_close($connect);
             echo json_encode(['success' => false, 'message' => 'Не авторизован']);
             exit;
         }
 
-        $token = mysqli_real_escape_string($connect, $_COOKIE['auth_token']);
+        $token = mysqli_real_escape_string($connect, $token);
 
         $query = "SELECT user_id FROM user_tokens 
                   WHERE token = '$token' AND expires_at > NOW()";
@@ -196,7 +206,6 @@ if (isset($params['Operation'])) {
             setcookie('auth_token', $token, [
                 'expires' => time() + 60*60*24*30,
                 'path' => '/',
-                'domain' => '.localhost',
                 'secure' => false,
                 'httponly' => true,
                 'samesite' => 'Lax'
@@ -230,7 +239,6 @@ if (isset($params['Operation'])) {
         setcookie('auth_token', '', [
             'expires' => 1,
             'path' => '/',
-            'domain' => '.localhost',
             'httponly' => true,
             'samesite' => 'Lax'
         ]);
@@ -308,9 +316,10 @@ if (isset($params['Operation'])) {
 
         $query_delete = "DELETE FROM users WHERE id_user=$userId";
         if (mysqli_query($connect, $query_delete)) {
-            setcookie('auth_token', '', [
-                'expires' => 1,
+            setcookie('auth_token', $token, [
+                'expires' => time() + 60*60*24*30,
                 'path' => '/',
+                'secure' => false,
                 'httponly' => true,
                 'samesite' => 'Lax'
             ]);

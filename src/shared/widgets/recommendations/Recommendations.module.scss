@@ -90,26 +90,26 @@
   	position: relative;
   	overflow: hidden;
   }
-  &__image { 
-  	position: absolute;
-  	top: 0;
-  	left: 0;
-  	width: 100%;
-  	height: 100%;
-  	display: block;
-  	& > img { 
-  		width: 100%;
-  		height: 100%;
-  		object-fit: contain;
-  		transition: 0.2s;
-  		pointer-events: none;
-  	}
-	  @media (hover: hover) and (pointer: fine) {
-    	&:hover > img { 
-    		transform: scale(1.1);
-    	}
-	  }
-  }
+	&__image { 
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: 0.2s;
+    pointer-events: none;
+		&-wrapper { 
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  display: block;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover > .recommendation-card__image { 
+          transform: scale(1.1);
+        }
+      }
+		}
+	}
   &__label { 
   	position: absolute;
   	bottom: 5px;

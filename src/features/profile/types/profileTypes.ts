@@ -28,3 +28,9 @@ export interface ITransactionsResponse {
   hasMore: boolean
   message?: string
 }
+
+export interface IRequestConfig {
+  headers?: {
+    Authorization?: string
+  }
+}

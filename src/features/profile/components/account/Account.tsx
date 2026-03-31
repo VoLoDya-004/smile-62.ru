@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import type { RootStore } from '@/shared/store'
-import { NavLink } from 'react-router-dom'
+import Link from 'next/link'
 import { pluralize } from '@/shared/utils/pluralize'
 import { useUIContextModals, useUIContextNotification } from '@/shared/providers/UIProvider'
 import { useAuth } from '../../hooks/useAuth'
@@ -102,40 +102,40 @@ const FavoritesBlock = ({ favoritesCount, itemText, loadingFavourites }: IFavori
   } = styles
 
   return (
-  	<section className={profileFav}>
-  	  <div className={profileFavBlock}>
-  	    <div className={profileFavBlockTitle}>
-  	      <NavLink 
-  	        to='/favourites' 
-  	        className={cx(profileFavBlockTitle, 'text-decoration-none')}
-  	      >
-  	        Избранное
-  	      </NavLink>
-  	    </div>
-        <div className={profileFavBlockCount}>
-        	{loadingFavourites ? 'Обновление...' : `${favoritesCount} ${itemText}`}
+    <section className={profileFav}>
+      <div className={profileFavBlock}>
+        <div className={profileFavBlockTitle}>
+          <Link 
+            href='/favourites' 
+            className={cx(profileFavBlockTitle, 'text-decoration-none')}
+          >
+            Избранное
+          </Link>
         </div>
-  	  </div>
-  	  <div className={profileFavBlockSVG} aria-hidden='true'>
-  	    <svg 
-  	      xmlns='http://www.w3.org/2000/svg'
-  	      width='42' 
-  	      height='38' 
-  	      viewBox='0 0 21 19'
-  	    >
-  	      <path 
-  	        className='clip-rule-evenodd'
-  	        fill='rgb(186, 155, 194)'
-  	        d='M6.225 0C2.755 0 0 2.639 0 6.082c0 2.149 1.37 4.31 
-  	        3.145 6.34 1.81 2.07 4.238 4.215 6.703 6.336a1 1 0 0 0 
-  	        1.304 0c2.465-2.12 4.893-4.266 6.703-6.336C19.631 10.392 
-  	        21 8.23 21 6.082 21 2.639 18.246 0 
-  	        14.775 0c-1.549 0-3.09.572-4.275 1.55A6.801 
-  	        6.801 0 0 0 6.225 0Z'
-  	      />
-  	    </svg>
-  	  </div>
-  	</section>
+        <div className={profileFavBlockCount}>
+          {loadingFavourites ? 'Обновление...' : `${favoritesCount} ${itemText}`}
+        </div>
+      </div>
+      <div className={profileFavBlockSVG} aria-hidden='true'>
+        <svg 
+          xmlns='http://www.w3.org/2000/svg'
+          width='42' 
+          height='38' 
+          viewBox='0 0 21 19'
+        >
+          <path 
+            className='clip-rule-evenodd'
+            fill='rgb(186, 155, 194)'
+            d='M6.225 0C2.755 0 0 2.639 0 6.082c0 2.149 1.37 4.31 
+            3.145 6.34 1.81 2.07 4.238 4.215 6.703 6.336a1 1 0 0 0 
+            1.304 0c2.465-2.12 4.893-4.266 6.703-6.336C19.631 10.392 
+            21 8.23 21 6.082 21 2.639 18.246 0 
+            14.775 0c-1.549 0-3.09.572-4.275 1.55A6.801 
+            6.801 0 0 0 6.225 0Z'
+          />
+        </svg>
+      </div>
+    </section>
   )
 }
 
@@ -151,16 +151,16 @@ const BasketBlock = ({ basketCount, itemText, loadingBasket }: IBasketBlockProps
   return (
     <section className={profileBasket}>
       <div className={profileBasketBlock}>
-      	<div className={profileBasketBlockTitle}>
-        	<NavLink 
-        	  to='/basket' 
-        	  className={cx(profileBasketBlockTitle, 'text-decoration-none')}
-        	>
-        	  Корзина
-        	</NavLink>
+        <div className={profileBasketBlockTitle}>
+          <Link 
+            href='/basket' 
+            className={cx(profileBasketBlockTitle, 'text-decoration-none')}
+          >
+            Корзина
+          </Link>
         </div>
         <div className={profileBasketBlockCount}>
-        	{loadingBasket ? 'Обновление...' : `${basketCount} ${itemText}`}
+          {loadingBasket ? 'Обновление...' : `${basketCount} ${itemText}`}
         </div>
       </div>
       <div className={profileBasketBlockSVG} aria-hidden='true'>

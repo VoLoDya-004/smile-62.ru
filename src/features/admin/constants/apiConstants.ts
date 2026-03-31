@@ -1,1 +1,1 @@
-export const API_URLS_ADMIN = '/backend/PHP/api/admin.php'
+export const API_URLS_ADMIN = '/api/admin.php'

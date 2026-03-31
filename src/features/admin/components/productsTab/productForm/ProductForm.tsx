@@ -4,8 +4,9 @@ import { productSchema, type TProductFormData } from '../../../types/validationS
 import { cx } from '@/shared/utils/classnames'
 import ButtonSubmit from '@/shared/ui/buttons/ButtonSubmit'
 import { useRef, useState, type ChangeEvent, useEffect } from 'react'
-import { CATEGORIES } from '@/features/layout/products/constants/categories'
 import styles from './ProductForm.module.scss'
+import { ICategory } from '@/features/products/types/mainTypes'
+import { CATEGORIES } from '@/features/products/constants/categories'
 
 interface IProductFormProps {
   initialData?: {
@@ -182,13 +183,15 @@ export const ProductForm = ({
       <div className={formGroup}>
         <label htmlFor='product-category'>Категория</label>
         <select id='product-category' {...register('id_category')}>
-          {CATEGORIES.slice(1).map((cat) => (
+          {CATEGORIES.slice(1).map((cat: ICategory) => (
             <option key={cat.id} value={cat.id}>
               {cat.label}
             </option>
           ))}
         </select>
-        {errors.id_category && <span className='error-message'>{errors.id_category.message}</span>}
+        {errors.id_category && 
+          <span className='error-message'>{String(errors.id_category.message)}</span>
+        }
       </div>
 
       <div className={buttonContainer}>

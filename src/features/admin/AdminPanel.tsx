@@ -6,12 +6,18 @@ import { ProductsTab } from './components/productsTab/ProductsTab'
 import { UsersTab } from './components/usersTab/UsersTab'
 import { StatsTab } from './components/statsTab/StatsTab'
 import { OrdersTab } from './components/ordersTab/OrdersTab'
-import { useSearchParams } from 'react-router-dom'
-import type { TAdminSelect } from './types/adminTypes'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import type { IStats, TAdminSelect } from './types/adminTypes'
 import styles from './AdminPanel.module.scss'
-import { Helmet } from 'react-helmet-async'
+import Head from 'next/head'
 
-const AdminPanel = () => {
+interface IAdminPanelProps {
+  isAdmin: boolean
+  initialStats?: IStats | null
+}
+
+const AdminPanel = ({ isAdmin: isAdminProp, initialStats }: IAdminPanelProps) => {
   const {
     'not-admin': notAdmin,
     'admin-container': container,
@@ -20,30 +26,35 @@ const AdminPanel = () => {
     'tabs__item_active': tabsItemActive,
   } = styles
 
-  const isAdmin = useSelector((state: RootStore) => state.user.isAdmin)
+  const isAdminRedux = useSelector((state: RootStore) => state.user.isAdmin)
+  const isAdmin = isAdminProp || isAdminRedux
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const userSearch = searchParams.get('search') || ''
-  const userFilter = (searchParams.get('filter') as TAdminSelect) || 'all'
-  const orderSearch = searchParams.get('orderSearch') || ''
-  const orderSort = (searchParams.get('orderSort') as 'asc' | 'desc') || 'desc'
-  const orderDeliveryParam = searchParams.get('orderDelivery') || ''
-  const orderStatusParam = searchParams.get('orderStatus') || ''
-  const productSearch = searchParams.get('productSearch') || ''
-  const productCategory = searchParams.get('productCategory') ? 
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const userSearch = searchParams?.get('search') || ''
+  const userFilter = (searchParams?.get('filter') as TAdminSelect) || 'all'
+  const orderSearch = searchParams?.get('orderSearch') || ''
+  const orderSort = (searchParams?.get('orderSort') as 'asc' | 'desc') || 'desc'
+  const orderDeliveryParam = searchParams?.get('orderDelivery') || ''
+  const orderStatusParam = searchParams?.get('orderStatus') || ''
+  const productSearch = searchParams?.get('productSearch') || ''
+  const productCategory = searchParams?.get('productCategory') ? 
     Number(searchParams.get('productCategory')) : 0
-  const productMinPrice = searchParams.get('productMinPrice') ? 
+  const productMinPrice = searchParams?.get('productMinPrice') ? 
     Number(searchParams.get('productMinPrice')) : undefined
-  const productMaxPrice = searchParams.get('productMaxPrice') ? 
+  const productMaxPrice = searchParams?.get('productMaxPrice') ? 
     Number(searchParams.get('productMaxPrice')) : undefined
 
   const orderDeliveryTypes = orderDeliveryParam ? orderDeliveryParam.split(',') : []
   const orderStatuses = orderStatusParam ? orderStatusParam.split(',') : []
 
   const [activeTab, setActiveTab] = useState<'orders' | 'stats' | 'users' | 'products'>(() => {
-    const saved = sessionStorage.getItem('tabAdmin')
-    if (saved === 'orders' || saved === 'stats' || saved === 'users' || saved === 'products') {
-      return saved
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('tabAdmin')
+      if (saved === 'orders' || saved === 'stats' || saved === 'users' || saved === 'products') {
+        return saved
+      }
     }
     return 'orders'
   })
@@ -87,49 +98,47 @@ const AdminPanel = () => {
   })
 
   useEffect(() => {
-    sessionStorage.setItem('tabAdmin', activeTab)
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('tabAdmin', activeTab)
+    }
   }, [activeTab])
 
+  const updateUrlParams = (params: Record<string, string | number | null | undefined>) => {
+    const newParams = new URLSearchParams(searchParams?.toString() || '')
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '' && value !== 0) {
+        newParams.set(key, String(value))
+      } else {
+        newParams.delete(key)
+      }
+    })
+    
+    router.push(`?${newParams.toString()}`, { scroll: false })
+  }
+
   const setUserSearch = (value: string) => {
-    const params = new URLSearchParams(searchParams)
-    if (value) params.set('search', value)
-    else params.delete('search')
-    setSearchParams(params)
+    updateUrlParams({ search: value || null })
   }
 
   const setUserFilter = (value: 'all'|'admin'|'not_admin') => {
-    const params = new URLSearchParams(searchParams)
-    if (value !== 'all') params.set('filter', value)
-    else params.delete('filter')
-    setSearchParams(params)
+    updateUrlParams({ filter: value === 'all' ? null : value })
   }
 
   const setOrderSearch = (value: string) => {
-    const params = new URLSearchParams(searchParams)
-    if (value) params.set('orderSearch', value)
-    else params.delete('orderSearch')
-    setSearchParams(params)
+    updateUrlParams({ orderSearch: value || null })
   }
 
   const setOrderSort = (value: 'asc' | 'desc') => {
-    const params = new URLSearchParams(searchParams)
-    if (value !== 'desc') params.set('orderSort', value)
-    else params.delete('orderSort')
-    setSearchParams(params)
+    updateUrlParams({ orderSort: value === 'desc' ? null : value })
   }
 
   const setOrderDeliveryTypes = (values: string[]) => {
-    const params = new URLSearchParams(searchParams)
-    if (values.length) params.set('orderDelivery', values.join(','))
-    else params.delete('orderDelivery')
-    setSearchParams(params)
+    updateUrlParams({ orderDelivery: values.length ? values.join(',') : null })
   }
 
   const setOrderStatuses = (values: string[]) => {
-    const params = new URLSearchParams(searchParams)
-    if (values.length) params.set('orderStatus', values.join(','))
-    else params.delete('orderStatus')
-    setSearchParams(params)
+    updateUrlParams({ orderStatus: values.length ? values.join(',') : null })
   }
 
   const handleApplyProductFilters = (filters: { 
@@ -138,16 +147,12 @@ const AdminPanel = () => {
     minPrice?: number,
     maxPrice?: number 
   }) => {
-    const params = new URLSearchParams(searchParams)
-    if (filters.search) params.set('productSearch', filters.search)
-    else params.delete('productSearch')
-    if (filters.categoryId) params.set('productCategory', filters.categoryId.toString())
-    else params.delete('productCategory')
-    if (filters.minPrice !== undefined) params.set('productMinPrice', filters.minPrice.toString())
-    else params.delete('productMinPrice')
-    if (filters.maxPrice !== undefined) params.set('productMaxPrice', filters.maxPrice.toString())
-    else params.delete('productMaxPrice')
-    setSearchParams(params)
+    updateUrlParams({
+      productSearch: filters.search || null,
+      productCategory: filters.categoryId || null,
+      productMinPrice: filters.minPrice,
+      productMaxPrice: filters.maxPrice
+    })
   }
 
   if (!isAdmin) {
@@ -161,10 +166,10 @@ const AdminPanel = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Админ-панель | Smile</title>
         <meta name='description' content='Управление магазином Smile' />
-      </Helmet>
+      </Head>
       <h1 className='visually-hidden'>Панель администратора</h1>
       <div className={container}>      
         <nav className={tabs}>
@@ -213,7 +218,13 @@ const AdminPanel = () => {
           />
         )}
 
-        {activeTab === 'stats' && <StatsTab stats={stats} isLoadingStats={isLoadingStats} />}
+        {activeTab === 'stats' && (
+          <StatsTab 
+            stats={stats} 
+            isLoadingStats={isLoadingStats} 
+            initialStats={initialStats}
+          />
+        )}
 
         {activeTab === 'users' && (
           <UsersTab 

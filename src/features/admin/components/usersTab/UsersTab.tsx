@@ -33,7 +33,7 @@ export const UsersTab = ({
   userSearch,
   setUserSearch,
   userFilter,
-  setUserFilter
+  setUserFilter,
 }: IUsersTabProps) => {
   const {
     'users-tab': usersTab,

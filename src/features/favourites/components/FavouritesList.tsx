@@ -2,12 +2,14 @@ import { useFavourites } from '../hooks/useFavourites'
 import type { IFav } from '../types/favouritesTypes'
 import FavouritesProducts from './favouritesProducts/FavouritesProducts'
 
-const FavouritesList = () => {
+const FavouritesList = ({ initialFavourites = [] }: { initialFavourites?: IFav[] }) => {
   const { cartFavourites } = useFavourites()
+
+  const displayFavourites = initialFavourites.length > 0 ? initialFavourites : cartFavourites
 
   return (
     <>
-      {cartFavourites.map((productFavourites: IFav) => (
+      {displayFavourites.map((productFavourites: IFav) => (
         <FavouritesProducts key={productFavourites.id} productFavourites={productFavourites} />
       ))}
     </>

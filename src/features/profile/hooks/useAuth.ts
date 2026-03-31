@@ -11,6 +11,7 @@ export const useAuth = () => {
   const dispatch = useDispatch()
   const userId = useSelector((state: RootStore) => state.user.userId)
   const isAdmin = useSelector((state: RootStore) => state.user.isAdmin)
+  const isAuth = useSelector((state: RootStore) => state.user.isAuth)
 
   const queryClient = useQueryClient()
 
@@ -20,6 +21,7 @@ export const useAuth = () => {
     queryKey: ['getMe'],
     queryFn: () => authApi.getMe(),
     retry: false,
+    enabled: !isAuth,
   })
 
   useEffect(() => {

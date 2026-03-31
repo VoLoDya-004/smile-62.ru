@@ -1,6 +1,7 @@
-import { CATEGORIES } from '@/features/layout/products/constants/categories'
+import { CATEGORIES } from '@/features/products/constants/categories'
 import { useForm } from 'react-hook-form'
 import styles from './ProductsFilter.module.scss'
+import { ICategory } from '@/features/products/types/mainTypes'
 
 interface IFilterFormData {
   search: string
@@ -77,7 +78,7 @@ export const ProductsFilter = ({
         {...register('search')}
       />
       <select {...register('categoryId', { valueAsNumber: true })}>
-        {CATEGORIES.map(cat => (
+        {CATEGORIES.map((cat: ICategory) => (
           <option key={cat.id} value={cat.id}>{cat.label}</option>
         ))}
       </select>

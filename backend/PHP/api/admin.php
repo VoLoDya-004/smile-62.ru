@@ -312,7 +312,7 @@ if (isset($params['Operation'])) {
                 $baseName = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($originalName, PATHINFO_FILENAME));
                 $imageName = $baseName;
 
-                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/public/images/tovar/';
+                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/tovar/';
 
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
@@ -471,7 +471,7 @@ if (isset($params['Operation'])) {
                 $baseName = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($originalName, PATHINFO_FILENAME));
                 $imageName = $baseName;
 
-                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/public/images/tovar/';
+                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/tovar/';
 
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
@@ -543,7 +543,7 @@ if (isset($params['Operation'])) {
                 $deleteQuery = "DELETE FROM tovar WHERE id = $id";
                 if (mysqli_query($connect, $deleteQuery)) {
                     if ($imageName !== 'default.jpg') {
-                        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/public/images/tovar/';
+                        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/tovar/';
                         $pngFile = $uploadDir . $imageName . '.png';
                         $avifFile = $uploadDir . $imageName . '.avif';
                         if (file_exists($pngFile)) unlink($pngFile);

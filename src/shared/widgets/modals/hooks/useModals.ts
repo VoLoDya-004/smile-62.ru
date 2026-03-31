@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export const useModals = () => {
   const [isModalAdvertisementOpen, setIsModalAdvertisementOpen] = useState(false)
@@ -13,65 +13,79 @@ export const useModals = () => {
   const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false)
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false)
 
+  const isAnyModalOpen = 
+    isModalAdvertisementOpen ||
+    isModalOpen ||
+    isSupportOpen ||
+    isModalOpenAllBasket ||
+    isModalOpenAllFav ||
+    isCategoriesProductOpen ||
+    isFiltersProductOpen ||
+    isSearchProductOpen ||
+    isDeleteAccountModalOpen ||
+    isEditProfileModalOpen
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
+    if (isAnyModalOpen) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+    
+    return () => {
+      document.body.classList.remove('modal-open')
+    }
+  }, [isAnyModalOpen])
+
   const openEditProfileModal = useCallback(() => {
     setIsEditProfileModalOpen(true)
-    document.body.classList.add('modal-open')
   }, [])
 
   const closeEditProfileModal = useCallback(() => {
     setIsEditProfileModalOpen(false)
-    document.body.classList.remove('modal-open')
   }, [])
 
   const openSupport = useCallback(() => {
     setIsSupportOpen(true)
-    document.body.classList.add('modal-open')
   }, [])
 
   const OpenModalAdvertisement = () => {
     setIsModalAdvertisementOpen(true)
-    document.body.classList.add('modal-open')
   }
 
   const showModal = useCallback((id: number) => {
     setProductIdToDelete(id)
     setIsModalOpen(true)
-    document.body.classList.add('modal-open')
   }, [setIsModalOpen, setProductIdToDelete])
 
   const showModalAllBasket = useCallback(() => {
     setIsModalOpenAllBasket(true)
-    document.body.classList.add('modal-open')
   }, [])
 
   const showModalAllFav = useCallback(() => {
     setIsModalOpenAllFav(true)
-    document.body.classList.add('modal-open')
   }, [setIsModalOpenAllFav])
 
   const closeSupport = useCallback(() => {
     setIsSupportOpen(false)
-    document.body.classList.remove('modal-open')
   }, [])
 
   const closeModalAllBasket = useCallback(() => {
     setIsModalOpenAllBasket(false)
-    document.body.classList.remove('modal-open')
   }, [])
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
-    document.body.classList.remove('modal-open')
   }, [setIsModalOpen, setProductIdToDelete])
 
   const closeModalAllFav = useCallback(() => {
     setIsModalOpenAllFav(false)
-    document.body.classList.remove('modal-open')
   }, [setIsModalOpenAllFav])
 
   const closeModalAdvertisement = () => {
     setIsModalAdvertisementOpen(false)
-    document.body.classList.remove('modal-open')
   }
 
   const handleClearBasketBtn = useCallback(() => {
@@ -84,12 +98,10 @@ export const useModals = () => {
 
   const openDeleteAccountModal = useCallback(() => {
     setIsDeleteAccountModalOpen(true)
-    document.body.classList.add('modal-open')
   }, [setIsDeleteAccountModalOpen])
 
   const closeDeleteAccountModal = useCallback(() => {
     setIsDeleteAccountModalOpen(false)
-    document.body.classList.remove('modal-open')
   }, [setIsDeleteAccountModalOpen])
 
   return {

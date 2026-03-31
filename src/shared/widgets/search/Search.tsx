@@ -1,6 +1,7 @@
 import { useRef, type ChangeEvent, type KeyboardEvent } from 'react'
 import styles from './Search.module.scss'
 import { cx } from '@/shared/utils/classnames'
+import Image from 'next/image'
 
 interface ISearchProps {
   value: string
@@ -76,12 +77,13 @@ const Search = ({
           onClick={handleSearchClick}
           aria-label='Поиск'
         >
-          <img
+          <Image 
             className={searchLineButtonImg}
             src='/images/icons/search.svg'
             alt='Поиск'
             width={20}
-            height={20}
+            height={20}  
+            priority={true}
           />
         </button>
       </div>
