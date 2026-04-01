@@ -8,16 +8,11 @@ import { StatsTab } from './components/statsTab/StatsTab'
 import { OrdersTab } from './components/ordersTab/OrdersTab'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import type { IStats, TAdminSelect } from './types/adminTypes'
+import type { TAdminSelect } from './types/adminTypes'
 import styles from './AdminPanel.module.scss'
 import Head from 'next/head'
 
-interface IAdminPanelProps {
-  isAdmin: boolean
-  initialStats?: IStats | null
-}
-
-const AdminPanel = ({ isAdmin: isAdminProp, initialStats }: IAdminPanelProps) => {
+const AdminPanel = ({ isAdmin: isAdminProp }: { isAdmin: boolean }) => {
   const {
     'not-admin': notAdmin,
     'admin-container': container,
@@ -115,6 +110,14 @@ const AdminPanel = ({ isAdmin: isAdminProp, initialStats }: IAdminPanelProps) =>
     })
     
     router.push(`?${newParams.toString()}`, { scroll: false })
+
+    const paramsString = newParams.toString()
+    
+    if (paramsString === '') {
+      router.push(window.location.pathname, { scroll: false })
+    } else {
+      router.push(`?${paramsString}`, { scroll: false })
+    }
   }
 
   const setUserSearch = (value: string) => {
@@ -167,8 +170,8 @@ const AdminPanel = ({ isAdmin: isAdminProp, initialStats }: IAdminPanelProps) =>
   return (
     <>
       <Head>
-        <title>Админ-панель | Smile</title>
-        <meta name='description' content='Управление магазином Smile' />
+        <title>Админ-панель | Карандаши</title>
+        <meta name='description' content='Управление магазином карандашей' />
       </Head>
       <h1 className='visually-hidden'>Панель администратора</h1>
       <div className={container}>      
@@ -218,13 +221,7 @@ const AdminPanel = ({ isAdmin: isAdminProp, initialStats }: IAdminPanelProps) =>
           />
         )}
 
-        {activeTab === 'stats' && (
-          <StatsTab 
-            stats={stats} 
-            isLoadingStats={isLoadingStats} 
-            initialStats={initialStats}
-          />
-        )}
+        {activeTab === 'stats' && (<StatsTab stats={stats} isLoadingStats={isLoadingStats} />)}
 
         {activeTab === 'users' && (
           <UsersTab 

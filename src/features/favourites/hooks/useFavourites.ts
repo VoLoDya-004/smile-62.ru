@@ -39,7 +39,7 @@ export const useFavourites = () => {
       dispatch(removeAddingFavId(productId))
       return { previosFavourites }
     },
-    onSuccess() {
+    onSuccess: () => {
       showNotification('Товар удален из избранного', 'success')  
     },
     onError(_error, _variables, context) {

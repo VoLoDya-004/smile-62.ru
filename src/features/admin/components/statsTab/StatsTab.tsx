@@ -6,10 +6,9 @@ import { Spinner } from '@/shared/ui/spinner/Spinner'
 interface IStatsTabProps {
   stats: IStats
   isLoadingStats: boolean
-  initialStats?: IStats | null 
 }
 
-export const StatsTab = ({ stats, isLoadingStats, initialStats = null }: IStatsTabProps) => {
+export const StatsTab = ({ stats, isLoadingStats}: IStatsTabProps) => {
   const {
     'stats-grid': statsGrid,
     'stat-card': statCard,
@@ -21,33 +20,31 @@ export const StatsTab = ({ stats, isLoadingStats, initialStats = null }: IStatsT
     'status-item__count': statusCount
   } = styles
 
-  const displayStats = initialStats || stats
-
   return (
     <>          
       {isLoadingStats ? (
         <Spinner />
-      ) : displayStats ? (
+      ) : stats ? (
         <>
           <section className={statsGrid}>
             <article  className={statCard}>
               <h3>Всего заказов</h3>
-              <p className={statNumber}>{displayStats.totalOrders}</p>
+              <p className={statNumber}>{stats.totalOrders}</p>
             </article >
 
             <article  className={statCard}>
               <h3>Общая выручка</h3>
-              <p className={statNumber}>{formatPrice(displayStats.totalRevenue)} ₽</p>
+              <p className={statNumber}>{formatPrice(stats.totalRevenue)} ₽</p>
             </article >
 
             <article  className={statCard}>
               <h3>Новых заказов (7 дней)</h3>
-              <p className={statNumber}>{displayStats.recentOrders}</p>
+              <p className={statNumber}>{stats.recentOrders}</p>
             </article >
 
             <article  className={statCard}>
               <h3>Пользователей</h3>
-              <p className={statNumber}>{displayStats.usersCount}</p>
+              <p className={statNumber}>{stats.usersCount}</p>
             </article >
           </section>
 
@@ -56,19 +53,19 @@ export const StatsTab = ({ stats, isLoadingStats, initialStats = null }: IStatsT
             <div className={statusList} role='list'>
               <div className={statusItem} role='listitem'>
                 <span className={statusName}>Приняты</span>
-                <span className={statusCount}>{displayStats.statusStats['accepted'] || 0}</span>
+                <span className={statusCount}>{stats.statusStats['accepted'] || 0}</span>
               </div>
               <div className={statusItem} role='listitem'>
                 <span className={statusName}>Собраны</span>
-                <span className={statusCount}>{displayStats.statusStats['collected'] || 0}</span>
+                <span className={statusCount}>{stats.statusStats['collected'] || 0}</span>
               </div>
               <div className={statusItem} role='listitem'>
                 <span className={statusName}>Отправлены</span>
-                <span className={statusCount}>{displayStats.statusStats['completed'] || 0}</span>
+                <span className={statusCount}>{stats.statusStats['completed'] || 0}</span>
               </div>
               <div className={statusItem} role='listitem'>
                 <span className={statusName}>Отменены</span>
-                <span className={statusCount}>{displayStats.statusStats['cancelled'] || 0}</span>
+                <span className={statusCount}>{stats.statusStats['cancelled'] || 0}</span>
               </div>
             </div>
           </section>

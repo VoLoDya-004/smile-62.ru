@@ -1,6 +1,6 @@
 import { useFocusTrap } from '@/shared/hooks'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useProductsContext } from '@/features/products/providers/ProductsProvider'
 import { useUIContextModals } from '@/shared/providers/UIProvider'
 import CategoriesDropdown from '@/features/products/components/categoriesDropdown/CategoriesDropdown'
@@ -23,7 +23,6 @@ const ButtonCategories = () => {
   const categoriesDropdownRef = useRef<HTMLElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
-  const router = useRouter()
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -52,10 +51,6 @@ const ButtonCategories = () => {
   }
 
   function nav() {
-    const currentPath = window.location.pathname
-    if (currentPath !== '/') {
-      router.push('/')
-    }
     if (toggle) {
       closeCategoriesDropdown()
     } else {

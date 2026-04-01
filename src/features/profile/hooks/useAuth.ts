@@ -98,6 +98,7 @@ export const useAuth = () => {
       if (data.success) {
         dispatch(logoutUser())
         queryClient.setQueryData(['getMe'], null)
+        await queryClient.invalidateQueries()
       }
     }
   })
@@ -150,8 +151,14 @@ export const useAuth = () => {
     try {
       await logoutMutation.mutateAsync()
       showNotification('Вы вышли из аккаунта', 'success')
+      if (typeof window !== 'undefined') {
+        window.location.href = '/'
+      }
     } catch {
-      showNotification('Ошибка при выходе', 'error');
+      showNotification('Ошибка при выходе', 'error')
+      if (typeof window !== 'undefined') {
+        window.location.href = '/'
+      }
     }
   }
 

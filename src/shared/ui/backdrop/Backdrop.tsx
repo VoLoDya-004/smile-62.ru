@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
 import { cx } from '@/shared/utils/classnames'
 import styles from './Backdrop.module.scss'
+import { useBodyScrollLock } from '@/shared/hooks'
 
 interface IBackdropProps {
   isActive: boolean
@@ -12,15 +12,7 @@ const Backdrop = ({ isActive }: IBackdropProps) => {
     'backdrop_active': backdropActive
   } = styles
 
-  useEffect(() => {
-    if (isActive) {
-      document.body.classList.add('modal-open')
-    } else {
-      document.body.classList.remove('modal-open')
-    }
-
-    return () => document.body.classList.remove('modal-open')
-  }, [isActive])
+  useBodyScrollLock(isActive)
 
   if (!isActive) return null
 

@@ -25,8 +25,8 @@ const ContactsFooter = () => {
 		  	</li>
 		  	<li className={contactItem} aria-label='Наша электронная почта'>
 		  		E-mail:&nbsp;
-		  		<a href='mailto:smile@yandex.ru' className={cx(contactItemHover, 'link-null')}>
-		  			smile@yandex.ru
+		  		<a href='mailto:pencil@yandex.ru' className={cx(contactItemHover, 'link-null')}>
+		  			pencil@yandex.ru
 		  		</a>
 		  	</li>
 		  </ul>

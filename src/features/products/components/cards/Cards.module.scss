@@ -53,6 +53,7 @@
     object-fit: contain;
     transition: 0.2s;
     pointer-events: none;
+    user-select: none;
 		&-wrapper { 
 		  position: absolute;
 		  top: 0;

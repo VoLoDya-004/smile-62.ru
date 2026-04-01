@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useBodyScrollLock } from '@/shared/hooks'
+import { useCallback, useState } from 'react'
 
 export const useModals = () => {
   const [isModalAdvertisementOpen, setIsModalAdvertisementOpen] = useState(false)
@@ -25,19 +26,7 @@ export const useModals = () => {
     isDeleteAccountModalOpen ||
     isEditProfileModalOpen
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    
-    if (isAnyModalOpen) {
-      document.body.classList.add('modal-open')
-    } else {
-      document.body.classList.remove('modal-open')
-    }
-    
-    return () => {
-      document.body.classList.remove('modal-open')
-    }
-  }, [isAnyModalOpen])
+  useBodyScrollLock(isAnyModalOpen)
 
   const openEditProfileModal = useCallback(() => {
     setIsEditProfileModalOpen(true)

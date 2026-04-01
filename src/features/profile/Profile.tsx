@@ -34,8 +34,8 @@ const Profile = ({ initialUser, isAuth }: IProfileProps) => {
   return (
     <>
       <Head>
-        <title>Профиль | Smile</title>
-        <meta name='description' content='Ваш профиль в интернет-магазине Smile' />
+        <title>Профиль | Карандаши</title>
+        <meta name='description' content='Ваш профиль в интернет-магазине карандашей' />
       </Head>
       <h1 className='visually-hidden'>Профиль пользователя</h1>
       <Form initialUser={initialUser} isAuth={isAuth} />

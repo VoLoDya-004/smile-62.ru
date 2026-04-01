@@ -29,6 +29,8 @@ const TransactionsHistory = ({
 
   const { ref: lastTransactionRef, inView  } = useInView()
 
+  const validTransactions = transactions?.filter(item => item && typeof item === 'object') || []
+
   useEffect(() => {
     if (inView && hasNextTransactions && !isFetchingNextTransactions) {
       fetchNextTransactions()
@@ -36,18 +38,18 @@ const TransactionsHistory = ({
   }, [inView, hasNextTransactions, isFetchingNextTransactions, fetchNextTransactions])
 
   if (isTransactionsLoading) return <Spinner />
-  if (!transactions.length) return <h2 className='centered-heading'>История операций пуста</h2>
+  if (!validTransactions.length) return <h2 className='centered-heading'>История операций пуста</h2>
 
   return (
     <>
       <h2 className='centered-heading'>История операций</h2>
       <section>
         <div className={transactionsList}>
-          {transactions.map((item, index) => (
+          {validTransactions.map((item, index) => (
             <div 
               key={item.id} 
               className={transactionsItem} 
-              ref={index === transactions.length - 1 ? lastTransactionRef : null}
+              ref={index === validTransactions.length - 1 ? lastTransactionRef : null}
             >
               <div className={transactionsItemType}>
                 {item.type === 'deposit' ? 'Пополнение' : 'Оплата заказа'}

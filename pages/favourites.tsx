@@ -2,16 +2,10 @@ import { useFavourites } from '../src/features/favourites/hooks/useFavourites'
 import Favourites from '../src/features/favourites/Favourites'
 import FavouritesList from '../src/features/favourites/components/FavouritesList'
 import Layout from '@/shared/layout/Layout'
-import { IFav } from '@/features/favourites/types/favouritesTypes'
 import { GetServerSideProps } from 'next'
 import { favouritesApi } from '@/features/favourites/api/favouritesApi'
 
-interface IFavouritesPageProps {
-  initialFavourites: IFav[]
-  isAuth: boolean
-}
-
-export const getServerSideProps: GetServerSideProps<IFavouritesPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const token = context.req.cookies.auth_token
     
@@ -56,16 +50,13 @@ export const getServerSideProps: GetServerSideProps<IFavouritesPageProps> = asyn
   }
 }
 
-export default function FavouritesPage({ initialFavourites, isAuth }: IFavouritesPageProps) {
+export default function FavouritesPage({ isAuth }: { isAuth: boolean }) {
   const { loadingFavourites } = useFavourites()
+  
   return (
     <Layout>
-      <Favourites 
-        loading={loadingFavourites}
-        initialFavourites={initialFavourites}
-        isAuth={isAuth}
-      >
-        <FavouritesList initialFavourites={initialFavourites} />
+      <Favourites loading={loadingFavourites} isAuth={isAuth}>
+        <FavouritesList />
       </Favourites>
     </Layout>
   )

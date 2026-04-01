@@ -146,7 +146,6 @@ export const useAdmin = ({
           }
         )
       }
-      queryClient.invalidateQueries({ queryKey: ['adminStats', userId] })
       showNotification('Статус заказа обновлен', 'success')
     },
     onError: (_error, _variables, context) => {
@@ -158,6 +157,9 @@ export const useAdmin = ({
         )
       }
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminStats'] })
+    }
   })
 
   const addProductMutation = useMutation({
@@ -243,6 +245,9 @@ export const useAdmin = ({
     },
     onError: () => {
       showNotification('Ошибка при обновлении товара', 'error')
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['products']})
     }
   })
 

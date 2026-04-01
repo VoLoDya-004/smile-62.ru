@@ -30,6 +30,7 @@ const CategoriesDropdown = forwardRef<HTMLElement, ICategoriesDropdownProps>(({
   const searchParams = useSearchParams()
 
   const handleCategorySelect = (id: number) => {
+    const currentPath = window.location.pathname
     const params = new URLSearchParams(searchParams?.toString() || '')
 
     if (id === 0) {
@@ -40,7 +41,11 @@ const CategoriesDropdown = forwardRef<HTMLElement, ICategoriesDropdownProps>(({
 
     const newUrl = params.toString() ? `?${params.toString()}` : '/'
 
-    router.push(newUrl, { scroll: false })
+    if (currentPath !== '/') {
+      router.push(`/${newUrl}`)
+    } else {
+      router.push(newUrl, { scroll: false })
+    }
     onCategorySelect()
   }
 

@@ -19,7 +19,6 @@ interface IProductsTabProps {
     (filters: { search: string, categoryId: number, minPrice?: number, maxPrice?: number }) => void
   isLoadingAddProducts: boolean  
   isLoadingEditProducts: boolean 
-  initialProducts?: IProduct[] 
 }
 
 export const ProductsTab = ({
@@ -38,9 +37,7 @@ export const ProductsTab = ({
   onApplyFilters,
   isLoadingAddProducts,   
   isLoadingEditProducts,
-  initialProducts = []
 }: IProductsTabProps) => {
-  const displayProducts = initialProducts.length > 0 ? initialProducts : products
 
   return (
     <>
@@ -52,7 +49,7 @@ export const ProductsTab = ({
         initialMaxPrice={productMaxPrice?.toString() ?? ''}
       />
       <ProductsList
-        products={displayProducts}
+        products={products}
         onUpdate={updateProduct}
         onAdd={addProduct}
         onDelete={deleteProduct}

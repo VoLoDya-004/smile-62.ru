@@ -5,14 +5,14 @@ export default function Document() {
     <Html lang='ru' dir='ltr'>
       <Head>
         <meta charSet='UTF-8' />
-        <meta name='description' content='Smile это современный интернет-магазин для приобритения бытовой техники' />
-        <meta name='keywords' content='Продажа, техника, Smile' />
+        <meta name='description' content='Современный интернет-магазин для приобритения карандашей' />
+        <meta name='keywords' content='Продажа, Карандаши' />
         <meta name='theme-color' content='#ffffff' />
         <meta name='apple-mobile-web-app-status-bar-style' content='default' />
-        <meta property='og:title' content='Smile - современная техника' />
-        <meta property='og:description' content='Интернет-магазин бытовой техники Smile' />
+        <meta property='og:title' content='Карандаши' />
+        <meta property='og:description' content='Интернет-магазин карандашей' />
         <meta property='og:type' content='website' />
-        <link rel='icon' href='/images/icons/ico.png' type='image/png' />
+        <link rel='icon' href='/images/icons/icon.png' type='image/png' />
         <link   
           rel='preload' 
           href='/fonts/Montserrat/Montserrat-Medium.woff2' 

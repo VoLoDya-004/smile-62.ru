@@ -3,15 +3,13 @@ import { useBasket } from '../hooks/useBasket'
 import BasketProducts from './basketProducts/BasketProducts'
 import type { IBasket } from '../types/basketTypes'
 
-const BasketList = ({ initialBasket = [] }: { initialBasket?: IBasket[] }) => {
+const BasketList = () => {
   const { cartBasket, handleCountChange, decreaseBasket, increaseBasket } = useBasket()
   const { showModal } = useUIContextModals()
 
-  const displayBasket = initialBasket.length > 0 ? initialBasket : cartBasket
-
   return (
     <>
-      {displayBasket.map((productBasket: IBasket) => (
+      {cartBasket.map((productBasket: IBasket) => (
         <BasketProducts 
           productBasket={productBasket} 
           key={productBasket.id} 

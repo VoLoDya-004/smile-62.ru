@@ -28,11 +28,14 @@ export const  useWallet = () => {
         ...old,
         balance: data.newBalance
       }))
-      queryClient.invalidateQueries({ queryKey: ['transactions', userId]})
       showNotification(`Баланс пополнен на ${data.newBalance - (oldBalance || 0)} ₽`, 'success')
     },
     onError: () => {
       showNotification('Ошибка пополнения', 'error')
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions', userId]})
+      queryClient.invalidateQueries({ queryKey: ['adminUsers'] })
     }
   })
 

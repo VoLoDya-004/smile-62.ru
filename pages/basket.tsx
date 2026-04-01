@@ -3,15 +3,9 @@ import Basket from '../src/features/basket/Basket'
 import BasketList from '../src/features/basket/components/BasketList'
 import Layout from '@/shared/layout/Layout'
 import { basketApi } from '@/features/basket/api/basketApi'
-import { IBasket } from '@/features/basket/types/basketTypes'
 import { GetServerSideProps } from 'next'
 
-interface IBasketPageProps {
-  initialBasket: IBasket[]
-  isAuth: boolean
-}
-
-export const getServerSideProps: GetServerSideProps<IBasketPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const token = context.req.cookies.auth_token
     
@@ -55,16 +49,12 @@ export const getServerSideProps: GetServerSideProps<IBasketPageProps> = async (c
   }
 }
 
-export default function BasketPage({ initialBasket, isAuth }: IBasketPageProps) {
+export default function BasketPage({ isAuth }: { isAuth: boolean }) {
   const { loadingBasket } = useBasket()
   return (
     <Layout>
-        <Basket 
-          loading={loadingBasket}
-          initialBasket={initialBasket}
-          isAuth={isAuth}
-        >
-        <BasketList initialBasket={initialBasket} />
+      <Basket loading={loadingBasket} isAuth={isAuth}>
+        <BasketList />
       </Basket>
     </Layout>
   )

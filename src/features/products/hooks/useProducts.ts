@@ -154,6 +154,14 @@ export const useProducts = () => {
     })
 
     router.push(`?${newParams.toString()}`, { scroll: false })
+
+    const paramsString = newParams.toString()
+    
+    if (paramsString === '') {
+      router.push(window.location.pathname, { scroll: false })
+    } else {
+      router.push(`?${paramsString}`, { scroll: false })
+    }
   }
 
   return {

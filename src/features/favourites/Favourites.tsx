@@ -7,21 +7,14 @@ import FavouritesBox from './components/favouritesBox/FavouritesBox'
 import Recommendations from '@/shared/widgets/recommendations/Recommendations'
 import { Spinner } from '@/shared/ui/spinner/Spinner'
 import Head from 'next/head'
-import { IFav } from './types/favouritesTypes'
 
 interface IFavouritesProps {
   loading: boolean
   children: ReactNode
-  initialFavourites?: IFav[]
   isAuth?: boolean
 }
 
-const Favourites = ({ 
-  loading, 
-  children, 
-  initialFavourites = [], 
-  isAuth: isAuthProp = false 
-}: IFavouritesProps) => {
+const Favourites = ({ loading, children, isAuth: isAuthProp = false }: IFavouritesProps) => {
   const { cartFavourites, isAdding } = useFavourites()
 
   const isAuthRedux = useSelector((state: RootStore) => state.user.isAuth)
@@ -42,14 +35,13 @@ const Favourites = ({
 
   if ((loading && isAuth) || isAdding) return <Spinner />
 
-  const displayFavourites = initialFavourites.length > 0 ? initialFavourites : cartFavourites
-  const hasFavourites = displayFavourites.length > 0
+  const hasFavourites = cartFavourites.length > 0
     
   return (
     <>
       <Head>
-        <title>Избранное | Smile</title>
-        <meta name='description' content='Ваши избранные товары в магазине Smile' />
+        <title>Избранное | Карандаши</title>
+        <meta name='description' content='Ваши избранные товары в магазине карандашей' />
       </Head>
       {!hasFavourites && <BlockEmpty textUp={textUpButton} textDown={textDownButton} />}
       {hasFavourites && <FavouritesBox>{children}</FavouritesBox>}

@@ -3,17 +3,8 @@ import AdminPanel from '../src/features/admin/AdminPanel'
 import { GetServerSideProps } from 'next'
 import { authApi } from '@/features/profile/api/authApi'
 import { adminApi } from '@/features/admin/api/adminApi'
-import { IOrder, IProduct, IStats, IUser } from '@/features/admin/types/adminTypes'
 
-interface IAdminPageProps { 
-  isAdmin: boolean 
-  initialOrders?: IOrder[]
-  initialStats?: IStats | null
-  initialUsers?: IUser[]
-  initialProducts?: IProduct[]
-}
-
-export const getServerSideProps: GetServerSideProps<IAdminPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const token = context.req.cookies.auth_token
     
@@ -73,10 +64,10 @@ export const getServerSideProps: GetServerSideProps<IAdminPageProps> = async (co
   }
 }
 
-export default function AdminPage({ isAdmin, initialStats = null }: IAdminPageProps) {
+export default function AdminPage({ isAdmin }: { isAdmin: boolean  }) {
   return (
     <Layout>
-      <AdminPanel isAdmin={isAdmin} initialStats={initialStats} />
+      <AdminPanel isAdmin={isAdmin} />
     </Layout>
   )
 }

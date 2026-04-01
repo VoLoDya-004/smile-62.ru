@@ -193,7 +193,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
               />
             </div>
           </div>
-          <label aria-label='Меньше 15 тысяч рублей'>
+          <label aria-label='Меньше 100 рублей'>
             <div className={accordionItem}>
               <input 
                 className='margin-checkbox cursor-pointer'
@@ -202,11 +202,11 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
                 {...register('action5')}
               />
               <span className={accordionItemMargin}>
-                Меньше 15&nbsp;000 ₽
+                Меньше 100 ₽
               </span>
             </div>
           </label>
-          <label aria-label='От 15 тысяч до 50 тысяч рублей'>
+          <label aria-label='От 100 до 500 рублей'>
             <div className={accordionItem}>
               <input 
                 className='margin-checkbox cursor-pointer'
@@ -215,11 +215,11 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
                 {...register('action6')}
               />
               <span className={accordionItemMargin}>
-                От 15&nbsp;000 ₽ до 50&nbsp;000 ₽
+                От 100 ₽ до 500 ₽
               </span>
             </div>
           </label>
-          <label aria-label='От 50 тысяч до 100 тысяч рублей'>
+          <label aria-label='От 500 до 1500 рублей'>
             <div className={accordionItem}>
               <input 
                 className='margin-checkbox cursor-pointer'
@@ -228,11 +228,11 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
                 {...register('action7')}
               />
               <span className={accordionItemMargin}>
-                От 50&nbsp;000 ₽ до 100&nbsp;000 ₽
+                От 500 ₽ до 1500 ₽
               </span>
             </div>
           </label>
-          <label aria-label='Больше 100 тысяч рублей'>
+          <label aria-label='Больше 1500 рублей'>
             <div className={accordionItem}>
               <input 
                 className='margin-checkbox cursor-pointer'
@@ -241,7 +241,7 @@ const FiltersMenu = forwardRef<HTMLElement, IFiltersMenuProps>(({ handleToggleFi
                 {...register('action8')}
               />
               <span className={accordionItemMargin}>
-                Больше 100&nbsp;000 ₽
+                Больше 1500 ₽
               </span>
             </div>
           </label>

@@ -84,16 +84,16 @@ function buildFilters($connect, $search, $categoryId, $minPrice, $maxPrice, $act
     if ($minPrice === null && $maxPrice === null) {
         $priceConditions = [];
         if ($actionsFilters['action5']) {
-            $priceConditions[] = "(price_sale < 15000)";
+            $priceConditions[] = "(price_sale < 100)";
         }
         if ($actionsFilters['action6']) {
-            $priceConditions[] = "(price_sale >= 15000 AND price_sale <= 50000)";
+            $priceConditions[] = "(price_sale >= 100 AND price_sale <= 500)";
         }
         if ($actionsFilters['action7']) {
-            $priceConditions[] = "(price_sale > 50000 AND price_sale <= 100000)";
+            $priceConditions[] = "(price_sale > 500 AND price_sale <= 1500)";
         }
         if ($actionsFilters['action8']) {
-            $priceConditions[] = "(price_sale > 100000)";
+            $priceConditions[] = "(price_sale > 1500)";
         }
         if (!empty($priceConditions)) {
             $conditions[] = "(" . implode(" OR ", $priceConditions) . ")";
