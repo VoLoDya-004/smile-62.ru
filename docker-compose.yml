@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: shop-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Silaev2004VladimirD!3003
+      MYSQL_DATABASE: shop
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./backend/MySQL/pencilShopDump.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  php:
+    build: ./backend
+    container_name: shop-php
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DOCKER_ENV: "true"  
+    volumes:
+      - ./backend:/var/www/html
+      - ./uploads:/var/www/html/uploads
+
+  nextjs:
+    build:
+      context: .
+      args:
+        - DOCKER_ENV=true
+    container_name: shop-nextjs
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - php
+    environment:
+      DOCKER_ENV: "true" 
+
+volumes:
+  mysql-data:

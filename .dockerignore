@@ -1,0 +1,31 @@
+# Зависимости
+node_modules
+
+# Next.js сборка
+.next
+out
+
+# Логи
+*.log
+npm-debug.log*
+
+# Локальные настройки
+.env
+*.local
+
+# IDE
+.vscode
+.idea
+.DS_Store
+
+# Git
+.git
+
+# Docker файлы
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Временные файлы
+*.tmp
+*.swp
